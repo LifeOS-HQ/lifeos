@@ -1,0 +1,145 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+
+.wrapper {
+    position: relative;
+    top: 0;
+    height: 100vh;
+}
+
+body {
+    position: relative;
+}
+
+table {
+    table-layout: fixed;
+}
+
+#nav {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    height: 100%;
+    float: left;
+    background: #525658;
+    font-size: 12px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    transition: all 0.3s;
+    z-index: 1000;
+}
+
+#nav.active {
+    margin-left: -200px;
+}
+
+#content-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: calc(100% - 200px);
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+#content-container.active {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    #nav {
+        margin-left: -200px;
+    }
+    #nav.active {
+        margin-left: 0;
+    }
+    #content-container {
+        width: 100%;
+    }
+    #content-container.active {
+        width: calc(100% - 200px);
+    }
+}
+
+#nav a {
+    text-decoration: none;
+    color: #f1f1f1;
+    letter-spacing: 1px;
+    font-weight: 300;
+}
+
+#nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#nav li {
+    padding: 10px;
+    padding-left: 20px;
+    margin: 0;
+    border-left: 5px solid #525658;
+}
+
+#nav ul ul li {
+    padding-left: 40px;
+    background-color: #3490dc;
+}
+
+#nav a:hover li, #nav li.active {
+    background-color: #3490dc;
+    cursor: pointer;
+    color: #fff;
+    border-left-color: #fff;
+}
+
+ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+
+header {
+    color: #000;
+    height:50px;
+    background-color: #fff;
+    position: fixed;
+    width: 100%;
+    border-bottom: 1px solid #e2e2e2;
+    z-index: 1000;
+    -webkit-box-shadow: 5px 1px 20px 0px rgba(204,204,204,1);
+    -moz-box-shadow: 5px 1px 20px 0px rgba(204,204,204,1);
+    box-shadow: 5px 1px 20px 0px rgba(204,204,204,1);
+}
+
+header h1 {
+    line-height: 50px;
+    text-transform: uppercase;
+    font-size: 14pt;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: #5e5e5e;
+    padding-left: 30px;
+    margin: 0;
+}
+
+.pointer
+{
+    cursor: pointer;
+}
