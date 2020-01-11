@@ -11,11 +11,13 @@
 |
 */
 
+Route::get('/test', function () {
+    return 'test';
+});
 
 Route::post('deploy', 'DeploymentController@store');
 
 Auth::routes();
-
 
 Route::middleware(['auth'])->group(function () {
 
