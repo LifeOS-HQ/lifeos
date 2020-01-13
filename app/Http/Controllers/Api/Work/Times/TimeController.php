@@ -39,7 +39,9 @@ class TimeController extends Controller
             return;
         }
 
-        Artisan::call('work:time:import');
+        Artisan::call('work:time:import', [
+            'filename' => $filename,
+        ]);
 
         Storage::delete($filename);
 
