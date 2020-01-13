@@ -19,6 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('auth:api')->group( function () {
 
-    Route::post('/work/time', 'Work\TimeController@store');
+    Route::post('/work/time', 'Api\Work\Times\TimeController@store');
 
 });

@@ -4,6 +4,7 @@ namespace App\Models\Work;
 
 use App\Models\Work\Month;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 class Time extends Model
@@ -55,6 +56,15 @@ class Time extends Model
     public static function createFromCsv(int $userId, Month $month, array $data) : self
     {
         $isEnded = ($data[3] != '0000-00-00 00:00:00');
+        $isDeleted = ($data[9] != '0000-00-00 00:00:00');
+
+        if ($isDeleted) {
+            self::where('user_id', $userId)
+                ->where('foreign_id', $data[0])
+                ->delete();
+
+            return new Time();
+        }
 
         $startAt = new Carbon($data[2]);
         $endAt = ($isEnded ? new Carbon($data[3]) : null);
@@ -131,5 +141,10 @@ class Time extends Model
         }
 
         return $this->end_at->format('d.m.Y H:i');
+    }
+
+    public function month() : BelongsTo
+    {
+        return $this->belongsTo(Month::class, 'month_id');
     }
 }

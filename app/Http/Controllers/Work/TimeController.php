@@ -50,24 +50,7 @@ class TimeController extends Controller
      */
     public function store(Request $request)
     {
-        $attributes = $request->validate([
-            'csv' => 'required',
-        ]);
-
-        $filename = 'betriko_arbeitszeit.csv';
-        $zippedFilename = $filename . '.gz';
-
-        $created = Storage::disk('local')->put($zippedFilename, base64_decode($attributes['csv']));
-
-        if ($created === false) {
-            return;
-        }
-
-        shell_exec('gunzip ' . storage_path('app/' . $filename));
-
-        Artisan::call('work:time:import');
-
-        return 'test';
+        //
     }
 
     /**

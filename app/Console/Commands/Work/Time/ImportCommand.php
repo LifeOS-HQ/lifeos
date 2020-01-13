@@ -15,7 +15,7 @@ class ImportCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'work:time:import';
+    protected $signature = 'work:time:import {filename?}';
 
     /**
      * The console command description.
@@ -47,7 +47,7 @@ class ImportCommand extends Command
      */
     public function handle()
     {
-        $filename = 'betriko_arbeitszeit.csv';
+        $filename = $this->argument('filename') ?? 'betriko_arbeitszeit.csv';
         $row_count = 0;
         $file = fopen(storage_path('app/' . $filename), "r");
         while (($data = fgetcsv($file, 2000, ";")) !== FALSE) {
@@ -55,7 +55,6 @@ class ImportCommand extends Command
                 $row_count++;
                 continue;
             }
-
             $time = Time::createFromCsv($this->userId, $this->getMonth(new Carbon($data[2])), $data);
             $row_count++;
         }

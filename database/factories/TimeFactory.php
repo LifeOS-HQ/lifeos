@@ -21,5 +21,6 @@ $factory->define(Time::class, function (Faker $faker, $attributes) {
         'month_id' => $month->id,
         'start_at' => $startAt,
         'end_at' => $endAt,
+        'foreign_id' => $faker->randomNumber,
     ];
 });
