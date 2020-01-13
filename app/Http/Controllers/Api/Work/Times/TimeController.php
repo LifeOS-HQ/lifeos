@@ -27,6 +27,8 @@ class TimeController extends Controller
      */
     public function store(Request $request)
     {
+        dump($request->all());
+
         $attributes = $request->validate([
             'csv' => 'required',
         ]);
