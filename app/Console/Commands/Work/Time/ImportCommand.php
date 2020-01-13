@@ -55,6 +55,7 @@ class ImportCommand extends Command
                 $row_count++;
                 continue;
             }
+
             $time = Time::createFromCsv($this->userId, $this->getMonth(new Carbon($data[2])), $data);
             $row_count++;
         }

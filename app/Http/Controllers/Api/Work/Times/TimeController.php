@@ -31,7 +31,7 @@ class TimeController extends Controller
             'csv' => 'required',
         ]);
 
-        $filename = 'betriko_arbeitszeit_' . now()->format('Y-m-d_H-i-h') . '.csv';
+        $filename = 'betriko_arbeitszeit_' . now()->format('Y-m-d_H-i-s') . '.csv';
 
         $created = Storage::disk('local')->put($filename, base64_decode($attributes['csv']));
 
