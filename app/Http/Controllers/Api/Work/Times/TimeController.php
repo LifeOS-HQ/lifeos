@@ -14,9 +14,9 @@ class TimeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return $request->user();
     }
 
     /**
@@ -27,8 +27,6 @@ class TimeController extends Controller
      */
     public function store(Request $request)
     {
-        dump($request->all());
-
         $attributes = $request->validate([
             'csv' => 'required',
         ]);

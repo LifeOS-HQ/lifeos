@@ -19,8 +19,6 @@ class TimeControllerTest extends TestCase
 
         $filename = 'betriko_arbeitszeit.csv';
 
-        dump(Storage::get($filename));
-
         $base64encodedCsv = base64_encode(Storage::get($filename));
 
         $this->assertCount(0, Time::all());
