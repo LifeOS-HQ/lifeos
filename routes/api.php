@@ -17,9 +17,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('auth:api')->post('/user', function (Request $request) {
+    return 'user post';
+});
+
 Route::middleware('auth:api')->group( function () {
 
     Route::get('/work/time', 'Api\Work\Times\TimeController@index')->name('api.work.time.index');
-    Route::put('/work/time', 'Api\Work\Times\TimeController@store')->name('api.work.time.store');
+    Route::post('/work/time', 'Api\Work\Times\TimeController@store')->name('api.work.time.store');
 
 });
