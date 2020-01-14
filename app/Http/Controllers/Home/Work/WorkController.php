@@ -59,7 +59,7 @@ class WorkController extends Controller
                     ->first();
 
        $data = DB::table('working_times')
-            ->select(DB::raw('SUM(seconds) AS seconds'))
+            ->select(DB::raw('SUM(seconds) AS seconds'), DB::raw('SUM(seconds_break) AS seconds_break'))
             ->where('user_id', $user->id)
             ->where(DB::raw('DATE(start_at)'), $date->date)
             ->groupBy('month_id')
@@ -69,8 +69,8 @@ class WorkController extends Controller
 
         return [
             'last_day' => [
-                'seconds' => $data->seconds,
-                'industryHours' => Time::toIndustryHours($data->seconds),
+                'seconds' => $data->seconds - $data->seconds_break,
+                'industryHours' => Time::toIndustryHours(($data->seconds- $data->seconds_break)),
                 'date_formatted' => (new Carbon($date->date))->format('d.m.Y'),
             ],
             'month_name' => $month->date->monthName,
