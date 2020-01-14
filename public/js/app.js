@@ -39400,7 +39400,7 @@ var render = function() {
                   "text-success": _vm.hasReachedPlannedHours
                 }
               },
-              [_vm._v(_vm._s(_vm.last_day.industryHours))]
+              [_vm._v(_vm._s(_vm.last_day.industryHours_formatted))]
             ),
             _vm._v(" "),
             _c("td", { staticClass: "text-right" }, [
@@ -39435,7 +39435,7 @@ var render = function() {
             _c("td", [_vm._v("Stunden / Tag")]),
             _vm._v(" "),
             _c("td", { staticClass: "text-right" }, [
-              _vm._v("Ø " + _vm._s(_vm.last_day.industryHours))
+              _vm._v("Ø " + _vm._s(_vm.last_day.industryHours_formatted))
             ]),
             _vm._v(" "),
             _c("td", { staticClass: "text-right" }, [

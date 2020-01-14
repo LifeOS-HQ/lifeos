@@ -67,10 +67,14 @@ class WorkController extends Controller
 
         $month = Month::with('year')->find($date->month_id);
 
+        $last_day_seconds = ($data->seconds - $data->seconds_break);
+        $last_day_industryHours = Time::toIndustryHours($last_day_seconds);
+
         return [
             'last_day' => [
-                'seconds' => $data->seconds - $data->seconds_break,
-                'industryHours' => Time::toIndustryHours(($data->seconds- $data->seconds_break)),
+                'seconds' => $last_day_seconds,
+                'industryHours' => $last_day_industryHours,
+                'industryHours_formatted' => number_format($last_day_industryHours, 2, ',', '.'),
                 'date_formatted' => (new Carbon($date->date))->format('d.m.Y'),
             ],
             'month_name' => $month->date->monthName,

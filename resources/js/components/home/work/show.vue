@@ -22,13 +22,13 @@
                     </tr>
                     <tr>
                         <td>Stunden</td>
-                        <td class="text-right" :class="{'text-danger': !hasReachedPlannedHours, 'text-success': hasReachedPlannedHours }">{{ last_day.industryHours }}</td>
+                        <td class="text-right" :class="{'text-danger': !hasReachedPlannedHours, 'text-success': hasReachedPlannedHours }">{{ last_day.industryHours_formatted }}</td>
                         <td class="text-right">{{ (statistics.hours_worked).format(2, ',', '.') }} <span v-if="hasAvailableHoursWorked">({{ (statistics.available_hours_worked).format(2, ',', '.') }})</span></td>
                         <td class="text-right">{{ (statistics.planned_working_hours).format(2, ',', '.') }}</td>
                     </tr>
                     <tr>
                         <td>Stunden / Tag</td>
-                        <td class="text-right">Ø {{ last_day.industryHours }}</td>
+                        <td class="text-right">Ø {{ last_day.industryHours_formatted }}</td>
                         <td class="text-right">Ø {{ (statistics.hours_worked_day).format(2, ',', '.') }}</td>
                         <td class="text-right">Ø {{ (statistics.planned_working_hours_day).format(2, ',', '.') }}</td>
                     </tr>
