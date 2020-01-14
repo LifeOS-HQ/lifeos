@@ -63,6 +63,8 @@ Vue.use(Flash);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 Vue.component('flash-message', require('./components/partials/flashmessage.vue').default);
 
+Vue.component('home-work-show', require('./components/home/work/show.vue').default);
+
 Vue.component('work-time-table', require('./components/work/time/table.vue').default);
 Vue.component('work-year-table', require('./components/work/year/table.vue').default);
 Vue.component('work-index', require('./components/work/index.vue').default);
