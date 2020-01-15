@@ -1,0 +1,132 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyFullModelClass;
+use DummyRootNamespaceHttp\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class DummyClass extends Controller
+{
+    protected $baseViewPath = 'DummyModelVariable';
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        if ($request->wantsJson()) {
+            //
+        }
+
+        return view($this->baseViewPath . '.index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \DummyFullModelClass  $DummyModelVariable
+     * @return \Illuminate\Http\Response
+     */
+    public function show(DummyModelClass $DummyModelVariable)
+    {
+        return view($this->baseViewPath . '.show')
+            ->with('model', $DummyModelVariable);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \DummyFullModelClass  $DummyModelVariable
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(DummyModelClass $DummyModelVariable)
+    {
+        return view($this->baseViewPath . '.edit')
+            ->with('model', $DummyModelVariable);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \DummyFullModelClass  $DummyModelVariable
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, DummyModelClass $DummyModelVariable)
+    {
+        $attributes = $request->validate([
+
+        ]);
+
+        $DummyModelVariable->update($attributes);
+
+        if ($request->wantsJson()) {
+            return $DummyModelVariable;
+        }
+
+        return back()
+            ->with('status', [
+                'type' => 'success',
+                'text' => 'gespeichert.',
+            ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \DummyFullModelClass  $DummyModelVariable
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, DummyModelClass $DummyModelVariable)
+    {
+        if ($isDeletable = $DummyModelVariable->isDeletable()) {
+            $DummyModelVariable->delete();
+        }
+
+        if ($request->wantsJson()) {
+            return [
+                'deleted' => $isDeletable,
+            ];
+        }
+
+        if ($isDeletable) {
+            $status = [
+                'type' => 'success',
+                'text' => 'gelöscht.',
+            ];
+        }
+        else {
+            $status = [
+                'type' => 'danger',
+                'text' => 'kann nicht gelöscht werden.',
+            ];
+        }
+
+        return redirect(route($this->baseViewPath . '.index'))
+            ->with('status', $status);
+    }
+}
