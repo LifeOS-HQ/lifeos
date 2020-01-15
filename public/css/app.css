@@ -17408,6 +17408,10 @@ header h1 {
   margin: 0;
 }
 
+.white-space-pre {
+  white-space: pre;
+}
+
 .pointer {
   cursor: pointer;
 }

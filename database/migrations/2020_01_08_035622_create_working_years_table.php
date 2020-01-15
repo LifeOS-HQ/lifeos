@@ -34,6 +34,8 @@ class CreateWorkingYearsTable extends Migration
             $table->unsignedMediumInteger('net_in_cents');
 
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Journals\Journal;
 use App\Models\Work\Time;
 use App\Models\Work\Year;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -39,6 +40,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function journals() : HasMany
+    {
+        return $this->hasMany(Journal::class, 'user_id');
+    }
 
     public function working_years() : HasMany
     {

@@ -25,6 +25,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/home/work', 'Home\Work\WorkController@show')->name('work.show');
 
+    Route::resource('journal', 'Journals\JournalController');
+
     Route::get('/work', 'Work\WorkController@index')->name('work.index');
 
     Route::resource('work/time', 'Work\TimeController');
