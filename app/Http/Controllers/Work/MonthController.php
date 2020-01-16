@@ -89,6 +89,7 @@ class MonthController extends Controller
         ]);
 
         $month->update($attributes);
+        $month->cache()->save();
 
         $month->year->cache()
             ->save();
