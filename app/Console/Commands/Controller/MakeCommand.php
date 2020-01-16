@@ -72,20 +72,13 @@ class MakeCommand extends ControllerMakeCommand
     protected function getViewPath(string $modelName) : string {
 
         $modelName = str_replace('Models\\', '', $modelName);
+        $modelName = ltrim($modelName, 'App\\');
 
         $parts = explode('\\', $modelName);
-        $parts = array_unique($parts);
-
-
         foreach ($parts as $key => $part) {
-            if ($key == 0 && $part == 'App') {
-                Arr::forget($parts, $key);
-            }
-            $pluralKey = array_search(Str::plural($part), $parts);
-            if ($pluralKey !== false && $pluralKey != $key) {
-                Arr::forget($parts, $pluralKey);
-            }
+            $parts[$key] = Str::singular($part);
         }
+        $parts = array_unique($parts);
 
         return strtolower(implode('/', $parts)) . '/';
 
