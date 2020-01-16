@@ -21,6 +21,22 @@ class MakeCommand extends ModelMakeCommand
             'name' => $this->argument('name') . 'Test',
             '--unit' => true,
         ]);
+
+        if ($this->option('all')) {
+
+            $modelName = $this->getModelName($this->argument('name'));
+
+            $this->call('make:policy', [
+                'name' => $modelName . 'Policy',
+                '--model' => $this->argument('name'),
+            ]);
+
+        }
+    }
+
+    protected function getModelName(string $name) : string
+    {
+        return str_replace('Models\\', '', $name);
     }
 
     /**
@@ -30,7 +46,7 @@ class MakeCommand extends ModelMakeCommand
      */
     protected function createController()
     {
-        $modelName = str_replace('Models\\', '', $this->argument('name'));
+        $modelName = $this->getModelName($this->argument('name'));
 
         $controller = Str::studly($modelName);
 
