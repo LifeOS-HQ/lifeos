@@ -39,6 +39,10 @@ class MakeCommand extends TestMakeCommand
      */
     protected function buildClass($name)
     {
+        if ($this->option('unit')) {
+            return parent::buildClass($name);
+        }
+
         $controllerNamespace = $this->getNamespace($name);
 
         $replace = [];
@@ -46,8 +50,6 @@ class MakeCommand extends TestMakeCommand
         if ($this->option('model')) {
             $replace = $this->buildModelReplacements($replace);
         }
-
-        $replace["use {$controllerNamespace}\Controller;\n"] = '';
 
         return str_replace(
             array_keys($replace), array_values($replace), parent::buildClass($name)
