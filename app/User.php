@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Journals\Journal;
+use App\Models\Work\Month;
 use App\Models\Work\Time;
 use App\Models\Work\Year;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -49,6 +50,11 @@ class User extends Authenticatable
     public function working_years() : HasMany
     {
         return $this->hasMany(Year::class);
+    }
+
+    public function working_months() : HasMany
+    {
+        return $this->hasMany(Month::class);
     }
 
     public function working_times() : HasMany

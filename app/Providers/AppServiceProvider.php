@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Validator::extend('formated_number', function ($attribute, $value, $parameters, $validator) {
+        Validator::extend('formatted_number', function ($attribute, $value, $parameters, $validator) {
             return preg_match('/^[0-9]+,?[0-9]*$/', $value);
         });
 

@@ -1,7 +1,8 @@
 <template>
     <div class="card">
-        <div class="card-header">
-            Arbeitszeit {{ month_name }}
+        <div class="card-header d-flex justify-content-between">
+            <div>Arbeitszeit {{ month_name }}</div>
+            <a class="text-body" href="/work"><i class="fas fa-arrow-right"></i></a>
         </div>
         <td class="card-body">
             <table class="table table-hover table-striped">

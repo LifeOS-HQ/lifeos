@@ -4,20 +4,31 @@ namespace App\Http\Controllers\Work;
 
 use App\Http\Controllers\Controller;
 use App\Models\Work\Month;
-use App\Support\Holidays;
-use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MonthController extends Controller
 {
+    protected $baseViewPath = 'work/month';
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = auth()->user();
+
+        if ($request->wantsJson()) {
+            return $user->working_months()
+                ->year($request->input('year'))
+                ->orderBy('date', 'DESC')
+                ->get();
+        }
+
+        return view($this->baseViewPath . '.index')
+            ->with('years', $user->working_years);
     }
 
     /**
@@ -47,85 +58,9 @@ class MonthController extends Controller
      * @param  \App\Models\Work\Month  $month
      * @return \Illuminate\Http\Response
      */
-    public function show(int $year, int $month)
+    public function show(Month $month)
     {
-        $year = auth()->user()
-            ->working_years()
-            ->where('year', $year)
-            ->firstOrFail();
-
-        $month = $year->months()
-            ->where('month', $month)
-            ->firstOrFail();
-
-        $month->year = $year;
-        $holidayDates = Holidays::dates($month->date->year, Holidays::LAND_NW);
-
-        $periods = new CarbonPeriod($month->date->startOfMonth(), '1 days', $month->date->endOfMonth());
-        $categories = [];
-        $planned_working_hours_day = [];
-        $days_worked = [];
-        $hours_worked = 0;
-
-        $dates = [];
-        foreach ($periods as $date) {
-            $isWorkingDay = true;
-            if ($date->isWeekend() || $holidayDates->contains($date->format('Y-m-d'))) {
-                $isWorkingDay = false;
-            }
-            $key = $date->format('Y-m-d');
-            $categories[$key] = $date->format('d.m.Y');
-            $planned_working_hours_days[$key] = ($isWorkingDay ? $month->year->planned_working_hours_day : 0);
-            $days_worked[$key] = 0;
-        }
-
-        foreach ($month->times as $key => $time) {
-            $days_worked[$time->start_at->format('Y-m-d')] += $time->industryHours;
-            $hours_worked += $time->industryHours;
-        }
-
-        return [
-            'categories' => array_values($categories),
-            'series' => [
-                [
-                    'name' => 'Stunden',
-                    'data' => array_values($days_worked),
-                    'color' => '#28a745',
-                    'type' => 'column',
-                    'zones' => [
-                        [
-                            'value' => $month->year->planned_working_hours_day,
-                            'color' => '#dc3545',
-                        ],
-                        [
-                            'color' => '#28a745',
-                        ],
-                    ],
-                ],
-                [
-                    'name' => 'Sollstunden',
-                    'data' => array_values($planned_working_hours_days),
-                    'type' => 'spline',
-                    'tooltip' => [
-                        'headerFormat' => '<b>{point.key}</b><br/>',
-                        'pointFormat' => '{point.y:2f} h'
-                    ],
-                ],
-            ],
-            'title' => [
-                'text' => 'Arbeitszeit im ' . $month->date->monthName
-            ],
-            'month_name' => $month->date->monthName,
-            'statistics' => [
-                'available_working_days' => $month->available_working_days,
-                'available_hours_worked' => max($month->days_worked, $month->available_working_days) * ($month->hours_worked / $month->days_worked),
-                'days_worked' => $month->days_worked,
-                'hours_worked' => 1 * $month->hours_worked,
-                'hours_worked_day' => ($month->hours_worked / min($month->days_worked, $month->available_working_days)),
-                'planned_working_hours' => ($month->year->planned_working_hours_day * $month->available_working_days),
-                'planned_working_hours_day' => $month->year->planned_working_hours_day,
-            ],
-        ];
+        //
     }
 
     /**
@@ -148,7 +83,25 @@ class MonthController extends Controller
      */
     public function update(Request $request, Month $month)
     {
-        //
+        $attributes = $request->validate([
+            'bonus_formatted' => 'required|formatted_number',
+            'net_formatted' => 'required|formatted_number',
+        ]);
+
+        $month->update($attributes);
+
+        $month->year->cache()
+            ->save();
+
+        if ($request->wantsJson()) {
+            return $month;
+        }
+
+        return back()
+            ->with('status', [
+                'type' => 'success',
+                'text' => 'gespeichert.',
+            ]);
     }
 
     /**
@@ -157,7 +110,7 @@ class MonthController extends Controller
      * @param  \App\Models\Work\Month  $month
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Month $month)
+    public function destroy(Request $request, Month $month)
     {
         //
     }

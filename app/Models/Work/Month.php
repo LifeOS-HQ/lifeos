@@ -6,14 +6,33 @@ use App\Models\Work\Time;
 use App\Models\Work\Year;
 use App\Support\Holidays;
 use Carbon\CarbonPeriod;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class Month extends Model
 {
+    protected $appends = [
+        'bonus_formatted',
+        'date_formatted',
+        'gross_formatted',
+        'hours_worked_day',
+        'hours_worked_day_formatted',
+        'hours_worked_formatted',
+        'net_formatted',
+        'path',
+        'planned_working_hours',
+        'planned_working_hours_day',
+        'planned_working_hours_day_formatted',
+        'planned_working_hours_formatted',
+        'wage_formatted',
+        'wage_bonus_formatted',
+    ];
+
     protected $casts = [
         'hours_worked' => 'decimal:2',
     ];
@@ -89,8 +108,105 @@ class Month extends Model
 
         $this->days_worked = $data->days_worked ?? 0;
         $this->hours_worked = Time::toIndustryHours(is_null($data->seconds) ? 0 : ($data->seconds - $data->seconds_break));
+        $this->gross_in_cents = $this->wage_in_cents + $this->wage_bonus_in_cents + $this->bonus_in_cents;
 
         return $this;
+    }
+
+    public function getBonusFormattedAttribute() : string
+    {
+        return number_format(($this->attributes['bonus_in_cents'] / 100), 2, ',', '');
+    }
+
+    public function setBonusFormattedAttribute(string $value) : void
+    {
+        $this->bonus_in_cents = str_replace(',', '.', $value) * 100;
+        Arr::forget($this->attributes, 'bonus_formatted');
+    }
+
+    public function getDateFormattedAttribute() : string
+    {
+        return $this->date->monthName . ' ' . $this->date->year;
+    }
+
+    public function getHoursWorkedDayFormattedAttribute() : string
+    {
+        return number_format($this->hours_worked_day, 2, ',', '.');
+    }
+
+    public function getHoursWorkedDayAttribute() : float
+    {
+        if ($this->attributes['hours_worked'] == 0 || $this->attributes['days_worked'] == 0) {
+            return 0;
+        }
+
+        return ($this->attributes['hours_worked'] / $this->attributes['days_worked']);
+    }
+
+    public function getNetFormattedAttribute() : string
+    {
+        return number_format(($this->attributes['net_in_cents'] / 100), 2, ',', '');
+    }
+
+    public function setNetFormattedAttribute(string $value) : void
+    {
+        $this->net_in_cents = str_replace(',', '.', $value) * 100;
+        Arr::forget($this->attributes, 'net_formatted');
+    }
+
+    public function getPathAttribute()
+    {
+        return '/work/month/' . $this->id;
+    }
+
+    public function getPlannedWorkingHoursDayAttribute() : float
+    {
+        return $this->year->planned_working_hours_day;
+    }
+
+    public function getPlannedWorkingHoursDayFormattedAttribute() : string
+    {
+        return number_format($this->planned_working_hours_day, 2, ',', '.');
+    }
+
+    public function getPlannedWorkingHoursAttribute() : string
+    {
+        return ($this->planned_working_hours_day * $this->available_working_days);
+    }
+
+    public function getPlannedWorkingHoursFormattedAttribute() : string
+    {
+        return number_format($this->planned_working_hours, 2, ',', '.');
+    }
+
+    public function getHoursWorkedFormattedAttribute() : string
+    {
+        return number_format($this->hours_worked, 2, ',', '.');
+    }
+
+    public function getGrossFormattedAttribute() : string
+    {
+        return number_format(($this->attributes['gross_in_cents'] / 100), 2, ',', '.');
+    }
+
+    public function getWageInCentsAttribute() : string
+    {
+        return ($this->year->wage_in_cents * $this->attributes['hours_worked']);
+    }
+
+    public function getWageFormattedAttribute() : string
+    {
+        return number_format(($this->wage_in_cents / 100), 2, ',', '.');
+    }
+
+    public function getWageBonusInCentsAttribute() : string
+    {
+        return ($this->year->wage_bonus_in_cents * $this->attributes['hours_worked']);
+    }
+
+    public function getWageBonusFormattedAttribute() : string
+    {
+        return number_format(($this->wage_bonus_in_cents / 100), 2, ',', '.');
     }
 
     public function year() : BelongsTo
@@ -101,5 +217,14 @@ class Month extends Model
     public function times() : HasMany
     {
         return $this->hasMany(Time::class);
+    }
+
+    public function scopeYear(Builder $query, $value) : Builder
+    {
+        if (is_null($value)) {
+            return $query;
+        }
+
+        return $query->where(DB::raw('YEAR(date)'), $value);
     }
 }

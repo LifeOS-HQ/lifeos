@@ -141,7 +141,26 @@ class YearController extends Controller
      */
     public function update(Request $request, Year $year)
     {
-        //
+        $attributes = $request->validate([
+            'planned_working_hours_formatted' => 'required|formatted_number',
+            'tax_refund_formatted' => 'required|formatted_number',
+            'wage_bonus_formatted' => 'required|formatted_number',
+            'wage_formatted' => 'required|formatted_number',
+        ]);
+
+        $year->update($attributes);
+        $year->cacheMonths();
+        $year->cache()->save();
+
+        if ($request->wantsJson()) {
+            return $year;
+        }
+
+        return back()
+            ->with('status', [
+                'type' => 'success',
+                'text' => 'gespeichert.',
+            ]);
     }
 
     /**

@@ -32,17 +32,14 @@
             <table class="table table-hover table-striped bg-white">
                 <thead>
                     <tr>
-                        <th class="">Jahr</th>
+                        <th class="">Datum</th>
                         <th class="text-right">Arbeitstage</th>
-                        <th class="text-right">Sollstunden</th>
                         <th class="text-right">Arbeitszeit</th>
                         <th class="text-right">Arbeitszeit / Tag</th>
-                        <th class="text-right">Stundenlohn</th>
-                        <th class="text-right">Aufschlag</th>
                         <th class="text-right">Lohn</th>
+                        <th class="text-right">Aufschlag</th>
                         <th class="text-right">Bonus</th>
                         <th class="text-right">Brutto</th>
-                        <th class="text-right">Steuerrückzahlung</th>
                         <th class="text-right">Netto</th>
                         <th class="text-right d-none d-sm-table-cell w-action">Aktion</th>
                     </tr>
@@ -52,7 +49,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="alert alert-dark mt-3" v-else><center>Keine Jahre vorhanden</center></div>
+        <div class="alert alert-dark mt-3" v-else><center>Keine Monate vorhanden</center></div>
     </div>
 </template>
 
@@ -74,7 +71,7 @@
             var d = new Date();
 
             return {
-                uri: '/work/year',
+                uri: '/work/month',
                 items: [],
                 isLoading: true,
                 paginate: {

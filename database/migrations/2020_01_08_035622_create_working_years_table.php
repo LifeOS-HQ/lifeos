@@ -28,9 +28,11 @@ class CreateWorkingYearsTable extends Migration
             $table->unsignedMediumInteger('wage_in_cents');
             $table->unsignedMediumInteger('wage_bonus_in_cents');
 
+            $table->unsignedMediumInteger('bonus_months_in_cents');
             $table->unsignedMediumInteger('bonus_in_cents');
 
             $table->unsignedMediumInteger('gross_in_cents');
+            $table->unsignedMediumInteger('tax_refund_in_cents');
             $table->unsignedMediumInteger('net_in_cents');
 
             $table->timestamps();
