@@ -30,7 +30,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/work', 'Work\WorkController@index')->name('work.index');
 
     Route::resource('work/time', 'Work\TimeController');
-    Route::get('work/month/{year}/{month}', 'Work\MonthController@show');
+    Route::get('work/month/{year}/{month}', 'Work\Months\ChartController@show');
+
+    Route::resource('work/month', 'Work\MonthController');
+
     Route::resource('work/year', 'Work\YearController');
 
 });
