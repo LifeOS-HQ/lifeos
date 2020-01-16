@@ -3039,6 +3039,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3082,7 +3104,7 @@ __webpack_require__.r(__webpack_exports__);
           allowDecimals: true,
           min: 0,
           title: {
-            text: 'Karten'
+            text: 'Bruttolohn'
           },
           opposite: true
         }],
@@ -41638,7 +41660,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card mb-3" }, [
     _c("div", { staticClass: "card-header d-flex align-items-center" }, [
-      _c("div", { staticClass: "col" }, [_vm._v("Bestellungen pro Monat")]),
+      _c("div", { staticClass: "col" }, [_vm._v("Arbeitszeit pro Monat")]),
       _vm._v(" "),
       _c("div", { staticClass: "form-group mb-0" }, [
         _c(
@@ -41708,7 +41730,7 @@ var render = function() {
             { staticClass: "alert alert-dark mt-3", attrs: { role: "alert" } },
             [
               _vm._v(
-                "\n            Keine Bestellungen im Zeitraum vorhanden.\n        "
+                "\n            Keine Arbeitszeiten im Zeitraum vorhanden.\n        "
               )
             ]
           )
@@ -41816,6 +41838,38 @@ var render = function() {
                 ])
               ])
             ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.statistics.days_worked > 0
+          ? _c("table", { staticClass: "table table-hover table-striped" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("tbody", [
+                _c("tr", [
+                  _c("td", [_vm._v("Gehalt")]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(_vm._s(_vm.statistics.gross))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(_vm._s(_vm.statistics.net))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("td", [_vm._v("Gehalt / Monat")]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(_vm._s(_vm.statistics.gross_month))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v("Ø " + _vm._s(_vm.statistics.net_month))
+                  ])
+                ])
+              ])
+            ])
           : _vm._e()
       ])
     ])
@@ -41828,7 +41882,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { attrs: { width: "20%" } }),
+        _c("th", { attrs: { width: "20%" } }, [_vm._v("Arbeitszeit")]),
         _vm._v(" "),
         _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
           _vm._v("Ist")
@@ -41836,6 +41890,24 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
           _vm._v("Soll")
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { width: "20%" } }, [_vm._v("Gehalt")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
+          _vm._v("Brutto")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
+          _vm._v("Netto")
         ])
       ])
     ])

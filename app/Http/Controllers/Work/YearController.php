@@ -68,6 +68,7 @@ class YearController extends Controller
             $categories[$key] = $date->monthName . ' ' . $date->year;
             $planned_working_hours_days[$key] = $year->planned_working_hours_day * 20;
             $days_worked[$key] = 0;
+            $gross[$key] = 0;
         }
 
         foreach ($year->months as $key => $month) {
@@ -75,7 +76,10 @@ class YearController extends Controller
             $days_worked[$key] += $month->hours_worked;
             $planned_working_hours_days[$key] = $year->planned_working_hours_day * $month->available_working_days;
             $hours_worked += $month->hours_worked;
+            $gross[$key] = $month->gross_in_cents / 100;
         }
+
+        $month_count = count($year->months);
 
         return [
             'categories' => array_values($categories),
@@ -94,6 +98,7 @@ class YearController extends Controller
                             'color' => '#28a745',
                         ],
                     ],
+                    'yAxis' => 0,
                 ],
                 [
                     'name' => 'Sollstunden',
@@ -103,6 +108,17 @@ class YearController extends Controller
                         'headerFormat' => '<b>{point.key}</b><br/>',
                         'pointFormat' => '{point.y:2f} h'
                     ],
+                    'yAxis' => 0,
+                ],
+                [
+                    'name' => 'Bruttolohn',
+                    'data' => array_values($gross),
+                    'type' => 'spline',
+                    'tooltip' => [
+                        'headerFormat' => '<b>{point.key}</b><br/>',
+                        'pointFormat' => '{point.y:2f} h'
+                    ],
+                    'yAxis' => 1,
                 ],
             ],
             'title' => [
@@ -117,6 +133,10 @@ class YearController extends Controller
                 'hours_worked_day' => ($year->hours_worked / $year->days_worked),
                 'planned_working_hours' => ($year->planned_working_hours_day * $year->available_working_days),
                 'planned_working_hours_day' => $year->planned_working_hours_day,
+                'gross' => $year->gross_formatted,
+                'net' => $year->net_formatted,
+                'gross_month' => number_format($year->gross_in_cents / $month_count / 100, 2, ',', '.'),
+                'net_month' => number_format($year->net_in_cents / $month_count / 100, 2, ',', '.'),
             ],
         ];
     }

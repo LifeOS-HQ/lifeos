@@ -1,7 +1,7 @@
 <template>
     <div class="card mb-3">
         <div class="card-header d-flex align-items-center">
-            <div class="col">Bestellungen pro Monat</div>
+            <div class="col">Arbeitszeit pro Monat</div>
             <div class="form-group mb-0">
                 <select class="form-control" v-model.number="form.year" @change="fetch">
                     <option value="2020">2020</option>
@@ -20,7 +20,7 @@
                 </center>
             </div>
             <div class="alert alert-dark mt-3" role="alert" v-else-if="statistics.days_worked == 0">
-                Keine Bestellungen im Zeitraum vorhanden.
+                Keine Arbeitszeiten im Zeitraum vorhanden.
             </div>
         </div>
         <div class="card-body row">
@@ -31,7 +31,7 @@
                 <table class="table table-hover table-striped" v-if="statistics.days_worked > 0">
                     <thead>
                         <tr>
-                            <th width="20%"></th>
+                            <th width="20%">Arbeitszeit</th>
                             <th class="text-right" width="20%">Ist</th>
                             <th class="text-right" width="20%">Soll</th>
                         </tr>
@@ -51,6 +51,28 @@
                             <td>Stunden / Tag</td>
                             <td class="text-right">Ø {{ (statistics.hours_worked_day).format(2, ',', '.') }}</td>
                             <td class="text-right">Ø {{ (statistics.planned_working_hours_day).format(2, ',', '.') }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="table table-hover table-striped" v-if="statistics.days_worked > 0">
+                    <thead>
+                        <tr>
+                            <th width="20%">Gehalt</th>
+                            <th class="text-right" width="20%">Brutto</th>
+                            <th class="text-right" width="20%">Netto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Gehalt</td>
+                            <td class="text-right">{{ statistics.gross }}</td>
+                            <td class="text-right">{{ statistics.net }}</td>
+                        </tr>
+                        <tr>
+                            <td>Gehalt / Monat</td>
+                            <td class="text-right">{{ statistics.gross_month }}</td>
+                            <td class="text-right">Ø {{ statistics.net_month }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -110,7 +132,7 @@
                             allowDecimals: true,
                             min: 0,
                             title: {
-                                text: 'Karten',
+                                text: 'Bruttolohn',
                             },
                             opposite: true,
                         },
