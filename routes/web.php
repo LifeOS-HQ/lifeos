@@ -27,6 +27,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('journal', 'Journals\JournalController');
 
+    Route::resource('review', 'Reviews\ReviewController');
+
     Route::get('/work', 'Work\WorkController@index')->name('work.index');
 
     Route::resource('work/time', 'Work\TimeController');

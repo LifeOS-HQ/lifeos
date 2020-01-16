@@ -4,7 +4,9 @@ namespace App\Console\Commands\Controller;
 
 use Illuminate\Console\Command;
 use Illuminate\Routing\Console\ControllerMakeCommand;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Str;
 
 class MakeCommand extends ControllerMakeCommand
 {
@@ -21,7 +23,16 @@ class MakeCommand extends ControllerMakeCommand
 
         $this->call('make:test', [
             'name' => 'Controller\\' . $this->argument('name') . 'Test',
+            '--model' => $this->option('model') ?: null,
         ]);
+
+        if ($this->option('model')) {
+            $name = $this->getViewPath($this->option('model'));
+
+            $this->call('make:view', ['name' => $name . '/index']);
+            $this->call('make:view', ['name' => $name . '/show']);
+            $this->call('make:view', ['name' => $name . '/edit']);
+        }
     }
 
     /**
@@ -56,5 +67,27 @@ class MakeCommand extends ControllerMakeCommand
         }
 
         return __DIR__.$stub;
+    }
+
+    protected function getViewPath(string $modelName) : string {
+
+        $modelName = str_replace('Models\\', '', $modelName);
+
+        $parts = explode('\\', $modelName);
+        $parts = array_unique($parts);
+
+
+        foreach ($parts as $key => $part) {
+            if ($key == 0 && $part == 'App') {
+                Arr::forget($parts, $key);
+            }
+            $pluralKey = array_search(Str::plural($part), $parts);
+            if ($pluralKey !== false && $pluralKey != $key) {
+                Arr::forget($parts, $pluralKey);
+            }
+        }
+
+        return strtolower(implode('/', $parts)) . '/';
+
     }
 }
