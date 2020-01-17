@@ -5,25 +5,19 @@
     <div class="row" v-else>
         <div class="col-8">
             <div class="card mb-3">
-                <div class="card-header d-flex">
+                <div class="card-header d-flex align-items-center">
                     <div class="col">{{ item.name }}</div>
-                    <div><button class="btn btn-danger" @click="destroy">Löschen</button></div>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <template v-if="isEditing">
+                            <button class="btn btn-secondary" @click="isEditing = false">Abbrechen</button>
+                            <button class="btn btn-primary" @click="update">Speichern</button>
+                        </template>
+                        <template v-else>
+                            <button class="btn btn-primary" @click="isEditing = true">Bearbeiten</button>
+                        </template>
+                        <button type="button" class="btn btn-secondary" title="Löschen" @click="destroy"><i class="fas fa-fw fa-trash"></i></button>
+                    </div>
                 </div>
-                <template v-if="isEditing">
-                    <div class="card-body">
-                        <div class="form-group">
-                            <textarea class="form-control" rows="15" v-model="form.body"></textarea>
-                        </div>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between align-items-center">
-                        <button class="btn btn-link text-muted" @click="isEditing = false">Abbrechen</button>
-                        <button class="btn btn-primary" @click="update">Speichern</button>
-                    </div>
-                </template>
-                <template v-else>
-                    <div class="card-body white-space-pre" v-html="item.body"></div>
-                    <div class="card-footer text-right"><button class="btn btn-primary" @click="isEditing = true">Bearbeiten</button></div>
-                </template>
             </div>
 
             <div class="card" v-show="item.happiest_moment != null || isEditing">
@@ -34,14 +28,9 @@
                             <textarea class="form-control" rows="3" v-model="form.happiest_moment"></textarea>
                         </div>
                     </div>
-                    <div class="card-footer d-flex justify-content-between align-items-center">
-                        <button class="btn btn-link text-muted" @click="isEditing = false">Abbrechen</button>
-                        <button class="btn btn-primary" @click="update">Speichern</button>
-                    </div>
                 </template>
                 <template v-else>
                     <div class="card-body white-space-pre" v-html="item.happiest_moment"></div>
-                    <div class="card-footer text-right"><button class="btn btn-primary" @click="isEditing = true">Bearbeiten</button></div>
                 </template>
             </div>
         </div>
@@ -73,7 +62,16 @@
                         <div class="card-footer text-right"><button class="btn btn-primary" @click="isEditing = true">Bearbeiten</button></div>
                     </template>
                 </div>
+
+                <div class="card mt-3">
+                    <div class="card-header">Dankbar für</div>
+                    <div class="card-body">
+                        <journal-gratitude-table :model="item"></journal-gratitude-table>
+                    </div>
+                </div>
+
             </div>
+
         </div>
     </div>
 </template>

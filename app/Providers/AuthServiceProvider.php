@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Journals\Gratitude\Gratitude;
 use App\Models\Journals\Journal;
 use App\Models\Work\Month;
+use App\Policies\Journals\GratitudePolicy;
 use App\Policies\Journals\JournalPolicy;
 use App\Policies\Work\MonthPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -20,6 +22,7 @@ class AuthServiceProvider extends ServiceProvider
         // 'App\Model' => 'App\Policies\ModelPolicy',
         Journal::class => JournalPolicy::class,
         Month::class => MonthPolicy::class,
+        Gratitude::class => GratitudePolicy::class,
     ];
 
     /**

@@ -116,6 +116,19 @@ abstract class TestCase extends BaseTestCase
         return $response;
     }
 
+    public function getModel(array $parameters = [], Model $model) : TestResponse
+    {
+        $this->signIn();
+
+        $response = $this->getJson(route($this->baseRouteName . '.show', $parameters))
+            ->assertStatus(Response::HTTP_OK)
+            ->assertJson([
+                'id' => $model->id,
+            ]);
+
+        return $response;
+    }
+
     public function getCollection(array $parameters = [], int $assertJsonCount = 3) : TestResponse
     {
         $this->signIn();

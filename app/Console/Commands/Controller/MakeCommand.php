@@ -62,11 +62,7 @@ class MakeCommand extends ControllerMakeCommand
 
         $stub = $stub ?? '/stubs/controller.plain.stub';
 
-        if ($this->option('model')) {
-            return resource_path('stubs/controller.model.stub');
-        }
-
-        return __DIR__.$stub;
+        return resource_path($stub);
     }
 
     protected function getViewPath(string $modelName) : string {

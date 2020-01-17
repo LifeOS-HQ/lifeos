@@ -26,6 +26,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home/work', 'Home\Work\WorkController@show')->name('work.show');
 
     Route::resource('journal', 'Journals\JournalController');
+    Route::resource('journal.gratitude', 'Journals\Gratitude\GratitudeController');
 
     Route::resource('review', 'Reviews\ReviewController');
 

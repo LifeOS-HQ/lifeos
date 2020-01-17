@@ -16,9 +16,13 @@ class JournalPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user, Journal $journal = null)
     {
-        return true;
+        if (is_null($journal)) {
+            return true;
+        }
+
+        return ($user->id == $journal->user_id);
     }
 
     /**

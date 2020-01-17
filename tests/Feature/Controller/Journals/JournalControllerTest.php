@@ -132,6 +132,8 @@ class JournalControllerTest extends TestCase
             ->assertStatus(Response::HTTP_FOUND)
             ->assertSessionHasNoErrors();
 
+        $data['date'] = $data['date'] . ' 00:00:00';
+
         $this->assertDatabaseHas($model->getTable(), [
             'id' => $model->id,
         ] + $data);

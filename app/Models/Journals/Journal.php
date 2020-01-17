@@ -2,9 +2,11 @@
 
 namespace App\Models\Journals;
 
+use App\Models\Journals\Gratitude\Gratitude;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Journal extends Model
 {
@@ -59,5 +61,10 @@ class Journal extends Model
     public function user() : BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function gratitudes() : HasMany
+    {
+        return $this->hasMany(Gratitude::class, 'journal_id');
     }
 }
