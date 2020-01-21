@@ -7,30 +7,17 @@ use App\Models\Journals\Gratitude\Gratitude;
 use App\Models\Journals\Journal;
 use Illuminate\Http\Request;
 
-class GratitudeController extends Controller
+class SortController extends Controller
 {
-    protected $baseViewPath = 'journal.gratitude';
-
-    public function __construct()
-    {
-        $this->authorizeResource(Gratitude::class, 'gratitude');
-    }
-
     /**
      * Display a listing of the resource.
      *
      * @param  \App\Models\Journals\Journal  $journal
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Journal $journal)
+    public function index(Journal $journal)
     {
-        $this->authorize('viewAny', $journal);
-
-        if ($request->wantsJson()) {
-            return $journal->gratitudes()
-                ->orderBy('order_column', 'ASC')
-                ->get();
-        }
+        //
     }
 
     /**
@@ -41,9 +28,7 @@ class GratitudeController extends Controller
      */
     public function create(Journal $journal)
     {
-        $this->authorize('viewAny', $journal);
-
-
+        //
     }
 
     /**
@@ -55,13 +40,7 @@ class GratitudeController extends Controller
      */
     public function store(Request $request, Journal $journal)
     {
-        $this->authorize('create', $journal);
-
-        $attributes = $request->validate([
-            'text' => 'required|string',
-        ]);
-
-        return $journal->gratitudes()->create($attributes);
+        //
     }
 
     /**
@@ -71,11 +50,9 @@ class GratitudeController extends Controller
      * @param  \App\Models\Journals\Gratitude\Gratitude  $gratitude
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Journal $journal, Gratitude $gratitude)
+    public function show(Journal $journal, Gratitude $gratitude)
     {
-        if ($request->wantsJson()) {
-            return $gratitude;
-        }
+        //
     }
 
     /**
@@ -98,16 +75,29 @@ class GratitudeController extends Controller
      * @param  \App\Models\Journals\Gratitude\Gratitude  $gratitude
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Journal $journal, Gratitude $gratitude)
+    public function update(Request $request, Journal $journal)
     {
+        $this->authorize('update', $journal);
+
         $attributes = $request->validate([
-            'text' => 'required|string',
+            'ranks' => 'required|array',
         ]);
 
-        $gratitude->update($attributes);
+        $journal->load([
+            'gratitudes'
+        ]);
+
+        foreach ($attributes['ranks'] as $key => $id) {
+            if (! $journal->gratitudes->contains('id', $id)) {
+                continue;
+            }
+            Gratitude::where('id', $id)->update([
+                'order_column' => ($key + 1),
+            ]);
+        }
 
         if ($request->wantsJson()) {
-            return $gratitude;
+            return $journal;
         }
 
         return back()
@@ -124,33 +114,8 @@ class GratitudeController extends Controller
      * @param  \App\Models\Journals\Gratitude\Gratitude  $gratitude
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Journal $journal, Gratitude $gratitude)
+    public function destroy(Journal $journal, Gratitude $gratitude)
     {
-        if ($isDeletable = $gratitude->isDeletable()) {
-            $gratitude->delete();
-        }
-
-        if ($request->wantsJson())
-        {
-            return [
-                'deleted' => $isDeletable,
-            ];
-        }
-
-        if ($isDeletable) {
-            $status = [
-                'type' => 'success',
-                'text' => 'Tagebucheintrag gelöscht.',
-            ];
-        }
-        else {
-            $status = [
-                'type' => 'danger',
-                'text' => 'Tagebucheintrag kann nicht gelöscht werden.',
-            ];
-        }
-
-        return redirect(route($this->baseViewPath . '.index', ['journal' => $journal->id]))
-            ->with('status', $status);
+        //
     }
 }

@@ -4,7 +4,7 @@
             <ul class="list-group mt-0 text-center">
                 <li class="list-group-item"><button class="btn btn-primary" @click="store">Anlegen</button></li>
                 <li class="list-group-item text-center" v-if="isLoading"><i class="fas fa-spinner fa-spin"></i></li>
-                <li class="list-group-item pointer" :item="item" :key="item.id" :uri="uri" v-for="(item, index) in items" @click="show(index, item)" v-else>{{ item.date }}</li>
+                <li class="list-group-item pointer" :item="item" :key="item.id" :uri="uri" v-for="(item, index) in items" @click="show(index, item)" v-else>{{ item.name }}</li>
             </ul>
         </div>
         <div class="col-10">

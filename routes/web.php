@@ -27,6 +27,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('journal', 'Journals\JournalController');
     Route::resource('journal.gratitude', 'Journals\Gratitude\GratitudeController');
+    Route::put('/journal/{journal}/sort/gratitude', 'Journals\Gratitude\SortController@update')->name('journal.sort.gratitude.update');
+    Route::put('/journal/{journal}/gratitude/{gratitude}/gamechanger', 'Journals\Gratitude\GameChangerController@update')->name('journal.gratitude.gamechanger.update');
 
     Route::resource('review', 'Reviews\ReviewController');
 

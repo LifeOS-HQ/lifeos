@@ -29,10 +29,10 @@
         </div>
         <div class="table-responsive mt-3" v-else="items.length">
             <table class="table table-hover table-striped bg-white">
-                <tbody>
+                <draggable v-model="items" tag="tbody" handle=".sort" @end="sort">
                     <row :item="item" :key="item.id" :uri="uri" v-for="(item, index) in items" @updated="updated(index, $event)" @deleted="remove(index)"></row>
                     <tr>
-                        <td class="align-middle" width="80%">
+                        <td class="align-middle" colspan="2" width="80%">
                             <input class="form-control align-middle" :class="'text' in errors ? 'is-invalid' : ''" type="text" v-model="form.text" @keydown.enter="store">
                             <div class="invalid-feedback" v-text="'text' in errors ? errors.text[0] : ''"></div>
                         </td>
@@ -42,18 +42,21 @@
                             </div>
                         </td>
                     </tr>
-                </tbody>
+                </draggable>
             </table>
         </div>
     </div>
 </template>
 
 <script>
+    import draggable from "vuedraggable";
+
     import row from "./row.vue";
 
     export default {
 
         components: {
+            draggable,
             row,
         },
 
@@ -141,6 +144,23 @@
             },
             remove(index) {
                 this.items.splice(index, 1);
+            },
+            sort() {
+                const ranks = this.items.reduce( function (total, item, index) {
+                    total[index] = item.id;
+                    return total;
+                }, []);
+
+                var component = this;
+                axios.put(component.model.path + '/sort/gratitude', {
+                    ranks: ranks,
+                })
+                    .then(function (response) {
+                        Vue.success('Reihenfolge gespeichert.')
+                    })
+                    .catch( function (error) {
+                        Vue.error('Reihenfolge konnte nicht gespeichert werden!');
+                });
             },
             showPageButton(page) {
                 if (page == 1 || page == this.paginate.lastPage) {

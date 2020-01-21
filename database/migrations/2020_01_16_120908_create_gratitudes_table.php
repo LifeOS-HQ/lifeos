@@ -18,7 +18,11 @@ class CreateGratitudesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('journal_id');
 
+            $table->unsignedSmallInteger('order_column')->default(0);
+
             $table->string('text');
+
+            $table->boolean('is_game_changer')->nullable();
 
             $table->timestamps();
 

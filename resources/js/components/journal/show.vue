@@ -6,18 +6,28 @@
         <div class="col-8">
             <div class="card mb-3">
                 <div class="card-header d-flex align-items-center">
-                    <div class="col">{{ item.name }}</div>
+                    <div class="col px-0">{{ item.name }}</div>
                     <div class="btn-group btn-group-sm" role="group">
                         <template v-if="isEditing">
-                            <button class="btn btn-secondary" @click="isEditing = false">Abbrechen</button>
-                            <button class="btn btn-primary" @click="update">Speichern</button>
+                            <button class="btn btn-secondary" @click="isEditing = false"><i class="fas fa-fw fa-edit"></i></button>
+                            <button class="btn btn-primary" @click="update"><i class="fas fa-fw fa-save"></i></button>
                         </template>
                         <template v-else>
-                            <button class="btn btn-primary" @click="isEditing = true">Bearbeiten</button>
+                            <button class="btn btn-primary" @click="isEditing = true"><i class="fas fa-fw fa-edit"></i></button>
                         </template>
                         <button type="button" class="btn btn-secondary" title="Löschen" @click="destroy"><i class="fas fa-fw fa-trash"></i></button>
                     </div>
                 </div>
+                <template v-if="isEditing">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <textarea class="form-control" rows="3" v-model="form.body"></textarea>
+                        </div>
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="card-body white-space-pre" v-html="item.body"></div>
+                </template>
             </div>
 
             <div class="card" v-show="item.happiest_moment != null || isEditing">
@@ -49,17 +59,12 @@
                                 <input class="form-control" type="text" v-model="form.rating_comment">
                             </div>
                         </div>
-                        <div class="card-footer d-flex justify-content-between align-items-center">
-                            <button class="btn btn-link text-muted" @click="isEditing = false">Abbrechen</button>
-                            <button class="btn btn-primary" @click="update">Speichern</button>
-                        </div>
                     </template>
                     <template v-else>
                         <div class="card-body">
                             <div>{{ item.rating || 'noch nicht bewertet' }}</div>
                             <div>{{ item.rating_comment }}</div>
                         </div>
-                        <div class="card-footer text-right"><button class="btn btn-primary" @click="isEditing = true">Bearbeiten</button></div>
                     </template>
                 </div>
 
