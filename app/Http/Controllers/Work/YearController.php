@@ -116,7 +116,7 @@ class YearController extends Controller
                     'type' => 'spline',
                     'tooltip' => [
                         'headerFormat' => '<b>{point.key}</b><br/>',
-                        'pointFormat' => '{point.y:2f} h'
+                        'pointFormat' => '{point.y:2f} €'
                     ],
                     'yAxis' => 1,
                 ],
