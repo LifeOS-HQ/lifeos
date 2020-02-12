@@ -30,7 +30,11 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/journal/{journal}/sort/gratitude', 'Journals\Gratitude\SortController@update')->name('journal.sort.gratitude.update');
     Route::put('/journal/{journal}/gratitude/{gratitude}/gamechanger', 'Journals\Gratitude\GameChangerController@update')->name('journal.gratitude.gamechanger.update');
 
+    Route::resource('lifearea', 'Lifeareas\LifeareaController');
+
     Route::resource('review', 'Reviews\ReviewController');
+    Route::resource('review.block', 'Reviews\BlockController');
+    Route::resource('review.lifearea', 'Reviews\LifeareaController');
 
     Route::get('/work', 'Work\WorkController@index')->name('work.index');
 

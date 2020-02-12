@@ -3,88 +3,90 @@
 namespace App\Http\Controllers\Reviews;
 
 use App\Http\Controllers\Controller;
+use App\Models\Reviews\Block;
 use App\Models\Reviews\Review;
 use Illuminate\Http\Request;
 
-class ReviewController extends Controller
+class BlockController extends Controller
 {
-    protected $baseViewPath = 'review';
+    protected $baseViewPath = 'review.block';
 
     public function __construct()
     {
-        $this->authorizeResource(Review::class, 'review');
+        $this->authorizeResource(Block::class, 'block');
     }
 
     /**
      * Display a listing of the resource.
      *
+     * @param  \App\Models\Reviews\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, Review $review)
     {
-        $user = auth()->user();
+        $this->authorize('viewAny', $review);
 
         if ($request->wantsJson()) {
-            return $user->reviews()
-                ->latest()
-                ->paginate();
+            return $review->blocks()
+                ->orderBy('order_column', 'ASC')
+                ->get();
         }
-
-        return view($this->baseViewPath . '.index');
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param  \App\Models\Reviews\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Review $review)
     {
-        //
+        $this->authorize('create', $review);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Reviews\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Review $review)
     {
-        $today = today();
+        $this->authorize('create', $review);
 
-        return Review::create([
-            'user_id' => auth()->user()->id,
-            'title' => 'Review vom ' . $today->format('d.m.Y'),
-            'at' => $today,
-        ]);
+        if ($request->wantsJson()) {
+            return $review->blocks()->create([
+                'user_id' => $review->user_id,
+                'title' => 'Neuer Block',
+            ]);
+        }
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Reviews\Review  $review
+     * @param  \App\Models\Reviews\Block  $block
      * @return \Illuminate\Http\Response
      */
-    public function show(Review $review)
+    public function show(Request $request, Review $review, Block $block)
     {
-        return view($this->baseViewPath . '.show')
-            ->with('model', $review->load([
-                'blocks',
-                'lifeareas.lifearea',
-            ]));
+        if ($request->wantsJson()) {
+            return $block;
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Reviews\Review  $review
+     * @param  \App\Models\Reviews\Block  $block
      * @return \Illuminate\Http\Response
      */
-    public function edit(Review $review)
+    public function edit(Request $request, Review $review, Block $block)
     {
-        return view($this->baseViewPath . '.edit')
-            ->with('model', $review);
+        //
     }
 
     /**
@@ -92,25 +94,26 @@ class ReviewController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Reviews\Review  $review
+     * @param  \App\Models\Reviews\Block  $block
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Review $review)
+    public function update(Request $request, Review $review, Block $block)
     {
         $attributes = $request->validate([
-            'at_formatted' => 'required|date_format:d.m.Y',
             'title' => 'required|string',
+            'body' => 'nullable|string',
         ]);
 
-        $review->update($attributes);
+        $block->update($attributes);
 
         if ($request->wantsJson()) {
-            return $review;
+            return $block;
         }
 
         return back()
             ->with('status', [
                 'type' => 'success',
-                'text' => 'gespeichert.',
+                'text' => 'Gespeichert.',
             ]);
     }
 
@@ -118,15 +121,17 @@ class ReviewController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Reviews\Review  $review
+     * @param  \App\Models\Reviews\Block  $block
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Review $review)
+    public function destroy(Request $request, Review $review, Block $block)
     {
-        if ($isDeletable = $review->isDeletable()) {
-            $review->delete();
+        if ($isDeletable = $block->isDeletable()) {
+            $block->delete();
         }
 
-        if ($request->wantsJson()) {
+        if ($request->wantsJson())
+        {
             return [
                 'deleted' => $isDeletable,
             ];
@@ -135,17 +140,17 @@ class ReviewController extends Controller
         if ($isDeletable) {
             $status = [
                 'type' => 'success',
-                'text' => 'gelöscht.',
+                'text' => 'Datensatz gelöscht.',
             ];
         }
         else {
             $status = [
                 'type' => 'danger',
-                'text' => 'kann nicht gelöscht werden.',
+                'text' => 'Datensatz kann nicht gelöscht werden.',
             ];
         }
 
-        return redirect(route($this->baseViewPath . '.index'))
+        return redirect(route($this->baseViewPath . '.index', ['review' => $review->id]))
             ->with('status', $status);
     }
 }

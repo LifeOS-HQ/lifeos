@@ -1,18 +1,18 @@
 <?php
 
-namespace DummyNamespace;
+namespace Tests\Feature\Controller\Reviews;
 
-use DummyFullModelClass;
+use App\Models\Reviews\Review;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
-class DummyClass extends TestCase
+class ReviewControllerTest extends TestCase
 {
-    protected $baseRouteName = 'DummyModelVariable';
-    protected $baseViewPath = 'DummyModelVariable';
-    protected $className = DummyModelClass::class;
+    protected $baseRouteName = 'review';
+    protected $baseViewPath = 'review';
+    protected $className = Review::class;
 
     /**
      * @test
@@ -24,10 +24,10 @@ class DummyClass extends TestCase
         $actions = [
             'index' => [],
             'store' => [],
-            'show' => ['DummyModelVariable' => $id],
-            'edit' => ['DummyModelVariable' => $id],
-            'update' => ['DummyModelVariable' => $id],
-            'destroy' => ['DummyModelVariable' => $id],
+            'show' => ['review' => $id],
+            'edit' => ['review' => $id],
+            'update' => ['review' => $id],
+            'destroy' => ['review' => $id],
         ];
         $this->guestsCanNotAccess($actions);
     }
@@ -39,7 +39,7 @@ class DummyClass extends TestCase
     {
         $modelOfADifferentUser = factory($this->className)->create();
 
-        $this->a_user_can_not_see_models_from_a_different_user(['DummyModelVariable' => $modelOfADifferentUser->id]);
+        $this->a_user_can_not_see_models_from_a_different_user(['review' => $modelOfADifferentUser->id]);
     }
 
     /**
@@ -57,7 +57,7 @@ class DummyClass extends TestCase
     public function a_user_can_get_a_paginated_collection_of_models()
     {
         $models = factory($this->className, 3)->create([
-
+            'user_id' => $this->user->id,
         ]);
 
         $this->getPaginatedCollection();
@@ -76,7 +76,7 @@ class DummyClass extends TestCase
 
         ];
 
-        $this->post(route($this->baseRouteName . '.store'), $data)
+        $this->post(route($this->baseRouteName . '.store'), [])
             ->assertStatus(Response::HTTP_CREATED);
 
         $this->assertDatabaseHas((new $this->className)->getTable(), $data);
@@ -91,7 +91,7 @@ class DummyClass extends TestCase
 
         $model = $this->createModel();
 
-        $this->getShowViewResponse(['DummyModelVariable' => $model->id])
+        $this->getShowViewResponse(['review' => $model->id])
             ->assertViewIs($this->baseViewPath . '.show')
             ->assertViewHas('model');
     }
@@ -103,7 +103,7 @@ class DummyClass extends TestCase
     {
         $model = $this->createModel();
 
-        $this->getEditViewResponse(['DummyModelVariable' => $model->id])
+        $this->getEditViewResponse(['review' => $model->id])
             ->assertViewIs($this->baseViewPath . '.edit')
             ->assertViewHas('model');
     }
@@ -119,17 +119,22 @@ class DummyClass extends TestCase
 
         $this->signIn();
 
-        $data = [
+        $tomorrow = today()->addDays(1);
 
+        $data = [
+            'title' => 'New Title',
+            'at_formatted' => $tomorrow->format('d.m.Y'),
         ];
 
-        $response = $this->put(route($this->baseRouteName . '.update', ['DummyModelVariable' => $model->id]), $data)
+        $response = $this->put(route($this->baseRouteName . '.update', ['review' => $model->id]), $data)
             ->assertStatus(Response::HTTP_FOUND)
             ->assertSessionHasNoErrors();
 
         $this->assertDatabaseHas($model->getTable(), [
             'id' => $model->id,
-        ] + $data);
+            'title' => 'New Title',
+            'at' => $tomorrow,
+        ]);
     }
 
     /**
@@ -139,7 +144,7 @@ class DummyClass extends TestCase
     {
         $model = $this->createModel();
 
-        $this->deleteModel($model, ['DummyModelVariable' => $model->id])
+        $this->deleteModel($model, ['review' => $model->id])
             ->assertRedirect();
     }
 }

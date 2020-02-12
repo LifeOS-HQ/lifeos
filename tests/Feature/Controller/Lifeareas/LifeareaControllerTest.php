@@ -1,18 +1,18 @@
 <?php
 
-namespace DummyNamespace;
+namespace Tests\Feature\Controller\Lifeareas;
 
-use DummyFullModelClass;
+use App\Models\Lifeareas\Lifearea;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
-class DummyClass extends TestCase
+class LifeareaControllerTest extends TestCase
 {
-    protected $baseRouteName = 'DummyModelVariable';
-    protected $baseViewPath = 'DummyModelVariable';
-    protected $className = DummyModelClass::class;
+    protected $baseRouteName = 'lifearea';
+    protected $baseViewPath = 'lifearea';
+    protected $className = Lifearea::class;
 
     /**
      * @test
@@ -24,10 +24,10 @@ class DummyClass extends TestCase
         $actions = [
             'index' => [],
             'store' => [],
-            'show' => ['DummyModelVariable' => $id],
-            'edit' => ['DummyModelVariable' => $id],
-            'update' => ['DummyModelVariable' => $id],
-            'destroy' => ['DummyModelVariable' => $id],
+            'show' => ['lifearea' => $id],
+            'edit' => ['lifearea' => $id],
+            'update' => ['lifearea' => $id],
+            'destroy' => ['lifearea' => $id],
         ];
         $this->guestsCanNotAccess($actions);
     }
@@ -39,7 +39,7 @@ class DummyClass extends TestCase
     {
         $modelOfADifferentUser = factory($this->className)->create();
 
-        $this->a_user_can_not_see_models_from_a_different_user(['DummyModelVariable' => $modelOfADifferentUser->id]);
+        $this->a_user_can_not_see_models_from_a_different_user(['lifearea' => $modelOfADifferentUser->id]);
     }
 
     /**
@@ -54,13 +54,13 @@ class DummyClass extends TestCase
     /**
      * @test
      */
-    public function a_user_can_get_a_paginated_collection_of_models()
+    public function a_user_can_get_a_collection_of_models()
     {
         $models = factory($this->className, 3)->create([
-
+            'user_id' => $this->user->id,
         ]);
 
-        $this->getPaginatedCollection();
+        $this->getCollection();
     }
 
     /**
@@ -73,7 +73,7 @@ class DummyClass extends TestCase
         $this->signIn();
 
         $data = [
-
+            'title' => 'Title',
         ];
 
         $this->post(route($this->baseRouteName . '.store'), $data)
@@ -91,7 +91,7 @@ class DummyClass extends TestCase
 
         $model = $this->createModel();
 
-        $this->getShowViewResponse(['DummyModelVariable' => $model->id])
+        $this->getShowViewResponse(['lifearea' => $model->id])
             ->assertViewIs($this->baseViewPath . '.show')
             ->assertViewHas('model');
     }
@@ -103,7 +103,7 @@ class DummyClass extends TestCase
     {
         $model = $this->createModel();
 
-        $this->getEditViewResponse(['DummyModelVariable' => $model->id])
+        $this->getEditViewResponse(['lifearea' => $model->id])
             ->assertViewIs($this->baseViewPath . '.edit')
             ->assertViewHas('model');
     }
@@ -120,10 +120,10 @@ class DummyClass extends TestCase
         $this->signIn();
 
         $data = [
-
+            'title' => 'Updated title',
         ];
 
-        $response = $this->put(route($this->baseRouteName . '.update', ['DummyModelVariable' => $model->id]), $data)
+        $response = $this->put(route($this->baseRouteName . '.update', ['lifearea' => $model->id]), $data)
             ->assertStatus(Response::HTTP_FOUND)
             ->assertSessionHasNoErrors();
 
@@ -139,7 +139,7 @@ class DummyClass extends TestCase
     {
         $model = $this->createModel();
 
-        $this->deleteModel($model, ['DummyModelVariable' => $model->id])
+        $this->deleteModel($model, ['lifearea' => $model->id])
             ->assertRedirect();
     }
 }

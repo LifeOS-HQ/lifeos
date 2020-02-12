@@ -3,6 +3,8 @@
 namespace App;
 
 use App\Models\Journals\Journal;
+use App\Models\Lifeareas\Lifearea;
+use App\Models\Reviews\Review;
 use App\Models\Work\Month;
 use App\Models\Work\Time;
 use App\Models\Work\Year;
@@ -45,6 +47,16 @@ class User extends Authenticatable
     public function journals() : HasMany
     {
         return $this->hasMany(Journal::class, 'user_id');
+    }
+
+    public function lifeareas() : HasMany
+    {
+        return $this->hasMany(Lifearea::class, 'user_id');
+    }
+
+    public function reviews() : HasMany
+    {
+        return $this->hasMany(Review::class, 'user_id');
     }
 
     public function working_years() : HasMany

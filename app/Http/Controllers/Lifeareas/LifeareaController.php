@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Reviews;
+namespace App\Http\Controllers\Lifeareas;
 
 use App\Http\Controllers\Controller;
-use App\Models\Reviews\Review;
+use App\Models\Lifeareas\Lifearea;
 use Illuminate\Http\Request;
 
-class ReviewController extends Controller
+class LifeareaController extends Controller
 {
-    protected $baseViewPath = 'review';
+    protected $baseViewPath = 'lifearea';
 
     public function __construct()
     {
-        $this->authorizeResource(Review::class, 'review');
+        $this->authorizeResource(Lifearea::class, 'lifearea');
     }
 
     /**
@@ -25,9 +25,9 @@ class ReviewController extends Controller
         $user = auth()->user();
 
         if ($request->wantsJson()) {
-            return $user->reviews()
-                ->latest()
-                ->paginate();
+            return $user->lifeareas()
+                ->orderBy('title', 'ASC')
+                ->get();
         }
 
         return view($this->baseViewPath . '.index');
@@ -51,60 +51,54 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        $today = today();
-
-        return Review::create([
-            'user_id' => auth()->user()->id,
-            'title' => 'Review vom ' . $today->format('d.m.Y'),
-            'at' => $today,
+        $attributes = $request->validate([
+            'title' => 'required|string',
         ]);
+
+        return auth()->user()->lifeareas()->create($attributes);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Reviews\Review  $review
+     * @param  \App\Models\Lifeareas\Lifearea  $lifearea
      * @return \Illuminate\Http\Response
      */
-    public function show(Review $review)
+    public function show(Lifearea $lifearea)
     {
         return view($this->baseViewPath . '.show')
-            ->with('model', $review->load([
-                'blocks',
-                'lifeareas.lifearea',
-            ]));
+            ->with('model', $lifearea);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Reviews\Review  $review
+     * @param  \App\Models\Lifeareas\Lifearea  $lifearea
      * @return \Illuminate\Http\Response
      */
-    public function edit(Review $review)
+    public function edit(Lifearea $lifearea)
     {
         return view($this->baseViewPath . '.edit')
-            ->with('model', $review);
+            ->with('model', $lifearea);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Reviews\Review  $review
+     * @param  \App\Models\Lifeareas\Lifearea  $lifearea
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Review $review)
+    public function update(Request $request, Lifearea $lifearea)
     {
         $attributes = $request->validate([
-            'at_formatted' => 'required|date_format:d.m.Y',
             'title' => 'required|string',
         ]);
 
-        $review->update($attributes);
+        $lifearea->update($attributes);
 
         if ($request->wantsJson()) {
-            return $review;
+            return $lifearea;
         }
 
         return back()
@@ -117,13 +111,13 @@ class ReviewController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Reviews\Review  $review
+     * @param  \App\Models\Lifeareas\Lifearea  $lifearea
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Review $review)
+    public function destroy(Request $request, Lifearea $lifearea)
     {
-        if ($isDeletable = $review->isDeletable()) {
-            $review->delete();
+        if ($isDeletable = $lifearea->isDeletable()) {
+            $lifearea->delete();
         }
 
         if ($request->wantsJson()) {

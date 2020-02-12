@@ -1,20 +1,20 @@
 <?php
 
-namespace Tests\Feature\Controller\Journals\Gratitude;
+namespace Tests\Feature\Controller\Reviews;
 
-use App\Models\Journals\Gratitude\Gratitude;
-use App\Models\Journals\Journal;
+use App\Models\Reviews\Block;
+use App\Models\Reviews\Review;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
-class GratitudeControllerTest extends TestCase
+class BlockControllerTest extends TestCase
 {
-    protected $baseRouteName = 'journal.gratitude';
-    protected $baseViewPath = 'gratitude';
-    protected $className = Gratitude::class;
+    protected $baseRouteName = 'review.block';
+    protected $baseViewPath = 'block';
+    protected $className = Block::class;
 
     /**
      * @test
@@ -24,12 +24,12 @@ class GratitudeControllerTest extends TestCase
         $model = factory($this->className)->create();
 
         $actions = [
-            'index' => ['journal' => $model->journal_id],
-            'store' => ['journal' => $model->journal_id],
-            'show' => ['journal' => $model->journal_id, 'gratitude' => $model->id],
-            'edit' => ['journal' => $model->journal_id, 'gratitude' => $model->id],
-            'update' => ['journal' => $model->journal_id, 'gratitude' => $model->id],
-            'destroy' => ['journal' => $model->journal_id, 'gratitude' => $model->id],
+            'index' => ['review' => $model->review_id],
+            'store' => ['review' => $model->review_id],
+            'show' => ['review' => $model->review_id, 'block' => $model->id],
+            'edit' => ['review' => $model->review_id, 'block' => $model->id],
+            'update' => ['review' => $model->review_id, 'block' => $model->id],
+            'destroy' => ['review' => $model->review_id, 'block' => $model->id],
         ];
         $this->guestsCanNotAccess($actions);
     }
@@ -42,11 +42,11 @@ class GratitudeControllerTest extends TestCase
         $modelOfADifferentUser = factory($this->className)->create();
 
         $this->a_user_can_not_see_models_from_a_different_user([
-            'journal' => $modelOfADifferentUser->journal_id,
-            'gratitude' => $modelOfADifferentUser->id
+            'review' => $modelOfADifferentUser->review_id,
+            'block' => $modelOfADifferentUser->id
         ]);
 
-        $this->a_different_user_gets_a_403('index', 'get', ['journal' => $modelOfADifferentUser->journal_id]);
+        $this->a_different_user_gets_a_403('index', 'get', ['review' => $modelOfADifferentUser->review_id]);
     }
 
     /**
@@ -58,13 +58,13 @@ class GratitudeControllerTest extends TestCase
 
         $parent = $this->createParent();
 
-        $models = factory($this->className, 3)->create([
+        $models = factory($this->className, 2)->create([
             'user_id' => $this->user->id,
-            'journal_id' => $parent->id,
+            'review_id' => $parent->id,
         ]);
 
         $this->getCollection([
-            'journal' => $parent->id,
+            'review' => $parent->id,
         ]);
     }
 
@@ -80,15 +80,13 @@ class GratitudeControllerTest extends TestCase
         $this->signIn();
 
         $data = [
-            'text' => 'text',
+
         ];
 
-        $this->post(route($this->baseRouteName . '.store', ['journal' => $parent->id]), $data)
+        $this->post(route($this->baseRouteName . '.store', ['review' => $parent->id]), $data)
             ->assertStatus(Response::HTTP_CREATED);
 
-        $this->assertDatabaseHas((new $this->className)->getTable(), $data + [
-            'user_id' => $this->user->id,
-        ]);
+        $this->assertDatabaseHas((new $this->className)->getTable(), $data);
     }
 
     /**
@@ -98,7 +96,7 @@ class GratitudeControllerTest extends TestCase
     {
         $model = $this->createModel();
 
-        $response = $this->getModel(['journal' => $model->journal_id, 'gratitude' => $model->id], $model);
+        $response = $this->getModel(['review' => $model->review_id, 'block' => $model->id], $model);
     }
 
     /**
@@ -113,10 +111,11 @@ class GratitudeControllerTest extends TestCase
         $this->signIn();
 
         $data = [
-            'text' => 'updated',
+            'title' => 'new title',
+            'body' => 'new body',
         ];
 
-        $response = $this->put(route($this->baseRouteName . '.update', ['journal' => $model->journal_id, 'gratitude' => $model->id]), $data)
+        $response = $this->put(route($this->baseRouteName . '.update', ['review' => $model->review_id, 'block' => $model->id]), $data)
             ->assertStatus(Response::HTTP_FOUND)
             ->assertSessionHasNoErrors();
 
@@ -130,17 +129,15 @@ class GratitudeControllerTest extends TestCase
      */
     public function a_user_can_delete_a_model()
     {
-        $this->withoutExceptionHandling();
-
         $model = $this->createModel();
 
-        $this->deleteModel($model, ['journal' => $model->journal_id, 'gratitude' => $model->id])
+        $this->deleteModel($model, ['review' => $model->review_id, 'block' => $model->id])
             ->assertRedirect();
     }
 
     protected function createParent() : Model
     {
-        return factory(Journal::class)->create([
+        return factory(Review::class)->create([
             'user_id' => $this->user->id,
         ]);
     }

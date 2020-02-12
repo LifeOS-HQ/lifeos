@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Models\Journals;
+namespace App\Models\Lifeareas;
 
-use App\Models\Journals\Gratitude\Gratitude;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Journal extends Model
+class Lifearea extends Model
 {
     protected $appends = [
         'path',
@@ -19,7 +17,7 @@ class Journal extends Model
     ];
 
     protected $dates = [
-        'date',
+        //
     ];
 
     protected $guarded = [
@@ -37,26 +35,12 @@ class Journal extends Model
 
         static::creating(function($model)
         {
-            $model->name = 'Eintrag vom ' . $model->date->format('d.m.Y');
-
             return true;
         });
 
         static::created(function($model)
         {
             return true;
-
-            $lastJournal = self::with(['evaluations'])
-                ->where('id', '!=', $model->id)
-                ->latest()
-                ->first();
-
-            foreach ($lastJournal->evaluations as $gratitude) {
-                $model->evaluations()->create([
-
-                ]);
-            }
-
         });
 
         static::updating(function($model)
@@ -67,7 +51,7 @@ class Journal extends Model
 
     public function getPathAttribute()
     {
-        return '/journal/' . $this->id;
+        return '/lifearea/' . $this->id;
     }
 
     public function isDeletable() : bool
@@ -78,10 +62,5 @@ class Journal extends Model
     public function user() : BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    public function gratitudes() : HasMany
-    {
-        return $this->hasMany(Gratitude::class, 'journal_id');
     }
 }

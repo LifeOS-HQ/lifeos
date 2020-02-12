@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models\Users;
 
 use App\Models\Journals\Journal;
+use App\Models\Reviews\Review;
 use App\Models\Work\Month;
 use App\Models\Work\Time;
 use App\Models\Work\Year;
@@ -25,6 +26,19 @@ class UserTest extends TestCase
         ]);
 
         $this->assertHasMany($model, $related, 'journals');
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_many_reviews()
+    {
+        $model = factory(User::class)->create();
+        $related = factory(Review::class)->create([
+            'user_id' => $model->id,
+        ]);
+
+        $this->assertHasMany($model, $related, 'reviews');
     }
 
     /**

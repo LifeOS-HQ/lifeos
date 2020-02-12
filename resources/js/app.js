@@ -68,6 +68,10 @@ Vue.component('home-work-show', require('./components/home/work/show.vue').defau
 Vue.component('journal-index', require('./components/journal/index.vue').default);
 Vue.component('journal-gratitude-table', require('./components/journal/gratitude/table.vue').default);
 
+Vue.component('lifearea-table', require('./components/lifearea/table.vue').default);
+Vue.component('review-table', require('./components/review/table.vue').default);
+Vue.component('review-show', require('./pages/review/show.vue').default);
+
 Vue.component('work-time-table', require('./components/work/time/table.vue').default);
 Vue.component('work-month-table', require('./components/work/month/table.vue').default);
 Vue.component('work-year-table', require('./components/work/year/table.vue').default);

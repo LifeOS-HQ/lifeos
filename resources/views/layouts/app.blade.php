@@ -11,6 +11,8 @@
             </div>
             <ul class="col">
                 <a href="/work"><li>Arbeit</li></a>
+                <a href="/review"><li>Berichte</li></a>
+                <a href="/lifearea"><li>Lebensbereiche</li></a>
                 <a href="/journal"><li>Tagebuch</li></a>
             </ul>
             <div class="px-3 text-white text-center"><p><a href="https://github.com/Cardmonitor/cardmonitor" target="_blank">View on Github</a></p></div>
