@@ -2998,7 +2998,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    highcharts: Chart,
     show: _show_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   props: {
