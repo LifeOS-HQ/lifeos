@@ -1,0 +1,139 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyFullModelClass;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Response;
+use Tests\TestCase;
+
+class DummyClass extends TestCase
+{
+    protected $baseRouteName = 'DummyModelVariable';
+    protected $baseViewPath = 'DummyModelVariable';
+    protected $className = DummyModelClass::class;
+
+    /**
+     * @test
+     */
+    public function guests_can_not_access_the_following_routes()
+    {
+        $id = factory($this->className)->create()->id;
+
+        $actions = [
+            'index' => ['ParentDummyModelVariable' => $model->ParentDummyModelVariable_id],
+            'store' => ['ParentDummyModelVariable' => $model->ParentDummyModelVariable_id],
+            'show' => ['ParentDummyModelVariable' => $model->ParentDummyModelVariable_id, 'DummyModelVariable' => $id],
+            'edit' => ['ParentDummyModelVariable' => $model->ParentDummyModelVariable_id, 'DummyModelVariable' => $id],
+            'update' => ['ParentDummyModelVariable' => $model->ParentDummyModelVariable_id, 'DummyModelVariable' => $id],
+            'destroy' => ['ParentDummyModelVariable' => $model->ParentDummyModelVariable_id, 'DummyModelVariable' => $id],
+        ];
+        $this->guestsCanNotAccess($actions);
+    }
+
+    /**
+     * @test
+     */
+    public function a_user_can_not_see_things_from_a_different_user()
+    {
+        $modelOfADifferentUser = factory($this->className)->create();
+
+         $this->a_user_can_not_see_models_from_a_different_user([
+            'ParentDummyModelVariable' => $modelOfADifferentUser->ParentDummyModelVariable_id,
+            'DummyModelVariable' => $modelOfADifferentUser->id
+        ]);
+
+        $this->a_different_user_gets_a_403('index', 'get', ['ParentDummyModelVariable' => $modelOfADifferentUser->ParentDummyModelVariable_id]);
+    }
+
+    /**
+     * @test
+     */
+    public function a_user_can_get_a_collection_of_models()
+    {
+        $this->withoutExceptionHandling();
+
+        $parent = $this->createParent();
+
+        $models = factory($this->className, 3)->create([
+            'user_id' => $this->user->id,
+            'ParentDummyModelVariable_id' => $parent->id,
+        ]);
+
+        $this->getCollection([
+            'ParentDummyModelVariable' => $parent->id,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function a_user_can_create_a_model()
+    {
+        $parent = $this->createParent();
+
+        $this->signIn();
+
+        $data = [
+
+        ];
+
+        $this->post(route($this->baseRouteName . '.store', ['ParentDummyModelVariable' => $parent->id]), $data)
+            ->assertStatus(Response::HTTP_CREATED);
+
+        $this->assertDatabaseHas((new $this->className)->getTable(), $data);
+    }
+
+    /**
+     * @test
+     */
+    public function a_user_can_get_the_model()
+    {
+        $model = $this->createModel();
+
+        $response = $this->getModel(['ParentDummyModelVariable' => $model->ParentDummyModelVariable_id, 'DummyModelVariable' => $model->id], $model);
+    }
+
+    /**
+     * @test
+     */
+    public function a_user_can_update_a_model()
+    {
+        $this->withoutExceptionHandling();
+
+        $model = $this->createModel();
+
+        $this->signIn();
+
+        $data = [
+
+        ];
+
+        $response = $this->put(route($this->baseRouteName . '.update', ['ParentDummyModelVariable' => $model->ParentDummyModelVariable_id, 'DummyModelVariable' => $model->id]), $data)
+            ->assertStatus(Response::HTTP_FOUND)
+            ->assertSessionHasNoErrors();
+
+        $this->assertDatabaseHas($model->getTable(), [
+            'id' => $model->id,
+        ] + $data);
+    }
+
+    /**
+     * @test
+     */
+    public function a_user_can_delete_a_model()
+    {
+        $model = $this->createModel();
+
+        $this->deleteModel($model, ['ParentDummyModelVariable' => $model->ParentDummyModelVariable_id, 'DummyModelVariable' => $model->id])
+            ->assertRedirect();
+    }
+
+    protected function createParent() : Model
+    {
+        return factory(ParentDummyModelClass::class)->create([
+            'user_id' => $this->user->id,
+        ]);
+    }
+}

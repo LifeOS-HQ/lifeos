@@ -10,6 +10,11 @@ class DummyClass extends Controller
 {
     protected $baseViewPath = 'DummyModelVariable';
 
+    public function __construct()
+    {
+        $this->authorizeResource(DummyModelClass::class, 'DummyModelVariable');
+    }
+
     /**
      * Display a listing of the resource.
      *

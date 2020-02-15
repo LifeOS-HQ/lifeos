@@ -13,7 +13,7 @@ class MakeCommand extends TestMakeCommand
      *
      * @var string
      */
-    protected $signature = 'make:test {name : The name of the class} {--model=false : Model name} {--unit : Create a unit test}';
+    protected $signature = 'make:test {name : The name of the class} {--model=false : Model name} {--parent=false : Model name} {--unit : Create a unit test}';
 
     /**
      * Get the stub file for the generator.
@@ -24,6 +24,10 @@ class MakeCommand extends TestMakeCommand
     {
         if ($this->option('unit')) {
             return resource_path('/stubs/unit-test.stub');
+        }
+
+        if ($this->option('parent')) {
+            return resource_path('/stubs/test.nested.stub');
         }
 
         return resource_path('/stubs/test.stub');
@@ -47,6 +51,10 @@ class MakeCommand extends TestMakeCommand
 
         $replace = [];
 
+        if ($this->option('parent')) {
+            $replace = $this->buildParentReplacements();
+        }
+
         if ($this->option('model')) {
             $replace = $this->buildModelReplacements($replace);
         }
@@ -55,6 +63,29 @@ class MakeCommand extends TestMakeCommand
             array_keys($replace), array_values($replace), parent::buildClass($name)
         );
     }
+
+    /**
+     * Build the replacements for a parent controller.
+     *
+     * @return array
+     */
+    protected function buildParentReplacements()
+    {
+        $parentModelClass = $this->parseModel($this->option('parent'));
+
+        if (! class_exists($parentModelClass)) {
+            if ($this->confirm("A {$parentModelClass} model does not exist. Do you want to generate it?", true)) {
+                $this->call('make:model', ['name' => $parentModelClass]);
+            }
+        }
+
+        return [
+            'ParentDummyFullModelClass' => $parentModelClass,
+            'ParentDummyModelClass' => class_basename($parentModelClass),
+            'ParentDummyModelVariable' => lcfirst(class_basename($parentModelClass)),
+        ];
+    }
+
     /**
      * Build the model replacement values.
      *

@@ -24,6 +24,7 @@ class MakeCommand extends ControllerMakeCommand
         $this->call('make:test', [
             'name' => 'Controller\\' . $this->argument('name') . 'Test',
             '--model' => $this->option('model') ?: null,
+            '--parent' => $this->option('parent') ?: null,
         ]);
 
         if ($this->option('model')) {
