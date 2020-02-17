@@ -4,7 +4,7 @@
         <td class="align-middle">
             <select class="form-control" v-model="form.rating">
                 <option :value="null">Keine Bewertung abgegeben</option>
-                <option :value="rating" v-for="rating in 10">{{ rating }}</option>
+                <option :value="scale.value" v-for="(scale, index) in item.lifearea.scales">{{ scale.value }}<span v-if="scale.description"> - {{ scale.description }}</span></option>
             </select>
         </td>
         <td class="align-middle">

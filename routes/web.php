@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/journal/{journal}/gratitude/{gratitude}/gamechanger', 'Journals\Gratitude\GameChangerController@update')->name('journal.gratitude.gamechanger.update');
 
     Route::resource('lifearea', 'Lifeareas\LifeareaController');
+    Route::resource('lifearea.scale', 'Lifeareas\ScaleController');
 
     Route::resource('review', 'Reviews\ReviewController');
     Route::resource('review.block', 'Reviews\BlockController');

@@ -71,7 +71,7 @@ class ReviewController extends Controller
         return view($this->baseViewPath . '.show')
             ->with('model', $review->load([
                 'blocks',
-                'lifeareas.lifearea',
+                'lifeareas.lifearea.scales',
             ]));
     }
 

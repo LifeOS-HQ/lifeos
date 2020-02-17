@@ -46480,9 +46480,12 @@ var render = function() {
                 _vm._v("Keine Bewertung abgegeben")
               ]),
               _vm._v(" "),
-              _vm._l(10, function(rating) {
-                return _c("option", { domProps: { value: rating } }, [
-                  _vm._v(_vm._s(rating))
+              _vm._l(_vm.item.lifearea.scales, function(scale, index) {
+                return _c("option", { domProps: { value: scale.value } }, [
+                  _vm._v(_vm._s(scale.value)),
+                  scale.description
+                    ? _c("span", [_vm._v(" - " + _vm._s(scale.description))])
+                    : _vm._e()
                 ])
               })
             ],

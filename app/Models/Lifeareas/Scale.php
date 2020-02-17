@@ -2,14 +2,12 @@
 
 namespace App\Models\Lifeareas;
 
-use App\Models\Lifeareas\Scale;
-use App\Models\Reviews\Lifearea as ReviewLifearea;
+use App\Models\Lifeareas\Lifearea;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Lifearea extends Model
+class Scale extends Model
 {
     protected $appends = [
         'path',
@@ -27,6 +25,8 @@ class Lifearea extends Model
         'id',
     ];
 
+    protected $table = 'lifearea_scale';
+
     /**
      * The booting method of the model.
      *
@@ -43,16 +43,6 @@ class Lifearea extends Model
 
         static::created(function($model)
         {
-            $model->createScales();
-
-            return true;
-        });
-
-        static::deleting(function($model)
-        {
-            $model->ratings()->delete();
-            $model->scales()->delete();
-
             return true;
         });
 
@@ -62,34 +52,19 @@ class Lifearea extends Model
         });
     }
 
-    protected function createScales()
-    {
-        for ($i = 1; $i <= 10; $i++) {
-            $this->scales()->create([
-                'user_id' => $this->user_id,
-                'value' => $i,
-            ]);
-        }
-    }
-
-    public function getPathAttribute()
-    {
-        return '/lifearea/' . $this->id;
-    }
-
     public function isDeletable() : bool
     {
         return true;
     }
 
-    public function ratings() : HasMany
+    public function getPathAttribute()
     {
-        return $this->hasMany(ReviewLifearea::class, 'lifearea_id');
+        return '/lifearea/' . $this->lifearea_id . '/scale/' . $this->id;
     }
 
-    public function scales() : HasMany
+    public function lifearea() : BelongsTo
     {
-        return $this->hasMany(Scale::class, 'lifearea_id')->orderBy('value', 'ASC');
+        return $this->belongsTo(Lifearea::class, 'lifearea_id');
     }
 
     public function user() : BelongsTo

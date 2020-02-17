@@ -29,11 +29,11 @@ trait RelationshipAssertions
         $this->assertCount(1, $model->fresh()->$relationship);
     }
 
-    public function assertHasMany(Model $model, Model $related, string $relationship)
+    public function assertHasMany(Model $model, Model $related, string $relationship, int $related_count = 1)
     {
         $this->assertEquals(HasMany::class, get_class($model->$relationship()));
 
-        $this->assertCount(1, $model->fresh()->$relationship);
+        $this->assertCount($related_count, $model->fresh()->$relationship);
     }
 
     public function assertHasOne(Model $model, Model $related, string $relationship)

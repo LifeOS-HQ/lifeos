@@ -24,7 +24,7 @@ class BlockController extends Controller
      */
     public function index(Request $request, Review $review)
     {
-        $this->authorize('viewAny', $review);
+        $this->authorize('view', $review);
 
         if ($request->wantsJson()) {
             return $review->blocks()
@@ -55,12 +55,10 @@ class BlockController extends Controller
     {
         $this->authorize('create', $review);
 
-        if ($request->wantsJson()) {
-            return $review->blocks()->create([
-                'user_id' => $review->user_id,
-                'title' => 'Neuer Block',
-            ]);
-        }
+        return $review->blocks()->create([
+            'user_id' => $review->user_id,
+            'title' => 'Neuer Block',
+        ]);
     }
 
     /**
