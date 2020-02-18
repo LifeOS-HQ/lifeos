@@ -67,7 +67,10 @@ class LifeareaController extends Controller
     public function show(Lifearea $lifearea)
     {
         return view($this->baseViewPath . '.show')
-            ->with('model', $lifearea);
+            ->with('model', $lifearea->load([
+                'ratings.review',
+                'scales',
+            ]));
     }
 
     /**

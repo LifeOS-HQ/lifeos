@@ -69,6 +69,8 @@ Vue.component('journal-index', require('./components/journal/index.vue').default
 Vue.component('journal-gratitude-table', require('./components/journal/gratitude/table.vue').default);
 
 Vue.component('lifearea-table', require('./components/lifearea/table.vue').default);
+Vue.component('lifearea-scale-index', require('./components/lifearea/scale/index.vue').default);
+Vue.component('lifearea-rating-chart', require('./components/lifearea/rating/chart.vue').default);
 Vue.component('review-table', require('./components/review/table.vue').default);
 Vue.component('review-show', require('./pages/review/show.vue').default);
 

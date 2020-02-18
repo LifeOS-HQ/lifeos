@@ -12,7 +12,7 @@
         </td>
     </tr>
     <tr v-else>
-        <td class="align-middle pointer" @click="isEditing = true">{{ item.title }}</td>
+        <td class="align-middle pointer" @click="link">{{ item.title }}</td>
         <td class="align-middle text-right">-</td>
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
@@ -60,6 +60,9 @@
                         component.errors = error.response.data.errors;
                         Vue.error('Datensatz konnte nicht gelöscht werden.');
                 });
+            },
+            link() {
+                location.href = this.item.path;
             },
             update() {
                 var component = this;

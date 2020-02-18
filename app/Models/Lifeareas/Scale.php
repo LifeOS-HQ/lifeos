@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Scale extends Model
 {
     protected $appends = [
+        'is_deletable',
         'path',
     ];
 
@@ -54,7 +55,12 @@ class Scale extends Model
 
     public function isDeletable() : bool
     {
-        return true;
+        return false;
+    }
+
+    public function getIsDeletableAttribute() : bool
+    {
+        return $this->isDeletable();
     }
 
     public function getPathAttribute()

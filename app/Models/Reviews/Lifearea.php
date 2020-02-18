@@ -70,4 +70,9 @@ class Lifearea extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function review() : BelongsTo
+    {
+        return $this->belongsTo(Review::class, 'review_id');
+    }
 }
