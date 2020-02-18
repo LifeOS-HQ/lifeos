@@ -35,7 +35,9 @@
             </form>
         </div>
 
-        <lifearea-rating-chart class="mt-3" :model="{{ json_encode($model) }}"></lifearea-rating-chart>
+        @if (count($model->ratings) > 0)
+            <lifearea-rating-chart class="mt-3" :model="{{ json_encode($model) }}"></lifearea-rating-chart>
+        @endif
 
     </div>
 
