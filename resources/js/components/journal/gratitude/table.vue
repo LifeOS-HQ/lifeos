@@ -98,7 +98,10 @@
         },
 
         watch: {
-
+            model(value) {
+                this.uri = value.path + '/gratitude',
+                this.fetch();
+            },
         },
 
         computed: {

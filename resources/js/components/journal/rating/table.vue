@@ -98,7 +98,10 @@
         },
 
         watch: {
-
+            model(value) {
+                this.uri = value.path + '/rating',
+                this.fetch();
+            },
         },
 
         computed: {

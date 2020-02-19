@@ -45,23 +45,31 @@ class Journal extends Model
 
         static::created(function($model)
         {
-            return true;
-
-            $lastJournal = self::with(['evaluations'])
+            $lastJournal = self::with(['ratings'])
                 ->where('id', '!=', $model->id)
                 ->latest()
                 ->first();
 
-            foreach ($lastJournal->evaluations as $gratitude) {
-                $model->evaluations()->create([
+            if (is_null($lastJournal)) {
+                return true;
+            }
 
+            foreach ($lastJournal->ratings as $rating) {
+                $model->ratings()->create([
+                    'journal_id' => $lastJournal->id,
+                    'user_id' => $lastJournal->user_id,
+                    'title' => $rating->title,
+                    'order_column' => $rating->order_column,
                 ]);
             }
 
         });
 
-        static::updating(function($model)
+        static::deleting(function($model)
         {
+            $model->gratitudes()->delete();
+            $model->ratings()->delete();
+
             return true;
         });
     }

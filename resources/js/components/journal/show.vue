@@ -56,7 +56,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" type="text" v-model="form.rating_comment">
+                                <input class="form-control" type="text" placeholder="Kommentar" v-model="form.rating_comment">
                             </div>
                         </div>
                     </template>
@@ -111,7 +111,7 @@
                 this.form.body = value.body;
                 this.form.date = value.date;
                 this.form.happiest_moment = value.happiest_moment;
-                this.form.rating = value.rating;
+                this.form.rating = value.rating || null;
                 this.form.rating_comment = value.rating_comment;
                 if (this.form.body == null) {
                     this.isEditing = true;

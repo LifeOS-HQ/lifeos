@@ -72,4 +72,28 @@ class JournalTest extends TestCase
 
         $this->assertHasMany($model, $related, 'ratings');
     }
+
+    /**
+     * @test
+     */
+    public function it_creates_ratings_after_it_is_created()
+    {
+        $model = factory(Journal::class)->create();
+
+        $this->assertCount(0, $model->ratings);
+
+        $model->ratings()->create([
+            'title' => 'First Rating',
+            'user_id' => $model->user_id,
+        ]);
+
+        $model->ratings()->create([
+            'title' => 'Second Rating',
+            'user_id' => $model->user_id,
+        ]);
+
+        $model = factory(Journal::class)->create();
+
+        $this->assertCount(2, $model->ratings);
+    }
 }

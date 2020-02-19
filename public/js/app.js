@@ -2127,7 +2127,11 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.fetch();
   },
-  watch: {},
+  watch: {
+    model: function model(value) {
+      this.uri = value.path + '/gratitude', this.fetch();
+    }
+  },
   computed: {},
   methods: {
     fetch: function fetch() {
@@ -2549,7 +2553,11 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.fetch();
   },
-  watch: {},
+  watch: {
+    model: function model(value) {
+      this.uri = value.path + '/rating', this.fetch();
+    }
+  },
   computed: {},
   methods: {
     fetch: function fetch() {
@@ -2734,7 +2742,7 @@ __webpack_require__.r(__webpack_exports__);
       this.form.body = value.body;
       this.form.date = value.date;
       this.form.happiest_moment = value.happiest_moment;
-      this.form.rating = value.rating;
+      this.form.rating = value.rating || null;
       this.form.rating_comment = value.rating_comment;
 
       if (this.form.body == null) {
@@ -46707,7 +46715,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text" },
+                          attrs: { type: "text", placeholder: "Kommentar" },
                           domProps: { value: _vm.form.rating_comment },
                           on: {
                             input: function($event) {
