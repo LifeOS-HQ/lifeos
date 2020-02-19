@@ -4,6 +4,7 @@ namespace Tests\Unit\Models\Journals;
 
 use App\Models\Journals\Gratitude\Gratitude;
 use App\Models\Journals\Journal;
+use App\Models\Journals\Rating;
 use App\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Tests\TestCase;
@@ -56,5 +57,19 @@ class JournalTest extends TestCase
         ]);
 
         $this->assertHasMany($model, $related, 'gratitudes');
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_many_ratings()
+    {
+        $model = factory(Journal::class)->create();
+        $related = factory(Rating::class)->create([
+            'journal_id' => $model->id,
+            'user_id' => $model->user_id,
+        ]);
+
+        $this->assertHasMany($model, $related, 'ratings');
     }
 }

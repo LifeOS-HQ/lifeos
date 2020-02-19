@@ -1,20 +1,20 @@
 <?php
 
-namespace DummyNamespace;
+namespace Tests\Feature\Controller\Journals;
 
-use DummyFullModelClass;
-use ParentDummyFullModelClass;
+use App\Models\Journals\Journal;
+use App\Models\Journals\Rating;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
-class DummyClass extends TestCase
+class RatingControllerTest extends TestCase
 {
-    protected $baseRouteName = 'ParentDummyModelVariable.DummyModelVariable';
-    protected $baseViewPath = 'ParentDummyModelVariable.DummyModelVariable';
-    protected $className = DummyModelClass::class;
+    protected $baseRouteName = 'journal.rating';
+    protected $baseViewPath = 'journal.rating';
+    protected $className = Rating::class;
 
     /**
      * @test
@@ -24,12 +24,12 @@ class DummyClass extends TestCase
         $model = factory($this->className)->create();
 
         $actions = [
-            'index' => ['ParentDummyModelVariable' => $model->ParentDummyModelVariable_id],
-            'store' => ['ParentDummyModelVariable' => $model->ParentDummyModelVariable_id],
-            'show' => ['ParentDummyModelVariable' => $model->ParentDummyModelVariable_id, 'DummyModelVariable' => $model->id],
-            'edit' => ['ParentDummyModelVariable' => $model->ParentDummyModelVariable_id, 'DummyModelVariable' => $model->id],
-            'update' => ['ParentDummyModelVariable' => $model->ParentDummyModelVariable_id, 'DummyModelVariable' => $model->id],
-            'destroy' => ['ParentDummyModelVariable' => $model->ParentDummyModelVariable_id, 'DummyModelVariable' => $model->id],
+            'index' => ['journal' => $model->journal_id],
+            'store' => ['journal' => $model->journal_id],
+            'show' => ['journal' => $model->journal_id, 'rating' => $model->id],
+            'edit' => ['journal' => $model->journal_id, 'rating' => $model->id],
+            'update' => ['journal' => $model->journal_id, 'rating' => $model->id],
+            'destroy' => ['journal' => $model->journal_id, 'rating' => $model->id],
         ];
         $this->guestsCanNotAccess($actions);
     }
@@ -42,11 +42,11 @@ class DummyClass extends TestCase
         $modelOfADifferentUser = factory($this->className)->create();
 
          $this->a_user_can_not_see_models_from_a_different_user([
-            'ParentDummyModelVariable' => $modelOfADifferentUser->ParentDummyModelVariable_id,
-            'DummyModelVariable' => $modelOfADifferentUser->id
+            'journal' => $modelOfADifferentUser->journal_id,
+            'rating' => $modelOfADifferentUser->id
         ]);
 
-        $this->a_different_user_gets_a_403('index', 'get', ['ParentDummyModelVariable' => $modelOfADifferentUser->ParentDummyModelVariable_id]);
+        $this->a_different_user_gets_a_403('index', 'get', ['journal' => $modelOfADifferentUser->journal_id]);
     }
 
     /**
@@ -60,11 +60,11 @@ class DummyClass extends TestCase
 
         $models = factory($this->className, 3)->create([
             'user_id' => $this->user->id,
-            'ParentDummyModelVariable_id' => $parent->id,
+            'journal_id' => $parent->id,
         ]);
 
         $this->getCollection([
-            'ParentDummyModelVariable' => $parent->id,
+            'journal' => $parent->id,
         ]);
     }
 
@@ -78,10 +78,10 @@ class DummyClass extends TestCase
         $this->signIn();
 
         $data = [
-
+            'title' => 'Title',
         ];
 
-        $this->post(route($this->baseRouteName . '.store', ['ParentDummyModelVariable' => $parent->id]), $data)
+        $this->post(route($this->baseRouteName . '.store', ['journal' => $parent->id]), $data)
             ->assertStatus(Response::HTTP_CREATED);
 
         $this->assertDatabaseHas((new $this->className)->getTable(), $data);
@@ -94,7 +94,7 @@ class DummyClass extends TestCase
     {
         $model = $this->createModel();
 
-        $response = $this->getModel(['ParentDummyModelVariable' => $model->ParentDummyModelVariable_id, 'DummyModelVariable' => $model->id], $model);
+        $response = $this->getModel(['journal' => $model->journal_id, 'rating' => $model->id], $model);
     }
 
     /**
@@ -109,10 +109,12 @@ class DummyClass extends TestCase
         $this->signIn();
 
         $data = [
-
+            'comment' => 'comment',
+            'rating' => 5,
+            'title' => 'New Title',
         ];
 
-        $response = $this->put(route($this->baseRouteName . '.update', ['ParentDummyModelVariable' => $model->ParentDummyModelVariable_id, 'DummyModelVariable' => $model->id]), $data)
+        $response = $this->put(route($this->baseRouteName . '.update', ['journal' => $model->journal_id, 'rating' => $model->id]), $data)
             ->assertStatus(Response::HTTP_FOUND)
             ->assertSessionHasNoErrors();
 
@@ -126,15 +128,17 @@ class DummyClass extends TestCase
      */
     public function a_user_can_delete_a_model()
     {
+        $this->withoutExceptionHandling();
+
         $model = $this->createModel();
 
-        $this->deleteModel($model, ['ParentDummyModelVariable' => $model->ParentDummyModelVariable_id, 'DummyModelVariable' => $model->id])
+        $this->deleteModel($model, ['journal' => $model->journal_id, 'rating' => $model->id])
             ->assertRedirect();
     }
 
     protected function createParent() : Model
     {
-        return factory(ParentDummyModelClass::class)->create([
+        return factory(Journal::class)->create([
             'user_id' => $this->user->id,
         ]);
     }

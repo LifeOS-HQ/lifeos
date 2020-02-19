@@ -69,6 +69,13 @@
                 </div>
 
                 <div class="card mt-3">
+                    <div class="card-header">Bewertungen</div>
+                    <div class="card-body">
+                        <journal-rating-table :model="item"></journal-rating-table>
+                    </div>
+                </div>
+
+                <div class="card mt-3">
                     <div class="card-header">Dankbar für</div>
                     <div class="card-body">
                         <journal-gratitude-table :model="item"></journal-gratitude-table>
@@ -82,7 +89,14 @@
 </template>
 
 <script>
+
+    import JournalRatingTable from './rating/table.vue';
+
     export default {
+
+        components: {
+            JournalRatingTable
+        },
 
         props: {
             item: {

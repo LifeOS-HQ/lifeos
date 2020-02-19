@@ -3,6 +3,7 @@
 namespace App\Models\Journals;
 
 use App\Models\Journals\Gratitude\Gratitude;
+use App\Models\Journals\Rating;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -75,13 +76,19 @@ class Journal extends Model
         return true;
     }
 
+    public function gratitudes() : HasMany
+    {
+        return $this->hasMany(Gratitude::class, 'journal_id');
+    }
+
     public function user() : BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function gratitudes() : HasMany
+    public function ratings() : HasMany
     {
-        return $this->hasMany(Gratitude::class, 'journal_id');
+        return $this->hasMany(Rating::class, 'journal_id');
     }
+
 }

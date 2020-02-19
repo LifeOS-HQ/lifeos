@@ -29,6 +29,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('journal.gratitude', 'Journals\Gratitude\GratitudeController');
     Route::put('/journal/{journal}/sort/gratitude', 'Journals\Gratitude\SortController@update')->name('journal.sort.gratitude.update');
     Route::put('/journal/{journal}/gratitude/{gratitude}/gamechanger', 'Journals\Gratitude\GameChangerController@update')->name('journal.gratitude.gamechanger.update');
+    Route::resource('journal.rating', 'Journals\RatingController');
+    Route::put('/journal/{journal}/sort/rating', 'Journals\Ratings\SortController@update')->name('journal.sort.rating.update');
 
     Route::resource('lifearea', 'Lifeareas\LifeareaController');
     Route::resource('lifearea.scale', 'Lifeareas\ScaleController');

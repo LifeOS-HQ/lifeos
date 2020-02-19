@@ -22,7 +22,7 @@ class DummyClass extends Controller
      * @param  \ParentDummyFullModelClass  $ParentDummyModelVariable
      * @return \Illuminate\Http\Response
      */
-    public function index(ParentDummyModelClass $ParentDummyModelVariable)
+    public function index(Request $request, ParentDummyModelClass $ParentDummyModelVariable)
     {
         $this->authorize('view', $ParentDummyModelVariable);
 
@@ -147,7 +147,7 @@ class DummyClass extends Controller
             ];
         }
 
-        return redirect(route($this->baseViewPath . '.index', ['review' => $review->id]))
+        return redirect(route($this->baseViewPath . '.index', ['ParentDummyModelVariable' => $ParentDummyModelVariable->id]))
             ->with('status', $status);
     }
 }
