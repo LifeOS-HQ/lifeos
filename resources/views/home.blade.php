@@ -12,6 +12,12 @@
 
         </div>
 
+        <div class="col col-md-6">
+
+            <home-rentablo-index class="mt-3"></home-rentablo-index>
+
+        </div>
+
     </div>
 
 @endsection

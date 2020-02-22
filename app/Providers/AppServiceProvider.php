@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Apis\Rentablo\Rentablo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
@@ -15,7 +16,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton('RentabloApi', function ($app, array $parameters) {
+            return new Rentablo(config('rentablo'));
+        });
     }
 
     /**
