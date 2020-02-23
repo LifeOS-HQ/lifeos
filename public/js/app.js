@@ -1882,7 +1882,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -45617,13 +45616,7 @@ var staticRenderFns = [
     return _c(
       "div",
       { staticClass: "card-header d-flex justify-content-between" },
-      [
-        _c("div", [_vm._v("Rentablo")]),
-        _vm._v(" "),
-        _c("a", { staticClass: "text-body", attrs: { href: "/work" } }, [
-          _c("i", { staticClass: "fas fa-arrow-right" })
-        ])
-      ]
+      [_c("div", [_vm._v("Rentablo")])]
     )
   }
 ]
