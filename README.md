@@ -2,6 +2,10 @@
  
 I want to build a dashboard where all data from my life is accessable.
 
+Contributions very welcome
+
+![Home](https://lifeos.serienguide.tv/storage/home-dev.png)
+
 ## Features:
 
 - Journal
@@ -9,5 +13,4 @@ I want to build a dashboard where all data from my life is accessable.
 - Working Time
 - [Rentablo](https://rentablo.de) API
 
-Work in Progress 
-Contributions highly welcome
+
