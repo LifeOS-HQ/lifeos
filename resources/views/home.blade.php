@@ -9,6 +9,7 @@
         <div class="col col-md-6">
 
             <home-work-show class="mt-3"></home-work-show>
+            <home-server-index class="mt-3"></home-server-index>
 
         </div>
 

@@ -25,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/home/work', 'Home\Work\WorkController@show')->name('home.work.show');
     Route::get('/home/rentablo', 'Home\Rentablo\RentabloController@index')->name('home.rentablo.index');
+    Route::get('/home/server', 'Home\Servers\StatusController@index')->name('home.server.index');
 
     Route::resource('journal', 'Journals\JournalController');
     Route::resource('journal.gratitude', 'Journals\Gratitude\GratitudeController');
