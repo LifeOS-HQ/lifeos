@@ -10,12 +10,12 @@ class Uptime
     const CACHE_SECONDS = 300;
 
     const INDEX_TIME = 0;
-    const INDEX_UPTIME_VALUE = 3;
-    const INDEX_UPTIME_UNIT = 4;
-    const INDEX_USERS = 6;
-    const INDEX_LOAD_1 = 10;
-    const INDEX_LOAD_5 = 11;
-    const INDEX_LOAD_15 = 12;
+    const INDEX_UPTIME_VALUE = 2;
+    const INDEX_UPTIME_UNIT = 3;
+    const INDEX_USERS = 5;
+    const INDEX_LOAD_1 = 9;
+    const INDEX_LOAD_5 = 10;
+    const INDEX_LOAD_15 = 11;
 
     public $time;
     public $uptime;
@@ -52,6 +52,7 @@ class Uptime
 
     public function parseOutput(string $output) : self
     {
+        $output = str_replace('  ', ' ', $output);
         $parts = explode(" ", trim($output));
 
         $this->time = $parts[self::INDEX_TIME];
