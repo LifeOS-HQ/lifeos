@@ -23,6 +23,7 @@ class CreateWorkingYearsTable extends Migration
             $table->unsignedMediumInteger('planned_working_hours');
 
             $table->unsignedSmallInteger('days_worked');
+            $table->unsignedSmallInteger('workingdays_worked');
             $table->decimal('hours_worked', 6, 2);
 
             $table->unsignedMediumInteger('wage_in_cents');

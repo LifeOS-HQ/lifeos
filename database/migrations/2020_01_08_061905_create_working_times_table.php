@@ -19,6 +19,8 @@ class CreateWorkingTimesTable extends Migration
             $table->unsignedBigInteger('month_id');
             $table->unsignedBigInteger('foreign_id')->nullable()->index();
 
+            $table->boolean('is_workingday');
+
             $table->dateTime('start_at');
             $table->dateTime('end_at')->nullable();
 

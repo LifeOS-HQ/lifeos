@@ -58,6 +58,7 @@ class Year extends Model
             $model->planned_working_hours = 2300;
 
             $model->days_worked = 0;
+            $model->workingdays_worked = 0;
             $model->hours_worked = 0;
 
             $model->wage_in_cents = 20 * 100;
@@ -82,12 +83,13 @@ class Year extends Model
     public function cache() : self
     {
         $data = DB::table('working_months')
-            ->select(DB::raw('SUM(hours_worked) AS hours_worked'), DB::raw('SUM(days_worked) AS days_worked'), DB::raw('SUM(gross_in_cents) AS gross_in_cents'), DB::raw('SUM(net_in_cents) AS net_in_cents'), DB::raw('SUM(bonus_in_cents) AS bonus_in_cents'))
+            ->select(DB::raw('SUM(hours_worked) AS hours_worked'), DB::raw('SUM(days_worked) AS days_worked'), DB::raw('SUM(workingdays_worked) AS workingdays_worked'), DB::raw('SUM(gross_in_cents) AS gross_in_cents'), DB::raw('SUM(net_in_cents) AS net_in_cents'), DB::raw('SUM(bonus_in_cents) AS bonus_in_cents'))
             ->where('year_id', $this->id)
             ->groupBy('year_id')
             ->first();
 
         $this->days_worked = $data->days_worked ?? 0;
+        $this->workingdays_worked = $data->workingdays_worked ?? 0;
         $this->hours_worked = $data->hours_worked ?? 0;
         $this->bonus_months_in_cents = $data->bonus_in_cents ?? 0;
         $this->bonus_in_cents = $this->bonus_months_in_cents + ($this->wage_bonus_in_cents * $this->hours_worked);
@@ -159,11 +161,11 @@ class Year extends Model
 
     public function getHoursWorkedDayAttribute() : float
     {
-        if ($this->attributes['hours_worked'] == 0 || $this->attributes['days_worked'] == 0) {
+        if ($this->attributes['hours_worked'] == 0 || $this->attributes['workingdays_worked'] == 0) {
             return 0;
         }
 
-        return ($this->attributes['hours_worked'] / $this->attributes['days_worked']);
+        return ($this->attributes['hours_worked'] / $this->attributes['workingdays_worked']);
     }
 
     public function getNetFormattedAttribute() : string

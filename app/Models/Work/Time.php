@@ -3,6 +3,7 @@
 namespace App\Models\Work;
 
 use App\Models\Work\Month;
+use App\Support\Holidays;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -41,6 +42,7 @@ class Time extends Model
         {
             $model->setSeconds();
             $model->seconds_break = $model->seconds_break ?? 0;
+            $model->is_workingday = Holidays::isWorkingday($model->start_at);
 
             return true;
         });
@@ -48,6 +50,7 @@ class Time extends Model
         static::updating(function($model)
         {
             $model->setSeconds();
+            $model->is_workingday = Holidays::isWorkingday($model->start_at);
 
             return true;
         });

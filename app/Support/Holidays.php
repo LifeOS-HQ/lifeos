@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
@@ -46,5 +47,18 @@ class Holidays
     public static function fetch(int $jahr, string $nur_land = null) : array
     {
         return json_decode(file_get_contents('https://feiertage-api.de/api/?jahr=' . $jahr . ($nur_land ? '&nur_land=' . $nur_land : '')), true);
+    }
+
+    public static function isWorkingday(Carbon $day) : bool
+    {
+        if ($day->isWeekend()) {
+            return false;
+        }
+
+        if (Holidays::dates($day->year, Holidays::LAND_NW)->contains($day->format('Y-m-d'))) {
+            return false;
+        }
+
+        return true;
     }
 }

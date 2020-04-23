@@ -2,7 +2,9 @@
 
 namespace Tests\Unit\Models\Work;
 
+use App\Models\Work\Month;
 use App\Models\Work\Time;
+use App\User;
 use Tests\TestCase;
 
 class TimeTest extends TestCase
@@ -109,5 +111,30 @@ class TimeTest extends TestCase
         $time = Time::createFromCsv($time->user_id, $time->month, $data);
 
         $this->assertEquals(0, Time::count());
+    }
+
+    /**
+     * @test
+     */
+    public function it_knows_if_it_is_a_working_day()
+    {
+        // Feiertag
+        $model = factory(Time::class)->create([
+            'start_at' => '2020-01-02 00:00:00',
+        ]);
+        dd($model);
+        $this->assertFalse($model->is_workingday);
+
+        // Arbeitstag
+        $model->update([
+            'start_at' => '2020-01-02 00:00:00',
+        ]);
+        $this->assertTrue($model->is_workingday);
+
+        // Samstag
+        $model->update([
+            'start_at' => '2020-01-04 00:00:00',
+        ]);
+        $this->assertFalse($model->is_workingday);
     }
 }

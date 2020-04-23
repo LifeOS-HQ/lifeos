@@ -23,6 +23,7 @@ class CreateWorkingMonthsTable extends Migration
             $table->unsignedSmallInteger('available_working_days');
 
             $table->unsignedSmallInteger('days_worked');
+            $table->unsignedSmallInteger('workingdays_worked');
             $table->decimal('hours_worked', 5, 2);
 
             $table->unsignedMediumInteger('bonus_in_cents');
