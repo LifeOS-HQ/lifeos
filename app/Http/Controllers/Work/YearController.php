@@ -127,7 +127,7 @@ class YearController extends Controller
             'month_name' => $month->date->monthName,
             'statistics' => [
                 'available_working_days' => $year->available_working_days,
-                'available_hours_worked' => $year->available_working_days * ($year->hours_worked / $year->days_worked),
+                'available_hours_worked' => $year->available_working_days * ($year->hours_worked / $year->workingdays_worked),
                 'days_worked' => $year->days_worked,
                 'hours_worked' => 1 * $year->hours_worked,
                 'hours_worked_day' => ($year->hours_worked / $year->workingdays_worked),
