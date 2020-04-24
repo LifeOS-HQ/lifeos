@@ -21,6 +21,7 @@ class Month extends Model
         'date_formatted',
         'gross_formatted',
         'hours_worked_day',
+        'holiday_hours_worked',
         'hours_worked_day_formatted',
         'hours_worked_formatted',
         'net_formatted',
@@ -112,7 +113,7 @@ class Month extends Model
         $this->gross_in_cents = $this->wage_in_cents + $this->wage_bonus_in_cents + $this->bonus_in_cents;
 
         $data = DB::table('working_times')
-            ->select(DB::raw('COUNT(DISTINCT DATE(start_at)) AS workingdays_worked'))
+            ->select(DB::raw('SUM(seconds) AS seconds'), DB::raw('SUM(seconds_break) AS seconds_break'), DB::raw('COUNT(DISTINCT DATE(start_at)) AS workingdays_worked'))
             ->where('month_id', $this->id)
             ->where('is_workingday', true)
             ->whereNotNull('end_at')
@@ -120,6 +121,7 @@ class Month extends Model
             ->first();
 
         $this->workingdays_worked = $data->workingdays_worked ?? 0;
+        $this->workingdays_hours_worked = Time::toIndustryHours((is_null($data->seconds) ? 0 : ($data->seconds - $data->seconds_break)));
 
         return $this;
     }
@@ -147,11 +149,16 @@ class Month extends Model
 
     public function getHoursWorkedDayAttribute() : float
     {
-        if ($this->attributes['hours_worked'] == 0 || $this->attributes['workingdays_worked'] == 0) {
+        if ($this->attributes['workingdays_hours_worked'] == 0 || $this->attributes['workingdays_worked'] == 0) {
             return 0;
         }
 
-        return ($this->attributes['hours_worked'] / $this->attributes['workingdays_worked']);
+        return ($this->attributes['workingdays_hours_worked'] / $this->attributes['workingdays_worked']);
+    }
+
+    public function getHolidayHoursWorkedAttribute() : float
+    {
+        return ($this->attributes['hours_worked'] - $this->attributes['workingdays_hours_worked']);
     }
 
     public function getNetFormattedAttribute() : string
