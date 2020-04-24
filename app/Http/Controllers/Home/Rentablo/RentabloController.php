@@ -12,6 +12,6 @@ class RentabloController extends Controller
     {
         $rentabloApi = App::make('RentabloApi');
 
-        return $rentabloApi->home();
+        return $rentabloApi->home($request->input('refresh'));
     }
 }

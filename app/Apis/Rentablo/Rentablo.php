@@ -22,8 +22,12 @@ class Rentablo
         $this->password = $config['password'];
     }
 
-    public function home() : array
+    public function home($refresh = false) : array
     {
+        if ($refresh) {
+            Cache::forget('home.rentablo');
+        }
+
         return Cache::remember('home.rentablo', self::CACHE_SECONDS, function () {
             return $this->homeData();
         });

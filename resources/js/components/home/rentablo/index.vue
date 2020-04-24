@@ -2,6 +2,7 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between">
             <div>Rentablo</div>
+            <div><i class="fas fa-sync pointer" @click="refresh"></i></div>
         </div>
         <div class="card-body">
             <div v-if="isLoading" class="mt-3 p-5">
@@ -48,6 +49,9 @@
         data() {
             return {
                 isLoading: true,
+                params: {
+                    refresh: 0,
+                },
                 accounts: {},
                 dividends: {},
                 valuations: {},
@@ -62,14 +66,21 @@
             fetch() {
                 var component = this;
                 component.isLoading = true;
-                axios.get('/home/rentablo')
+                axios.get('/home/rentablo', {
+                    params: component.params,
+                })
                     .then( function (response) {
                         component.accounts = response.data.accounts;
                         component.dividends = response.data.dividends;
                         component.valuations = response.data.valuations;
                         component.isLoading = false;
+                        component.params.refresh = 0;
                     });
             },
+            refresh() {
+                this.params.refresh = 1;
+                this.fetch();
+            }
         },
 
     };

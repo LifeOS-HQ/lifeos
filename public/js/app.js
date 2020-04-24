@@ -1882,10 +1882,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       isLoading: true,
+      params: {
+        refresh: 0
+      },
       accounts: {},
       dividends: {},
       valuations: {}
@@ -1898,12 +1902,19 @@ __webpack_require__.r(__webpack_exports__);
     fetch: function fetch() {
       var component = this;
       component.isLoading = true;
-      axios.get('/home/rentablo').then(function (response) {
+      axios.get('/home/rentablo', {
+        params: component.params
+      }).then(function (response) {
         component.accounts = response.data.accounts;
         component.dividends = response.data.dividends;
         component.valuations = response.data.valuations;
         component.isLoading = false;
+        component.params.refresh = 0;
       });
+    },
+    refresh: function refresh() {
+      this.params.refresh = 1;
+      this.fetch();
     }
   }
 });
@@ -45558,7 +45569,16 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "card-header d-flex justify-content-between" }, [
+      _c("div", [_vm._v("Rentablo")]),
+      _vm._v(" "),
+      _c("div", [
+        _c("i", {
+          staticClass: "fas fa-sync pointer",
+          on: { click: _vm.refresh }
+        })
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
       _vm.isLoading
@@ -45679,18 +45699,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "card-header d-flex justify-content-between" },
-      [_c("div", [_vm._v("Rentablo")])]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
