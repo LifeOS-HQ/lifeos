@@ -3,6 +3,7 @@
 namespace App\Apis\Rentablo;
 
 use Dasumi\Rentablo\Api;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 
 class Rentablo
@@ -36,6 +37,8 @@ class Rentablo
 
     protected function homeData()
     {
+        $startOfYear = today()->startOfYear();
+
         $data = [
             'accounts' => [],
             'dividends' => [
@@ -50,13 +53,15 @@ class Rentablo
             'valuations' => [
                 0 => 0,
             ],
+            'chart' => [],
+            'year' => $startOfYear->year,
         ];
 
-        $startOfYear = today()->startOfYear();
 
         $isAuthenticated = $this->api->authenticate($this->username, $this->password);
 
         // Alle Depots holen
+        $accountIds = [];
         $accounts = $this->api->accounts->get();
         foreach ($accounts['accounts'] as $key => $account) {
             if ($account['type'] != '01_depot') {
@@ -64,6 +69,7 @@ class Rentablo
             }
 
             $accountId = $account['id'];
+            $accountIds[] =  $accountId;
 
             $data['accounts'][$accountId] = $account;
 
@@ -81,6 +87,37 @@ class Rentablo
         }
 
         $data['dividends']['month']['avg'] = ($data['dividends']['amount'][0] / $data['dividends']['month']['count']);
+
+        $performance = $this->api->performance->depot($accountIds, '');
+
+        $categories = [];
+        $investedCapitals = [];
+        $currentPortfolioValues = [];
+
+        foreach ($performance['cashFlowAndPerformanceStatisticsList'][0]['cashFlowResults'] as $key => $cashFlowResult) {
+            $categories[] = (new Carbon($cashFlowResult['date']))->format('d.m.Y');
+            $investedCapitals[] = $cashFlowResult['investedCapital'];
+            $currentPortfolioValues[] = $cashFlowResult['currentPortfolioValue'];
+        }
+
+        $data['chart'] = [
+            'categories' => array_values($categories),
+            'series' => [
+                [
+                    'name' => 'Kaufwert',
+                    'data' => array_values($investedCapitals),
+                    'color' => '#c42525',
+                ],
+                [
+                    'name' => 'Marktwert',
+                    'data' => array_values($currentPortfolioValues),
+                    'color' => '#a6c96a',
+                ],
+            ],
+            'title' => [
+                'text' => 'Depotwert',
+            ]
+        ];
 
         return $data;
     }

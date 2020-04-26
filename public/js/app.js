@@ -1838,6 +1838,8 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var highcharts_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! highcharts-vue */ "./node_modules/highcharts-vue/dist/highcharts-vue.min.js");
+/* harmony import */ var highcharts_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(highcharts_vue__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -1883,7 +1885,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    highcharts: highcharts_vue__WEBPACK_IMPORTED_MODULE_0__["Chart"]
+  },
   data: function data() {
     return {
       isLoading: true,
@@ -1892,7 +1899,38 @@ __webpack_require__.r(__webpack_exports__);
       },
       accounts: {},
       dividends: {},
-      valuations: {}
+      valuations: {},
+      year: '',
+      chartOptions: {
+        chart: {
+          type: 'area'
+        },
+        xAxis: {
+          categories: []
+        },
+        yAxis: [{
+          min: 0,
+          title: {
+            text: 'Euro (€)'
+          }
+        }],
+        plotOptions: {
+          column: {
+            dataLabels: {
+              enabled: true,
+              format: '{point.y:,.2f}'
+            }
+          }
+        },
+        tooltip: {
+          headerFormat: '<b>{point.key}</b><br/>',
+          pointFormat: '{series.name}: {point.y:,.2f} €'
+        },
+        title: {
+          text: ''
+        },
+        series: []
+      }
     };
   },
   mounted: function mounted() {
@@ -1908,6 +1946,10 @@ __webpack_require__.r(__webpack_exports__);
         component.accounts = response.data.accounts;
         component.dividends = response.data.dividends;
         component.valuations = response.data.valuations;
+        component.year = response.data.year;
+        component.chartOptions.xAxis.categories = response.data.chart.categories;
+        component.chartOptions.series = response.data.chart.series;
+        component.chartOptions.title = response.data.chart.title;
         component.isLoading = false;
         component.params.refresh = 0;
       });
@@ -45580,123 +45622,139 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "card-body" }, [
-      _vm.isLoading
-        ? _c(
-            "div",
-            { staticClass: "mt-3 p-5" },
-            [
-              _c("center", [
-                _c("span", { staticStyle: { "font-size": "48px" } }, [
-                  _c("i", { staticClass: "fas fa-spinner fa-spin" }),
-                  _c("br")
-                ]),
-                _vm._v("\n                Lade Daten..\n            ")
-              ])
-            ],
-            1
-          )
-        : _c("table", { staticClass: "table table-hover table-striped" }, [
-            _c("thead", [
-              _c(
-                "tr",
-                [
-                  _c("th"),
-                  _vm._v(" "),
-                  _c("th", { staticClass: "text-right" }, [_vm._v("Gesamt")]),
-                  _vm._v(" "),
-                  _vm._l(_vm.accounts, function(account, accountId) {
-                    return _c("th", { staticClass: "text-right" }, [
-                      _vm._v(_vm._s(account.name))
-                    ])
-                  })
-                ],
-                2
-              )
-            ]),
-            _vm._v(" "),
-            _c("tbody", [
-              _c(
-                "tr",
-                [
-                  _c("td", [_vm._v("Wert")]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(_vm._s(_vm.valuations[0].format(2, ",", ".")) + " €")
+    _c(
+      "div",
+      { staticClass: "card-body" },
+      [
+        _vm.isLoading
+          ? _c(
+              "div",
+              { staticClass: "mt-3 p-5" },
+              [
+                _c("center", [
+                  _c("span", { staticStyle: { "font-size": "48px" } }, [
+                    _c("i", { staticClass: "fas fa-spinner fa-spin" }),
+                    _c("br")
                   ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.accounts, function(account, accountId) {
-                    return _c("td", { staticClass: "text-right" }, [
+                  _vm._v("\n                Lade Daten..\n            ")
+                ])
+              ],
+              1
+            )
+          : _c("table", { staticClass: "table table-hover table-striped" }, [
+              _c("thead", [
+                _c(
+                  "tr",
+                  [
+                    _c("th"),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "text-right" }, [_vm._v("Gesamt")]),
+                    _vm._v(" "),
+                    _vm._l(_vm.accounts, function(account, accountId) {
+                      return _c("th", { staticClass: "text-right" }, [
+                        _vm._v(_vm._s(account.name))
+                      ])
+                    })
+                  ],
+                  2
+                )
+              ]),
+              _vm._v(" "),
+              _c("tbody", [
+                _c(
+                  "tr",
+                  [
+                    _c("td", [_vm._v("Wert")]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
                       _vm._v(
-                        _vm._s(_vm.valuations[accountId].format(2, ",", ".")) +
+                        _vm._s(_vm.valuations[0].format(2, ",", ".")) + " €"
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.accounts, function(account, accountId) {
+                      return _c("td", { staticClass: "text-right" }, [
+                        _vm._v(
+                          _vm._s(
+                            _vm.valuations[accountId].format(2, ",", ".")
+                          ) + " €"
+                        )
+                      ])
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  [
+                    _c("td", [_vm._v("Dividenden (" + _vm._s(_vm.year) + ")")]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(
+                        _vm._s(_vm.dividends["amount"][0].format(2, ",", ".")) +
                           " €"
                       )
-                    ])
-                  })
-                ],
-                2
-              ),
-              _vm._v(" "),
-              _c(
-                "tr",
-                [
-                  _c("td", [_vm._v("Dividenden")]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(
-                      _vm._s(_vm.dividends["amount"][0].format(2, ",", ".")) +
-                        " €"
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.accounts, function(account, accountId) {
-                    return _c("td", { staticClass: "text-right" }, [
-                      _vm._v(
-                        _vm._s(
-                          _vm.dividends["amount"][accountId].format(2, ",", ".")
-                        ) + " €"
-                      )
-                    ])
-                  })
-                ],
-                2
-              ),
-              _vm._v(" "),
-              _c(
-                "tr",
-                [
-                  _c("td", [_vm._v("Dividenden / Monat")]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(
-                      "Ø " +
-                        _vm._s(
-                          _vm.dividends["month"]["avg"].format(2, ",", ".")
-                        ) +
-                        " €"
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.accounts, function(account, accountId) {
-                    return _c("td", { staticClass: "text-right" }, [
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.accounts, function(account, accountId) {
+                      return _c("td", { staticClass: "text-right" }, [
+                        _vm._v(
+                          _vm._s(
+                            _vm.dividends["amount"][accountId].format(
+                              2,
+                              ",",
+                              "."
+                            )
+                          ) + " €"
+                        )
+                      ])
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  [
+                    _c("td", [
+                      _vm._v("Dividenden / Monat (" + _vm._s(_vm.year) + ")")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
                       _vm._v(
                         "Ø " +
                           _vm._s(
-                            (
-                              _vm.dividends["amount"][accountId] /
-                              _vm.dividends["month"]["count"]
-                            ).format(2, ",", ".")
+                            _vm.dividends["month"]["avg"].format(2, ",", ".")
                           ) +
                           " €"
                       )
-                    ])
-                  })
-                ],
-                2
-              )
-            ])
-          ])
-    ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.accounts, function(account, accountId) {
+                      return _c("td", { staticClass: "text-right" }, [
+                        _vm._v(
+                          "Ø " +
+                            _vm._s(
+                              (
+                                _vm.dividends["amount"][accountId] /
+                                _vm.dividends["month"]["count"]
+                              ).format(2, ",", ".")
+                            ) +
+                            " €"
+                        )
+                      ])
+                    })
+                  ],
+                  2
+                )
+              ])
+            ]),
+        _vm._v(" "),
+        _c("highcharts", { attrs: { options: _vm.chartOptions } })
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = []
@@ -45826,7 +45884,7 @@ var render = function() {
       _vm._m(0)
     ]),
     _vm._v(" "),
-    _c("td", { staticClass: "card-body" }, [
+    _c("div", { staticClass: "card-body" }, [
       _c("table", { staticClass: "table table-hover table-striped" }, [
         _c("thead", [
           _c("tr", [

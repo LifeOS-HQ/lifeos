@@ -4,7 +4,7 @@
             <div>Arbeitszeit {{ month_name }}</div>
             <a class="text-body" href="/work"><i class="fas fa-arrow-right"></i></a>
         </div>
-        <td class="card-body">
+        <div class="card-body">
             <table class="table table-hover table-striped">
                 <thead>
                     <tr>
@@ -35,7 +35,7 @@
                     </tr>
                 </tbody>
             </table>
-        </td>
+        </div>
     </div>
 </template>
 
