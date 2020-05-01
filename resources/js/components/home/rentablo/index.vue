@@ -23,7 +23,7 @@
                             </div>
                             <div class="col-auto" :class="{'text-danger': !hasPositiveDifference, 'text-success': hasPositiveDifference}">
                                 <h3 class="heading-text text-bold-600">{{ value.currentDifferencePercentFormatted }} %</h3>
-                                <div class="text-muted">{{ value.currentDifferenceFormatted }}</div>
+                                <div class="text-muted">{{ value.currentDifferenceFormatted }} €</div>
                             </div>
                         </div>
                     </div>
