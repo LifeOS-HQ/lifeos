@@ -93,12 +93,29 @@ class Rentablo
         $categories = [];
         $investedCapitals = [];
         $currentPortfolioValues = [];
+        $maxPortfolioValue = 0;
 
         foreach ($performance['cashFlowAndPerformanceStatisticsList'][0]['cashFlowResults'] as $key => $cashFlowResult) {
             $categories[] = (new Carbon($cashFlowResult['date']))->format('d.m.Y');
             $investedCapitals[] = $cashFlowResult['investedCapital'];
             $currentPortfolioValues[] = $cashFlowResult['currentPortfolioValue'];
+
+            $maxPortfolioValue = max($maxPortfolioValue, $cashFlowResult['currentPortfolioValue']);
+            $currentPortfolioValue = $cashFlowResult['currentPortfolioValue'];
+            $currentInvestedCapital = $cashFlowResult['investedCapital'];
         }
+
+        $currentDifference = round($currentPortfolioValue - $currentInvestedCapital, 2);
+        $currentDifferencePercent = round($currentDifference / $currentInvestedCapital, 2);
+
+        $data['value'] = [
+            'currentPortfolioValueFormatted' => number_format($currentPortfolioValue, 2, ',', '.'),
+            'currentInvestedCapitalFormatted' => number_format($currentInvestedCapital, 2, ',', '.'),
+            'currentDifference' => $currentDifference,
+            'currentDifferenceFormatted' => number_format($currentDifference, 2, ',', '.'),
+            'currentDifferencePercentFormatted' => number_format($currentDifferencePercent, 2, ',', '.'),
+            'maxPortfolioValueFormatted' => number_format($maxPortfolioValue, 2, ',', '.'),
+        ];
 
         $data['chart'] = [
             'categories' => array_values($categories),

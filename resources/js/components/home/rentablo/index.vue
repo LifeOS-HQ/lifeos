@@ -13,33 +13,51 @@
                     Lade Daten..
                 </center>
             </div>
-            <table class="table table-hover table-striped" v-else>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th class="text-right">Gesamt</th>
-                        <th class="text-right" v-for="(account, accountId) in accounts">{{ account.name }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Wert</td>
-                        <td class="text-right">{{ valuations[0].format(2, ',', '.') }} €</td>
-                        <td class="text-right" v-for="(account, accountId) in accounts">{{ valuations[accountId].format(2, ',', '.') }} €</td>
-                    </tr>
-                    <tr>
-                        <td>Dividenden ({{ year }})</td>
-                        <td class="text-right">{{ dividends['amount'][0].format(2, ',', '.') }} €</td>
-                        <td class="text-right" v-for="(account, accountId) in accounts">{{ dividends['amount'][accountId].format(2, ',', '.') }} €</td>
-                    </tr>
-                    <tr>
-                        <td>Dividenden / Monat ({{ year }})</td>
-                        <td class="text-right">Ø {{ dividends['month']['avg'].format(2, ',', '.') }} €</td>
-                        <td class="text-right" v-for="(account, accountId) in accounts">Ø {{ (dividends['amount'][accountId] / dividends['month']['count']).format(2, ',', '.') }} €</td>
-                    </tr>
-                </tbody>
-            </table>
-            <highcharts :options="chartOptions"></highcharts>
+            <template v-else>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-around mx-5 px-5">
+                            <div class="col-auto">
+                                <h3 class="heading-text text-bold-600">{{ value.currentPortfolioValueFormatted }} €</h3>
+                                <div class="text-muted sub-heading">{{ value.currentInvestedCapitalFormatted }} €</div>
+                            </div>
+                            <div class="col-auto" :class="{'text-danger': !hasPositiveDifference, 'text-success': hasPositiveDifference}">
+                                <h3 class="heading-text text-bold-600">{{ value.currentDifferencePercentFormatted }} %</h3>
+                                <div class="text-muted">{{ value.currentDifferenceFormatted }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="text-right">Gesamt</th>
+                            <th class="text-right" v-for="(account, accountId) in accounts">{{ account.name }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="align-middle">Wert</td>
+                            <td class="align-middle text-right">
+                                {{ valuations[0].format(2, ',', '.') }} € <span class="text-muted">(Max: {{ value.maxPortfolioValueFormatted }} €)</span>
+                            </td>
+                            <td class="align-middle text-right" v-for="(account, accountId) in accounts">{{ valuations[accountId].format(2, ',', '.') }} €</td>
+                        </tr>
+                        <tr>
+                            <td>Dividenden ({{ year }})</td>
+                            <td class="text-right">{{ dividends['amount'][0].format(2, ',', '.') }} €</td>
+                            <td class="text-right" v-for="(account, accountId) in accounts">{{ dividends['amount'][accountId].format(2, ',', '.') }} €</td>
+                        </tr>
+                        <tr>
+                            <td>Dividenden / Monat ({{ year }})</td>
+                            <td class="text-right">Ø {{ dividends['month']['avg'].format(2, ',', '.') }} €</td>
+                            <td class="text-right" v-for="(account, accountId) in accounts">Ø {{ (dividends['amount'][accountId] / dividends['month']['count']).format(2, ',', '.') }} €</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <highcharts :options="chartOptions"></highcharts>
+            </template>
         </div>
     </div>
 </template>
@@ -53,6 +71,12 @@
             highcharts: Chart
         },
 
+        computed: {
+            hasPositiveDifference() {
+                return (this.value.currentDifference > 0);
+            }
+        },
+
         data() {
             return {
                 isLoading: true,
@@ -62,6 +86,7 @@
                 accounts: {},
                 dividends: {},
                 valuations: {},
+                value: {},
                 year: '',
                 chartOptions: {
                     chart: {
@@ -113,6 +138,7 @@
                         component.accounts = response.data.accounts;
                         component.dividends = response.data.dividends;
                         component.valuations = response.data.valuations;
+                        component.value = response.data.value;
                         component.year = response.data.year;
                         component.chartOptions.xAxis.categories = response.data.chart.categories;
                         component.chartOptions.series = response.data.chart.series;
