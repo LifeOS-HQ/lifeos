@@ -106,7 +106,7 @@ class Rentablo
         }
 
         $currentDifference = round($currentPortfolioValue - $currentInvestedCapital, 2);
-        $currentDifferencePercent = round($currentDifference / $currentInvestedCapital, 2);
+        $currentDifferencePercent = round($currentDifference / $currentInvestedCapital * 100, 2);
 
         $data['value'] = [
             'currentPortfolioValueFormatted' => number_format($currentPortfolioValue, 2, ',', '.'),
