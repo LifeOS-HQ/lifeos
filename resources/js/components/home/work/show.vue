@@ -24,7 +24,7 @@
                     <tr>
                         <td>Stunden</td>
                         <td class="text-right" :class="{'text-danger': !hasReachedPlannedHours, 'text-success': hasReachedPlannedHours }">{{ last_day.industryHours_formatted }}</td>
-                        <td class="text-right">{{ (statistics.hours_worked).format(2, ',', '.') }} <span v-if="hasAvailableHoursWorked">({{ (statistics.available_hours_worked).format(2, ',', '.') }})</span></td>
+                        <td class="text-right">{{ (statistics.hours_worked).format(2, ',', '.') }} <span v-if="is_current_month">({{ (statistics.available_hours_worked).format(2, ',', '.') }})</span></td>
                         <td class="text-right">{{ (statistics.planned_working_hours).format(2, ',', '.') }}</td>
                     </tr>
                     <tr>
@@ -55,6 +55,7 @@
             return {
                 isLoading: false,
                 month_name: '',
+                is_current_month: false,
                 last_day: {
                     date_formatted: '',
                     seconds: 0,
@@ -84,6 +85,7 @@
                 axios.get('/home/work')
                     .then( function (response) {
                         component.month_name = response.data.month_name;
+                        component.is_current_month = response.data.is_current_month;
                         component.statistics = response.data.statistics;
                         component.last_day = response.data.last_day;
                         component.isLoading = false;

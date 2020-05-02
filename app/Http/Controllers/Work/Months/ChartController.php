@@ -115,6 +115,7 @@ class ChartController extends Controller
                 'text' => 'Arbeitszeit im ' . $month->date->monthName
             ],
             'month_name' => $month->date->monthName,
+            'is_current_month' => $month->is_current_month,
             'statistics' => [
                 'available_working_days' => $month->available_working_days,
                 'available_hours_worked' => (($month->available_working_days * $month->hours_worked_day) + $month->holiday_hours_worked),

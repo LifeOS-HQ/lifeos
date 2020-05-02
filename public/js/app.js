@@ -2122,6 +2122,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       isLoading: false,
       month_name: '',
+      is_current_month: false,
       last_day: {
         date_formatted: '',
         seconds: 0,
@@ -2148,6 +2149,7 @@ __webpack_require__.r(__webpack_exports__);
       component.isLoading = true;
       axios.get('/home/work').then(function (response) {
         component.month_name = response.data.month_name;
+        component.is_current_month = response.data.is_current_month;
         component.statistics = response.data.statistics;
         component.last_day = response.data.last_day;
         component.isLoading = false;
@@ -4327,6 +4329,7 @@ __webpack_require__.r(__webpack_exports__);
         year: date.getFullYear()
       },
       month_name: '',
+      is_current_month: false,
       chartOptions: {
         chart: {
           type: 'column'
@@ -4382,6 +4385,7 @@ __webpack_require__.r(__webpack_exports__);
         component.chartOptions.title = response.data.title;
         component.statistics = response.data.statistics;
         component.month_name = response.data.month_name;
+        component.is_current_month = response.data.is_current_month;
         component.isLoading = false;
       });
     }
@@ -45719,7 +45723,10 @@ var render = function() {
                           ),
                           _vm._v(" "),
                           _c("div", { staticClass: "text-muted" }, [
-                            _vm._v(_vm._s(_vm.value.currentDifferenceFormatted))
+                            _vm._v(
+                              _vm._s(_vm.value.currentDifferenceFormatted) +
+                                " €"
+                            )
                           ])
                         ]
                       )
@@ -46050,7 +46057,7 @@ var render = function() {
               _vm._v(
                 _vm._s(_vm.statistics.hours_worked.format(2, ",", ".")) + " "
               ),
-              _vm.hasAvailableHoursWorked
+              _vm.is_current_month
                 ? _c("span", [
                     _vm._v(
                       "(" +
@@ -49158,7 +49165,7 @@ var render = function() {
                       _vm._s(_vm.statistics.hours_worked.format(2, ",", ".")) +
                         " "
                     ),
-                    _vm.hasAvailableHoursWorked
+                    _vm.is_current_month
                       ? _c("span", [
                           _vm._v(
                             "(" +

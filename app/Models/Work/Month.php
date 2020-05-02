@@ -20,18 +20,19 @@ class Month extends Model
         'bonus_formatted',
         'date_formatted',
         'gross_formatted',
-        'hours_worked_day',
         'holiday_hours_worked',
+        'hours_worked_day',
         'hours_worked_day_formatted',
         'hours_worked_formatted',
+        'is_current_month',
         'net_formatted',
         'path',
         'planned_working_hours',
         'planned_working_hours_day',
         'planned_working_hours_day_formatted',
         'planned_working_hours_formatted',
-        'wage_formatted',
         'wage_bonus_formatted',
+        'wage_formatted',
     ];
 
     protected $casts = [
@@ -159,6 +160,11 @@ class Month extends Model
     public function getHolidayHoursWorkedAttribute() : float
     {
         return ($this->attributes['hours_worked'] - $this->attributes['workingdays_hours_worked']);
+    }
+
+    public function getIsCurrentMonthAttribute() : bool
+    {
+        return ($this->date->month == today()->month);
     }
 
     public function getNetFormattedAttribute() : string

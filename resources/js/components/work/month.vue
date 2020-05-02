@@ -60,7 +60,7 @@
                         </tr>
                         <tr>
                             <td>Stunden</td>
-                            <td class="text-right">{{ (statistics.hours_worked).format(2, ',', '.') }} <span v-if="hasAvailableHoursWorked">({{ (statistics.available_hours_worked).format(2, ',', '.') }})</span></td>
+                            <td class="text-right">{{ (statistics.hours_worked).format(2, ',', '.') }} <span v-if="is_current_month">({{ (statistics.available_hours_worked).format(2, ',', '.') }})</span></td>
                             <td class="text-right">{{ (statistics.planned_working_hours).format(2, ',', '.') }}</td>
                         </tr>
                         <tr>
@@ -100,6 +100,7 @@
                     year: date.getFullYear(),
                 },
                 month_name: '',
+                is_current_month: false,
                 chartOptions: {
                     chart: {
                         type: 'column',
@@ -160,6 +161,7 @@
                         component.chartOptions.title = response.data.title;
                         component.statistics = response.data.statistics;
                         component.month_name = response.data.month_name;
+                        component.is_current_month = response.data.is_current_month;
                         component.isLoading = false;
                     });
             },

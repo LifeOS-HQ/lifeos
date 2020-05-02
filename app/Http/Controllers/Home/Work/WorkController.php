@@ -78,6 +78,7 @@ class WorkController extends Controller
                 'date_formatted' => (new Carbon($date->date))->format('d.m.Y'),
             ],
             'month_name' => $month->date->monthName,
+            'is_current_month' => $month->is_current_month,
             'statistics' => [
                 'available_working_days' => $month->available_working_days,
                 'available_hours_worked' => max($month->days_worked, $month->available_working_days) * ($month->hours_worked / $month->workingdays_worked),
