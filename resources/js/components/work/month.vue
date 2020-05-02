@@ -70,6 +70,23 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <table class="table table-hover table-striped" v-if="statistics.days_worked > 0">
+                    <thead>
+                        <tr>
+                            <th width="20%">Gehalt</th>
+                            <th class="text-right" width="20%">Brutto</th>
+                            <th class="text-right" width="20%">Netto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Gehalt</td>
+                            <td class="text-right">{{ statistics.gross }}</td>
+                            <td class="text-right">{{ statistics.net }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

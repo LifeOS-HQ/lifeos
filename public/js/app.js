@@ -4310,6 +4310,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -49218,6 +49235,26 @@ var render = function() {
                 ])
               ])
             ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.statistics.days_worked > 0
+          ? _c("table", { staticClass: "table table-hover table-striped" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("tbody", [
+                _c("tr", [
+                  _c("td", [_vm._v("Gehalt")]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(_vm._s(_vm.statistics.gross))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(_vm._s(_vm.statistics.net))
+                  ])
+                ])
+              ])
+            ])
           : _vm._e()
       ])
     ])
@@ -49238,6 +49275,24 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
           _vm._v("Soll")
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { width: "20%" } }, [_vm._v("Gehalt")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
+          _vm._v("Brutto")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
+          _vm._v("Netto")
         ])
       ])
     ])
