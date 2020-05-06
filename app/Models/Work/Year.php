@@ -61,6 +61,7 @@ class Year extends Model
 
             $model->days_worked = 0;
             $model->workingdays_worked = 0;
+            $model->workingdays_hours_worked = 0;
             $model->hours_worked = 0;
 
             $model->wage_in_cents = 20 * 100;
