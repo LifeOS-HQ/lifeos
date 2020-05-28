@@ -46044,8 +46044,14 @@ var render = function() {
             _vm._v(" "),
             _c("td", { staticClass: "text-right" }, [
               _vm._v(
-                _vm._s(_vm.statistics.workingdays_worked.format(0, ",", "."))
-              )
+                _vm._s(_vm.statistics.workingdays_worked.format(0, ",", ".")) +
+                  " "
+              ),
+              _vm.statistics.workingdays_worked != _vm.statistics.days_worked
+                ? _c("span", [
+                    _vm._v("(" + _vm._s(_vm.statistics.days_worked) + ")")
+                  ])
+                : _vm._e()
             ]),
             _vm._v(" "),
             _c("td", { staticClass: "text-right" }, [

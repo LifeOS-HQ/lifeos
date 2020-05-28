@@ -18,7 +18,7 @@
                     <tr>
                         <td>Tage</td>
                         <td class="text-right">-</td>
-                        <td class="text-right">{{ statistics.workingdays_worked.format(0, ',', '.') }}</td>
+                        <td class="text-right">{{ statistics.workingdays_worked.format(0, ',', '.') }} <span v-if="statistics.workingdays_worked != statistics.days_worked">({{ statistics.days_worked }})</span></td>
                         <td class="text-right">{{ (statistics.available_working_days).format(0, ',', '.') }}</td>
                     </tr>
                     <tr>
