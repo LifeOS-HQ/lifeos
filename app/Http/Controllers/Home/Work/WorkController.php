@@ -83,6 +83,7 @@ class WorkController extends Controller
                 'available_working_days' => $month->available_working_days,
                 'available_hours_worked' => max($month->days_worked, $month->available_working_days) * ($month->hours_worked / $month->workingdays_worked),
                 'days_worked' => $month->days_worked,
+                'workingdays_worked' => $month->workingdays_worked,
                 'hours_worked' => 1 * $month->hours_worked,
                 'hours_worked_day' => ($month->hours_worked / min($month->workingdays_worked, $month->available_working_days)),
                 'planned_working_hours' => ($month->year->planned_working_hours_day * $month->available_working_days),

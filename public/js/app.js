@@ -46043,7 +46043,9 @@ var render = function() {
             _c("td", { staticClass: "text-right" }, [_vm._v("-")]),
             _vm._v(" "),
             _c("td", { staticClass: "text-right" }, [
-              _vm._v(_vm._s(_vm.statistics.days_worked.format(0, ",", ".")))
+              _vm._v(
+                _vm._s(_vm.statistics.workingdays_worked.format(0, ",", "."))
+              )
             ]),
             _vm._v(" "),
             _c("td", { staticClass: "text-right" }, [
