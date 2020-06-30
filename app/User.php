@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Activities\Activity;
 use App\Models\Journals\Journal;
 use App\Models\Lifeareas\Lifearea;
 use App\Models\Reviews\Review;
@@ -43,6 +44,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function activities() : HasMany
+    {
+        return $this->hasMany(Activity::class, 'user_id');
+    }
 
     public function journals() : HasMany
     {

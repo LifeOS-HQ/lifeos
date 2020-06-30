@@ -27,6 +27,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home/rentablo', 'Home\Rentablo\RentabloController@index')->name('home.rentablo.index');
     Route::get('/home/server', 'Home\Servers\StatusController@index')->name('home.server.index');
 
+    Route::resource('activity', 'Activities\ActivityController');
+
     Route::resource('journal', 'Journals\JournalController');
     Route::resource('journal.gratitude', 'Journals\Gratitude\GratitudeController');
     Route::put('/journal/{journal}/sort/gratitude', 'Journals\Gratitude\SortController@update')->name('journal.sort.gratitude.update');

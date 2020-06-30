@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Activities\Activity;
 use App\Models\Journals\Gratitude\Gratitude;
 use App\Models\Journals\Journal;
 use App\Models\Journals\Rating;
@@ -11,6 +12,7 @@ use App\Models\Reviews\Block;
 use App\Models\Reviews\Lifearea as ReviewLifearea;
 use App\Models\Reviews\Review;
 use App\Models\Work\Month;
+use App\Policies\Activities\ActivityPolicy;
 use App\Policies\Journals\GratitudePolicy;
 use App\Policies\Journals\JournalPolicy;
 use App\Policies\Journals\RatingPolicy;
@@ -32,6 +34,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Model' => 'App\Policies\ModelPolicy',
+        Activity::class => ActivityPolicy::class,
         Journal::class => JournalPolicy::class,
         Month::class => MonthPolicy::class,
         Gratitude::class => GratitudePolicy::class,

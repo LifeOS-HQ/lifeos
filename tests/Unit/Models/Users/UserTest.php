@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models\Users;
 
+use App\Models\Activities\Activity;
 use App\Models\Journals\Journal;
 use App\Models\Reviews\Review;
 use App\Models\Work\Month;
@@ -14,6 +15,19 @@ use Tests\Traits\RelationshipAssertions;
 class UserTest extends TestCase
 {
     use RelationshipAssertions;
+
+    /**
+     * @test
+     */
+    public function it_has_many_activities()
+    {
+        $model = factory(User::class)->create();
+        $related = factory(Activity::class)->create([
+            'user_id' => $model->id,
+        ]);
+
+        $this->assertHasMany($model, $related, 'activities');
+    }
 
     /**
      * @test

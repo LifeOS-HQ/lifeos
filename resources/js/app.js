@@ -67,6 +67,8 @@ Vue.component('home-work-show', require('./components/home/work/show.vue').defau
 Vue.component('home-rentablo-index', require('./components/home/rentablo/index.vue').default);
 Vue.component('home-server-index', require('./components/home/server/index.vue').default);
 
+Vue.component('activity-table', require('./components/activity/table.vue').default);
+
 Vue.component('journal-index', require('./components/journal/index.vue').default);
 Vue.component('journal-gratitude-table', require('./components/journal/gratitude/table.vue').default);
 

@@ -82,6 +82,11 @@ class Lifearea extends Model
         return true;
     }
 
+    public function activities() : HasMany
+    {
+        return $this->hasMany(\App\Models\Activities\Activity::class, 'lifearea_id');
+    }
+
     public function ratings() : HasMany
     {
         return $this->hasMany(ReviewLifearea::class, 'lifearea_id');

@@ -10,6 +10,7 @@
                 <a class="navbar-brand" href="#">LifeOS</a>
             </div>
             <ul class="col">
+                <a href="/activity"><li>Aktivitäten</li></a>
                 <a href="/work"><li>Arbeit</li></a>
                 <a href="/review"><li>Berichte</li></a>
                 <a href="/lifearea"><li>Lebensbereiche</li></a>

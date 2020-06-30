@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models\Lifeareas;
 
+use App\Models\Activities\Activity;
 use App\Models\Lifeareas\Lifearea;
 use App\Models\Lifeareas\Scale;
 use App\Models\Reviews\Review;
@@ -24,6 +25,20 @@ class LifeareaTest extends TestCase
             'user_id' => factory(User::class)->create()->id,
         ]);
         $this->assertEquals(BelongsTo::class, get_class($model->user()));
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_many_activities()
+    {
+        $model = factory(Lifearea::class)->create();
+        $related = factory(Activity::class)->create([
+            'user_id' => $model->user_id,
+            'lifearea_id' => $model->id,
+        ]);
+
+        $this->assertHasMany($model, $related, 'activities');
     }
 
     /**
