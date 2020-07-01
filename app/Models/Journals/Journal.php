@@ -2,6 +2,7 @@
 
 namespace App\Models\Journals;
 
+use App\Models\Journals\Activities\Activity;
 use App\Models\Journals\Gratitude\Gratitude;
 use App\Models\Journals\Rating;
 use App\User;
@@ -82,6 +83,11 @@ class Journal extends Model
     public function isDeletable() : bool
     {
         return true;
+    }
+
+    public function activities() : HasMany
+    {
+        return $this->hasMany(Activity::class, 'journal_id');
     }
 
     public function gratitudes() : HasMany

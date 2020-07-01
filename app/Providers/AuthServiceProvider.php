@@ -44,6 +44,7 @@ class AuthServiceProvider extends ServiceProvider
         ReviewLifearea::class => ReviewLifeareaPolicy::class,
         Scale::class => ScalePolicy::class,
         Rating::class => RatingPolicy::class,
+        \App\Models\Journals\Activities\Activity::class => \App\Policies\Journals\ActivityPolicy::class,
     ];
 
     /**

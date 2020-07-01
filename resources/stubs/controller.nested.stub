@@ -24,7 +24,7 @@ class DummyClass extends Controller
      */
     public function index(Request $request, ParentDummyModelClass $ParentDummyModelVariable)
     {
-        $this->authorize('view', $ParentDummyModelVariable);
+        $this->authorize('viewAny', $ParentDummyModelVariable);
 
         if ($request->wantsJson()) {
             return $ParentDummyModelVariable->DummyModelVariables()
@@ -40,7 +40,7 @@ class DummyClass extends Controller
      */
     public function create(ParentDummyModelClass $ParentDummyModelVariable)
     {
-        $this->authorize('create', $ParentDummyModelVariable);
+        $this->authorize('viewAny', $ParentDummyModelVariable);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models\Journals;
 
+use App\Models\Journals\Activities\Activity;
 use App\Models\Journals\Gratitude\Gratitude;
 use App\Models\Journals\Journal;
 use App\Models\Journals\Rating;
@@ -43,6 +44,20 @@ class JournalTest extends TestCase
             'user_id' => factory(User::class)->create()->id,
         ]);
         $this->assertEquals(BelongsTo::class, get_class($model->user()));
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_many_activities()
+    {
+        $model = factory(Journal::class)->create();
+        $related = factory(Activity::class)->create([
+            'journal_id' => $model->id,
+            'user_id' => $model->user_id,
+        ]);
+
+        $this->assertHasMany($model, $related, 'activities');
     }
 
     /**

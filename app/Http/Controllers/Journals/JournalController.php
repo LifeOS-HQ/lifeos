@@ -25,11 +25,15 @@ class JournalController extends Controller
         if ($request->wantsJson()) {
             return auth()->user()
                 ->journals()
+                ->with([
+                    'activities.activity'
+                ])
                 ->orderBy('date', 'DESC')
                 ->paginate();
         }
 
-        return view($this->baseViewPath . '.' . __FUNCTION__);
+        return view($this->baseViewPath . '.' . __FUNCTION__)
+            ->with('activities', auth()->user()->activities);
     }
 
     /**

@@ -8,7 +8,7 @@
             </ul>
         </div>
         <div class="col-10">
-            <show :item="item" @deleted="remove(index)" @updated="updated(index, $event)"></show>
+            <show :item="item" :activities="activities" @deleted="remove(index)" @updated="updated(index, $event)"></show>
         </div>
     </div>
 </template>
@@ -20,6 +20,13 @@
 
         components: {
             show,
+        },
+
+        props: {
+            activities: {
+                required: true,
+                type: Array,
+            },
         },
 
         data() {

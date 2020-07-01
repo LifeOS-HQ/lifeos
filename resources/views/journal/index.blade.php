@@ -7,6 +7,6 @@
         <!-- <a href="{{ url('work/year') }}" class="btn btn-secondary btn-sm">Jahre</a> -->
     </div>
 
-    <journal-index></journal-index>
+    <journal-index :activities="{{ json_encode($activities) }}"></journal-index>
 
 @endsection

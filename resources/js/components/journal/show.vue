@@ -43,6 +43,9 @@
                     <div class="card-body white-space-pre" v-html="item.happiest_moment"></div>
                 </template>
             </div>
+
+            <journal-activity-index :model="item" :activities="activities"></journal-activity-index>
+
         </div>
         <div class="col-4">
             <div class="card">
@@ -90,11 +93,13 @@
 
 <script>
 
+    import JournalActivityIndex from './activity/index.vue';
     import JournalRatingTable from './rating/table.vue';
 
     export default {
 
         components: {
+            JournalActivityIndex,
             JournalRatingTable
         },
 
@@ -103,6 +108,10 @@
                 required: false,
                 type: Object,
                 default: null,
+            },
+            activities: {
+                required: true,
+                type: Array,
             },
         },
 
