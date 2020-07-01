@@ -48756,9 +48756,11 @@ var render = function() {
               2
             ),
             _vm._v(" "),
-            _c("journal-activity-index", {
-              attrs: { model: _vm.item, activities: _vm.activities }
-            })
+            _vm.activities.length > 0
+              ? _c("journal-activity-index", {
+                  attrs: { model: _vm.item, activities: _vm.activities }
+                })
+              : _vm._e()
           ],
           1
         ),

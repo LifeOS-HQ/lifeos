@@ -44,7 +44,7 @@
                 </template>
             </div>
 
-            <journal-activity-index :model="item" :activities="activities"></journal-activity-index>
+            <journal-activity-index :model="item" :activities="activities" v-if="activities.length > 0"></journal-activity-index>
 
         </div>
         <div class="col-4">
