@@ -47614,7 +47614,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", {
-          staticClass: "card-body pointer white-space-pre",
+          staticClass: "card-body pointer",
           domProps: { innerHTML: _vm._s(_vm.item.comment) },
           on: {
             click: function($event) {

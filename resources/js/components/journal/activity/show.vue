@@ -33,7 +33,7 @@
                 <button type="button" class="btn btn-secondary" title="Löschen" @click="destroy"><i class="fas fa-fw fa-trash"></i></button>
             </div>
         </div>
-        <div class="card-body pointer white-space-pre" v-html="item.comment" @click="isEditing = true"></div>
+        <div class="card-body pointer" v-html="item.comment" @click="isEditing = true"></div>
         <div class="card-footer pointer" @click="isEditing = true">Bewertung: {{ item.rating || 'Keine Bewertung' }}</div>
     </div>
 </template>
