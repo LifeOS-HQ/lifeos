@@ -37,6 +37,8 @@
                         <th class="text-right">Ende</th>
                         <th class="text-right">Investiert</th>
                         <th class="text-right">Dividenden</th>
+                        <th class="text-right">Dividendenrendite</th>
+                        <th class="text-right">1€ / Monat</th>
                     </tr>
                 </thead>
                 <tbody>

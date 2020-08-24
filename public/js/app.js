@@ -4149,6 +4149,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {},
   props: ['item', 'uri'],
@@ -4185,6 +4187,8 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _row_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./row.vue */ "./resources/js/components/portfolio/row.vue");
+//
+//
 //
 //
 //
@@ -49769,6 +49773,28 @@ var render = function() {
     _vm._v(" "),
     _c("td", { staticClass: "align-middle text-right" }, [
       _vm._v(_vm._s(_vm.item.dividends.net_formatted) + " €")
+    ]),
+    _vm._v(" "),
+    _c("td", { staticClass: "align-middle text-right" }, [
+      _vm._v(
+        _vm._s(
+          (
+            (_vm.item.dividends.net[0] / _vm.item.investedCapital.end) *
+            100
+          ).format(2, ",", ".")
+        ) + " %"
+      )
+    ]),
+    _vm._v(" "),
+    _c("td", { staticClass: "align-middle text-right" }, [
+      _vm._v(
+        _vm._s(
+          (
+            (_vm.item.investedCapital.end / _vm.item.dividends.net[0]) *
+            12
+          ).format(2, ",", ".")
+        ) + " €"
+      )
     ])
   ])
 }
@@ -49889,7 +49915,11 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { staticClass: "text-right" }, [_vm._v("Investiert")]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Dividenden")])
+        _c("th", { staticClass: "text-right" }, [_vm._v("Dividenden")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right" }, [_vm._v("Dividendenrendite")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right" }, [_vm._v("1€ / Monat")])
       ])
     ])
   }
