@@ -38,10 +38,6 @@ class RentabloTest extends TestCase
     {
         $rentabloApi = App::make('RentabloApi');
         $data = $rentabloApi->years();
-        dump($data);
-
-        // $this->assertArrayHasKey('dividends', $data);
-        // $this->assertArrayHasKey('valuations', $data);
-        // $this->assertTrue(Cache::has('home.rentablo'));
+        $this->assertTrue(Cache::has('rentablo.years'));
     }
 }

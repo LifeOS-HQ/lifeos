@@ -139,7 +139,19 @@ class Rentablo
         return $data;
     }
 
-    public function years() : array
+    public function years($refresh = false) : array
+    {
+        if ($refresh) {
+            Cache::forget('rentablo.years');
+        }
+
+        return Cache::remember('rentablo.years', self::CACHE_SECONDS, function () {
+            return $this->yearsDate();
+        });
+
+    }
+
+    public function yearsDate() : array
     {
         $years = [];
 
