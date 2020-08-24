@@ -157,7 +157,7 @@ class Rentablo
         }
 
         $year = 0;
-        $performance = $this->api->performance->depot($accountIds, '');
+        $performance = $this->api->performance->depot($accountIds, '2015-01-01');
         $firstDay = new Carbon($performance['cashFlowAndPerformanceStatisticsList'][0]['cashFlowResults'][0]['date']);
         foreach ($performance['cashFlowAndPerformanceStatisticsList'][0]['cashFlowResults'] as $key => $cashFlowResult) {
             $date = (new Carbon($cashFlowResult['date']));
@@ -165,12 +165,13 @@ class Rentablo
                 $year = $date->year;
                 $years[$year] = [
                     'dividends' => [
-                        'net' => [
-                            0 => 0,
-                        ],
                         'month' => [
                             'count' => 0,
                         ],
+                        'net' => [
+                            0 => 0,
+                        ],
+                        'net_formatted' => '0,00',
                     ],
                     'investedCapital' => [
                         'start' => ($key == 0 ? 0 : $cashFlowResult['investedCapital']),
