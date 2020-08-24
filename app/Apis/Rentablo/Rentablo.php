@@ -138,4 +138,78 @@ class Rentablo
 
         return $data;
     }
+
+    public function years() : array
+    {
+        $years = [];
+
+        $isAuthenticated = $this->api->authenticate($this->username, $this->password);
+
+        $accountIds = [];
+        $accounts = $this->api->accounts->get();
+        foreach ($accounts['accounts'] as $key => $account) {
+            if ($account['type'] != '01_depot') {
+                continue;
+            }
+
+            $accountId = $account['id'];
+            $accountIds[] =  $accountId;
+        }
+
+        $year = 0;
+        $performance = $this->api->performance->depot($accountIds, '');
+        $firstDay = new Carbon($performance['cashFlowAndPerformanceStatisticsList'][0]['cashFlowResults'][0]['date']);
+        foreach ($performance['cashFlowAndPerformanceStatisticsList'][0]['cashFlowResults'] as $key => $cashFlowResult) {
+            $date = (new Carbon($cashFlowResult['date']));
+            if ($date->year != $year) {
+                $year = $date->year;
+                $years[$year] = [
+                    'dividends' => [
+                        'net' => [
+                            0 => 0,
+                        ],
+                        'month' => [
+                            'count' => 0,
+                        ],
+                    ],
+                    'investedCapital' => [
+                        'start' => ($key == 0 ? 0 : $cashFlowResult['investedCapital']),
+                        'end' => $cashFlowResult['investedCapital'],
+                        'diff' => 0,
+                    ],
+                    'year' => $year,
+                ];
+            }
+
+            if ($date->format('Y-m-d') == $date->endOfYear()->format('Y-m-d')) {
+                $years[$year]['investedCapital']['end'] = $cashFlowResult['investedCapital'];
+                $years[$year]['investedCapital']['diff'] = ($years[$year]['investedCapital']['end'] - $years[$year]['investedCapital']['start']);
+                $years[$year]['investedCapital']['end_formatted'] = number_format($years[$year]['investedCapital']['end'], 2, ',', '.');
+                $years[$year]['investedCapital']['start_formatted'] = number_format($years[$year]['investedCapital']['start'], 2, ',', '.');
+                $years[$year]['investedCapital']['diff_formatted'] = number_format($years[$year]['investedCapital']['diff'], 2, ',', '.');
+            }
+        }
+
+        $years[$year]['investedCapital']['end'] = $cashFlowResult['investedCapital'];
+        $years[$year]['investedCapital']['diff'] = ($years[$year]['investedCapital']['end'] - $years[$year]['investedCapital']['start']);
+        $years[$year]['investedCapital']['end_formatted'] = number_format($years[$year]['investedCapital']['end'], 2, ',', '.');
+        $years[$year]['investedCapital']['start_formatted'] = number_format($years[$year]['investedCapital']['start'], 2, ',', '.');
+        $years[$year]['investedCapital']['diff_formatted'] = number_format($years[$year]['investedCapital']['diff'], 2, ',', '.');
+
+        foreach ($accountIds as $key => $accountId) {
+            $dividends = $this->api->dividends->history($accountId, [], $firstDay);
+            foreach ($dividends['nodesByYear'] as $year => $dividend) {
+                $net = $dividend['netAmount'];
+                $years[$year]['dividends']['net'][$accountId] = $net;
+                $years[$year]['dividends']['net'][0] += $net;
+                $years[$year]['dividends']['month']['count'] = count($dividend['children']);
+                $years[$year]['dividends']['net_formatted'] = number_format($years[$year]['dividends']['net'][0], 2, ',', '.');
+            }
+
+        }
+
+        krsort($years);
+
+        return array_values($years);
+    }
 }

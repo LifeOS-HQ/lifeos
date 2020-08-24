@@ -40,6 +40,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('lifearea', 'Lifeareas\LifeareaController');
     Route::resource('lifearea.scale', 'Lifeareas\ScaleController');
 
+    Route::resource('/portfolio', 'Portfolios\PortfolioController');
+
     Route::resource('review', 'Reviews\ReviewController');
     Route::resource('review.block', 'Reviews\BlockController');
     Route::resource('review.lifearea', 'Reviews\LifeareaController');

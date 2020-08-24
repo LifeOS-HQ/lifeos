@@ -30,4 +30,18 @@ class RentabloTest extends TestCase
         $this->assertArrayHasKey('valuations', $data);
         $this->assertTrue(Cache::has('home.rentablo'));
     }
+
+    /**
+     * @test
+     */
+    public function it_can_get_data_for_the_portfolio_index_view()
+    {
+        $rentabloApi = App::make('RentabloApi');
+        $data = $rentabloApi->years();
+        dump($data);
+
+        // $this->assertArrayHasKey('dividends', $data);
+        // $this->assertArrayHasKey('valuations', $data);
+        // $this->assertTrue(Cache::has('home.rentablo'));
+    }
 }
