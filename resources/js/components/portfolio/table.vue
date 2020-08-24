@@ -39,6 +39,7 @@
                         <th class="text-right">Dividenden</th>
                         <th class="text-right">Dividendenrendite</th>
                         <th class="text-right">1€ / Monat</th>
+                        <th class="text-right">Investmentrate</th>
                     </tr>
                 </thead>
                 <tbody>

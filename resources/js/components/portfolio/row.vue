@@ -7,6 +7,7 @@
         <td class="align-middle text-right">{{ item.dividends.net_formatted }} €</td>
         <td class="align-middle text-right">{{ (item.dividends.net[0] / item.investedCapital.end * 100).format(2, ',', '.') }} %</td>
         <td class="align-middle text-right">{{ (item.investedCapital.end / item.dividends.net[0] * 12).format(2, ',', '.') }} €</td>
+        <td class="align-middle text-right">{{ (item.investedCapital.diff / (item.wage.net_in_cents / 100) * 100).format(0, ',', '.') }} %</td>
     </tr>
 </template>
 

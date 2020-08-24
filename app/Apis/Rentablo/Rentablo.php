@@ -2,6 +2,7 @@
 
 namespace App\Apis\Rentablo;
 
+use App\Models\Work\Year;
 use Dasumi\Rentablo\Api;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -153,7 +154,7 @@ class Rentablo
 
     public function yearsDate() : array
     {
-        $years = [];
+        $data = [];
 
         $isAuthenticated = $this->api->authenticate($this->username, $this->password);
 
@@ -175,7 +176,7 @@ class Rentablo
             $date = (new Carbon($cashFlowResult['date']));
             if ($date->year != $year) {
                 $year = $date->year;
-                $years[$year] = [
+                $data[$year] = [
                     'dividends' => [
                         'month' => [
                             'count' => 0,
@@ -190,39 +191,47 @@ class Rentablo
                         'end' => $cashFlowResult['investedCapital'],
                         'diff' => 0,
                     ],
+                    'wage' => [
+                        'net_in_cents' => 0,
+                    ],
                     'year' => $year,
                 ];
             }
 
             if ($date->format('Y-m-d') == $date->endOfYear()->format('Y-m-d')) {
-                $years[$year]['investedCapital']['end'] = $cashFlowResult['investedCapital'];
-                $years[$year]['investedCapital']['diff'] = ($years[$year]['investedCapital']['end'] - $years[$year]['investedCapital']['start']);
-                $years[$year]['investedCapital']['end_formatted'] = number_format($years[$year]['investedCapital']['end'], 2, ',', '.');
-                $years[$year]['investedCapital']['start_formatted'] = number_format($years[$year]['investedCapital']['start'], 2, ',', '.');
-                $years[$year]['investedCapital']['diff_formatted'] = number_format($years[$year]['investedCapital']['diff'], 2, ',', '.');
+                $data[$year]['investedCapital']['end'] = $cashFlowResult['investedCapital'];
+                $data[$year]['investedCapital']['diff'] = ($data[$year]['investedCapital']['end'] - $data[$year]['investedCapital']['start']);
+                $data[$year]['investedCapital']['end_formatted'] = number_format($data[$year]['investedCapital']['end'], 2, ',', '.');
+                $data[$year]['investedCapital']['start_formatted'] = number_format($data[$year]['investedCapital']['start'], 2, ',', '.');
+                $data[$year]['investedCapital']['diff_formatted'] = number_format($data[$year]['investedCapital']['diff'], 2, ',', '.');
             }
         }
 
-        $years[$year]['investedCapital']['end'] = $cashFlowResult['investedCapital'];
-        $years[$year]['investedCapital']['diff'] = ($years[$year]['investedCapital']['end'] - $years[$year]['investedCapital']['start']);
-        $years[$year]['investedCapital']['end_formatted'] = number_format($years[$year]['investedCapital']['end'], 2, ',', '.');
-        $years[$year]['investedCapital']['start_formatted'] = number_format($years[$year]['investedCapital']['start'], 2, ',', '.');
-        $years[$year]['investedCapital']['diff_formatted'] = number_format($years[$year]['investedCapital']['diff'], 2, ',', '.');
+        $data[$year]['investedCapital']['end'] = $cashFlowResult['investedCapital'];
+        $data[$year]['investedCapital']['diff'] = ($data[$year]['investedCapital']['end'] - $data[$year]['investedCapital']['start']);
+        $data[$year]['investedCapital']['end_formatted'] = number_format($data[$year]['investedCapital']['end'], 2, ',', '.');
+        $data[$year]['investedCapital']['start_formatted'] = number_format($data[$year]['investedCapital']['start'], 2, ',', '.');
+        $data[$year]['investedCapital']['diff_formatted'] = number_format($data[$year]['investedCapital']['diff'], 2, ',', '.');
 
         foreach ($accountIds as $key => $accountId) {
             $dividends = $this->api->dividends->history($accountId, [], $firstDay);
             foreach ($dividends['nodesByYear'] as $year => $dividend) {
                 $net = $dividend['netAmount'];
-                $years[$year]['dividends']['net'][$accountId] = $net;
-                $years[$year]['dividends']['net'][0] += $net;
-                $years[$year]['dividends']['month']['count'] = count($dividend['children']);
-                $years[$year]['dividends']['net_formatted'] = number_format($years[$year]['dividends']['net'][0], 2, ',', '.');
+                $data[$year]['dividends']['net'][$accountId] = $net;
+                $data[$year]['dividends']['net'][0] += $net;
+                $data[$year]['dividends']['month']['count'] = count($dividend['children']);
+                $data[$year]['dividends']['net_formatted'] = number_format($data[$year]['dividends']['net'][0], 2, ',', '.');
             }
 
         }
 
-        krsort($years);
+        $years = Year::all();
+        foreach ($years as $key => $year) {
+            $data[$year->year]['wage']['net_in_cents'] = $year->net_in_cents;
+        }
 
-        return array_values($years);
+        krsort($data);
+
+        return array_values($data);
     }
 }
