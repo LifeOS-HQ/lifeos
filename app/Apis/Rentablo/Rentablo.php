@@ -89,7 +89,7 @@ class Rentablo
 
         $data['dividends']['month']['avg'] = ($data['dividends']['amount'][0] / $data['dividends']['month']['count']);
 
-        $performance = $this->api->performance->depot($accountIds, '');
+        $performance = $this->api->performance->depot($accountIds, today()->subYear()->format('Y-m-d'));
 
         $categories = [];
         $investedCapitals = [];
