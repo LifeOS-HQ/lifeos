@@ -80,6 +80,8 @@ class MonthController extends Controller
             'yAxis' => 0,
         ];
 
+        sort($data['investments']);
+
         return [
             'categories' => $categories,
             'series' => $series,
@@ -87,6 +89,7 @@ class MonthController extends Controller
                 'text' => 'Dividenden in ' . $year,
             ],
             'statistics' => $data['statistics'],
+            'investments' => $data['investments'],
         ];
     }
 

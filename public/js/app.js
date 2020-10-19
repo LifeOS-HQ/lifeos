@@ -4181,6 +4181,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -4245,8 +4260,10 @@ __webpack_require__.r(__webpack_exports__);
       },
       statistics: {
         sum_formatted: '0,00',
-        avg_per_month_formatted: '0,00'
-      }
+        avg_per_month_formatted: '0,00',
+        sum_per_investment: []
+      },
+      investments: []
     };
   },
   mounted: function mounted() {
@@ -4261,6 +4278,7 @@ __webpack_require__.r(__webpack_exports__);
         component.chartOptions.series = response.data.series;
         component.chartOptions.title = response.data.title;
         component.statistics = response.data.statistics;
+        component.investments = response.data.investments;
         component.month_name = response.data.month_name;
         component.isLoading = false;
       });
@@ -49994,12 +50012,73 @@ var render = function() {
               ])
             ])
           ])
-        ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "table",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.investments.length,
+                expression: "investments.length"
+              }
+            ],
+            staticClass: "table table-hover table-striped"
+          },
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.investments, function(name, investment_id) {
+                return _c("tr", [
+                  _c("td", [_vm._v(_vm._s(name))]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(
+                      _vm._s(
+                        _vm.statistics.sum_per_investment_formatted[
+                          investment_id
+                        ]
+                      )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(
+                      _vm._s(
+                        _vm.statistics.avg_per_investment_formatted[
+                          investment_id
+                        ]
+                      )
+                    )
+                  ])
+                ])
+              }),
+              0
+            )
+          ]
+        )
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("th", [_vm._v("Investment")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "text-right" }, [_vm._v("Summe")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "text-right" }, [_vm._v("Durchschnitt")])
+    ])
+  }
+]
 render._withStripped = true
 
 

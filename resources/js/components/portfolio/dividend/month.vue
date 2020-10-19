@@ -33,6 +33,21 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <table class="table table-hover table-striped" v-show="investments.length">
+                    <thead>
+                        <th>Investment</th>
+                        <th class="text-right">Summe</th>
+                        <th class="text-right">Durchschnitt</th>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(name, investment_id) in investments">
+                            <td>{{ name }}</td>
+                            <td class="text-right">{{ statistics.sum_per_investment_formatted[investment_id] }}</td>
+                            <td class="text-right">{{ statistics.avg_per_investment_formatted[investment_id] }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -112,7 +127,9 @@
                 statistics: {
                     sum_formatted: '0,00',
                     avg_per_month_formatted: '0,00',
+                    sum_per_investment: [],
                 },
+                investments: [],
             };
         },
 
@@ -130,6 +147,7 @@
                         component.chartOptions.series = response.data.series;
                         component.chartOptions.title = response.data.title;
                         component.statistics = response.data.statistics;
+                        component.investments = response.data.investments;
                         component.month_name = response.data.month_name;
                         component.isLoading = false;
                     });
