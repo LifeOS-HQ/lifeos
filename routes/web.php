@@ -41,6 +41,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('lifearea.scale', 'Lifeareas\ScaleController');
 
     Route::resource('/portfolio', 'Portfolios\PortfolioController');
+    Route::get('/portfolio/dividend/{year}', 'Portfolios\Dividends\MonthController@show');
+
 
     Route::resource('review', 'Reviews\ReviewController');
     Route::resource('review.block', 'Reviews\BlockController');

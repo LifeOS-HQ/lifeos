@@ -234,4 +234,64 @@ class Rentablo
 
         return array_values($data);
     }
+
+    public function dividendsPerMonthDataAndInvestmentData(int $year)
+    {
+        $data = [
+            'dividends' => [],
+            'investments' => [],
+            'statistics' => [
+                'sum' => 0,
+                'sum_formatted' => '0,00',
+                'sum_per_month' => [],
+                'avg_per_month' => 0,
+                'avg_per_month_formatted' => '0,00',
+            ],
+        ];
+
+
+
+        $isAuthenticated = $this->api->authenticate($this->username, $this->password);
+
+        $accountIds = [];
+        $accounts = $this->api->accounts->get();
+        foreach ($accounts['accounts'] as $key => $account) {
+            if ($account['type'] != '01_depot') {
+                continue;
+            }
+
+            $accountId = $account['id'];
+            $accountIds[] =  $accountId;
+        }
+
+        $dividends = $this->api->dividends->history($accountIds[0], [], $year . '-01-01');
+
+        for ($month_id = 0; $month_id < 12; $month_id++) {
+            $data['statistics']['sum_per_month'][$month_id] = 0;
+        }
+
+        foreach ($dividends['nodesByYear'][$year]['investmentIds'] as $investment_id) {
+            $data['dividends'][$investment_id] = [];
+            for ($month_id = 0; $month_id < 12; $month_id++) {
+                $data['dividends'][$investment_id][$month_id] = 0;
+            }
+        }
+
+        foreach ($dividends['nodesByYear'][$year]['children'] as $month_id => $month) {
+            foreach ($month['children'] as $investment_id => $dividend) {
+                $data['dividends'][$investment_id][$month_id] += $dividend['netAmount'];
+                $data['statistics']['sum_per_month'][$month_id] += $dividend['netAmount'];
+                $data['statistics']['sum'] += $dividend['netAmount'];
+            }
+        }
+
+        foreach ($dividends['investmentReferenceById'] as $investment_id => $value) {
+            $data['investments'][$investment_id] = $dividends['investmentReferenceById'][$investment_id]['name'];
+        }
+
+        $data['statistics']['sum_formatted'] = number_format($data['statistics']['sum'], 2, ',', '.');
+        $data['statistics']['avg_per_month_formatted'] = number_format(($data['statistics']['sum'] / 12), 2, ',', '.');
+
+        return $data;
+    }
 }

@@ -4130,6 +4130,146 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/portfolio/dividend/month.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/portfolio/dividend/month.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var highcharts_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! highcharts-vue */ "./node_modules/highcharts-vue/dist/highcharts-vue.min.js");
+/* harmony import */ var highcharts_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(highcharts_vue__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    highcharts: highcharts_vue__WEBPACK_IMPORTED_MODULE_0__["Chart"]
+  },
+  computed: {},
+  data: function data() {
+    var date = new Date(),
+        start_year = 2015,
+        current_year = date.getFullYear(),
+        years = [];
+
+    for (var year = start_year; year <= current_year; year++) {
+      years.push(year);
+    }
+
+    return {
+      isLoading: true,
+      form: {
+        year: current_year
+      },
+      years: years,
+      chartOptions: {
+        chart: {
+          type: 'column'
+        },
+        xAxis: {
+          categories: []
+        },
+        yAxis: [{
+          min: 0,
+          title: {
+            text: 'Euro (€)'
+          },
+          stackLabels: {
+            enabled: true,
+            style: {
+              fontWeight: 'bold'
+            },
+            formatter: function formatter() {
+              return this.total ? Highcharts.numberFormat(this.total, 2) : '';
+            }
+          }
+        }],
+        plotOptions: {
+          column: {
+            stacking: 'normal',
+            dataLabels: {
+              enabled: true,
+              format: '{point.y:,.2f}'
+            }
+          }
+        },
+        tooltip: {
+          headerFormat: '<b>{point.key}</b><br/>',
+          pointFormat: '{series.name}: {point.y:,.2f} €<br/>Total: {point.stackTotal:,.2f} €'
+        },
+        title: {
+          text: ''
+        },
+        series: []
+      },
+      statistics: {
+        sum_formatted: '0,00',
+        avg_per_month_formatted: '0,00'
+      }
+    };
+  },
+  mounted: function mounted() {
+    this.fetch();
+  },
+  methods: {
+    fetch: function fetch() {
+      var component = this;
+      component.isLoading = true;
+      axios.get('/portfolio/dividend/' + component.form.year).then(function (response) {
+        component.chartOptions.xAxis.categories = response.data.categories;
+        component.chartOptions.series = response.data.series;
+        component.chartOptions.title = response.data.title;
+        component.statistics = response.data.statistics;
+        component.month_name = response.data.month_name;
+        component.isLoading = false;
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/portfolio/row.vue?vue&type=script&lang=js&":
 /*!************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/portfolio/row.vue?vue&type=script&lang=js& ***!
@@ -49743,6 +49883,129 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/portfolio/dividend/month.vue?vue&type=template&id=3d9ba85c&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/portfolio/dividend/month.vue?vue&type=template&id=3d9ba85c& ***!
+  \***************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card mb-3" }, [
+    _c("div", { staticClass: "card-header d-flex align-items-center" }, [
+      _c("div", { staticClass: "col" }, [_vm._v("Dividenden pro Monat")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-auto" }, [
+        _c(
+          "span",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.isLoading,
+                expression: "isLoading"
+              }
+            ],
+            staticStyle: { "font-size": "12px" }
+          },
+          [_c("i", { staticClass: "fas fa-spinner fa-spin" }), _c("br")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group mb-0" }, [
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model.number",
+                value: _vm.form.year,
+                expression: "form.year",
+                modifiers: { number: true }
+              }
+            ],
+            staticClass: "form-control",
+            on: {
+              change: [
+                function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return _vm._n(val)
+                    })
+                  _vm.$set(
+                    _vm.form,
+                    "year",
+                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                  )
+                },
+                _vm.fetch
+              ]
+            }
+          },
+          _vm._l(_vm.years, function(year, index) {
+            return _c("option", { domProps: { value: year } }, [
+              _vm._v(_vm._s(year))
+            ])
+          }),
+          0
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body row" }, [
+      _c(
+        "div",
+        { staticClass: "col col-xl-6" },
+        [_c("highcharts", { attrs: { options: _vm.chartOptions } })],
+        1
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-xl-6 d-none d-xl-block" }, [
+        _c("table", { staticClass: "table table-hover table-striped" }, [
+          _c("thead"),
+          _vm._v(" "),
+          _c("tbody", [
+            _c("tr", [
+              _c("td", [_vm._v("Dividenden gesamt")]),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [
+                _vm._v(_vm._s(_vm.statistics.sum_formatted))
+              ])
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c("td", [_vm._v("Dividenden / Monat")]),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [
+                _vm._v("Ø " + _vm._s(_vm.statistics.avg_per_month_formatted))
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/portfolio/row.vue?vue&type=template&id=ebacda50&":
 /*!****************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/portfolio/row.vue?vue&type=template&id=ebacda50& ***!
@@ -68226,6 +68489,7 @@ Vue.component('lifearea-table', __webpack_require__(/*! ./components/lifearea/ta
 Vue.component('lifearea-scale-index', __webpack_require__(/*! ./components/lifearea/scale/index.vue */ "./resources/js/components/lifearea/scale/index.vue")["default"]);
 Vue.component('lifearea-rating-chart', __webpack_require__(/*! ./components/lifearea/rating/chart.vue */ "./resources/js/components/lifearea/rating/chart.vue")["default"]);
 Vue.component('portfolio-table', __webpack_require__(/*! ./components/portfolio/table.vue */ "./resources/js/components/portfolio/table.vue")["default"]);
+Vue.component('portfolio-dividend-month', __webpack_require__(/*! ./components/portfolio/dividend/month.vue */ "./resources/js/components/portfolio/dividend/month.vue")["default"]);
 Vue.component('review-table', __webpack_require__(/*! ./components/review/table.vue */ "./resources/js/components/review/table.vue")["default"]);
 Vue.component('review-show', __webpack_require__(/*! ./pages/review/show.vue */ "./resources/js/pages/review/show.vue")["default"]);
 Vue.component('work-time-table', __webpack_require__(/*! ./components/work/time/table.vue */ "./resources/js/components/work/time/table.vue")["default"]);
@@ -69687,6 +69951,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_flashmessage_vue_vue_type_template_id_990c428e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_flashmessage_vue_vue_type_template_id_990c428e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/portfolio/dividend/month.vue":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/portfolio/dividend/month.vue ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _month_vue_vue_type_template_id_3d9ba85c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./month.vue?vue&type=template&id=3d9ba85c& */ "./resources/js/components/portfolio/dividend/month.vue?vue&type=template&id=3d9ba85c&");
+/* harmony import */ var _month_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./month.vue?vue&type=script&lang=js& */ "./resources/js/components/portfolio/dividend/month.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _month_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _month_vue_vue_type_template_id_3d9ba85c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _month_vue_vue_type_template_id_3d9ba85c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/portfolio/dividend/month.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/portfolio/dividend/month.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/portfolio/dividend/month.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_month_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./month.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/portfolio/dividend/month.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_month_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/portfolio/dividend/month.vue?vue&type=template&id=3d9ba85c&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/portfolio/dividend/month.vue?vue&type=template&id=3d9ba85c& ***!
+  \*********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_month_vue_vue_type_template_id_3d9ba85c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./month.vue?vue&type=template&id=3d9ba85c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/portfolio/dividend/month.vue?vue&type=template&id=3d9ba85c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_month_vue_vue_type_template_id_3d9ba85c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_month_vue_vue_type_template_id_3d9ba85c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

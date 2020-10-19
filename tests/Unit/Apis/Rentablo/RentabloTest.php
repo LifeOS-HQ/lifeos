@@ -9,14 +9,23 @@ use Tests\TestCase;
 
 class RentabloTest extends TestCase
 {
+    protected $rentabloApi;
+
+    protected function setUp() : void
+    {
+        parent::setUp();
+
+        $this->rentabloApi = App::make('RentabloApi');
+    }
+
     /**
      * @test
      */
     public function it_can_be_build_from_the_service_container()
     {
-        $rentabloApi = App::make('RentabloApi');
-        dump($rentabloApi);
-        $this->assertInstanceOf(Rentablo::class, $rentabloApi);
+
+        dump($this->rentabloApi);
+        $this->assertInstanceOf(Rentablo::class, $this->rentabloApi);
     }
 
     /**
@@ -24,8 +33,8 @@ class RentabloTest extends TestCase
      */
     public function it_can_get_data_for_the_home_view()
     {
-        $rentabloApi = App::make('RentabloApi');
-        $data = $rentabloApi->home();
+
+        $data = $this->rentabloApi->home();
         $this->assertArrayHasKey('dividends', $data);
         $this->assertArrayHasKey('valuations', $data);
         $this->assertTrue(Cache::has('home.rentablo'));
@@ -36,8 +45,15 @@ class RentabloTest extends TestCase
      */
     public function it_can_get_data_for_the_portfolio_index_view()
     {
-        $rentabloApi = App::make('RentabloApi');
-        $data = $rentabloApi->years();
+        $data = $this->rentabloApi->years();
         $this->assertTrue(Cache::has('rentablo.years'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_gets_the_dividend_per_month_and_investment()
+    {
+        $data = $this->rentabloApi->dividendsPerMonthDataAndInvestmentData(2020);
     }
 }
