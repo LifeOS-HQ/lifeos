@@ -42,7 +42,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="(name, investment_id) in investments">
-                            <td>{{ name }} ({{ investment_id }})</td>
+                            <td>{{ name }}</td>
                             <td class="text-right">{{ statistics.sum_per_investment_formatted[investment_id] }}</td>
                             <td class="text-right">{{ statistics.avg_per_investment_formatted[investment_id] }}</td>
                         </tr>

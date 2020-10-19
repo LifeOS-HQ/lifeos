@@ -50034,9 +50034,7 @@ var render = function() {
               "tbody",
               _vm._l(_vm.investments, function(name, investment_id) {
                 return _c("tr", [
-                  _c("td", [
-                    _vm._v(_vm._s(name) + " (" + _vm._s(investment_id) + ")")
-                  ]),
+                  _c("td", [_vm._v(_vm._s(name))]),
                   _vm._v(" "),
                   _c("td", { staticClass: "text-right" }, [
                     _vm._v(

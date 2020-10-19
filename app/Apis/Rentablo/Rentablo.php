@@ -235,6 +235,18 @@ class Rentablo
         return array_values($data);
     }
 
+    public function dividendsPerMonthDataAndInvestment(int $year, bool $refresh = false) : array
+    {
+        if ($refresh) {
+            Cache::forget('rentablo.dividendsPerMonthDataAndInvestment.' . $year);
+        }
+
+        return Cache::remember('rentablo.dividendsPerMonthDataAndInvestment.' . $year, self::CACHE_SECONDS, function () use ($year) {
+            return $this->dividendsPerMonthDataAndInvestmentData($year);
+        });
+
+    }
+
     public function dividendsPerMonthDataAndInvestmentData(int $year)
     {
         $data = [
@@ -258,6 +270,7 @@ class Rentablo
         $isAuthenticated = $this->api->authenticate($this->username, $this->password);
 
         $accountIds = [];
+        $account_names = [];
         $accounts = $this->api->accounts->get();
         foreach ($accounts['accounts'] as $key => $account) {
             if ($account['type'] != '01_depot') {
@@ -266,6 +279,7 @@ class Rentablo
 
             $account_id = $account['id'];
             $accountIds[] = $account_id;
+            $account_names[$account_id] = $account['name'];
         }
 
         foreach ($accountIds as $account_id) {
@@ -275,7 +289,7 @@ class Rentablo
             }
 
             foreach ($dividends['investmentReferenceById'] as $investment_id => $value) {
-                $data['investments'][$investment_id] = $dividends['investmentReferenceById'][$investment_id]['name'];
+                $data['investments'][$investment_id] = $dividends['investmentReferenceById'][$investment_id]['name'] . ' (' . $account_names[$account_id] . ')';
                 $data['statistics']['sum_per_investment'][$investment_id] = 0;
                 $data['statistics']['sum_per_investment_formatted'][$investment_id] = number_format($data['statistics']['sum_per_investment'][$investment_id], 2, ',', '.');
                 $data['statistics']['avg_per_investment'][$investment_id] = 0;
@@ -298,13 +312,13 @@ class Rentablo
                 }
             }
 
+            foreach ($dividends['investmentReferenceById'] as $investment_id => $value) {
+                $data['statistics']['avg_per_investment'][$investment_id] = ($data['statistics']['sum_per_investment'][$investment_id] / 12);
+                $data['statistics']['avg_per_investment_formatted'][$investment_id] = number_format($data['statistics']['avg_per_investment'][$investment_id], 2, ',', '.');
+                $data['statistics']['sum_per_investment_formatted'][$investment_id] = number_format($data['statistics']['sum_per_investment'][$investment_id], 2, ',', '.');
+            }
         }
 
-        foreach ($dividends['investmentReferenceById'] as $investment_id => $value) {
-            $data['statistics']['avg_per_investment'][$investment_id] = ($data['statistics']['sum_per_investment'][$investment_id] / 12);
-            $data['statistics']['avg_per_investment_formatted'][$investment_id] = number_format($data['statistics']['avg_per_investment'][$investment_id], 2, ',', '.');
-            $data['statistics']['sum_per_investment_formatted'][$investment_id] = number_format($data['statistics']['sum_per_investment'][$investment_id], 2, ',', '.');
-        }
 
         $data['statistics']['sum_formatted'] = number_format($data['statistics']['sum'], 2, ',', '.');
         $data['statistics']['avg_per_month'] = ($data['statistics']['sum'] / 12);
