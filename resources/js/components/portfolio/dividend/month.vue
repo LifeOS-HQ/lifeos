@@ -36,15 +36,15 @@
 
                 <table class="table table-hover table-striped" v-show="Object.keys(investments).length">
                     <thead>
-                        <th>Investment</th>
-                        <th class="text-right">Summe</th>
-                        <th class="text-right">Durchschnitt</th>
+                        <th width="100%">Investment</th>
+                        <th class="text-right" width="100">Summe</th>
+                        <th class="text-right" width="120">Durchschnitt</th>
                     </thead>
                     <tbody>
                         <tr v-for="(name, investment_id) in investments">
                             <td>{{ name }}</td>
                             <td class="text-right">{{ statistics.sum_per_investment_formatted[investment_id] }}</td>
-                            <td class="text-right">{{ statistics.avg_per_investment_formatted[investment_id] }}</td>
+                            <td class="text-right">Ø {{ statistics.avg_per_investment_formatted[investment_id] }}</td>
                         </tr>
                     </tbody>
                 </table>

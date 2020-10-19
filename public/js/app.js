@@ -50048,11 +50048,12 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", { staticClass: "text-right" }, [
                     _vm._v(
-                      _vm._s(
-                        _vm.statistics.avg_per_investment_formatted[
-                          investment_id
-                        ]
-                      )
+                      "Ø " +
+                        _vm._s(
+                          _vm.statistics.avg_per_investment_formatted[
+                            investment_id
+                          ]
+                        )
                     )
                   ])
                 ])
@@ -50071,11 +50072,15 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [
-      _c("th", [_vm._v("Investment")]),
+      _c("th", { attrs: { width: "100%" } }, [_vm._v("Investment")]),
       _vm._v(" "),
-      _c("th", { staticClass: "text-right" }, [_vm._v("Summe")]),
+      _c("th", { staticClass: "text-right", attrs: { width: "100" } }, [
+        _vm._v("Summe")
+      ]),
       _vm._v(" "),
-      _c("th", { staticClass: "text-right" }, [_vm._v("Durchschnitt")])
+      _c("th", { staticClass: "text-right", attrs: { width: "120" } }, [
+        _vm._v("Durchschnitt")
+      ])
     ])
   }
 ]

@@ -56,11 +56,13 @@ class MonthController extends Controller
             1,2,3,4,5,6,7,8,9,10,11,12
         ];
 
+        natsort($data['investments']);
+
         $series = [];
-        foreach ($data['dividends'] as $investment_id => $investment) {
+        foreach ($data['investments'] as $isin => $name) {
             $series[] = [
-                'name' => $data['investments'][$investment_id],
-                'data' => array_values($investment),
+                'name' => $name,
+                'data' => array_values($data['dividends'][$isin]),
                 'type' => 'column',
                 'yAxis' => 0,
             ];
@@ -80,9 +82,6 @@ class MonthController extends Controller
             'yAxis' => 0,
         ];
 
-        // uasort($data['investments'], function($a, $b) {
-        //     return $a - $b;
-        // });
 
         return [
             'categories' => $categories,

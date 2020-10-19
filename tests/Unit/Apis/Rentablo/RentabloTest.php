@@ -55,6 +55,6 @@ class RentabloTest extends TestCase
     public function it_gets_the_dividend_per_month_and_investment()
     {
         $data = $this->rentabloApi->dividendsPerMonthDataAndInvestmentData(2020);
-        dump($data);
+        // dump($data);
     }
 }

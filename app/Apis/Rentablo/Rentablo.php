@@ -235,7 +235,7 @@ class Rentablo
         return array_values($data);
     }
 
-    public function dividendsPerMonthDataAndInvestment(int $year, bool $refresh = true) : array
+    public function dividendsPerMonthDataAndInvestment(int $year, bool $refresh = false) : array
     {
         if ($refresh) {
             Cache::forget('rentablo.dividendsPerMonthDataAndInvestment.' . $year);
@@ -265,8 +265,6 @@ class Rentablo
             ],
         ];
 
-
-
         $isAuthenticated = $this->api->authenticate($this->username, $this->password);
 
         $isins = [];
@@ -283,22 +281,30 @@ class Rentablo
             $account_names[$account_id] = $account['name'];
         }
 
+        for ($month_id = 0; $month_id < 12; $month_id++) {
+            $data['statistics']['sum_per_month'][$month_id] = 0;
+        }
+
         foreach ($accountIds as $account_id) {
             $dividends = $this->api->dividends->history($account_id, [], $year . '-01-01');
-            for ($month_id = 0; $month_id < 12; $month_id++) {
-                $data['statistics']['sum_per_month'][$month_id] = 0;
+
+            if (! array_key_exists($year, $dividends['nodesByYear'])) {
+                continue;
             }
 
             foreach ($dividends['investmentReferenceById'] as $investment_id => $value) {
                 $isins[$investment_id] = $dividends['investmentReferenceById'][$investment_id]['isin'];
+
+                if (array_key_exists($isins[$investment_id], $data['dividends'])) {
+                    continue;
+                }
+
                 $data['investments'][$isins[$investment_id]] = $dividends['investmentReferenceById'][$investment_id]['name'];
                 $data['statistics']['sum_per_investment'][$isins[$investment_id]] = 0;
                 $data['statistics']['sum_per_investment_formatted'][$isins[$investment_id]] = number_format($data['statistics']['sum_per_investment'][$isins[$investment_id]], 2, ',', '.');
                 $data['statistics']['avg_per_investment'][$isins[$investment_id]] = 0;
                 $data['statistics']['avg_per_investment_formatted'][$isins[$investment_id]] = number_format($data['statistics']['avg_per_investment'][$isins[$investment_id]], 2, ',', '.');
-            }
 
-            foreach ($dividends['nodesByYear'][$year]['investmentIds'] as $investment_id) {
                 $data['dividends'][$isins[$investment_id]] = [];
                 for ($month_id = 0; $month_id < 12; $month_id++) {
                     $data['dividends'][$isins[$investment_id]][$month_id] = 0;
