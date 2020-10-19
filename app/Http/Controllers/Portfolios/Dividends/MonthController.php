@@ -80,9 +80,9 @@ class MonthController extends Controller
             'yAxis' => 0,
         ];
 
-        uasort($data['investments'], function($a, $b) {
-            return $a - $b;
-        });
+        // uasort($data['investments'], function($a, $b) {
+        //     return $a - $b;
+        // });
 
         return [
             'categories' => $categories,
