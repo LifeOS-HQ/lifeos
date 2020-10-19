@@ -291,7 +291,8 @@ class Rentablo
         }
 
         $data['statistics']['sum_formatted'] = number_format($data['statistics']['sum'], 2, ',', '.');
-        $data['statistics']['avg_per_month_formatted'] = number_format(($data['statistics']['sum'] / 12), 2, ',', '.');
+        $data['statistics']['avg_per_month'] = ($data['statistics']['sum'] / 12);
+        $data['statistics']['avg_per_month_formatted'] = number_format($data['statistics']['avg_per_month'], 2, ',', '.');
 
         return $data;
     }

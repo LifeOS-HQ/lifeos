@@ -66,6 +66,20 @@ class MonthController extends Controller
             ];
         }
 
+        $series[] = [
+            'name' => 'Durchschnitt',
+            'data' => array_fill(0, 12, $data['statistics']['avg_per_month']),
+            'type' => 'spline',
+            'yAxis' => 0,
+        ];
+
+        $series[] = [
+            'name' => '1. Ziel',
+            'data' => array_fill(0, 12, 500),
+            'type' => 'spline',
+            'yAxis' => 0,
+        ];
+
         return [
             'categories' => $categories,
             'series' => $series,
