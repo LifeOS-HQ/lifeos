@@ -298,12 +298,12 @@ class Rentablo
                 }
             }
 
-            foreach ($dividends['investmentReferenceById'] as $investment_id => $value) {
-                $data['statistics']['avg_per_investment'][$investment_id] = ($data['statistics']['sum_per_investment'][$investment_id] / 12);
-                $data['statistics']['avg_per_investment_formatted'][$investment_id] = number_format($data['statistics']['avg_per_investment'][$investment_id], 2, ',', '.');
-                $data['statistics']['sum_per_investment_formatted'][$investment_id] = number_format($data['statistics']['sum_per_investment'][$investment_id], 2, ',', '.');
-            }
+        }
 
+        foreach ($dividends['investmentReferenceById'] as $investment_id => $value) {
+            $data['statistics']['avg_per_investment'][$investment_id] = ($data['statistics']['sum_per_investment'][$investment_id] / 12);
+            $data['statistics']['avg_per_investment_formatted'][$investment_id] = number_format($data['statistics']['avg_per_investment'][$investment_id], 2, ',', '.');
+            $data['statistics']['sum_per_investment_formatted'][$investment_id] = number_format($data['statistics']['sum_per_investment'][$investment_id], 2, ',', '.');
         }
 
         $data['statistics']['sum_formatted'] = number_format($data['statistics']['sum'], 2, ',', '.');

@@ -4263,7 +4263,7 @@ __webpack_require__.r(__webpack_exports__);
         avg_per_month_formatted: '0,00',
         sum_per_investment: []
       },
-      investments: []
+      investments: {}
     };
   },
   mounted: function mounted() {
@@ -50021,8 +50021,8 @@ var render = function() {
               {
                 name: "show",
                 rawName: "v-show",
-                value: _vm.investments.length,
-                expression: "investments.length"
+                value: Object.keys(_vm.investments).length,
+                expression: "Object.keys(investments).length"
               }
             ],
             staticClass: "table table-hover table-striped"
@@ -50034,7 +50034,9 @@ var render = function() {
               "tbody",
               _vm._l(_vm.investments, function(name, investment_id) {
                 return _c("tr", [
-                  _c("td", [_vm._v(_vm._s(name))]),
+                  _c("td", [
+                    _vm._v(_vm._s(name) + " (" + _vm._s(investment_id) + ")")
+                  ]),
                   _vm._v(" "),
                   _c("td", { staticClass: "text-right" }, [
                     _vm._v(

@@ -34,7 +34,7 @@
                     </tbody>
                 </table>
 
-                <table class="table table-hover table-striped" v-show="investments.length">
+                <table class="table table-hover table-striped" v-show="Object.keys(investments).length">
                     <thead>
                         <th>Investment</th>
                         <th class="text-right">Summe</th>
@@ -42,7 +42,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="(name, investment_id) in investments">
-                            <td>{{ name }}</td>
+                            <td>{{ name }} ({{ investment_id }})</td>
                             <td class="text-right">{{ statistics.sum_per_investment_formatted[investment_id] }}</td>
                             <td class="text-right">{{ statistics.avg_per_investment_formatted[investment_id] }}</td>
                         </tr>
@@ -129,7 +129,7 @@
                     avg_per_month_formatted: '0,00',
                     sum_per_investment: [],
                 },
-                investments: [],
+                investments: {},
             };
         },
 
