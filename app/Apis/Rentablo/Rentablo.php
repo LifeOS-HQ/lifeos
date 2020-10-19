@@ -260,33 +260,34 @@ class Rentablo
                 continue;
             }
 
-            $accountId = $account['id'];
-            $accountIds[] =  $accountId;
+            $account_id = $account['id'];
+            $accountIds[] = $account_id;
         }
 
-        $dividends = $this->api->dividends->history($accountIds[0], [], $year . '-01-01');
-
-        for ($month_id = 0; $month_id < 12; $month_id++) {
-            $data['statistics']['sum_per_month'][$month_id] = 0;
-        }
-
-        foreach ($dividends['nodesByYear'][$year]['investmentIds'] as $investment_id) {
-            $data['dividends'][$investment_id] = [];
+        foreach ($accountIds as $account_id) {
+            $dividends = $this->api->dividends->history($account_id, [], $year . '-01-01');
             for ($month_id = 0; $month_id < 12; $month_id++) {
-                $data['dividends'][$investment_id][$month_id] = 0;
+                $data['statistics']['sum_per_month'][$month_id] = 0;
             }
-        }
 
-        foreach ($dividends['nodesByYear'][$year]['children'] as $month_id => $month) {
-            foreach ($month['children'] as $investment_id => $dividend) {
-                $data['dividends'][$investment_id][$month_id] += $dividend['netAmount'];
-                $data['statistics']['sum_per_month'][$month_id] += $dividend['netAmount'];
-                $data['statistics']['sum'] += $dividend['netAmount'];
+            foreach ($dividends['nodesByYear'][$year]['investmentIds'] as $investment_id) {
+                $data['dividends'][$investment_id] = [];
+                for ($month_id = 0; $month_id < 12; $month_id++) {
+                    $data['dividends'][$investment_id][$month_id] = 0;
+                }
             }
-        }
 
-        foreach ($dividends['investmentReferenceById'] as $investment_id => $value) {
-            $data['investments'][$investment_id] = $dividends['investmentReferenceById'][$investment_id]['name'];
+            foreach ($dividends['nodesByYear'][$year]['children'] as $month_id => $month) {
+                foreach ($month['children'] as $investment_id => $dividend) {
+                    $data['dividends'][$investment_id][$month_id] += $dividend['netAmount'];
+                    $data['statistics']['sum_per_month'][$month_id] += $dividend['netAmount'];
+                    $data['statistics']['sum'] += $dividend['netAmount'];
+                }
+            }
+
+            foreach ($dividends['investmentReferenceById'] as $investment_id => $value) {
+                $data['investments'][$investment_id] = $dividends['investmentReferenceById'][$investment_id]['name'];
+            }
         }
 
         $data['statistics']['sum_formatted'] = number_format($data['statistics']['sum'], 2, ',', '.');
