@@ -4,7 +4,7 @@
 
     <h1>Home</h1>
     <div class="d-none d-md-block">
-        <div>
+        <div class="text-center">
             {{ $days_over }}/{{ $days_in_year }} (noch {{ $days_in_year - $days_over }} Tage)
         </div>
         <div class="row">
@@ -15,9 +15,22 @@
                             </div>
                         </div>
                     @endif
-                        <div class="col-md-4 col-lg-3 col-lg-2">
-                            <div class="text-center">
-                                {{ $day->monthName }}
+                        <div class="col-md-4 col-lg-3 col-lg-2 text-center mb-3">
+                            <div class="">
+                                <h5 class="mb-1">{{ $day->monthName }}</h5>
+                            </div>
+                            <div class="text-muted">
+                                @if ($now->month > $day->month)
+                                    <?php $days_over = $day->daysInMonth; ?>
+                                    <?php $days_left = 0; ?>
+                                @elseif ($now->month < $day->month)
+                                    <?php $days_over = 0; ?>
+                                    <?php $days_left = $day->daysInMonth; ?>
+                                @elseif ($now->month == $day->month)
+                                    <?php $days_over = $day->day - 1; ?>
+                                    <?php $days_left = $day->daysInMonth - $days_over; ?>
+                                @endif
+                                {{ $days_over }} / {{ $day->daysInMonth }} @if ($now->month == $day->month) (noch {{ $days_left }} Tage) @endif
                             </div>
                             <div class="d-flex align-items-center justify-content-center">
                 @endif
