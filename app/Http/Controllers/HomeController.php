@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +24,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $now = now()->startOfDay();
+        $start_of_year = $now->clone()->startOfYear();
+        $end_of_year = $start_of_year->clone()->endOfYear();
+        $days = new CarbonPeriod($start_of_year, '1 days', $end_of_year);
+
+        return view('home')
+            ->with('days', $days)
+            ->with('month', 0)
+            ->with('now', $now)
+            ->with('days_over', $now->dayOfYear - 1)
+            ->with('days_in_year', 365 + (int) $now->isLeapYear());
     }
 }
