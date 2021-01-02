@@ -4,6 +4,7 @@ namespace App\Apis\Rentablo;
 
 use App\Models\Work\Year;
 use Dasumi\Rentablo\Api;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 
@@ -76,10 +77,10 @@ class Rentablo
 
             // Dividenden von diesem Jahr holen
             $dividends = $this->api->dividends->history($accountId, [], $startOfYear->format('Y-m-d'));
-            $net = $dividends['nodesByYear'][$startOfYear->year]['netAmount'];
+            $net = (Arr::has($dividends['nodesByYear'], $startOfYear->year) ? $dividends['nodesByYear'][$startOfYear->year]['netAmount'] : 0);
             $data['dividends']['amount'][$accountId] = $net;
             $data['dividends']['amount'][0] += $net;
-            $data['dividends']['month']['count'] = count($dividends['nodesByYear'][$startOfYear->year]['children']);
+            $data['dividends']['month']['count'] = (Arr::has($dividends['nodesByYear'], $startOfYear->year) ? count($dividends['nodesByYear'][$startOfYear->year]['children']) : 0);
 
             // Wert der Depots holen
             $valuation = $this->api->accounts->valuation($accountId, false);
@@ -87,7 +88,7 @@ class Rentablo
             $data['valuations'][0] += $valuation;
         }
 
-        $data['dividends']['month']['avg'] = ($data['dividends']['amount'][0] / $data['dividends']['month']['count']);
+        $data['dividends']['month']['avg'] = ($data['dividends']['month']['count'] ? ($data['dividends']['amount'][0] / $data['dividends']['month']['count']) : 0);
 
         $performance = $this->api->performance->depot($accountIds, today()->subYear()->format('Y-m-d'));
 
