@@ -39,6 +39,6 @@ class CreateServiceUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('service_user');
     }
 }
