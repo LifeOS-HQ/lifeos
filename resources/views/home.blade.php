@@ -27,7 +27,7 @@
                                     <?php $days_over = 0; ?>
                                     <?php $days_left = $day->daysInMonth; ?>
                                 @elseif ($now->month == $day->month)
-                                    <?php $days_over = $day->day - 1; ?>
+                                    <?php $days_over = $now->day - 1; ?>
                                     <?php $days_left = $day->daysInMonth - $days_over; ?>
                                 @endif
                                 {{ $days_over }} / {{ $day->daysInMonth }} @if ($now->month == $day->month) (noch {{ $days_left }} Tage) @endif
