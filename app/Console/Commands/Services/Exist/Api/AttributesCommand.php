@@ -70,10 +70,10 @@ class AttributesCommand extends Command
             ]);
 
             $attribute = Attribute::updateOrCreate([
-                'slug' => $row['group']['name'],
+                'slug' => $row['attribute'],
             ], [
-                'name' => $row['group']['label'],
-                'priority' => $row['group']['priority'],
+                'name' => $row['label'],
+                'priority' => $row['priority'],
                 'type_id' => $type->id,
                 'group_id' => $group->id,
             ]);
