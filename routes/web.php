@@ -40,6 +40,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('lifearea', 'Lifeareas\LifeareaController');
     Route::resource('lifearea.scale', 'Lifeareas\ScaleController');
 
+    Route::get('login/{provider}', [App\Http\Controllers\Auth\ServiceController::class, 'redirectToProvider'])->name('login.provider.redirect');
+    Route::get('login/{provider}/callback', [App\Http\Controllers\Auth\ServiceController::class, 'handleProviderCallback'])->name('login.provider.callback');
+
     Route::resource('/portfolio', 'Portfolios\PortfolioController');
     Route::get('/portfolio/dividend/{year}', 'Portfolios\Dividends\MonthController@show');
 
@@ -47,6 +50,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('review', 'Reviews\ReviewController');
     Route::resource('review.block', 'Reviews\BlockController');
     Route::resource('review.lifearea', 'Reviews\LifeareaController');
+
+    Route::resource('services', 'Services\ServiceController');
 
     Route::get('/work', 'Work\WorkController@index')->name('work.index');
 
