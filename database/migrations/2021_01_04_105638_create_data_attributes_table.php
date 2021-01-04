@@ -25,8 +25,8 @@ class CreateDataAttributesTable extends Migration
 
             $table->timestamps();
 
-            $table->foreign('type_id')->references('id')->on('data_types');
-            $table->foreign('group_id')->references('id')->on('data_attributes_groups');
+            // $table->foreign('type_id')->references('id')->on('data_types');
+            // $table->foreign('group_id')->references('id')->on('data_attributes_groups');
         });
     }
 
