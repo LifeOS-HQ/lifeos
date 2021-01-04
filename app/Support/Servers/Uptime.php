@@ -39,7 +39,7 @@ class Uptime
 
     public static function run() : self
     {
-        $uptimeProcess = new Process('uptime');
+        $uptimeProcess = Process::fromShellCommandline('uptime');
         $result = $uptimeProcess->run();
 
         return self::createFromString($uptimeProcess->getOutput());
