@@ -56,8 +56,12 @@ class Attribute extends Model
         return true;
     }
 
-    public function value(string $raw)
+    public function value($raw)
     {
+        if (is_null($raw)) {
+            return null;
+        }
+
         switch ($this->slug) {
             case 'active_energy':
             case 'energy':
