@@ -15,6 +15,7 @@
         "laravel/tinker": "^2.4",
         "laravel/ui": "^3.0",
         "lifeos/rentablo-api": "dev-master",
+        "livewire/livewire": "^2.3",
         "socialiteproviders/github": "^4.1"
     },
     "require-dev": {

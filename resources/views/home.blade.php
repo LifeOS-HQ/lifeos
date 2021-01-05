@@ -46,6 +46,10 @@
         <div class="col-12 col-lg-6">
 
             <home-work-show class="mt-3"></home-work-show>
+
+            @livewire('home.health.weight')
+            @livewire('home.health.calories')
+
             <home-server-index class="mt-3"></home-server-index>
 
         </div>
