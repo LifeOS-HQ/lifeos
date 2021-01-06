@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3",
+        "facade/ignition": "^2.5",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^8.0",
         "laravel/socialite": "^5.1",
