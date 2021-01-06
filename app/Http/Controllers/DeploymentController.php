@@ -17,7 +17,7 @@ class DeploymentController extends Controller
         $localHash = 'sha1=' . hash_hmac('sha1', $githubPayload, $localToken, false);
 
         $root_path = base_path();
-        $process = new Process('cd ' . $root_path . '; sh ./deploy.sh');
+        $process = Process::fromShellCommandline('cd ' . $root_path . '; sh ./deploy.sh');
         $process->run();
 
         // executes after the command finishes
