@@ -5114,6 +5114,12 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     month: _month_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     year: _year_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  props: {
+    years: {
+      type: Object,
+      required: true
+    }
   }
 });
 
@@ -5222,12 +5228,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     highcharts: highcharts_vue__WEBPACK_IMPORTED_MODULE_0__["Chart"]
+  },
+  props: {
+    years: {
+      type: Array,
+      required: true
+    }
   },
   computed: {
     hasAvailableHoursWorked: function hasAvailableHoursWorked() {
@@ -5240,7 +5250,7 @@ __webpack_require__.r(__webpack_exports__);
       isLoading: true,
       form: {
         month: date.getMonth() + 1,
-        year: date.getFullYear()
+        year: this.years[0].year
       },
       month_name: '',
       is_current_month: false,
@@ -5869,12 +5879,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     highcharts: highcharts_vue__WEBPACK_IMPORTED_MODULE_0__["Chart"]
+  },
+  props: {
+    years: {
+      type: Array,
+      required: true
+    }
   },
   computed: {
     hasAvailableHoursWorked: function hasAvailableHoursWorked() {
@@ -5886,7 +5900,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       isLoading: true,
       form: {
-        year: date.getFullYear()
+        year: this.years[0].year
       },
       month_name: '',
       chartOptions: {
@@ -51238,7 +51252,15 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_c("month"), _vm._v(" "), _c("year")], 1)
+  return _c(
+    "div",
+    [
+      _c("month", { attrs: { years: _vm.years } }),
+      _vm._v(" "),
+      _c("year", { attrs: { years: _vm.years } })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -51362,13 +51384,12 @@ var render = function() {
               ]
             }
           },
-          [
-            _c("option", { attrs: { value: "2018" } }, [_vm._v("2018")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "2019" } }, [_vm._v("2019")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "2020" } }, [_vm._v("2020")])
-          ]
+          _vm._l(_vm.years, function(year) {
+            return _c("option", { domProps: { value: year.year } }, [
+              _vm._v(_vm._s(year.year))
+            ])
+          }),
+          0
         )
       ])
     ]),
@@ -52338,13 +52359,12 @@ var render = function() {
               ]
             }
           },
-          [
-            _c("option", { attrs: { value: "2020" } }, [_vm._v("2020")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "2019" } }, [_vm._v("2019")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "2018" } }, [_vm._v("2018")])
-          ]
+          _vm._l(_vm.years, function(year) {
+            return _c("option", { domProps: { value: year.year } }, [
+              _vm._v(_vm._s(year.year))
+            ])
+          }),
+          0
         )
       ])
     ]),

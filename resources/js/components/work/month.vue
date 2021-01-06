@@ -20,9 +20,7 @@
             </div>
             <div class="form-group mb-0">
                 <select class="form-control" v-model="form.year" @change="fetch">
-                    <option value="2018">2018</option>
-                    <option value="2019">2019</option>
-                    <option value="2020">2020</option>
+                    <option :value="year.year" v-for="year in years">{{ year.year }}</option>
                 </select>
             </div>
         </div>
@@ -101,6 +99,13 @@
             highcharts: Chart
         },
 
+        props: {
+            years: {
+                type: Array,
+                required: true,
+            },
+        },
+
         computed: {
             hasAvailableHoursWorked() {
                 return (this.statistics.available_hours_worked != this.statistics.hours_worked);
@@ -114,7 +119,7 @@
                 isLoading: true,
                 form: {
                     month: date.getMonth() + 1,
-                    year: date.getFullYear(),
+                    year: this.years[0].year,
                 },
                 month_name: '',
                 is_current_month: false,

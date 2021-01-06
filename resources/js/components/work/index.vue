@@ -1,7 +1,7 @@
 <template>
     <div>
-        <month></month>
-        <year></year>
+        <month :years="years"></month>
+        <year :years="years"></year>
     </div>
 </template>
 
@@ -13,6 +13,13 @@
         components: {
             month,
             year,
+        },
+
+        props: {
+            years: {
+                type: Object,
+                required: true,
+            },
         },
     };
 </script>

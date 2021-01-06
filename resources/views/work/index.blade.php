@@ -9,6 +9,6 @@
         <a href="{{ url('work/time') }}" class="btn btn-secondary btn-sm">Zeiten</a>
     </div>
 
-    <work-index class="mt-3"></work-index>
+    <work-index :years="{{ json_encode($years) }}" class="mt-3"></work-index>
 
 @endsection

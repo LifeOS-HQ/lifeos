@@ -13,6 +13,7 @@ class WorkController extends Controller
 
         }
 
-        return view('work.index');
+        return view('work.index')
+            ->with('years', auth()->user()->working_years()->orderBy('year', 'DESC')->get());
     }
 }
