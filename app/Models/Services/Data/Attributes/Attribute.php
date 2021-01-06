@@ -65,13 +65,18 @@ class Attribute extends Model
         switch ($this->slug) {
             case 'active_energy':
             case 'energy':
-                return round($raw / 0.004184 / 1000, 0);
+                return $this->kjToKcal($raw);
                 break;
 
             default:
                 return $raw;
                 break;
         }
+    }
+
+    protected function kjToKcal($raw)
+    {
+        return round($raw / 0.004184 / 1000, 0);
     }
 
     public function getPathAttribute()
