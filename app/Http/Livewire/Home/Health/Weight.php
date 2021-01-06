@@ -13,7 +13,9 @@ class Weight extends Component
     {
         $attributes = Attribute::with([
                 'values' => function ($query) {
-                    return $query->latest()->take(30);
+                    return $query->where('user_id', auth()->user()->id)
+                        ->latest('at')
+                        ->take(30);
                 },
             ])->whereIn('slug', [
                 'weight',
