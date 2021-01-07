@@ -36,8 +36,27 @@ class Year extends Model
         'date',
     ];
 
-    protected $guarded = [
-        'id'
+    protected $fillable = [
+        'user_id',
+        'date',
+        'year',
+        'available_working_days',
+        'planned_working_hours',
+        'days_worked',
+        'workingdays_worked',
+        'hours_worked',
+        'workingdays_hours_worked',
+        'wage_in_cents',
+        'wage_bonus_in_cents',
+        'bonus_months_in_cents',
+        'bonus_in_cents',
+        'gross_in_cents',
+        'tax_refund_in_cents',
+        'net_in_cents',
+        'planned_working_hours_formatted',
+        'tax_refund_formatted',
+        'wage_bonus_formatted',
+        'wage_formatted',
     ];
 
     protected $table = 'working_years';
