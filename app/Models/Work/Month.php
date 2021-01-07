@@ -43,8 +43,21 @@ class Month extends Model
         'date',
     ];
 
-    protected $guarded = [
-        'id'
+    protected $fillable = [
+        'user_id',
+        'year_id',
+        'date',
+        'month',
+        'available_working_days',
+        'days_worked',
+        'workingdays_worked',
+        'hours_worked',
+        'workingdays_hours_worked',
+        'bonus_in_cents',
+        'gross_in_cents',
+        'net_in_cents',
+        'bonus_formatted',
+        'net_formatted',
     ];
 
     protected $table = 'working_months';
