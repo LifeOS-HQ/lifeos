@@ -16,6 +16,7 @@
                 <a href="/lifearea"><li>Lebensbereiche</li></a>
                 <a href="/portfolio"><li>Portfolio</li></a>
                 <a href="/journal"><li>Tagebuch</li></a>
+                <a href="/workouts"><li>Training</li></a>
             </ul>
             <div class="px-3 text-white text-center"><p><a href="https://github.com/Cardmonitor/cardmonitor" target="_blank">View on Github</a></p></div>
             <div class="bg-secondary text-white p-2 d-flex justify-content-around">
