@@ -28,6 +28,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home/server', 'Home\Servers\StatusController@index')->name('home.server.index');
 
     Route::resource('activity', 'Activities\ActivityController');
+    Route::resource('health', 'Health\HealthController');
 
     Route::resource('journal', 'Journals\JournalController');
     Route::resource('journal.activity', 'Journals\Activities\ActivityController');
