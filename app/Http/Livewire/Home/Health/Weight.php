@@ -8,6 +8,13 @@ use Livewire\Component;
 class Weight extends Component
 {
     public $items;
+    public $current_weight_avg = 0;
+    public $last_weight_avg = 0;
+    public $body_fat_avg = 0;
+    public $weight_difference = 0;
+    public $weight_difference_kcal = 0;
+    public $weight_difference_goal = 0;
+    public $weight_difference_goal_kcal = 0;
 
     public function loadItems()
     {
@@ -24,6 +31,22 @@ class Weight extends Component
             ])->get();
 
         $this->items = $attributes;
+
+        $body_fat_attribute = $attributes->where('slug', 'body_fat')->first();
+        $this->body_fat_avg = $body_fat_attribute->values()->avg('raw');
+
+        $weight_attribute = $attributes->where('slug', 'weight')->first();
+        $current_weights = $weight_attribute->values()->latest('at')->limit(7)->offset(0)->get();
+        $last_weights = $weight_attribute->values()->latest('at')->limit(7)->offset(1)->get();
+
+        $this->current_weight_avg = $current_weights->avg('raw');
+        $this->last_weight_avg = $last_weights->avg('raw');
+
+        $this->weight_difference = $this->current_weight_avg - $this->last_weight_avg;
+        $this->weight_difference_kcal = $this->weight_difference / 7 * 7000;
+
+        $this->weight_difference_goal = $this->body_fat_avg / 20 / 2 * $this->current_weight_avg * -1;
+        $this->weight_difference_goal_kcal = ($this->weight_difference_goal - $this->weight_difference) * 7000 / 7;
     }
 
     public function render()
