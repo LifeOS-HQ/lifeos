@@ -21,7 +21,12 @@
                 <tr>
                     <td>Differenz Kalorien pro Tag</td>
                     <td>{{ number_format($weight_difference_kcal, 2, ',', '.') }} kcal</td>
-                    <td class="text-muted">{{ number_format($weight_difference_goal_kcal, 2, ',', '.') }} kcal ({{ number_format($weight_difference_goal_kcal - $weight_difference_kcal, 2, ',' , '.') }} kcal)</td>
+                    <td class="text-muted">Ziel: {{ number_format($weight_difference_goal_kcal, 2, ',', '.') }} kcal ({{ number_format($weight_difference_goal_kcal - $weight_difference_kcal, 2, ',' , '.') }} kcal)</td>
+                </tr>
+                <tr>
+                    <td>Ø Kalorien letzte 7 Tage</td>
+                    <td>{{ number_format($energy_avg, 2, ',', '.') }} kcal</td>
+                    <td class="text-muted">Ziel: {{ number_format($energy_avg + $weight_difference_goal_kcal, 2, ',', '.') }} kcal</td>
                 </tr>
             </tbody>
         </table>

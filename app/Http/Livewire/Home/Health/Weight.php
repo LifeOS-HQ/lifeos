@@ -11,6 +11,7 @@ class Weight extends Component
     public $current_weight_avg = 0;
     public $last_weight_avg = 0;
     public $body_fat_avg = 0;
+    public $energy_avg = 0;
     public $weight_difference = 0;
     public $weight_difference_kcal = 0;
     public $weight_difference_goal = 0;
@@ -47,6 +48,10 @@ class Weight extends Component
 
         $this->weight_difference_goal = $this->body_fat_avg / 20 / 2 * $this->current_weight_avg * -1;
         $this->weight_difference_goal_kcal = ($this->weight_difference_goal - $this->weight_difference) * 7000 / 7;
+
+        $energy_attribute = Attribute::where('slug', 'energy')->first();
+        $energies = $energy_attribute->values()->latest('at')->limit(7)->offset(0)->get();
+        $this->energy_avg = $energy_attribute->value($energies->avg('raw'));
     }
 
     public function render()
