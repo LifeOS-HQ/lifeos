@@ -10,8 +10,8 @@
 <meta name="msapplication-starturl" content="/">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<link rel="icon" sizes="192x192" href="{{ Storage::url('icons/Android/Icon-192.png') }}">
-<link rel="apple-touch-icon" sizes="196x196" href="{{ Storage::url('icons/iOS/Icon-196.png') }}">
+<!-- <link rel="icon" sizes="192x192" href="{{ Storage::disk('public')->url('icons/Android/Icon-192.png') }}">
+<link rel="apple-touch-icon" sizes="196x196" href="{{ Storage::disk('public')->url('icons/iOS/Icon-196.png') }}"> -->
 
 <!-- CSRF Token -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
