@@ -32,28 +32,63 @@
         </table>
 
         @isset($items)
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th></th>
-                        @foreach($items->first()->values as $value)
-                            <th class="text-right">
-                                {{ $value->at->format('d.m.Y') }}
-                            </th>
-                        @endforeach
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($items as $item)
-                        <tr>
-                            <td>{{ $item->name }}</td>
-                            @foreach($item->values as $value)
-                                <td class="text-right">{{ $value->raw }}</td>
-                            @endforeach
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div id="container"></div>
+            <script type="text/javascript">
+                var categories = [],
+                    series = [];
+
+                <?php foreach($items as $item) { ?>
+                    <?php $item->values = $item->values->reverse(); ?>
+                    var serie = {
+                        name: '<?php echo $item->name; ?>',
+                        data: [],
+                        yAxis: <?php echo ($item->slug == 'body_fat' ? 1 : 0) ?>,
+                        type: '<?php echo ($item->slug == 'body_fat' ? 'column' : 'line') ?>',
+                    };
+                    categories = [];
+                    <?php foreach($item->values as $value) { ?>
+                        categories.push('<?php echo $value->at->format('d.m.Y'); ?>');
+                        serie.data.push(<?php echo $item->value($value->raw); ?>);
+                    <?php } ?>
+                    series.push(serie);
+                <?php } ?>
+                Highcharts.chart('container', {
+                    chart: {
+
+                    },
+                    title: {
+                        text: 'Gewicht im Zeitverlauf'
+                    },
+                    xAxis: {
+                        categories: categories
+                    },
+                    yAxis: [{
+                        title: {
+                            text: 'Gewicht (kg)'
+                        },
+                    }, {
+                        title: {
+                            text: 'Körperfett (%)'
+                        },
+                        opposite: true,
+                        min: 0.05,
+                        max: 0.3,
+                    }],
+                    plotOptions: {
+                        line: {
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.y:,.2f}',
+                            },
+                        },
+                    },
+                    tooltip: {
+                        headerFormat: '<b>{point.key}</b><br/>',
+                        pointFormat: '{series.name}: {point.y:,.2f}'
+                    },
+                    series: series
+                });
+            </script>
         @endisset
     </div>
 </div>
