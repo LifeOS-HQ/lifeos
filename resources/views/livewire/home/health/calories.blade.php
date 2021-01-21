@@ -83,6 +83,17 @@
                         title: {
                             text: 'Kalorien (kcal)'
                         },
+                        plotLines: [{
+                            color: '#7cb5ec',
+                            value: <?php echo $energy[0]->values_avg; ?>, // Insert your average here
+                            width: '1',
+                            zIndex: 4 // To not get stuck below the regular plot lines or series
+                        }, {
+                            color: '#434348',
+                            value: <?php echo $energy[1]->values_avg; ?>, // Insert your average here
+                            width: '1',
+                            zIndex: 4 // To not get stuck below the regular plot lines or series
+                        }]
                     }],
                     plotOptions: {
                         line: {

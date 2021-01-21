@@ -23,6 +23,9 @@ class Calories extends Component
                 'energy',
             ])->get();
         $this->energy = $attributes;
+        foreach ($this->energy as $key => $energy) {
+            $energy->values_avg = $energy->value($energy->values->avg('raw'));
+        }
 
         $this->nutrients = Attribute::with([
                 'values' => function ($query) {
