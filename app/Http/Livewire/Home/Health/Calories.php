@@ -7,7 +7,8 @@ use Livewire\Component;
 
 class Calories extends Component
 {
-    public $items;
+    public $energy;
+    public $nutrients;
 
     public function loadItems()
     {
@@ -19,14 +20,27 @@ class Calories extends Component
                 },
             ])->whereIn('slug', [
                 'active_energy',
-                'carbohydrates',
                 'energy',
+            ])->get();
+        $this->energy = $attributes;
+
+        $this->nutrients = Attribute::with([
+                'values' => function ($query) {
+                    return $query->where('user_id', auth()->user()->id)
+                        ->latest('at')
+                        ->take(30);
+                },
+            ])->whereIn('slug', [
+                'carbohydrates',
                 'fat',
-                'fibre',
                 'protein',
             ])->get();
 
-        $this->items = $attributes;
+        foreach ($this->nutrients as $key => $nutrient) {
+            $nutrient->values_avg = $nutrient->values->avg('raw');
+            $nutrient->calories_avg = $nutrient->values_avg * ($nutrient->slug == 'fat' ? 9 : 4);
+        }
+
     }
 
     public function render()
