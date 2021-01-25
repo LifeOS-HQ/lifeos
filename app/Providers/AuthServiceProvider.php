@@ -45,6 +45,10 @@ class AuthServiceProvider extends ServiceProvider
         Scale::class => ScalePolicy::class,
         Rating::class => RatingPolicy::class,
         \App\Models\Journals\Activities\Activity::class => \App\Policies\Journals\ActivityPolicy::class,
+        \App\Models\Workouts\Workout::class => \App\Policies\Workouts\WorkoutPolicy::class,
+        \App\Models\Workouts\WorkoutHistory::class => \App\Policies\Workouts\WorkoutHistoryPolicy::class,
+        \App\Models\Exercises\Exercise::class => \App\Policies\Exercises\ExercisePolicy::class,
+        \App\Models\Services\Service::class => \App\Policies\Services\ServicePolicy::class,
     ];
 
     /**

@@ -2483,7 +2483,8 @@ __webpack_require__.r(__webpack_exports__);
         hours_worked_day: 0,
         profit_sum: 0,
         planned_working_hours: 0,
-        planned_working_hours_day: 0
+        planned_working_hours_day: 0,
+        workingdays_worked: 0
       }
     };
   },

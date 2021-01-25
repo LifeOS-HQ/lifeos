@@ -2,7 +2,9 @@
 
 namespace App\Models\Services;
 
+use App\Models\Services\Service;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Model
 {
@@ -52,5 +54,10 @@ class User extends Model
     public function isDeletable() : bool
     {
         return true;
+    }
+
+    public function service() : BelongsTo
+    {
+        return $this->belongsTo(Service::class, 'service_id');
     }
 }

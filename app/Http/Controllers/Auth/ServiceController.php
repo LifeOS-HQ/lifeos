@@ -43,6 +43,9 @@ class ServiceController extends Controller
             'expires_at' => ($provider_user->expiresIn ? now()->addSeconds($provider_user->expiresIn) : null),
         ]);
 
-        dd($provider_user, $service_user);
+        return redirect(route('user.services.index'))->with('status', [
+            'type' => 'success',
+            'text' => 'Verbindung mit <b>' . $service->name . '</b> hergestellt.',
+        ]);
     }
 }

@@ -13,6 +13,7 @@
                 <a href="/activity"><li>Aktivitäten</li></a>
                 <a href="/work"><li>Arbeit</li></a>
                 <a href="/review"><li>Berichte</li></a>
+                <a href="/health"><li>Gesundheit</li></a>
                 <a href="/lifearea"><li>Lebensbereiche</li></a>
                 <a href="/portfolio"><li>Portfolio</li></a>
                 <a href="/journal"><li>Tagebuch</li></a>
@@ -42,6 +43,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="/user/settings">Einstellungen</a>
+                                <a class="dropdown-item" href="/user/services">Verbindungen</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">

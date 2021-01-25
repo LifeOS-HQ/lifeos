@@ -23,6 +23,8 @@ class CreateServiceUserTable extends Migration
             $table->text('token')->nullable();
             $table->text('token_secret')->nullable();
             $table->text('refresh_token')->nullable();
+            $table->string('username')->nullable();
+            $table->string('password')->nullable();
             $table->unsignedInteger('expires_in')->nullable();
             $table->dateTime('expires_at')->nullable();
 

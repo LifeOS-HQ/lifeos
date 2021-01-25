@@ -3,13 +3,17 @@
 namespace App;
 
 use App\Models\Activities\Activity;
+use App\Models\Exercises\Exercise;
 use App\Models\Journals\Journal;
 use App\Models\Lifeareas\Lifearea;
 use App\Models\Reviews\Review;
+use App\Models\Services\Service;
 use App\Models\Work\Month;
 use App\Models\Work\Time;
 use App\Models\Work\Year;
+use App\Models\Workouts\Workout;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -50,6 +54,11 @@ class User extends Authenticatable
         return $this->hasMany(Activity::class, 'user_id');
     }
 
+    public function exercises() : HasMany
+    {
+        return $this->hasMany(Exercise::class, 'user_id');
+    }
+
     public function journals() : HasMany
     {
         return $this->hasMany(Journal::class, 'user_id');
@@ -65,6 +74,19 @@ class User extends Authenticatable
         return $this->hasMany(Review::class, 'user_id');
     }
 
+    public function services() : BelongsToMany
+    {
+        return $this->belongsToMany(Service::class, 'service_user')->withPivot([
+            'id',
+            'token',
+            'token_secret',
+            'refresh_token',
+            'username',
+            'password',
+            'expires_at',
+        ])->withTimestamps();
+    }
+
     public function working_years() : HasMany
     {
         return $this->hasMany(Year::class);
@@ -78,5 +100,10 @@ class User extends Authenticatable
     public function working_times() : HasMany
     {
         return $this->hasMany(Time::class);
+    }
+
+    public function workouts() : HasMany
+    {
+        return $this->hasMany(Workout::class, 'user_id');
     }
 }

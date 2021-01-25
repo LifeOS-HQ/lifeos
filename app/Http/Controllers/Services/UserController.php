@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Services;
 
 use App\Http\Controllers\Controller;
+use App\Models\Services\Service;
+use App\Models\Services\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -14,7 +16,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $user = auth()->user();
+        $user->load([
+            'services',
+        ]);
+
+        return view('service.user.index')
+            ->with('services', Service::all())
+            ->with('user', $user);
     }
 
     /**
@@ -22,9 +31,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Service $service)
     {
-        //
+        return view('service.user.create')
+            ->with('service', $service);
     }
 
     /**
@@ -33,9 +43,25 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Service $service)
     {
-        //
+        $attributes = $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        $user = auth()->user();
+
+        $service_user = User::updateOrCreate([
+            'user_id' => auth()->user()->id,
+            'service_id' => $service->id,
+            'service_user_id' => $user->id,
+        ], $attributes);
+
+        return redirect(route('user.services.index'))->with('status', [
+            'type' => 'success',
+            'text' => 'Verbindung mit <b>' . $service->name . '</b> hergestellt.',
+        ]);
     }
 
     /**
@@ -78,8 +104,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $service_user)
     {
-        //
+        $service_user->delete();
+
+        return back()->with('status', [
+            'type' => 'success',
+            'text' => 'Verbindung <b>' . $service_user->service->name . '</b> gelöscht.',
+        ]);
     }
 }

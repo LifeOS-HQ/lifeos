@@ -47,12 +47,15 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/portfolio', 'Portfolios\PortfolioController');
     Route::get('/portfolio/dividend/{year}', 'Portfolios\Dividends\MonthController@show');
 
-
     Route::resource('review', 'Reviews\ReviewController');
     Route::resource('review.block', 'Reviews\BlockController');
     Route::resource('review.lifearea', 'Reviews\LifeareaController');
 
     Route::resource('services', 'Services\ServiceController');
+    Route::get('user/services', 'Services\UserController@index')->name('user.services.index');
+    Route::get('user/services/{service}/create', 'Services\UserController@create')->name('user.services.create');
+    Route::post('user/services/{service}', 'Services\UserController@store')->name('user.services.store');
+    Route::delete('user/services/{service_user}', 'Services\UserController@destroy')->name('user.services.destroy');
 
     Route::get('/work', 'Work\WorkController@index')->name('work.index');
 
@@ -62,5 +65,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('work/month', 'Work\MonthController');
 
     Route::resource('work/year', 'Work\YearController');
+
+    Route::resource('workouts/exercises', 'Exercises\ExerciseController');
+    Route::resource('workouts', 'Workouts\WorkoutController');
 
 });
