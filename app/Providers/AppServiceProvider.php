@@ -17,7 +17,16 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('RentabloApi', function ($app, array $parameters) {
-            return new Rentablo(config('rentablo'));
+
+            $user = auth()->user();
+            $service = $user->services()->where('slug', 'rentablo')->first();
+            if (is_null($service)) {
+                return null;
+            }
+
+            $service->uri = config('rentablo.uri');
+
+            return new Rentablo($service);
         });
     }
 

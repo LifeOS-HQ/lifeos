@@ -7,7 +7,7 @@
     <div class="wrapper" id="app">
         <nav id="nav" style="">
             <div class="navbar">
-                <a class="navbar-brand" href="#">LifeOS</a>
+                <a class="navbar-brand" href="/">LifeOS</a>
             </div>
             <ul class="col">
                 <a href="/activity"><li>Aktivitäten</li></a>

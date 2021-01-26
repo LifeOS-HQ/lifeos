@@ -2,6 +2,7 @@
 
 namespace App\Apis\Rentablo;
 
+use App\Models\Services\Service;
 use App\Models\Work\Year;
 use Dasumi\Rentablo\Api;
 use Illuminate\Support\Arr;
@@ -17,12 +18,11 @@ class Rentablo
     protected $username;
     protected $password;
 
-    public function __construct(array $config)
+    public function __construct(Service $service)
     {
-        $this->api = new Api($config['uri']);
-
-        $this->username = $config['username'];
-        $this->password = $config['password'];
+        $this->api = new Api($service->uri);
+        $this->username = $service->pivot->username;
+        $this->password = $service->pivot->password;
     }
 
     public function home($refresh = false) : array

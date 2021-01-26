@@ -19,7 +19,9 @@ class PortfolioController extends Controller
     {
         if ($request->wantsJson()) {
             $rentabloApi = App::make('RentabloApi');
-
+            if (is_null($rentabloApi)) {
+                return [];
+            }
             return $rentabloApi->years();
         }
 

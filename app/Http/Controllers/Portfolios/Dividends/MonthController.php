@@ -50,6 +50,9 @@ class MonthController extends Controller
     public function show(int $year)
     {
         $rentabloApi = App::make('RentabloApi');
+        if (is_null($rentabloApi)) {
+            return [];
+        }
         $data = $rentabloApi->dividendsPerMonthDataAndInvestment($year);
 
         $categories = [
