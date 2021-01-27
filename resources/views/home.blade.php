@@ -34,7 +34,10 @@
                             </div>
                             <div class="d-flex align-items-center justify-content-center">
                 @endif
-                <div style="width: 10px; height: 10px; border: 1px solid black;" class="@if($day < $now) bg-dark @else bg-light @endif"></div>
+                <?php
+
+                ?>
+                <div title="Bewertung {{ $moods[$day->format('Y-m-d')]['mood'] }}" style="width: 10px; height: 10px; border: 1px solid black;" class="@if($day < $now) {{ $moods[$day->format('Y-m-d')]['bg_class'] }} @else bg-light @endif"></div>
             @endforeach
                 </div>
             </div>
