@@ -74,6 +74,27 @@ class Attribute extends Model
         }
     }
 
+    public function getBgClass($raw) : string
+    {
+        if ($this->slug != 'mood') {
+            return '';
+        }
+
+        switch ($raw) {
+            case 1: return 'bg-mood-1';
+            case 2: return 'bg-mood-2';
+            case 3: return 'bg-mood-3';
+            case 4: return 'bg-mood-4';
+            case 5: return 'bg-mood-5';
+            case 6: return 'bg-mood-6';
+            case 7: return 'bg-mood-7';
+            case 8: return 'bg-mood-8';
+            case 9: return 'bg-mood-9';
+
+            default: return 'bg-dark';
+        }
+    }
+
     protected function kjToKcal($raw)
     {
         return round($raw / 0.004184 / 1000, 0);
