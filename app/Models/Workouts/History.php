@@ -2,16 +2,13 @@
 
 namespace App\Models\Workouts;
 
-use App\Models\Exercises\Exercise;
-use App\Models\Workouts\History;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Workout extends Model
+class History extends Model
 {
     protected $appends = [
-        'path',
+        // 'path',
     ];
 
     protected $casts = [
@@ -19,12 +16,15 @@ class Workout extends Model
     ];
 
     protected $dates = [
-        //
+        'start_at',
+        'end_at',
     ];
 
     protected $guarded = [
         'id',
     ];
+
+    public $table = 'workout_histories';
 
     /**
      * The booting method of the model.
@@ -58,29 +58,19 @@ class Workout extends Model
 
     public function getPathAttribute()
     {
-        return route('workouts.show', [
-            'workout' => $this->id,
+        return route('workouts.histories.show', [
+            'workout' => $this->workout_id,
+            'history' => $this->id,
         ]);
     }
 
-    public function exercises() : BelongsToMany
+    public function exercise_histories() : HasMany
     {
-        return $this->belongsToMany(Exercise::class, 'workout_exercise')
-            ->withTimestamps()
-            ->withPivot([
-                'order',
-                'goal_type',
-                'goal_target',
-            ]);
-    }
-
-    public function histories() : hasMany
-    {
-        return $this->hasMany(History::class, 'workout_id');
+        return $this->hasMany(\App\Models\Workouts\Exercises\History::class, 'workout_history_id', 'id');
     }
 
     public function sets() : HasMany
     {
-        return $this->hasMany(Set::class, 'workout_id');
+        return $this->hasMany(\App\Models\Workouts\Sets\History::class, 'workout_history_id');
     }
 }

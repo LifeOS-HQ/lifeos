@@ -24,7 +24,7 @@
         <tbody>
             @foreach($items as $item)
                 <tr>
-                    <td>{{ $item->name }}</td>
+                    <td><a href="{{ $item->path }}">{{ $item->name }}</a></td>
                 </tr>
             @endforeach
         </tbody>
