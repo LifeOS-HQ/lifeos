@@ -69,5 +69,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('workouts/exercises', 'Exercises\ExerciseController');
     Route::resource('workouts', 'Workouts\WorkoutController');
+    Route::resource('workouts.histories', 'Workouts\HistoryController');
 
 });

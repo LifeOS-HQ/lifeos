@@ -12,7 +12,7 @@
             </thead>
             <tbody>
                 @foreach($items as $item)
-                    <tr>
+                    <tr class="{{ $item->is_completed ? 'table-success' : '' }}">
                         <td class="align-middle">{{ $item->order }}</td>
                         <td class="align-middle">
                             <input class="form-control" type="number" step="1" min="0" wire:model.defer="form.{{ $item->id }}.reps_count">

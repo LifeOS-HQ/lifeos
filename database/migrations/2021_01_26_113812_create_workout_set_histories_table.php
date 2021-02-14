@@ -23,6 +23,8 @@ class CreateWorkoutSetHistoriesTable extends Migration
             $table->unsignedMediumInteger('weight_in_g')->default(0);
             $table->unsignedMediumInteger('reps_count')->default(0);
 
+            $table->boolean('is_completed')->default(false);
+
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

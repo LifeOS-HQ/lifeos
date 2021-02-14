@@ -49,7 +49,9 @@ class Index extends Component
 
     public function update(int $id, int $index)
     {
-        $this->items[$index]->update($this->form[$id]);
+        $this->items[$index]->update($this->form[$id] + [
+            'is_completed' => true,
+        ]);
     }
 
     public function getItems()

@@ -51,10 +51,10 @@ class HistoryController extends Controller
             'end_at' => now(),
         ]);
 
-        return redirect($history->path)
+        return redirect($workout->path)
             ->with('status', [
                 'type' => 'success',
-                'text' => 'Datensatz gespeichert.',
+                'text' => 'Training beendet.',
             ]);
     }
 }
