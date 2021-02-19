@@ -9,6 +9,16 @@ use Illuminate\Http\Request;
 
 class HistoryController extends Controller
 {
+    public function index(Request $request, Workout $workout)
+    {
+        $workout->load([
+            // 'histories',
+        ]);
+
+        return view('workout.history.index')
+            ->with('model', $workout);
+    }
+
     public function store(Request $request, Workout $workout)
     {
         $workout_history = $workout->histories()->create([
