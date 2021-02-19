@@ -12,7 +12,7 @@
 </div>
 
 <div class="row">
-    <div class="col-8">
+    <div class="col-6">
 
         <div class="card">
             <form action="{{ $model->path }}" method="POST">
@@ -41,7 +41,7 @@
 
     </div>
 
-    <div class="col-4">
+    <div class="col-6">
         <lifearea-scale-index :model="{{ json_encode($model) }}"></lifearea-scale-index>
     </div>
 </div>

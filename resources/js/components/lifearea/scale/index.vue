@@ -1,11 +1,11 @@
 <template>
     <div class="card">
-        <div class="card-header">Skala</div>
+        <div class="card-header">Level</div>
         <div class="card-body">
-            <table class="table table-hover table-striped">
+            <table class="table table-hover table-striped table-fixed">
                 <thead>
                     <tr>
-                        <td width="10%">Wert</td>
+                        <td width="50" class="">#</td>
                         <td width="70%">Beschreibung</td>
                         <td width="20%"></td>
                     </tr>

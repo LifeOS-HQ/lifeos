@@ -13,7 +13,7 @@ class ScaleController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(Scale::class, 'scale');
+        // $this->authorizeResource(Scale::class, 'scale');
     }
 
     /**
@@ -62,9 +62,21 @@ class ScaleController extends Controller
      * @param  \App\Models\Lifeareas\Scale  $scale
      * @return \Illuminate\Http\Response
      */
-    public function show(Lifearea $lifearea, Scale $scale)
+    public function show(Request $request, Lifearea $lifearea, int $level)
     {
-        //
+        $scale = $lifearea->scales()->where('value', $level)->first();
+        if (is_null($scale)) {
+            dd('test');
+            abort(404);
+        }
+
+        if ($request->wantsJson()) {
+            //
+        }
+
+        return view($this->baseViewPath . '.show')
+            ->with('lifearea', $lifearea)
+            ->with('model', $scale);
     }
 
     /**

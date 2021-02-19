@@ -5,6 +5,9 @@
     <div class="row align-items-center mb-3">
         <h1 class="col mb-0">Training > {{ $model->name }}</h1>
         <div class="col-auto">
+            <a class="btn btn-secondary" href="{{ route('workouts.histories.index', ['workout' => $model->id]) }}">Tagebuch</a>
+        </div>
+        <div class="col-auto">
             <form action="{{ route('workouts.histories.store', ['workout' => $model]) }}" method="POST">
                 @csrf
 

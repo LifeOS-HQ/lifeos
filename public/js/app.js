@@ -3850,6 +3850,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     item: {
@@ -49475,31 +49478,35 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _c("div", { staticClass: "card-header" }, [_vm._v("Skala")]),
+    _c("div", { staticClass: "card-header" }, [_vm._v("Level")]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
-      _c("table", { staticClass: "table table-hover table-striped" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "tbody",
-          _vm._l(_vm.items, function(item, index) {
-            return _c("show", {
-              key: index,
-              attrs: { item: item },
-              on: {
-                deleted: function($event) {
-                  return _vm.remove(index)
-                },
-                updated: function($event) {
-                  return _vm.updated(index, $event)
+      _c(
+        "table",
+        { staticClass: "table table-hover table-striped table-fixed" },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.items, function(item, index) {
+              return _c("show", {
+                key: index,
+                attrs: { item: item },
+                on: {
+                  deleted: function($event) {
+                    return _vm.remove(index)
+                  },
+                  updated: function($event) {
+                    return _vm.updated(index, $event)
+                  }
                 }
-              }
-            })
-          }),
-          1
-        )
-      ])
+              })
+            }),
+            1
+          )
+        ]
+      )
     ])
   ])
 }
@@ -49510,7 +49517,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("td", { attrs: { width: "10%" } }, [_vm._v("Wert")]),
+        _c("td", { attrs: { width: "50" } }, [_vm._v("#")]),
         _vm._v(" "),
         _c("td", { attrs: { width: "70%" } }, [_vm._v("Beschreibung")]),
         _vm._v(" "),
@@ -49643,7 +49650,11 @@ var render = function() {
               }
             }
           },
-          [_vm._v(_vm._s(_vm.item.description))]
+          [
+            _c("div", [_vm._v(_vm._s(_vm.item.description))]),
+            _vm._v(" "),
+            _c("div", [_vm._v("X/Y Ziele Z%")])
+          ]
         ),
         _vm._v(" "),
         _c("td", { staticClass: "align-middle text-right" }, [
@@ -49654,7 +49665,7 @@ var render = function() {
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-primary",
+                  staticClass: "btn btn-secondary",
                   on: {
                     click: function($event) {
                       _vm.isEditing = true

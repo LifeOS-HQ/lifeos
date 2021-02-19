@@ -15,10 +15,13 @@
     </tr>
     <tr v-else>
         <td class="align-middle">{{ item.value }}</td>
-        <td class="align-middle pointer" @click="isEditing = true">{{ item.description }}</td>
+        <td class="align-middle pointer" @click="isEditing = true">
+            <div>{{ item.description }}</div>
+            <div>X/Y Ziele Z%</div>
+        </td>
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
-                <button class="btn btn-primary" @click="isEditing = true"><i class="fas fa-fw fa-edit"></i></button>
+                <button class="btn btn-secondary" @click="isEditing = true"><i class="fas fa-fw fa-edit"></i></button>
                 <button type="button" class="btn btn-secondary" title="Löschen" @click="destroy" v-if="item.is_deletable"><i class="fas fa-fw fa-trash"></i></button>
             </div>
         </td>

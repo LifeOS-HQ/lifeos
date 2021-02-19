@@ -2,10 +2,12 @@
 
 namespace App\Models\Lifeareas;
 
+use App\Models\Lifeareas\Levels\Goals\Goal;
 use App\Models\Lifeareas\Lifearea;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Scale extends Model
 {
@@ -76,5 +78,10 @@ class Scale extends Model
     public function user() : BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function goals() : HasMany
+    {
+        return $this->hasMany(Goal::class, 'level_id');
     }
 }

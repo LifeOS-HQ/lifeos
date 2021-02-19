@@ -2,7 +2,9 @@
 
 namespace App\Models\Services\Data\Attributes\Groups;
 
+use App\Models\Services\Data\Attributes\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Group extends Model
 {
@@ -57,5 +59,10 @@ class Group extends Model
     public function getPathAttribute()
     {
         return '/group/' . $this->id;
+    }
+
+    public function attributes() : HasMany
+    {
+        return $this->hasMany(Attribute::class, 'group_id')->orderBy('name', 'ASC');
     }
 }
