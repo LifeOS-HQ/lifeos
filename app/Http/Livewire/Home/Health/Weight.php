@@ -20,11 +20,6 @@ class Weight extends Component
     public function loadItems()
     {
         $attributes = Attribute::with([
-                'values' => function ($query) {
-                    return $query->where('user_id', auth()->user()->id)
-                        ->latest('at')
-                        ->take(30);
-                },
             ])->whereIn('slug', [
                 'weight',
                 'body_fat',
@@ -32,6 +27,16 @@ class Weight extends Component
             ])->get();
 
         $this->items = $attributes;
+
+        foreach ($this->items as $key => $item) {
+            $item->load([
+                'values' => function ($query) {
+                    return $query->where('user_id', auth()->user()->id)
+                        ->latest('at')
+                        ->take(30);
+                },
+            ]);
+        }
 
         $body_fat_attribute = $attributes->where('slug', 'body_fat')->first();
         $this->body_fat_avg = $body_fat_attribute->values()->avg('raw');

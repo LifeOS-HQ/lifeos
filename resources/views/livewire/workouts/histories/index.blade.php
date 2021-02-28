@@ -1,5 +1,5 @@
 <div>
-    <table>
+    <table class="table table-striped table-hover">
         <thead>
             <tr>
                 <th>Datum</th>

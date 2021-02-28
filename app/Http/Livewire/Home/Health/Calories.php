@@ -13,17 +13,19 @@ class Calories extends Component
     public function loadItems()
     {
         $attributes = Attribute::with([
-                'values' => function ($query) {
-                    return $query->where('user_id', auth()->user()->id)
-                        ->latest('at')
-                        ->take(30);
-                },
             ])->whereIn('slug', [
                 'active_energy',
                 'energy',
             ])->get();
         $this->energy = $attributes;
         foreach ($this->energy as $key => $energy) {
+            $energy->load([
+                'values' => function ($query) {
+                    return $query->where('user_id', auth()->user()->id)
+                        ->latest('at')
+                        ->take(30);
+                },
+            ]);
             $energy->values_avg = $energy->value($energy->values->avg('raw'));
         }
 
