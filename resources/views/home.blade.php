@@ -37,7 +37,7 @@
                 <?php
 
                 ?>
-                <div title="Bewertung {{ $moods[$day->format('Y-m-d')]['mood'] }}" style="width: 10px; height: 10px; border: 1px solid black;" class="@if($day < $now) {{ $moods[$day->format('Y-m-d')]['bg_class'] }} @else bg-light @endif"></div>
+                <div data-toggle="popover" data-placement="bottom" data-trigger="hover" title="Bewertung {{ $moods[$day->format('Y-m-d')]['mood'] }}" data-content="{{ nl2br($moods[$day->format('Y-m-d')]['mood_note']) }}" style="width: 10px; height: 10px; border: 1px solid black;" class="@if($day < $now) {{ $moods[$day->format('Y-m-d')]['bg_class'] }} @else bg-light @endif"></div>
             @endforeach
                 </div>
             </div>

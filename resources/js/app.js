@@ -100,3 +100,7 @@ $('#menu-toggle').click(function() {
     $('.collapse.in').toggleClass('in');
     $('a[aria-expanded=true]').attr('aria-expanded', 'false');
 });
+
+$('[data-toggle="popover"]').popover({
+    html: true,
+});

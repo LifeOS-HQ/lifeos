@@ -36,20 +36,29 @@ class HomeController extends Controller
                 },
             ])->where('slug', 'mood')
             ->first();
+        $mood_note_attribute = Attribute::with([
+                'values' => function ($query) use ($start_of_year) {
+                    return $query->whereDate('at', '>=', $start_of_year);
+                },
+            ])->where('slug', 'mood_note')
+            ->first();
 
         $moods = [];
         foreach ($days as $key => $day) {
             $mood_day = $mood_attribute->values->where('at', $day)->first();
+            $mood_note_day = $mood_note_attribute->values->where('at', $day)->first();
             if (is_null($mood_day)) {
                 $moods[$day->format('Y-m-d')] = [
                     'bg_class' => 'bg-dark',
                     'mood' => 0,
+                    'mood_note' => '',
                 ];
                 continue;
             }
             $moods[$day->format('Y-m-d')] = [
                 'bg_class' => $mood_attribute->getBgClass($mood_day->raw),
                 'mood' => $mood_day->raw,
+                'mood_note' => $mood_note_day->raw,
             ];
         }
 
