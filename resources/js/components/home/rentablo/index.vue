@@ -28,10 +28,10 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-hover table-striped">
+                <table class="table table-fixed table-hover table-striped table-sm bg-white">
                     <thead>
                         <tr>
-                            <th></th>
+                            <th width="150">{{ year }}</th>
                             <th class="text-right">Gesamt</th>
                             <th class="text-right" v-for="(account, accountId) in accounts">{{ account.name }}</th>
                         </tr>
@@ -39,18 +39,18 @@
                     <tbody>
                         <tr>
                             <td class="align-middle">Wert</td>
-                            <td class="align-middle text-right">
-                                {{ valuations[0].format(2, ',', '.') }} € <span class="text-muted">(Max: {{ value.maxPortfolioValueFormatted }} €)</span>
+                            <td class="align-middle text-right pointer" :title="'Max: ' + value.maxPortfolioValueFormatted + ' €'">
+                                {{ valuations[0].format(2, ',', '.') }} €
                             </td>
                             <td class="align-middle text-right" v-for="(account, accountId) in accounts">{{ valuations[accountId].format(2, ',', '.') }} €</td>
                         </tr>
                         <tr>
-                            <td>Dividenden ({{ year }})</td>
+                            <td>Dividenden</td>
                             <td class="text-right">{{ dividends['amount'][0].format(2, ',', '.') }} €</td>
                             <td class="text-right" v-for="(account, accountId) in accounts">{{ dividends['amount'][accountId].format(2, ',', '.') }} €</td>
                         </tr>
                         <tr>
-                            <td>Dividenden / Monat ({{ year }})</td>
+                            <td>Dividenden / Monat</td>
                             <td class="text-right">Ø {{ dividends['month']['avg'].format(2, ',', '.') }} €</td>
                             <td class="text-right" v-for="(account, accountId) in accounts">Ø {{ (dividends['amount'][accountId] / dividends['month']['count']).format(2, ',', '.') }} €</td>
                         </tr>

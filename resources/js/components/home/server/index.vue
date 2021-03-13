@@ -12,7 +12,7 @@
                     Lade Daten..
                 </center>
             </div>
-            <table class="table table-hover table-striped" v-else>
+            <table class="table table-fixed table-hover table-striped table-sm bg-white" v-else>
                 <thead>
                     <tr>
                         <th>Server</th>

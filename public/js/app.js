@@ -47277,135 +47277,149 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("table", { staticClass: "table table-hover table-striped" }, [
-                _c("thead", [
-                  _c(
-                    "tr",
-                    [
-                      _c("th"),
-                      _vm._v(" "),
-                      _c("th", { staticClass: "text-right" }, [
-                        _vm._v("Gesamt")
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.accounts, function(account, accountId) {
-                        return _c("th", { staticClass: "text-right" }, [
-                          _vm._v(_vm._s(account.name))
-                        ])
-                      })
-                    ],
-                    2
-                  )
-                ]),
-                _vm._v(" "),
-                _c("tbody", [
-                  _c(
-                    "tr",
-                    [
-                      _c("td", { staticClass: "align-middle" }, [
-                        _vm._v("Wert")
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "align-middle text-right" }, [
-                        _vm._v(
-                          "\n                            " +
-                            _vm._s(_vm.valuations[0].format(2, ",", ".")) +
-                            " € "
-                        ),
-                        _c("span", { staticClass: "text-muted" }, [
-                          _vm._v(
-                            "(Max: " +
-                              _vm._s(_vm.value.maxPortfolioValueFormatted) +
-                              " €)"
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.accounts, function(account, accountId) {
-                        return _c(
+              _c(
+                "table",
+                {
+                  staticClass:
+                    "table table-fixed table-hover table-striped table-sm bg-white"
+                },
+                [
+                  _c("thead", [
+                    _c(
+                      "tr",
+                      [
+                        _c("th", { attrs: { width: "150" } }, [
+                          _vm._v(_vm._s(_vm.year))
+                        ]),
+                        _vm._v(" "),
+                        _c("th", { staticClass: "text-right" }, [
+                          _vm._v("Gesamt")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.accounts, function(account, accountId) {
+                          return _c("th", { staticClass: "text-right" }, [
+                            _vm._v(_vm._s(account.name))
+                          ])
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("tbody", [
+                    _c(
+                      "tr",
+                      [
+                        _c("td", { staticClass: "align-middle" }, [
+                          _vm._v("Wert")
+                        ]),
+                        _vm._v(" "),
+                        _c(
                           "td",
-                          { staticClass: "align-middle text-right" },
+                          {
+                            staticClass: "align-middle text-right pointer",
+                            attrs: {
+                              title:
+                                "Max: " +
+                                _vm.value.maxPortfolioValueFormatted +
+                                " €"
+                            }
+                          },
                           [
                             _vm._v(
-                              _vm._s(
-                                _vm.valuations[accountId].format(2, ",", ".")
-                              ) + " €"
+                              "\n                            " +
+                                _vm._s(_vm.valuations[0].format(2, ",", ".")) +
+                                " €\n                        "
                             )
                           ]
-                        )
-                      })
-                    ],
-                    2
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "tr",
-                    [
-                      _c("td", [
-                        _vm._v("Dividenden (" + _vm._s(_vm.year) + ")")
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
-                        _vm._v(
-                          _vm._s(
-                            _vm.dividends["amount"][0].format(2, ",", ".")
-                          ) + " €"
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.accounts, function(account, accountId) {
-                        return _c("td", { staticClass: "text-right" }, [
+                        ),
+                        _vm._v(" "),
+                        _vm._l(_vm.accounts, function(account, accountId) {
+                          return _c(
+                            "td",
+                            { staticClass: "align-middle text-right" },
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.valuations[accountId].format(2, ",", ".")
+                                ) + " €"
+                              )
+                            ]
+                          )
+                        })
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "tr",
+                      [
+                        _c("td", [_vm._v("Dividenden")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-right" }, [
                           _vm._v(
                             _vm._s(
-                              _vm.dividends["amount"][accountId].format(
-                                2,
-                                ",",
-                                "."
-                              )
+                              _vm.dividends["amount"][0].format(2, ",", ".")
                             ) + " €"
                           )
-                        ])
-                      })
-                    ],
-                    2
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "tr",
-                    [
-                      _c("td", [
-                        _vm._v("Dividenden / Monat (" + _vm._s(_vm.year) + ")")
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
-                        _vm._v(
-                          "Ø " +
-                            _vm._s(
-                              _vm.dividends["month"]["avg"].format(2, ",", ".")
-                            ) +
-                            " €"
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.accounts, function(account, accountId) {
-                        return _c("td", { staticClass: "text-right" }, [
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.accounts, function(account, accountId) {
+                          return _c("td", { staticClass: "text-right" }, [
+                            _vm._v(
+                              _vm._s(
+                                _vm.dividends["amount"][accountId].format(
+                                  2,
+                                  ",",
+                                  "."
+                                )
+                              ) + " €"
+                            )
+                          ])
+                        })
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "tr",
+                      [
+                        _c("td", [_vm._v("Dividenden / Monat")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-right" }, [
                           _vm._v(
                             "Ø " +
                               _vm._s(
-                                (
-                                  _vm.dividends["amount"][accountId] /
-                                  _vm.dividends["month"]["count"]
-                                ).format(2, ",", ".")
+                                _vm.dividends["month"]["avg"].format(
+                                  2,
+                                  ",",
+                                  "."
+                                )
                               ) +
                               " €"
                           )
-                        ])
-                      })
-                    ],
-                    2
-                  )
-                ])
-              ]),
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.accounts, function(account, accountId) {
+                          return _c("td", { staticClass: "text-right" }, [
+                            _vm._v(
+                              "Ø " +
+                                _vm._s(
+                                  (
+                                    _vm.dividends["amount"][accountId] /
+                                    _vm.dividends["month"]["count"]
+                                  ).format(2, ",", ".")
+                                ) +
+                                " €"
+                            )
+                          ])
+                        })
+                      ],
+                      2
+                    )
+                  ])
+                ]
+              ),
               _vm._v(" "),
               _c("highcharts", { attrs: { options: _vm.chartOptions } })
             ]
@@ -47455,31 +47469,38 @@ var render = function() {
             ],
             1
           )
-        : _c("table", { staticClass: "table table-hover table-striped" }, [
-            _vm._m(1),
-            _vm._v(" "),
-            _c("tbody", [
-              _c("tr", [
-                _c("td", [_vm._v("Lokal")]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-right" }, [
-                  _vm._v(_vm._s(_vm.data.uptime.uptime.formatted))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-right" }, [
-                  _vm._v(_vm._s(_vm.data.uptime.load[1].format(2, ",", ".")))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-right" }, [
-                  _vm._v(_vm._s(_vm.data.uptime.load[5].format(2, ",", ".")))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-right" }, [
-                  _vm._v(_vm._s(_vm.data.uptime.load[15].format(2, ",", ".")))
+        : _c(
+            "table",
+            {
+              staticClass:
+                "table table-fixed table-hover table-striped table-sm bg-white"
+            },
+            [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("tbody", [
+                _c("tr", [
+                  _c("td", [_vm._v("Lokal")]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(_vm._s(_vm.data.uptime.uptime.formatted))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(_vm._s(_vm.data.uptime.load[1].format(2, ",", ".")))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(_vm._s(_vm.data.uptime.load[5].format(2, ",", ".")))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(_vm._s(_vm.data.uptime.load[15].format(2, ",", ".")))
+                  ])
                 ])
               ])
-            ])
-          ])
+            ]
+          )
     ])
   ])
 }
@@ -47542,120 +47563,134 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
-      _c("table", { staticClass: "table table-hover table-striped" }, [
-        _c("thead", [
-          _c("tr", [
-            _c("th", { attrs: { width: "20%" } }),
-            _vm._v(" "),
-            _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
-              _vm._v(_vm._s(_vm.last_day.date_formatted))
-            ]),
-            _vm._v(" "),
-            _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
-              _vm._v("Ist")
-            ]),
-            _vm._v(" "),
-            _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
-              _vm._v("Soll")
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("tbody", [
-          _c("tr", [
-            _c("td", [_vm._v("Tage")]),
-            _vm._v(" "),
-            _c("td", { staticClass: "text-right" }, [_vm._v("-")]),
-            _vm._v(" "),
-            _c("td", { staticClass: "text-right" }, [
-              _vm._v(
-                _vm._s(_vm.statistics.workingdays_worked.format(0, ",", ".")) +
-                  " "
-              ),
-              _vm.statistics.workingdays_worked != _vm.statistics.days_worked
-                ? _c("span", [
-                    _vm._v("(" + _vm._s(_vm.statistics.days_worked) + ")")
-                  ])
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            _c("td", { staticClass: "text-right" }, [
-              _vm._v(
-                _vm._s(
-                  _vm.statistics.available_working_days.format(0, ",", ".")
-                )
-              )
+      _c(
+        "table",
+        {
+          staticClass:
+            "table table-fixed table-hover table-striped table-sm bg-white"
+        },
+        [
+          _c("thead", [
+            _c("tr", [
+              _c("th", { attrs: { width: "20%" } }),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
+                _vm._v(_vm._s(_vm.last_day.date_formatted))
+              ]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
+                _vm._v("Ist")
+              ]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
+                _vm._v("Soll")
+              ])
             ])
           ]),
           _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("Stunden")]),
-            _vm._v(" "),
-            _c(
-              "td",
-              {
-                staticClass: "text-right",
-                class: {
-                  "text-danger": !_vm.hasReachedPlannedHours,
-                  "text-success": _vm.hasReachedPlannedHours
-                }
-              },
-              [_vm._v(_vm._s(_vm.last_day.industryHours_formatted))]
-            ),
-            _vm._v(" "),
-            _c("td", { staticClass: "text-right" }, [
-              _vm._v(
-                _vm._s(_vm.statistics.hours_worked.format(2, ",", ".")) + " "
-              ),
-              _vm.is_current_month
-                ? _c("span", [
-                    _vm._v(
-                      "(" +
-                        _vm._s(
-                          _vm.statistics.available_hours_worked.format(
-                            2,
-                            ",",
-                            "."
-                          )
-                        ) +
-                        ")"
-                    )
-                  ])
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            _c("td", { staticClass: "text-right" }, [
-              _vm._v(
-                _vm._s(_vm.statistics.planned_working_hours.format(2, ",", "."))
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("Stunden / Tag")]),
-            _vm._v(" "),
-            _c("td", { staticClass: "text-right" }, [
-              _vm._v("Ø " + _vm._s(_vm.last_day.industryHours_formatted))
-            ]),
-            _vm._v(" "),
-            _c("td", { staticClass: "text-right" }, [
-              _vm._v(
-                "Ø " +
-                  _vm._s(_vm.statistics.hours_worked_day.format(2, ",", "."))
-              )
-            ]),
-            _vm._v(" "),
-            _c("td", { staticClass: "text-right" }, [
-              _vm._v(
-                "Ø " +
+          _c("tbody", [
+            _c("tr", [
+              _c("td", [_vm._v("Tage")]),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [_vm._v("-")]),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [
+                _vm._v(
                   _vm._s(
-                    _vm.statistics.planned_working_hours_day.format(2, ",", ".")
+                    _vm.statistics.workingdays_worked.format(0, ",", ".")
+                  ) + " "
+                ),
+                _vm.statistics.workingdays_worked != _vm.statistics.days_worked
+                  ? _c("span", [
+                      _vm._v("(" + _vm._s(_vm.statistics.days_worked) + ")")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [
+                _vm._v(
+                  _vm._s(
+                    _vm.statistics.available_working_days.format(0, ",", ".")
                   )
-              )
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c("td", [_vm._v("Stunden")]),
+              _vm._v(" "),
+              _c(
+                "td",
+                {
+                  staticClass: "text-right",
+                  class: {
+                    "text-danger": !_vm.hasReachedPlannedHours,
+                    "text-success": _vm.hasReachedPlannedHours
+                  }
+                },
+                [_vm._v(_vm._s(_vm.last_day.industryHours_formatted))]
+              ),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [
+                _vm._v(
+                  _vm._s(_vm.statistics.hours_worked.format(2, ",", ".")) + " "
+                ),
+                _vm.is_current_month
+                  ? _c("span", [
+                      _vm._v(
+                        "(" +
+                          _vm._s(
+                            _vm.statistics.available_hours_worked.format(
+                              2,
+                              ",",
+                              "."
+                            )
+                          ) +
+                          ")"
+                      )
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [
+                _vm._v(
+                  _vm._s(
+                    _vm.statistics.planned_working_hours.format(2, ",", ".")
+                  )
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c("td", [_vm._v("Stunden / Tag")]),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [
+                _vm._v("Ø " + _vm._s(_vm.last_day.industryHours_formatted))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [
+                _vm._v(
+                  "Ø " +
+                    _vm._s(_vm.statistics.hours_worked_day.format(2, ",", "."))
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [
+                _vm._v(
+                  "Ø " +
+                    _vm._s(
+                      _vm.statistics.planned_working_hours_day.format(
+                        2,
+                        ",",
+                        "."
+                      )
+                    )
+                )
+              ])
             ])
           ])
-        ])
-      ])
+        ]
+      )
     ])
   ])
 }

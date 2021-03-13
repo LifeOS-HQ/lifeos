@@ -5,7 +5,7 @@
             <a class="text-body" href="/work"><i class="fas fa-arrow-right"></i></a>
         </div>
         <div class="card-body">
-            <table class="table table-hover table-striped">
+            <table class="table table-fixed table-hover table-striped table-sm bg-white">
                 <thead>
                     <tr>
                         <th width="20%"></th>
