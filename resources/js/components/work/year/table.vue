@@ -4,7 +4,7 @@
             <div class="col mb-1 mb-sm-0">
 
             </div>
-            <div class="col-auto d-flex">
+            <div class="col-auto d-flex" v-if="false">
                 <div class="form-group" style="margin-bottom: 0;">
 
                 </div>
@@ -29,22 +29,22 @@
             </center>
         </div>
         <div class="table-responsive mt-3" v-else-if="items.length">
-            <table class="table table-hover table-striped bg-white">
+            <table class="table table-fixed table-hover table-striped table-sm bg-white">
                 <thead>
                     <tr>
-                        <th class="">Jahr</th>
-                        <th class="text-right">Arbeitstage</th>
-                        <th class="text-right">Sollstunden</th>
-                        <th class="text-right">Arbeitszeit</th>
-                        <th class="text-right">Arbeitszeit / Tag</th>
-                        <th class="text-right">Stundenlohn</th>
-                        <th class="text-right">Aufschlag</th>
-                        <th class="text-right">Lohn</th>
-                        <th class="text-right">Bonus</th>
-                        <th class="text-right">Brutto</th>
-                        <th class="text-right">Steuerrückzahlung</th>
-                        <th class="text-right">Netto</th>
-                        <th class="text-right d-none d-sm-table-cell w-action">Aktion</th>
+                        <th class="" width="50">Jahr</th>
+                        <th class="text-right" width="90">Arbeitstage</th>
+                        <th class="text-right" width="90">Sollstunden</th>
+                        <th class="text-right" width="90">Arbeitszeit</th>
+                        <th class="text-right" width="125">Arbeitszeit / Tag</th>
+                        <th class="text-right" width="90">Stundenlohn</th>
+                        <th class="text-right" width="90">Aufschlag</th>
+                        <th class="text-right" width="80">Lohn</th>
+                        <th class="text-right" width="80">Bonus</th>
+                        <th class="text-right" width="90">Brutto</th>
+                        <th class="text-right" width="125">Steuerrückzahlung</th>
+                        <th class="text-right" width="90">Netto</th>
+                        <th class="text-right d-none d-sm-table-cell w-action" width="50">Aktion</th>
                     </tr>
                 </thead>
                 <tbody>

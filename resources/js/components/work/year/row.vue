@@ -4,23 +4,23 @@
         <td class="align-middle text-right" :class="{'text-danger': !hasWorkedAvailableDays, 'text-success': hasWorkedAvailableDays }">{{ item.days_worked }}/{{ item.available_working_days }}</td>
         <td class="align-middle text-right" :class="{'text-danger': !hasWorkedAvailableHours, 'text-success': hasWorkedAvailableHours }">{{ item.hours_worked_formatted }}</td>
         <td class="align-middle text-right">
-            <input class="form-control align-middle text-right" :class="'planned_working_hours_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.planned_working_hours_formatted" @keydown.enter="update(false)">
+            <input class="form-control form-control-sm align-middle text-right" :class="'planned_working_hours_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.planned_working_hours_formatted" @keydown.enter="update(false)">
             <div class="invalid-feedback" v-text="'planned_working_hours_formatted' in errors ? errors.planned_working_hours_formatted[0] : ''"></div>
         </td>
         <td class="align-middle text-right" :class="{'text-danger': !hasWorkedHoursDays, 'text-success': hasWorkedHoursDays }">{{ item.hours_worked_day_formatted }}/{{ item.planned_working_hours_day_formatted }}</td>
         <td class="align-middle text-right">
-            <input class="form-control align-middle text-right" :class="'wage_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.wage_formatted" @keydown.enter="update(false)">
+            <input class="form-control form-control-sm align-middle text-right" :class="'wage_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.wage_formatted" @keydown.enter="update(false)">
             <div class="invalid-feedback" v-text="'wage_formatted' in errors ? errors.wage_formatted[0] : ''"></div>
         </td>
         <td class="align-middle text-right">
-            <input class="form-control align-middle text-right" :class="'wage_bonus_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.wage_bonus_formatted" @keydown.enter="update(false)">
+            <input class="form-control form-control-sm align-middle text-right" :class="'wage_bonus_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.wage_bonus_formatted" @keydown.enter="update(false)">
             <div class="invalid-feedback" v-text="'wage_bonus_formatted' in errors ? errors.wage_bonus_formatted[0] : ''"></div>
         </td>
         <td class="align-middle text-right">{{ item.wage_total_formatted }}</td>
         <td class="align-middle text-right">{{ item.bonus_formatted }}</td>
         <td class="align-middle text-right">{{ item.gross_formatted }}</td>
         <td class="align-middle text-right">
-            <input class="form-control align-middle text-right" :class="'tax_refund_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.tax_refund_formatted" @keydown.enter="update(false)">
+            <input class="form-control form-control-sm align-middle text-right" :class="'tax_refund_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.tax_refund_formatted" @keydown.enter="update(false)">
             <div class="invalid-feedback" v-text="'tax_refund_formatted' in errors ? errors.tax_refund_formatted[0] : ''"></div>
         </td>
         <td class="align-middle text-right">{{ item.net_formatted }}</td>

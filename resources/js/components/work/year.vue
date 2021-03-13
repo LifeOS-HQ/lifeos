@@ -3,7 +3,7 @@
         <div class="card-header d-flex align-items-center">
             <div class="col">Arbeitszeit pro Monat</div>
             <div class="form-group mb-0">
-                <select class="form-control" v-model.number="form.year" @change="fetch">
+                <select class="form-control form-control-sm" v-model.number="form.year" @change="fetch">
                     <option :value="year.year" v-for="year in years">{{ year.year }}</option>
                 </select>
             </div>
@@ -26,12 +26,12 @@
                 <highcharts :options="chartOptions" v-if="statistics.days_worked > 0"></highcharts>
             </div>
             <div class="col-xl-6 d-none d-xl-block">
-                <table class="table table-hover table-striped" v-if="statistics.days_worked > 0">
+                <table class="table table-fixed table-hover table-striped table-sm bg-white" v-if="statistics.days_worked > 0">
                     <thead>
                         <tr>
-                            <th width="20%">Arbeitszeit</th>
-                            <th class="text-right" width="20%">Ist</th>
-                            <th class="text-right" width="20%">Soll</th>
+                            <th width="100">Arbeitszeit</th>
+                            <th class="text-right">Ist</th>
+                            <th class="text-right">Soll</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,12 +53,12 @@
                     </tbody>
                 </table>
 
-                <table class="table table-hover table-striped" v-if="statistics.days_worked > 0">
+                <table class="table table-fixed table-hover table-striped table-sm bg-white" v-if="statistics.days_worked > 0">
                     <thead>
                         <tr>
-                            <th width="20%">Gehalt</th>
-                            <th class="text-right" width="20%">Brutto</th>
-                            <th class="text-right" width="20%">Netto</th>
+                            <th width="100">Gehalt</th>
+                            <th class="text-right">Brutto</th>
+                            <th class="text-right">Netto</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,8 +68,8 @@
                             <td class="text-right">{{ statistics.net }}</td>
                         </tr>
                         <tr>
-                            <td>Gehalt / Monat</td>
-                            <td class="text-right">{{ statistics.gross_month }}</td>
+                            <td>Pro Monat</td>
+                            <td class="text-right">Ø {{ statistics.gross_month }}</td>
                             <td class="text-right">Ø {{ statistics.net_month }}</td>
                         </tr>
                     </tbody>

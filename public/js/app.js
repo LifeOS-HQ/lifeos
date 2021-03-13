@@ -5468,12 +5468,50 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     row: _row_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  props: {},
+  props: {
+    years: {
+      required: true,
+      type: Array
+    }
+  },
   data: function data() {
     var d = new Date();
     return {
@@ -5487,7 +5525,8 @@ __webpack_require__.r(__webpack_exports__);
       },
       filter: {
         show: true,
-        page: 1
+        page: 1,
+        year: this.years.length ? this.years[this.years.length - 1].year : d.getFullYear()
       },
       errors: {}
     };
@@ -5520,6 +5559,41 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return pages;
+    },
+    sum_working_days: function sum_working_days() {
+      return this.items.reduce(function (sum, item) {
+        return sum + item.days_worked;
+      }, 0);
+    },
+    sum_hours_worked: function sum_hours_worked() {
+      return this.items.reduce(function (sum, item) {
+        return sum + Number(item.hours_worked);
+      }, 0);
+    },
+    sum_wage: function sum_wage() {
+      return this.items.reduce(function (sum, item) {
+        return sum + item.wage_in_cents / 100;
+      }, 0);
+    },
+    sum_wage_bonus: function sum_wage_bonus() {
+      return this.items.reduce(function (sum, item) {
+        return sum + item.wage_bonus_in_cents / 100;
+      }, 0);
+    },
+    sum_bonus: function sum_bonus() {
+      return this.items.reduce(function (sum, item) {
+        return sum + item.bonus_in_cents / 100;
+      }, 0);
+    },
+    sum_gross: function sum_gross() {
+      return this.items.reduce(function (sum, item) {
+        return sum + item.gross_in_cents / 100;
+      }, 0);
+    },
+    sum_net: function sum_net() {
+      return this.items.reduce(function (sum, item) {
+        return sum + item.net_in_cents / 100;
+      }, 0);
     }
   },
   methods: {
@@ -5571,7 +5645,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -5689,6 +5762,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -5711,10 +5799,13 @@ __webpack_require__.r(__webpack_exports__);
         prevPageUrl: null,
         lastPage: 0
       },
+      seconds_break_sum: 0,
+      seconds_sum: 0,
+      days_count: 0,
       filter: {
         show: true,
         page: 1,
-        year: d.getFullYear(),
+        year: this.years.length ? this.years[this.years.length - 1].year : d.getFullYear(),
         month: d.getMonth() + 1
       },
       errors: {},
@@ -5760,6 +5851,22 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         component.items = response.data;
         component.isLoading = false;
+        component.seconds_sum = 0;
+        component.seconds_break_sum = 0;
+        component.days_count = 0;
+        var last_date = '';
+
+        for (var index in component.items) {
+          component.seconds_break_sum += component.items[index].seconds_break;
+          component.seconds_sum += component.items[index].seconds;
+
+          if (last_date == component.items[index].date_formatted) {
+            continue;
+          }
+
+          component.days_count++;
+          last_date = component.items[index].date_formatted;
+        }
       })["catch"](function (error) {
         Vue.error('Arbeitszeiten konnten nicht geladen werden!');
         console.log(error);
@@ -51347,7 +51454,7 @@ var render = function() {
                 expression: "form.month"
               }
             ],
-            staticClass: "form-control",
+            staticClass: "form-control form-control-sm",
             on: {
               change: [
                 function($event) {
@@ -51409,7 +51516,7 @@ var render = function() {
                 expression: "form.year"
               }
             ],
-            staticClass: "form-control",
+            staticClass: "form-control form-control-sm",
             on: {
               change: [
                 function($event) {
@@ -51486,113 +51593,132 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "col-xl-4 d-none d-xl-block" }, [
         _vm.statistics.days_worked > 0
-          ? _c("table", { staticClass: "table table-hover table-striped" }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _c("tbody", [
-                _c("tr", [
-                  _c("td", [_vm._v("Tage")]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(
-                      _vm._s(_vm.statistics.days_worked.format(0, ",", "."))
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(
-                      _vm._s(
-                        _vm.statistics.available_working_days.format(
-                          0,
-                          ",",
-                          "."
-                        )
-                      )
-                    )
-                  ])
-                ]),
+          ? _c(
+              "table",
+              {
+                staticClass:
+                  "table table-fixed table-hover table-striped table-sm bg-white"
+              },
+              [
+                _vm._m(0),
                 _vm._v(" "),
-                _c("tr", [
-                  _c("td", [_vm._v("Stunden")]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(
-                      _vm._s(_vm.statistics.hours_worked.format(2, ",", ".")) +
-                        " "
-                    ),
-                    _vm.is_current_month
-                      ? _c("span", [
-                          _vm._v(
-                            "(" +
-                              _vm._s(
-                                _vm.statistics.available_hours_worked.format(
-                                  2,
-                                  ",",
-                                  "."
-                                )
-                              ) +
-                              ")"
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td", [_vm._v("Tage")]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(
+                        _vm._s(_vm.statistics.days_worked.format(0, ",", "."))
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(
+                        _vm._s(
+                          _vm.statistics.available_working_days.format(
+                            0,
+                            ",",
+                            "."
                           )
-                        ])
-                      : _vm._e()
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(
-                      _vm._s(
-                        _vm.statistics.planned_working_hours.format(2, ",", ".")
-                      )
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c("td", [_vm._v("Stunden / Tag")]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(
-                      "Ø " +
-                        _vm._s(
-                          _vm.statistics.hours_worked_day.format(2, ",", ".")
                         )
-                    )
+                      )
+                    ])
                   ]),
                   _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(
-                      "Ø " +
+                  _c("tr", [
+                    _c("td", [_vm._v("Stunden")]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(
                         _vm._s(
-                          _vm.statistics.planned_working_hours_day.format(
+                          _vm.statistics.hours_worked.format(2, ",", ".")
+                        ) + " "
+                      ),
+                      _vm.is_current_month
+                        ? _c("span", [
+                            _vm._v(
+                              "(" +
+                                _vm._s(
+                                  _vm.statistics.available_hours_worked.format(
+                                    2,
+                                    ",",
+                                    "."
+                                  )
+                                ) +
+                                ")"
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(
+                        _vm._s(
+                          _vm.statistics.planned_working_hours.format(
                             2,
                             ",",
                             "."
                           )
                         )
-                    )
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", [_vm._v("Stunden / Tag")]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(
+                        "Ø " +
+                          _vm._s(
+                            _vm.statistics.hours_worked_day.format(2, ",", ".")
+                          )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(
+                        "Ø " +
+                          _vm._s(
+                            _vm.statistics.planned_working_hours_day.format(
+                              2,
+                              ",",
+                              "."
+                            )
+                          )
+                      )
+                    ])
                   ])
                 ])
-              ])
-            ])
+              ]
+            )
           : _vm._e(),
         _vm._v(" "),
         _vm.statistics.days_worked > 0
-          ? _c("table", { staticClass: "table table-hover table-striped" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c("tbody", [
-                _c("tr", [
-                  _c("td", [_vm._v("Gehalt")]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(_vm._s(_vm.statistics.gross))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(_vm._s(_vm.statistics.net))
+          ? _c(
+              "table",
+              {
+                staticClass:
+                  "table table-fixed table-hover table-striped table-sm bg-white"
+              },
+              [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td", [_vm._v("Gehalt")]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(_vm._s(_vm.statistics.gross))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(_vm._s(_vm.statistics.net))
+                    ])
                   ])
                 ])
-              ])
-            ])
+              ]
+            )
           : _vm._e()
       ])
     ])
@@ -51605,15 +51731,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { attrs: { width: "20%" } }),
+        _c("th", { attrs: { width: "100" } }),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
-          _vm._v("Ist")
-        ]),
+        _c("th", { staticClass: "text-right" }, [_vm._v("Ist")]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
-          _vm._v("Soll")
-        ])
+        _c("th", { staticClass: "text-right" }, [_vm._v("Soll")])
       ])
     ])
   },
@@ -51623,15 +51745,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { attrs: { width: "20%" } }, [_vm._v("Gehalt")]),
+        _c("th", { attrs: { width: "100" } }, [_vm._v("Gehalt")]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
-          _vm._v("Brutto")
-        ]),
+        _c("th", { staticClass: "text-right" }, [_vm._v("Brutto")]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
-          _vm._v("Netto")
-        ])
+        _c("th", { staticClass: "text-right" }, [_vm._v("Netto")])
       ])
     ])
   }
@@ -51734,7 +51852,7 @@ var render = function() {
             expression: "form.bonus_formatted"
           }
         ],
-        staticClass: "form-control align-middle text-right",
+        staticClass: "form-control form-control-sm align-middle text-right",
         class: "bonus_formatted" in _vm.errors ? "is-invalid" : "",
         attrs: { type: "text" },
         domProps: { value: _vm.form.bonus_formatted },
@@ -51781,7 +51899,7 @@ var render = function() {
             expression: "form.net_formatted"
           }
         ],
-        staticClass: "form-control align-middle text-right",
+        staticClass: "form-control form-control-sm align-middle text-right",
         class: "net_formatted" in _vm.errors ? "is-invalid" : "",
         attrs: { type: "text" },
         domProps: { value: _vm.form.net_formatted },
@@ -51856,33 +51974,70 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col mb-1 mb-sm-0" }),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-auto d-flex" }, [
-        _c("div", {
-          staticClass: "form-group",
-          staticStyle: { "margin-bottom": "0" }
-        }),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-secondary ml-1",
-            on: {
-              click: function($event) {
-                _vm.filter.show = !_vm.filter.show
-              }
-            }
-          },
-          [_c("i", { staticClass: "fas fa-filter" })]
-        )
-      ])
-    ]),
+    false
+      ? undefined
+      : _vm._e(),
     _vm._v(" "),
     _vm.filter.show
       ? _c("form", { staticClass: "mt-1", attrs: { id: "filter" } }, [
-          _c("div", { staticClass: "form-row" })
+          _c("div", { staticClass: "form-row" }, [
+            _c("div", { staticClass: "col-auto" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-form-label col-form-label-sm",
+                    attrs: { for: "filter-year" }
+                  },
+                  [_vm._v("Jahr")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.filter.year,
+                        expression: "filter.year"
+                      }
+                    ],
+                    staticClass: "form-control form-control-sm",
+                    attrs: { id: "filter-year" },
+                    on: {
+                      change: [
+                        function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.filter,
+                            "year",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
+                        _vm.search
+                      ]
+                    }
+                  },
+                  _vm._l(_vm.years, function(year, index) {
+                    return _c("option", { domProps: { value: year.year } }, [
+                      _vm._v(_vm._s(year.year))
+                    ])
+                  }),
+                  0
+                )
+              ])
+            ])
+          ])
         ])
       : _vm._e(),
     _vm._v(" "),
@@ -51905,7 +52060,10 @@ var render = function() {
       ? _c("div", { staticClass: "table-responsive mt-3" }, [
           _c(
             "table",
-            { staticClass: "table table-hover table-striped bg-white" },
+            {
+              staticClass:
+                "table table-fixed table-hover table-striped table-sm bg-white"
+            },
             [
               _vm._m(0),
               _vm._v(" "),
@@ -51923,7 +52081,150 @@ var render = function() {
                   })
                 }),
                 1
-              )
+              ),
+              _vm._v(" "),
+              _c("tfoot", [
+                _c("tr", [
+                  _c("td", { attrs: { width: "125" } }, [
+                    _vm._v(_vm._s(_vm.items.length) + " Monate")
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(_vm._s(_vm.sum_working_days))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(
+                      _vm._s(Number(_vm.sum_hours_worked).format(2, ",", "."))
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(_vm._s(Number(_vm.sum_wage).format(2, ",", ".")))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(
+                      _vm._s(Number(_vm.sum_wage_bonus).format(2, ",", "."))
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(_vm._s(Number(_vm.sum_bonus).format(2, ",", ".")))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(_vm._s(Number(_vm.sum_gross).format(2, ",", ".")))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(_vm._s(Number(_vm.sum_net).format(2, ",", ".")))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", {
+                    staticClass: "text-right d-none d-sm-table-cell w-action"
+                  })
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("td", { attrs: { width: "125" } }),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(
+                      "Ø " +
+                        _vm._s(
+                          Number(
+                            _vm.sum_working_days / _vm.items.length
+                          ).format(0, ",", ".")
+                        )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(
+                      "Ø " +
+                        _vm._s(
+                          Number(
+                            _vm.sum_hours_worked / _vm.items.length
+                          ).format(2, ",", ".")
+                        )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(
+                      "Ø " +
+                        _vm._s(
+                          Number(_vm.sum_wage / _vm.items.length).format(
+                            2,
+                            ",",
+                            "."
+                          )
+                        )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(
+                      "Ø " +
+                        _vm._s(
+                          Number(_vm.sum_wage_bonus / _vm.items.length).format(
+                            2,
+                            ",",
+                            "."
+                          )
+                        )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(
+                      "Ø " +
+                        _vm._s(
+                          Number(_vm.sum_bonus / _vm.items.length).format(
+                            2,
+                            ",",
+                            "."
+                          )
+                        )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(
+                      "Ø " +
+                        _vm._s(
+                          Number(_vm.sum_gross / _vm.items.length).format(
+                            2,
+                            ",",
+                            "."
+                          )
+                        )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(
+                      "Ø " +
+                        _vm._s(
+                          Number(_vm.sum_net / _vm.items.length).format(
+                            2,
+                            ",",
+                            "."
+                          )
+                        )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", {
+                    staticClass: "text-right d-none d-sm-table-cell w-action"
+                  })
+                ])
+              ])
             ]
           )
         ])
@@ -51942,7 +52243,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", {}, [_vm._v("Datum")]),
+        _c("th", { attrs: { width: "125" } }, [_vm._v("Datum")]),
         _vm._v(" "),
         _c("th", { staticClass: "text-right" }, [_vm._v("Arbeitstage")]),
         _vm._v(" "),
@@ -51962,7 +52263,10 @@ var staticRenderFns = [
         _vm._v(" "),
         _c(
           "th",
-          { staticClass: "text-right d-none d-sm-table-cell w-action" },
+          {
+            staticClass: "text-right d-none d-sm-table-cell w-action",
+            attrs: { width: "50" }
+          },
           [_vm._v("Aktion")]
         )
       ])
@@ -52003,9 +52307,7 @@ var render = function() {
     _vm._v(" "),
     _c("td", { staticClass: "text-right" }, [
       _vm._v(_vm._s(_vm.item.seconds_formatted))
-    ]),
-    _vm._v(" "),
-    _c("td", { staticClass: "text-right" })
+    ])
   ])
 }
 var staticRenderFns = []
@@ -52031,38 +52333,23 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col mb-1 mb-sm-0" }),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-auto d-flex" }, [
-        _c("div", {
-          staticClass: "form-group",
-          staticStyle: { "margin-bottom": "0" }
-        }),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-secondary ml-1",
-            on: {
-              click: function($event) {
-                _vm.filter.show = !_vm.filter.show
-              }
-            }
-          },
-          [_c("i", { staticClass: "fas fa-filter" })]
-        )
-      ])
-    ]),
+    false
+      ? undefined
+      : _vm._e(),
     _vm._v(" "),
     _vm.filter.show
       ? _c("form", { staticClass: "mt-1", attrs: { id: "filter" } }, [
           _c("div", { staticClass: "form-row" }, [
             _c("div", { staticClass: "col-auto" }, [
               _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "filter-year" } }, [
-                  _vm._v("Jahr")
-                ]),
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-form-label col-form-label-sm",
+                    attrs: { for: "filter-year" }
+                  },
+                  [_vm._v("Jahr")]
+                ),
                 _vm._v(" "),
                 _c(
                   "select",
@@ -52075,7 +52362,7 @@ var render = function() {
                         expression: "filter.year"
                       }
                     ],
-                    staticClass: "form-control",
+                    staticClass: "form-control form-control-sm",
                     attrs: { id: "filter-year" },
                     on: {
                       change: [
@@ -52112,9 +52399,14 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "col-auto" }, [
               _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "filter-month" } }, [
-                  _vm._v("Monat")
-                ]),
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-form-label col-form-label-sm",
+                    attrs: { for: "filter-month" }
+                  },
+                  [_vm._v("Monat")]
+                ),
                 _vm._v(" "),
                 _c(
                   "select",
@@ -52127,7 +52419,7 @@ var render = function() {
                         expression: "filter.month"
                       }
                     ],
-                    staticClass: "form-control",
+                    staticClass: "form-control form-control-sm",
                     attrs: { id: "filter-month" },
                     on: {
                       change: [
@@ -52184,7 +52476,10 @@ var render = function() {
       ? _c("div", { staticClass: "table-responsive mt-3" }, [
           _c(
             "table",
-            { staticClass: "table table-hover table-striped bg-white" },
+            {
+              staticClass:
+                "table table-fixed table-hover table-striped table-sm bg-white"
+            },
             [
               _vm._m(0),
               _vm._v(" "),
@@ -52201,7 +52496,68 @@ var render = function() {
                   })
                 ],
                 2
-              )
+              ),
+              _vm._v(" "),
+              _c("tfoot", [
+                _c("tr", [
+                  _c("td", { staticClass: "font-weight-bold" }, [
+                    _vm._v(_vm._s(_vm.days_count) + " Tage")
+                  ]),
+                  _vm._v(" "),
+                  _c("td", {}),
+                  _vm._v(" "),
+                  _c("td", {}),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(
+                      _vm._s(
+                        (_vm.seconds_break_sum / 60 / 60).format(2, ",", ".")
+                      )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(
+                      _vm._s((_vm.seconds_sum / 60 / 60).format(2, ",", "."))
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("td", { staticClass: "font-weight-bold" }),
+                  _vm._v(" "),
+                  _c("td", {}),
+                  _vm._v(" "),
+                  _c("td", {}),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(
+                      "Ø " +
+                        _vm._s(
+                          (
+                            _vm.seconds_break_sum /
+                            60 /
+                            60 /
+                            _vm.days_count
+                          ).format(2, ",", ".")
+                        )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(
+                      "Ø " +
+                        _vm._s(
+                          (_vm.seconds_sum / 60 / 60 / _vm.days_count).format(
+                            2,
+                            ",",
+                            "."
+                          )
+                        )
+                    )
+                  ])
+                ])
+              ])
             ]
           )
         ])
@@ -52335,13 +52691,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { staticClass: "text-right" }, [_vm._v("Pause")]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Dauer")]),
-        _vm._v(" "),
-        _c(
-          "th",
-          { staticClass: "text-right d-none d-sm-table-cell w-action" },
-          [_vm._v("Aktion")]
-        )
+        _c("th", { staticClass: "text-right" }, [_vm._v("Dauer")])
       ])
     ])
   }
@@ -52384,7 +52734,7 @@ var render = function() {
                 modifiers: { number: true }
               }
             ],
-            staticClass: "form-control",
+            staticClass: "form-control form-control-sm",
             on: {
               change: [
                 function($event) {
@@ -52459,125 +52809,144 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "col-xl-6 d-none d-xl-block" }, [
         _vm.statistics.days_worked > 0
-          ? _c("table", { staticClass: "table table-hover table-striped" }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _c("tbody", [
-                _c("tr", [
-                  _c("td", [_vm._v("Tage")]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(
-                      _vm._s(_vm.statistics.days_worked.format(0, ",", "."))
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(
-                      _vm._s(
-                        _vm.statistics.available_working_days.format(
-                          0,
-                          ",",
-                          "."
-                        )
-                      )
-                    )
-                  ])
-                ]),
+          ? _c(
+              "table",
+              {
+                staticClass:
+                  "table table-fixed table-hover table-striped table-sm bg-white"
+              },
+              [
+                _vm._m(0),
                 _vm._v(" "),
-                _c("tr", [
-                  _c("td", [_vm._v("Stunden")]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(
-                      _vm._s(_vm.statistics.hours_worked.format(2, ",", ".")) +
-                        " "
-                    ),
-                    _vm.hasAvailableHoursWorked
-                      ? _c("span", [
-                          _vm._v(
-                            "(" +
-                              _vm._s(
-                                _vm.statistics.available_hours_worked.format(
-                                  2,
-                                  ",",
-                                  "."
-                                )
-                              ) +
-                              ")"
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td", [_vm._v("Tage")]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(
+                        _vm._s(_vm.statistics.days_worked.format(0, ",", "."))
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(
+                        _vm._s(
+                          _vm.statistics.available_working_days.format(
+                            0,
+                            ",",
+                            "."
                           )
-                        ])
-                      : _vm._e()
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(
-                      _vm._s(
-                        _vm.statistics.planned_working_hours.format(2, ",", ".")
-                      )
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c("td", [_vm._v("Stunden / Tag")]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(
-                      "Ø " +
-                        _vm._s(
-                          _vm.statistics.hours_worked_day.format(2, ",", ".")
                         )
-                    )
+                      )
+                    ])
                   ]),
                   _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(
-                      "Ø " +
+                  _c("tr", [
+                    _c("td", [_vm._v("Stunden")]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(
                         _vm._s(
-                          _vm.statistics.planned_working_hours_day.format(
+                          _vm.statistics.hours_worked.format(2, ",", ".")
+                        ) + " "
+                      ),
+                      _vm.hasAvailableHoursWorked
+                        ? _c("span", [
+                            _vm._v(
+                              "(" +
+                                _vm._s(
+                                  _vm.statistics.available_hours_worked.format(
+                                    2,
+                                    ",",
+                                    "."
+                                  )
+                                ) +
+                                ")"
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(
+                        _vm._s(
+                          _vm.statistics.planned_working_hours.format(
                             2,
                             ",",
                             "."
                           )
                         )
-                    )
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", [_vm._v("Stunden / Tag")]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(
+                        "Ø " +
+                          _vm._s(
+                            _vm.statistics.hours_worked_day.format(2, ",", ".")
+                          )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(
+                        "Ø " +
+                          _vm._s(
+                            _vm.statistics.planned_working_hours_day.format(
+                              2,
+                              ",",
+                              "."
+                            )
+                          )
+                      )
+                    ])
                   ])
                 ])
-              ])
-            ])
+              ]
+            )
           : _vm._e(),
         _vm._v(" "),
         _vm.statistics.days_worked > 0
-          ? _c("table", { staticClass: "table table-hover table-striped" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c("tbody", [
-                _c("tr", [
-                  _c("td", [_vm._v("Gehalt")]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(_vm._s(_vm.statistics.gross))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(_vm._s(_vm.statistics.net))
-                  ])
-                ]),
+          ? _c(
+              "table",
+              {
+                staticClass:
+                  "table table-fixed table-hover table-striped table-sm bg-white"
+              },
+              [
+                _vm._m(1),
                 _vm._v(" "),
-                _c("tr", [
-                  _c("td", [_vm._v("Gehalt / Monat")]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(_vm._s(_vm.statistics.gross_month))
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td", [_vm._v("Gehalt")]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(_vm._s(_vm.statistics.gross))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(_vm._s(_vm.statistics.net))
+                    ])
                   ]),
                   _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v("Ø " + _vm._s(_vm.statistics.net_month))
+                  _c("tr", [
+                    _c("td", [_vm._v("Pro Monat")]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v("Ø " + _vm._s(_vm.statistics.gross_month))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v("Ø " + _vm._s(_vm.statistics.net_month))
+                    ])
                   ])
                 ])
-              ])
-            ])
+              ]
+            )
           : _vm._e()
       ])
     ])
@@ -52590,15 +52959,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { attrs: { width: "20%" } }, [_vm._v("Arbeitszeit")]),
+        _c("th", { attrs: { width: "100" } }, [_vm._v("Arbeitszeit")]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
-          _vm._v("Ist")
-        ]),
+        _c("th", { staticClass: "text-right" }, [_vm._v("Ist")]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
-          _vm._v("Soll")
-        ])
+        _c("th", { staticClass: "text-right" }, [_vm._v("Soll")])
       ])
     ])
   },
@@ -52608,15 +52973,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { attrs: { width: "20%" } }, [_vm._v("Gehalt")]),
+        _c("th", { attrs: { width: "100" } }, [_vm._v("Gehalt")]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
-          _vm._v("Brutto")
-        ]),
+        _c("th", { staticClass: "text-right" }, [_vm._v("Brutto")]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
-          _vm._v("Netto")
-        ])
+        _c("th", { staticClass: "text-right" }, [_vm._v("Netto")])
       ])
     ])
   }
@@ -52685,7 +53046,7 @@ var render = function() {
             expression: "form.planned_working_hours_formatted"
           }
         ],
-        staticClass: "form-control align-middle text-right",
+        staticClass: "form-control form-control-sm align-middle text-right",
         class:
           "planned_working_hours_formatted" in _vm.errors ? "is-invalid" : "",
         attrs: { type: "text" },
@@ -52753,7 +53114,7 @@ var render = function() {
             expression: "form.wage_formatted"
           }
         ],
-        staticClass: "form-control align-middle text-right",
+        staticClass: "form-control form-control-sm align-middle text-right",
         class: "wage_formatted" in _vm.errors ? "is-invalid" : "",
         attrs: { type: "text" },
         domProps: { value: _vm.form.wage_formatted },
@@ -52796,7 +53157,7 @@ var render = function() {
             expression: "form.wage_bonus_formatted"
           }
         ],
-        staticClass: "form-control align-middle text-right",
+        staticClass: "form-control form-control-sm align-middle text-right",
         class: "wage_bonus_formatted" in _vm.errors ? "is-invalid" : "",
         attrs: { type: "text" },
         domProps: { value: _vm.form.wage_bonus_formatted },
@@ -52853,7 +53214,7 @@ var render = function() {
             expression: "form.tax_refund_formatted"
           }
         ],
-        staticClass: "form-control align-middle text-right",
+        staticClass: "form-control form-control-sm align-middle text-right",
         class: "tax_refund_formatted" in _vm.errors ? "is-invalid" : "",
         attrs: { type: "text" },
         domProps: { value: _vm.form.tax_refund_formatted },
@@ -52937,25 +53298,9 @@ var render = function() {
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col mb-1 mb-sm-0" }),
       _vm._v(" "),
-      _c("div", { staticClass: "col-auto d-flex" }, [
-        _c("div", {
-          staticClass: "form-group",
-          staticStyle: { "margin-bottom": "0" }
-        }),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-secondary ml-1",
-            on: {
-              click: function($event) {
-                _vm.filter.show = !_vm.filter.show
-              }
-            }
-          },
-          [_c("i", { staticClass: "fas fa-filter" })]
-        )
-      ])
+      false
+        ? undefined
+        : _vm._e()
     ]),
     _vm._v(" "),
     _vm.filter.show
@@ -52983,7 +53328,10 @@ var render = function() {
       ? _c("div", { staticClass: "table-responsive mt-3" }, [
           _c(
             "table",
-            { staticClass: "table table-hover table-striped bg-white" },
+            {
+              staticClass:
+                "table table-fixed table-hover table-striped table-sm bg-white"
+            },
             [
               _vm._m(0),
               _vm._v(" "),
@@ -53020,33 +53368,58 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", {}, [_vm._v("Jahr")]),
+        _c("th", { attrs: { width: "50" } }, [_vm._v("Jahr")]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Arbeitstage")]),
+        _c("th", { staticClass: "text-right", attrs: { width: "90" } }, [
+          _vm._v("Arbeitstage")
+        ]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Sollstunden")]),
+        _c("th", { staticClass: "text-right", attrs: { width: "90" } }, [
+          _vm._v("Sollstunden")
+        ]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Arbeitszeit")]),
+        _c("th", { staticClass: "text-right", attrs: { width: "90" } }, [
+          _vm._v("Arbeitszeit")
+        ]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Arbeitszeit / Tag")]),
+        _c("th", { staticClass: "text-right", attrs: { width: "125" } }, [
+          _vm._v("Arbeitszeit / Tag")
+        ]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Stundenlohn")]),
+        _c("th", { staticClass: "text-right", attrs: { width: "90" } }, [
+          _vm._v("Stundenlohn")
+        ]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Aufschlag")]),
+        _c("th", { staticClass: "text-right", attrs: { width: "90" } }, [
+          _vm._v("Aufschlag")
+        ]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Lohn")]),
+        _c("th", { staticClass: "text-right", attrs: { width: "80" } }, [
+          _vm._v("Lohn")
+        ]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Bonus")]),
+        _c("th", { staticClass: "text-right", attrs: { width: "80" } }, [
+          _vm._v("Bonus")
+        ]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Brutto")]),
+        _c("th", { staticClass: "text-right", attrs: { width: "90" } }, [
+          _vm._v("Brutto")
+        ]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Steuerrückzahlung")]),
+        _c("th", { staticClass: "text-right", attrs: { width: "125" } }, [
+          _vm._v("Steuerrückzahlung")
+        ]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Netto")]),
+        _c("th", { staticClass: "text-right", attrs: { width: "90" } }, [
+          _vm._v("Netto")
+        ]),
         _vm._v(" "),
         _c(
           "th",
-          { staticClass: "text-right d-none d-sm-table-cell w-action" },
+          {
+            staticClass: "text-right d-none d-sm-table-cell w-action",
+            attrs: { width: "50" }
+          },
           [_vm._v("Aktion")]
         )
       ])

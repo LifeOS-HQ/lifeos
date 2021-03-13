@@ -5,7 +5,6 @@
         <td>{{ item.end_at_formatted }}</td>
         <td class="text-right">{{ item.seconds_break_formatted }}</td>
         <td class="text-right">{{ item.seconds_formatted }}</td>
-        <td class="text-right"></td>
     </tr>
 </template>
 

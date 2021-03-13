@@ -7,12 +7,12 @@
         <td class="align-middle text-right">{{ item.wage_formatted }}</td>
         <td class="align-middle text-right">{{ item.wage_bonus_formatted }}</td>
         <td class="align-middle text-right">
-            <input class="form-control align-middle text-right" :class="'bonus_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.bonus_formatted" @keydown.enter="update(false)">
+            <input class="form-control form-control-sm align-middle text-right" :class="'bonus_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.bonus_formatted" @keydown.enter="update(false)">
             <div class="invalid-feedback" v-text="'bonus_formatted' in errors ? errors.bonus_formatted[0] : ''"></div>
         </td>
         <td class="align-middle text-right">{{ item.gross_formatted }}</td>
         <td class="align-middle text-right">
-            <input class="form-control align-middle text-right" :class="'net_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.net_formatted" @keydown.enter="update(false)">
+            <input class="form-control form-control-sm align-middle text-right" :class="'net_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.net_formatted" @keydown.enter="update(false)">
             <div class="invalid-feedback" v-text="'net_formatted' in errors ? errors.net_formatted[0] : ''"></div>
         </td>
         <td class="align-middle text-right">

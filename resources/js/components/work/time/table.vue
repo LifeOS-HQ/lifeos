@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="row">
+        <div class="row" v-if="false">
             <div class="col mb-1 mb-sm-0">
 
             </div>
@@ -17,8 +17,8 @@
 
                 <div class="col-auto">
                     <div class="form-group">
-                        <label for="filter-year">Jahr</label>
-                        <select class="form-control" id="filter-year" v-model="filter.year" @change="search">
+                        <label class="col-form-label col-form-label-sm" for="filter-year">Jahr</label>
+                        <select class="form-control form-control-sm" id="filter-year" v-model="filter.year" @change="search">
                             <option :value="year.year" v-for="(year, index) in years">{{ year.year }}</option>
                         </select>
                     </div>
@@ -26,8 +26,8 @@
 
                 <div class="col-auto">
                     <div class="form-group">
-                        <label for="filter-month">Monat</label>
-                        <select class="form-control" id="filter-month" v-model="filter.month" @change="search">
+                        <label class="col-form-label col-form-label-sm" for="filter-month">Monat</label>
+                        <select class="form-control form-control-sm" id="filter-month" v-model="filter.month" @change="search">
                             <option :value="index" v-for="(month, index) in months">{{ month }}</option>
                         </select>
                     </div>
@@ -45,7 +45,7 @@
             </center>
         </div>
         <div class="table-responsive mt-3" v-else-if="items.length">
-            <table class="table table-hover table-striped bg-white">
+            <table class="table table-fixed table-hover table-striped table-sm bg-white">
                 <thead>
                     <tr>
                         <th class="">Datum</th>
@@ -53,7 +53,6 @@
                         <th class="">Ende</th>
                         <th class="text-right">Pause</th>
                         <th class="text-right">Dauer</th>
-                        <th class="text-right d-none d-sm-table-cell w-action">Aktion</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,6 +60,22 @@
                         <row :item="item" :key="item.id" :uri="uri"></row>
                     </template>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="font-weight-bold">{{ days_count }} Tage</td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class="text-right font-weight-bold">{{ (seconds_break_sum / 60 / 60).format(2, ',', '.') }}</td>
+                        <td class="text-right font-weight-bold">{{ (seconds_sum / 60 / 60).format(2, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold"></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class="text-right font-weight-bold">Ø {{ (seconds_break_sum / 60 / 60 / days_count).format(2, ',', '.') }}</td>
+                        <td class="text-right font-weight-bold">Ø {{ (seconds_sum / 60 / 60 / days_count).format(2, ',', '.') }}</td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
         <div class="alert alert-dark mt-3" v-else><center>Keine Artikel vorhanden</center></div>
@@ -109,10 +124,13 @@
                     prevPageUrl: null,
                     lastPage: 0,
                 },
+                seconds_break_sum: 0,
+                seconds_sum: 0,
+                days_count: 0,
                 filter: {
                     show: true,
                     page: 1,
-                    year: d.getFullYear(),
+                    year: (this.years.length ? this.years[this.years.length - 1].year : d.getFullYear()),
                     month: d.getMonth() + 1,
                 },
                 errors: {},
@@ -176,6 +194,19 @@
                     .then(function (response) {
                         component.items = response.data;
                         component.isLoading = false;
+                        component.seconds_sum = 0;
+                        component.seconds_break_sum = 0;
+                        component.days_count = 0;
+                        var last_date = '';
+                        for (var index in component.items) {
+                            component.seconds_break_sum += component.items[index].seconds_break;
+                            component.seconds_sum += component.items[index].seconds;
+                            if (last_date == component.items[index].date_formatted) {
+                                continue;
+                            }
+                            component.days_count++;
+                            last_date = component.items[index].date_formatted;
+                        }
                     })
                     .catch(function (error) {
                         Vue.error('Arbeitszeiten konnten nicht geladen werden!');

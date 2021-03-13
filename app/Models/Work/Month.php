@@ -32,7 +32,9 @@ class Month extends Model
         'planned_working_hours_day_formatted',
         'planned_working_hours_formatted',
         'wage_bonus_formatted',
+        'wage_bonus_in_cents',
         'wage_formatted',
+        'wage_in_cents',
     ];
 
     protected $casts = [
@@ -44,20 +46,20 @@ class Month extends Model
     ];
 
     protected $fillable = [
-        'user_id',
-        'year_id',
-        'date',
-        'month',
         'available_working_days',
-        'days_worked',
-        'workingdays_worked',
-        'hours_worked',
-        'workingdays_hours_worked',
-        'bonus_in_cents',
-        'gross_in_cents',
-        'net_in_cents',
         'bonus_formatted',
+        'bonus_in_cents',
+        'date',
+        'days_worked',
+        'gross_in_cents',
+        'hours_worked',
+        'month',
         'net_formatted',
+        'net_in_cents',
+        'user_id',
+        'workingdays_hours_worked',
+        'workingdays_worked',
+        'year_id',
     ];
 
     protected $table = 'working_months';

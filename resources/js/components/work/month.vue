@@ -3,7 +3,7 @@
         <div class="card-header d-flex align-items-center">
             <div class="col">Arbeitszeit pro Tag</div>
             <div class="form-group mr-1 mb-0">
-                <select class="form-control" v-model="form.month" @change="fetch">
+                <select class="form-control form-control-sm" v-model="form.month" @change="fetch">
                     <option value="1">Januar</option>
                     <option value="2">Februar</option>
                     <option value="3">März</option>
@@ -19,7 +19,7 @@
                 </select>
             </div>
             <div class="form-group mb-0">
-                <select class="form-control" v-model="form.year" @change="fetch">
+                <select class="form-control form-control-sm" v-model="form.year" @change="fetch">
                     <option :value="year.year" v-for="year in years">{{ year.year }}</option>
                 </select>
             </div>
@@ -42,12 +42,12 @@
                 <highcharts :options="chartOptions" v-if="statistics.days_worked > 0"></highcharts>
             </div>
             <div class="col-xl-4 d-none d-xl-block">
-                <table class="table table-hover table-striped" v-if="statistics.days_worked > 0">
+                <table class="table table-fixed table-hover table-striped table-sm bg-white" v-if="statistics.days_worked > 0">
                     <thead>
                         <tr>
-                            <th width="20%"></th>
-                            <th class="text-right" width="20%">Ist</th>
-                            <th class="text-right" width="20%">Soll</th>
+                            <th width="100"></th>
+                            <th class="text-right">Ist</th>
+                            <th class="text-right">Soll</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,12 +69,12 @@
                     </tbody>
                 </table>
 
-                <table class="table table-hover table-striped" v-if="statistics.days_worked > 0">
+                <table class="table table-fixed table-hover table-striped table-sm bg-white" v-if="statistics.days_worked > 0">
                     <thead>
                         <tr>
-                            <th width="20%">Gehalt</th>
-                            <th class="text-right" width="20%">Brutto</th>
-                            <th class="text-right" width="20%">Netto</th>
+                            <th width="100">Gehalt</th>
+                            <th class="text-right">Brutto</th>
+                            <th class="text-right">Netto</th>
                         </tr>
                     </thead>
                     <tbody>
