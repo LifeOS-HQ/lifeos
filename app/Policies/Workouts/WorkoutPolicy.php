@@ -30,7 +30,7 @@ class WorkoutPolicy
      */
     public function view(User $user, Workout $workout)
     {
-        return true;
+        return ($user->id == $workout->user_id);
     }
 
     /**
@@ -53,7 +53,7 @@ class WorkoutPolicy
      */
     public function update(User $user, Workout $workout)
     {
-        return true;
+        return ($user->id == $workout->user_id);
     }
 
     /**
@@ -65,7 +65,7 @@ class WorkoutPolicy
      */
     public function delete(User $user, Workout $workout)
     {
-        return true;
+        return ($user->id == $workout->user_id);
     }
 
     /**

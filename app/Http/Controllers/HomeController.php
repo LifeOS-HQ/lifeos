@@ -32,13 +32,15 @@ class HomeController extends Controller
 
         $mood_attribute = Attribute::with([
                 'values' => function ($query) use ($start_of_year) {
-                    return $query->whereDate('at', '>=', $start_of_year);
+                    return $query->where('user_id', auth()->user()->id)
+                        ->whereDate('at', '>=', $start_of_year);
                 },
             ])->where('slug', 'mood')
             ->first();
         $mood_note_attribute = Attribute::with([
                 'values' => function ($query) use ($start_of_year) {
-                    return $query->whereDate('at', '>=', $start_of_year);
+                    return $query->where('user_id', auth()->user()->id)
+                        ->whereDate('at', '>=', $start_of_year);
                 },
             ])->where('slug', 'mood_note')
             ->first();

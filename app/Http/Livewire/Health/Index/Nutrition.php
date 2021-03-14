@@ -22,7 +22,7 @@ class Nutrition extends Component
             ])->get();
 
         foreach ($attributes as $key => $attribute) {
-            $attribute->values_avg_raw = $attribute->values()->latest('at')->take(7)->avg('raw');
+            $attribute->values_avg_raw = $attribute->values()->where('user_id', auth()->user()->id)->latest('at')->take(7)->avg('raw');
         }
 
         $this->items = $attributes;

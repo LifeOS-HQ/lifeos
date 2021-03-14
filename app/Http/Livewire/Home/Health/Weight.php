@@ -39,11 +39,11 @@ class Weight extends Component
         }
 
         $body_fat_attribute = $attributes->where('slug', 'body_fat')->first();
-        $this->body_fat_avg = $body_fat_attribute->values()->avg('raw');
+        $this->body_fat_avg = $body_fat_attribute->values()->where('user_id', auth()->user()->id)->avg('raw');
 
         $weight_attribute = $attributes->where('slug', 'weight')->first();
-        $current_weights = $weight_attribute->values()->latest('at')->limit(7)->offset(0)->get();
-        $last_weights = $weight_attribute->values()->latest('at')->limit(7)->offset(1)->get();
+        $current_weights = $weight_attribute->values()->where('user_id', auth()->user()->id)->latest('at')->limit(7)->offset(0)->get();
+        $last_weights = $weight_attribute->values()->where('user_id', auth()->user()->id)->latest('at')->limit(7)->offset(1)->get();
 
         $this->current_weight_avg = $current_weights->avg('raw');
         $this->last_weight_avg = $last_weights->avg('raw');
@@ -55,7 +55,7 @@ class Weight extends Component
         $this->weight_difference_goal_kcal = ($this->weight_difference_goal - $this->weight_difference) * 7000 / 7;
 
         $energy_attribute = Attribute::where('slug', 'energy')->first();
-        $energies = $energy_attribute->values()->latest('at')->limit(7)->offset(0)->get();
+        $energies = $energy_attribute->values()->where('user_id', auth()->user()->id)->latest('at')->limit(7)->offset(0)->get();
         $this->energy_avg = $energy_attribute->value($energies->avg('raw'));
     }
 
