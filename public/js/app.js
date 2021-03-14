@@ -4561,34 +4561,8 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _row_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./row.vue */ "./resources/js/components/portfolio/row.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _tables_base_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../tables/base.vue */ "./resources/js/components/tables/base.vue");
+/* harmony import */ var _mixins_tables_base_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixins/tables/base.js */ "./resources/js/mixins/tables/base.js");
 //
 //
 //
@@ -4615,41 +4589,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    row: _row_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    row: _row_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    tableBase: _tables_base_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  props: {},
+  mixins: [_mixins_tables_base_js__WEBPACK_IMPORTED_MODULE_2__["baseMixin"]],
   data: function data() {
-    var d = new Date();
-    return {
-      uri: '/portfolio',
-      items: [],
-      isLoading: true,
-      paginate: {
-        nextPageUrl: null,
-        prevPageUrl: null,
-        lastPage: 0
-      },
-      filter: {
-        show: true,
-        page: 1
-      },
-      errors: {}
+    return {//
     };
   },
-  mounted: function mounted() {
-    this.fetch();
-  },
-  watch: {
-    page: function page() {
-      this.fetch();
-    }
-  },
   computed: {
-    page: function page() {
-      return this.filter.page;
-    },
     pages: function pages() {
       var pages = [];
 
@@ -4669,29 +4621,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    fetch: function fetch() {
-      var component = this;
-      component.isLoading = true;
-      axios.get(component.uri, {
-        params: component.filter
-      }).then(function (response) {
-        component.items = response.data;
-        component.isLoading = false;
-      })["catch"](function (error) {
-        Vue.error('Jahre konnten nicht geladen werden!');
-        console.log(error);
-      });
-    },
-    search: function search() {
-      this.filter.page = 1;
-      this.fetch();
-    },
-    updated: function updated(index, item) {
-      Vue.set(this.items, index, item);
-    },
-    remove: function remove(index) {
-      this.items.splice(index, 1);
-    },
     showPageButton: function showPageButton(page) {
       if (page == 1 || page == this.paginate.lastPage) {
         return true;
@@ -50848,7 +50777,7 @@ var render = function() {
                 modifiers: { number: true }
               }
             ],
-            staticClass: "form-control",
+            staticClass: "form-control form-control-sm",
             on: {
               change: [
                 function($event) {
@@ -50889,27 +50818,34 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("div", { staticClass: "col-xl-6 d-none d-xl-block" }, [
-        _c("table", { staticClass: "table table-hover table-striped" }, [
-          _c("thead"),
-          _vm._v(" "),
-          _c("tbody", [
-            _c("tr", [
-              _c("td", [_vm._v("Dividenden gesamt")]),
-              _vm._v(" "),
-              _c("td", { staticClass: "text-right" }, [
-                _vm._v(_vm._s(_vm.statistics.sum_formatted))
-              ])
-            ]),
+        _c(
+          "table",
+          {
+            staticClass:
+              "table table-fixed table-hover table-striped table-sm bg-white"
+          },
+          [
+            _c("thead"),
             _vm._v(" "),
-            _c("tr", [
-              _c("td", [_vm._v("Dividenden / Monat")]),
+            _c("tbody", [
+              _c("tr", [
+                _c("td", [_vm._v("Dividenden gesamt")]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-right" }, [
+                  _vm._v(_vm._s(_vm.statistics.sum_formatted))
+                ])
+              ]),
               _vm._v(" "),
-              _c("td", { staticClass: "text-right" }, [
-                _vm._v("Ø " + _vm._s(_vm.statistics.avg_per_month_formatted))
+              _c("tr", [
+                _c("td", [_vm._v("Dividenden / Monat")]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-right" }, [
+                  _vm._v("Ø " + _vm._s(_vm.statistics.avg_per_month_formatted))
+                ])
               ])
             ])
-          ])
-        ]),
+          ]
+        ),
         _vm._v(" "),
         _c(
           "table",
@@ -50922,7 +50858,8 @@ var render = function() {
                 expression: "Object.keys(investments).length"
               }
             ],
-            staticClass: "table table-hover table-striped"
+            staticClass:
+              "table table-fixed table-hover table-striped table-sm bg-white"
           },
           [
             _vm._m(0),
@@ -51078,112 +51015,62 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col mb-1 mb-sm-0" }),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-auto d-flex" }, [
-        _c("div", {
-          staticClass: "form-group",
-          staticStyle: { "margin-bottom": "0" }
-        }),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-secondary ml-1",
-            on: {
-              click: function($event) {
-                _vm.filter.show = !_vm.filter.show
-              }
-            }
-          },
-          [_c("i", { staticClass: "fas fa-filter" })]
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _vm.filter.show
-      ? _c("form", { staticClass: "mt-1", attrs: { id: "filter" } }, [
-          _c("div", { staticClass: "form-row" })
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.isLoading
-      ? _c(
-          "div",
-          { staticClass: "mt-3 p-5" },
-          [
-            _c("center", [
-              _c("span", { staticStyle: { "font-size": "48px" } }, [
-                _c("i", { staticClass: "fas fa-spinner fa-spin" }),
-                _c("br")
-              ]),
-              _vm._v("\n            Lade Daten..\n        ")
-            ])
-          ],
-          1
-        )
-      : _vm.items.length
-      ? _c("div", { staticClass: "table-responsive mt-3" }, [
-          _c(
-            "table",
-            { staticClass: "table table-hover table-striped bg-white" },
-            [
-              _vm._m(0),
+  return _c("table-base", {
+    attrs: {
+      "is-loading": _vm.isLoading,
+      "has-create-button": false,
+      "items-length": _vm.items.length,
+      "has-filter": _vm.hasFilter()
+    },
+    on: {
+      searching: function($event) {
+        return _vm.searching($event)
+      },
+      creating: _vm.create
+    },
+    scopedSlots: _vm._u([
+      {
+        key: "thead",
+        fn: function() {
+          return [
+            _c("tr", [
+              _c("th", { attrs: { width: "50" } }, [_vm._v("Jahr")]),
               _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.items, function(item, index) {
-                  return _c("row", {
-                    key: item.id,
-                    attrs: { item: item, uri: _vm.uri },
-                    on: {
-                      updated: function($event) {
-                        return _vm.updated(index, $event)
-                      }
-                    }
-                  })
-                }),
-                1
-              )
-            ]
-          )
-        ])
-      : _c(
-          "div",
-          { staticClass: "alert alert-dark mt-3" },
-          [_c("center", [_vm._v("Keine Jahre vorhanden")])],
-          1
-        )
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", {}, [_vm._v("Jahr")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Start")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Ende")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Investiert")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Dividenden")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Dividendenrendite")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("1€ / Monat")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Investmentrate")])
-      ])
+              _c("th", { staticClass: "text-right" }, [_vm._v("Start")]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-right" }, [_vm._v("Ende")]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-right" }, [_vm._v("Investiert")]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-right" }, [_vm._v("Dividenden")]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-right" }, [
+                _vm._v("Dividendenrendite")
+              ]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-right" }, [_vm._v("1€ / Monat")]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-right" }, [
+                _vm._v("Investmentrate")
+              ])
+            ])
+          ]
+        },
+        proxy: true
+      },
+      {
+        key: "tbody",
+        fn: function() {
+          return _vm._l(_vm.items, function(item, index) {
+            return _c("row", { key: item.id, attrs: { item: item } })
+          })
+        },
+        proxy: true
+      }
     ])
-  }
-]
+  })
+}
+var staticRenderFns = []
 render._withStripped = true
 
 

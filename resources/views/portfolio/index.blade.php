@@ -2,7 +2,7 @@
 
 @section('content')
 
-<portfolio-table></portfolio-table>
+<portfolio-table index-path="/portfolio"></portfolio-table>
 
 <portfolio-dividend-month></portfolio-dividend-month>
 

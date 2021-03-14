@@ -8,7 +8,7 @@
                 </span>
             </div>
             <div class="form-group mb-0">
-                <select class="form-control" v-model.number="form.year" @change="fetch">
+                <select class="form-control form-control-sm" v-model.number="form.year" @change="fetch">
                     <option :value="year" v-for="(year, index) in years">{{ year }}</option>
                 </select>
             </div>
@@ -18,7 +18,7 @@
                 <highcharts :options="chartOptions"></highcharts>
             </div>
             <div class="col-xl-6 d-none d-xl-block">
-                <table class="table table-hover table-striped">
+                <table class="table table-fixed table-hover table-striped table-sm bg-white">
                     <thead>
 
                     </thead>
@@ -34,7 +34,7 @@
                     </tbody>
                 </table>
 
-                <table class="table table-hover table-striped" v-show="Object.keys(investments).length">
+                <table class="table table-fixed table-hover table-striped table-sm bg-white" v-show="Object.keys(investments).length">
                     <thead>
                         <th width="100%">Investment</th>
                         <th class="text-right" width="100">Summe</th>

@@ -1,106 +1,53 @@
 <template>
-    <div>
-        <div class="row">
-            <div class="col mb-1 mb-sm-0">
 
-            </div>
-            <div class="col-auto d-flex">
-                <div class="form-group" style="margin-bottom: 0;">
+    <table-base :is-loading="isLoading" :has-create-button="false" :items-length="items.length" :has-filter="hasFilter()" @searching="searching($event)" @creating="create">
 
-                </div>
-                <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
-            </div>
-        </div>
+        <template v-slot:thead>
+            <tr>
+                <th class="" width="50">Jahr</th>
+                <th class="text-right">Start</th>
+                <th class="text-right">Ende</th>
+                <th class="text-right">Investiert</th>
+                <th class="text-right">Dividenden</th>
+                <th class="text-right">Dividendenrendite</th>
+                <th class="text-right">1€ / Monat</th>
+                <th class="text-right">Investmentrate</th>
+            </tr>
+        </template>
 
-        <form v-if="filter.show" id="filter" class="mt-1">
-            <div  class="form-row">
+        <template v-slot:tbody>
+            <row :item="item" :key="item.id" v-for="(item, index) in items"></row>
+        </template>
 
+    </table-base>
 
-
-            </div>
-        </form>
-
-        <div v-if="isLoading" class="mt-3 p-5">
-            <center>
-                <span style="font-size: 48px;">
-                    <i class="fas fa-spinner fa-spin"></i><br />
-                </span>
-                Lade Daten..
-            </center>
-        </div>
-        <div class="table-responsive mt-3" v-else-if="items.length">
-            <table class="table table-hover table-striped bg-white">
-                <thead>
-                    <tr>
-                        <th class="">Jahr</th>
-                        <th class="text-right">Start</th>
-                        <th class="text-right">Ende</th>
-                        <th class="text-right">Investiert</th>
-                        <th class="text-right">Dividenden</th>
-                        <th class="text-right">Dividendenrendite</th>
-                        <th class="text-right">1€ / Monat</th>
-                        <th class="text-right">Investmentrate</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <row :item="item" :key="item.id" :uri="uri" v-for="(item, index) in items" @updated="updated(index, $event)"></row>
-                </tbody>
-            </table>
-        </div>
-        <div class="alert alert-dark mt-3" v-else><center>Keine Jahre vorhanden</center></div>
-    </div>
 </template>
 
 <script>
     import row from "./row.vue";
+    import tableBase from '../tables/base.vue';
+
+    import { baseMixin } from '../../mixins/tables/base.js';
 
     export default {
 
         components: {
             row,
+            tableBase,
         },
 
-        props: {
-
-        },
+        mixins: [
+            baseMixin,
+        ],
 
         data () {
 
-            var d = new Date();
-
             return {
-                uri: '/portfolio',
-                items: [],
-                isLoading: true,
-                paginate: {
-                    nextPageUrl: null,
-                    prevPageUrl: null,
-                    lastPage: 0,
-                },
-                filter: {
-                    show: true,
-                    page: 1,
-                },
-                errors: {},
+                //
             };
         },
 
-        mounted() {
-
-            this.fetch();
-
-        },
-
-        watch: {
-            page () {
-                this.fetch();
-            },
-        },
-
         computed: {
-            page() {
-                return this.filter.page;
-            },
             pages() {
                 var pages = [];
                 for (var i = 1; i <= this.paginate.lastPage; i++) {
@@ -118,31 +65,6 @@
         },
 
         methods: {
-            fetch() {
-                var component = this;
-                component.isLoading = true;
-                axios.get(component.uri, {
-                    params: component.filter
-                })
-                    .then(function (response) {
-                        component.items = response.data;
-                        component.isLoading = false;
-                    })
-                    .catch(function (error) {
-                        Vue.error('Jahre konnten nicht geladen werden!');
-                        console.log(error);
-                    });
-            },
-            search() {
-                this.filter.page = 1;
-                this.fetch();
-            },
-            updated(index, item) {
-                Vue.set(this.items, index, item);
-            },
-            remove(index) {
-                this.items.splice(index, 1);
-            },
             showPageButton(page) {
                 if (page == 1 || page == this.paginate.lastPage) {
                     return true;
