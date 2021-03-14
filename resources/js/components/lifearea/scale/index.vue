@@ -2,12 +2,12 @@
     <div class="card">
         <div class="card-header">Level</div>
         <div class="card-body">
-            <table class="table table-hover table-striped table-fixed">
+            <table class="table table-fixed table-hover table-striped table-sm bg-white">
                 <thead>
                     <tr>
-                        <td width="50" class="">#</td>
-                        <td width="70%">Beschreibung</td>
-                        <td width="20%"></td>
+                        <th width="50" class="">#</th>
+                        <th width="100%">Beschreibung</th>
+                        <th width="125"></th>
                     </tr>
                 </thead>
                 <tbody>

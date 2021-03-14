@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Lifeareas;
 use App\Http\Controllers\Controller;
 use App\Models\Lifeareas\Lifearea;
 use App\Models\Lifeareas\Scale;
+use App\Models\Services\Data\Attributes\Groups\Group;
 use Illuminate\Http\Request;
 
 class ScaleController extends Controller
@@ -70,13 +71,20 @@ class ScaleController extends Controller
             abort(404);
         }
 
+        $attribute_groups = Group::with([
+            'attributes',
+        ])
+            ->orderBy('name', 'ASC')
+            ->get();
+
         if ($request->wantsJson()) {
             //
         }
 
         return view($this->baseViewPath . '.show')
             ->with('lifearea', $lifearea)
-            ->with('model', $scale);
+            ->with('model', $scale)
+            ->with('attribute_groups', $attribute_groups);
     }
 
     /**

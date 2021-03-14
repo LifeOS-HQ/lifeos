@@ -39,8 +39,15 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/journal/{journal}/sort/rating', 'Journals\Ratings\SortController@update')->name('journal.sort.rating.update');
 
     Route::resource('lifearea', 'Lifeareas\LifeareaController');
-    Route::resource('lifearea.scale', 'Lifeareas\ScaleController');
+    Route::resource(\App\Models\Lifeareas\Scale::ROUTE_NAME, 'Lifeareas\ScaleController');
     Route::get('lifeareas/{lifearea}/levels/{level}/goals', [\App\Http\Controllers\Lifeareas\Levels\Goals\GoalController::class, 'index'])->name('lifeareas.levels.goals.index');
+    Route::get('lifeareas/{lifearea}/levels/{level}/goals/create', [\App\Http\Controllers\Lifeareas\Levels\Goals\GoalController::class, 'create'])->name('lifeareas.levels.goals.create');
+    Route::post('lifeareas/{lifearea}/levels/{level}/goals', [\App\Http\Controllers\Lifeareas\Levels\Goals\GoalController::class, 'store'])->name('lifeareas.levels.goals.store');
+    Route::get('lifeareas/{lifearea}/levels/{level}/goals/{goal}', [\App\Http\Controllers\Lifeareas\Levels\Goals\GoalController::class, 'show'])->name('lifeareas.levels.goals.show');
+    Route::get('lifeareas/{lifearea}/levels/{level}/goals/{goal}/edit', [\App\Http\Controllers\Lifeareas\Levels\Goals\GoalController::class, 'edit'])->name('lifeareas.levels.goals.edit');
+    Route::put('lifeareas/{lifearea}/levels/{level}/goals/{goal}', [\App\Http\Controllers\Lifeareas\Levels\Goals\GoalController::class, 'update'])->name('lifeareas.levels.goals.update');
+    Route::put('lifeareas/{lifearea}/levels/{level}/goals/{goal}', [\App\Http\Controllers\Lifeareas\Levels\Goals\GoalController::class, 'update'])->name('lifeareas.levels.goals.update');
+    Route::delete('lifeareas/{lifearea}/levels/{level}/goals/{goal}', [\App\Http\Controllers\Lifeareas\Levels\Goals\GoalController::class, 'destroy'])->name('lifeareas.levels.goals.destroy');
 
     Route::get('login/{provider}', [App\Http\Controllers\Auth\ServiceController::class, 'redirectToProvider'])->name('login.provider.redirect');
     Route::get('login/{provider}/callback', [App\Http\Controllers\Auth\ServiceController::class, 'handleProviderCallback'])->name('login.provider.callback');

@@ -23,7 +23,15 @@ class GoalController extends Controller
      */
     public function index(Request $request, Lifearea $lifearea, int $level)
     {
-        //
+        $scale = $lifearea->scales()->where('value', $level)->first();
+        if (is_null($scale)) {
+            dd('test');
+            abort(404);
+        }
+
+        return $scale->goals()->with([
+            'data_attribute',
+        ])->get();
     }
 
     /**
@@ -42,9 +50,26 @@ class GoalController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Lifearea $lifearea, int $level)
     {
-        //
+        $scale = $lifearea->scales()->where('value', $level)->first();
+        if (is_null($scale)) {
+            dd('test');
+            abort(404);
+        }
+
+        $attributes = $request->validate([
+            'data_attribute_id' => 'required|integer|exists:data_attributes,id',
+        ]);
+
+        return $scale->goals()->create($attributes + [
+            'end' => 0,
+            'lifearea_id' => $lifearea->id,
+            'start' => 0,
+            'user_id' => auth()->user()->id,
+        ])->load([
+            'data_attribute',
+        ]);
     }
 
     /**
@@ -78,16 +103,20 @@ class GoalController extends Controller
      * @param  \App\Models\Lifeareas\Levels\Goals\Goal  $goal
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Goal $goal)
+    public function update(Request $request, Lifearea $lifearea, int $level, Goal $goal)
     {
         $attributes = $request->validate([
-
+            'data_attribute_id' => 'required|integer|exists:data_attributes,id',
+            'end_formatted' => 'required|formatted_number',
+            'start_formatted' => 'required|formatted_number',
         ]);
 
         $goal->update($attributes);
 
         if ($request->wantsJson()) {
-            return $goal;
+            return $goal->load([
+                'data_attribute',
+            ]);
         }
 
         return back()
@@ -103,7 +132,7 @@ class GoalController extends Controller
      * @param  \App\Models\Lifeareas\Levels\Goals\Goal  $goal
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Goal $goal)
+    public function destroy(Request $request, Lifearea $lifearea, int $level, Goal $goal)
     {
         if ($isDeletable = $goal->isDeletable()) {
             $goal->delete();
@@ -128,7 +157,7 @@ class GoalController extends Controller
             ];
         }
 
-        return redirect(route($this->baseViewPath . '.index'))
+        return redirect($goal->index_path)
             ->with('status', $status);
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7fb327da65ee274d95bbb37c7d340bc",
+    "content-hash": "a92f90f591281de2115a6ce78d564be7",
     "packages": [
         {
             "name": "brick/math",
@@ -61,6 +61,80 @@
                 }
             ],
             "time": "2020-08-18T23:57:15+00:00"
+        },
+        {
+            "name": "danielsundermeier/laravel-model-labels",
+            "version": "0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/danielsundermeier/laravel-model-labels.git",
+                "reference": "f139c264ed554030260c0513b5666cb49c61f216"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/danielsundermeier/laravel-model-labels/zipball/f139c264ed554030260c0513b5666cb49c61f216",
+                "reference": "f139c264ed554030260c0513b5666cb49c61f216",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "D15r\\ModelLabels\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Sundermeier",
+                    "email": "packages@d15r.de"
+                }
+            ],
+            "description": "Description.",
+            "support": {
+                "issues": "https://github.com/danielsundermeier/laravel-model-labels/issues",
+                "source": "https://github.com/danielsundermeier/laravel-model-labels/tree/0.2.0"
+            },
+            "time": "2021-03-13T13:49:28+00:00"
+        },
+        {
+            "name": "danielsundermeier/laravel-model-path",
+            "version": "0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/danielsundermeier/laravel-model-path.git",
+                "reference": "74ef92a0be6b14c0a6205ed46932aee1b79df7fa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/danielsundermeier/laravel-model-path/zipball/74ef92a0be6b14c0a6205ed46932aee1b79df7fa",
+                "reference": "74ef92a0be6b14c0a6205ed46932aee1b79df7fa",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "D15r\\ModelPath\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Sundermeier",
+                    "email": "packages@d15r.de"
+                }
+            ],
+            "description": "Description.",
+            "support": {
+                "issues": "https://github.com/danielsundermeier/laravel-model-path/issues",
+                "source": "https://github.com/danielsundermeier/laravel-model-path/tree/0.4.1"
+            },
+            "time": "2021-03-06T09:24:58+00:00"
         },
         {
             "name": "dasumi/base-api-wrapper",

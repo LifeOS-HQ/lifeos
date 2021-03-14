@@ -4,13 +4,22 @@ namespace App\Models\Lifeareas;
 
 use App\Models\Lifeareas\Levels\Goals\Goal;
 use App\Models\Lifeareas\Lifearea;
+use App\Traits\BelongsToUser;
 use App\User;
+use D15r\ModelLabels\Traits\HasLabels;
+use D15r\ModelPath\Traits\HasModelPath;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Scale extends Model
 {
+    use BelongsToUser,
+        HasLabels,
+        HasModelPath;
+
+    const ROUTE_NAME = 'lifearea.scale';
+
     protected $appends = [
         'is_deletable',
         'path',
@@ -55,6 +64,16 @@ class Scale extends Model
         });
     }
 
+    protected static function labels() : array
+    {
+        return [
+            'nominativ' => [
+                'singular' => 'Level',
+                'plural' => 'Level',
+            ],
+        ];
+    }
+
     public function isDeletable() : bool
     {
         return false;
@@ -65,9 +84,12 @@ class Scale extends Model
         return $this->isDeletable();
     }
 
-    public function getPathAttribute()
+    public function getRouteParameterAttribute() : array
     {
-        return '/lifearea/' . $this->lifearea_id . '/scale/' . $this->id;
+        return [
+            'lifearea' => $this->lifearea_id,
+            'scale' => $this->id,
+        ];
     }
 
     public function lifearea() : BelongsTo

@@ -6,7 +6,7 @@
 
     <h1 class="col pl-0">Lebensbereich > {{ $model->title }}</h1>
     <div class="text-right">
-        <a class="btn btn-secondary" href="/lifearea">Übersicht</a>
+        <a class="btn btn-secondary btn-sm" href="/lifearea">Übersicht</a>
     </div>
 
 </div>
@@ -21,16 +21,18 @@
 
                 <div class="card-header">Allgemein</div>
                 <div class="card-body">
-                    <div class="form-group">
-                        <label for="title">Name</label>
-                        <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" placeholder="Name" value="{{ $model->title }}">
-                        @error('title')
-                            <span class="invalid-feedback" role="alert">{{ $message }}</span>
-                        @enderror
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label col-form-label-sm" for="title">Name</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control form-control-sm @error('title') is-invalid @enderror" id="title" name="title" placeholder="Name" value="{{ $model->title }}">
+                            @error('title')
+                                <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <button class="btn btn-primary" type="submit">Speichern</button>
+                    <button class="btn btn-primary btn-sm" type="submit">Speichern</button>
                 </div>
             </form>
         </div>

@@ -9,6 +9,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.3",
+        "danielsundermeier/laravel-model-labels": "^0.2.0",
+        "danielsundermeier/laravel-model-path": "^0.4.1",
         "facade/ignition": "^2.5",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^8.0",
