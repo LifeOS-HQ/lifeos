@@ -27,9 +27,16 @@ class ReviewController extends Controller
         $user = auth()->user();
 
         if ($request->wantsJson()) {
-            return $user->reviews()
+            $reviews = $user->reviews()
+                ->with('lifeareas')
                 ->latest()
                 ->paginate();
+
+            foreach ($reviews as $key => $review) {
+                $review->append('lifearea_ratings_avg_formatted');
+            }
+
+            return $reviews;
         }
 
         return view($this->baseViewPath . '.index');

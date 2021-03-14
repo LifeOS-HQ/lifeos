@@ -21,8 +21,7 @@ class Review extends Model
     const ROUTE_NAME = 'review';
 
     protected $appends = [
-        'path',
-        'at_formatted'
+        'at_formatted',
     ];
 
     protected $casts = [
@@ -33,8 +32,11 @@ class Review extends Model
         'at',
     ];
 
-    protected $guarded = [
-        'id',
+    protected $fillable = [
+        'at',
+        'at_formatted',
+        'title',
+        'user_id',
     ];
 
     /**
@@ -106,6 +108,18 @@ class Review extends Model
     public function getAtFormattedAttribute() : string
     {
         return $this->at->format('d.m.Y');
+    }
+
+    public function getLifeareaRatingsAvgAttribute() : float
+    {
+        return $this->lifeareas()->avg('rating');
+    }
+
+    public function getLifeareaRatingsAvgFormattedAttribute() : string
+    {
+        $lifearea_ratings_avg = $this->lifearea_ratings_avg;
+
+        return ($lifearea_ratings_avg == 0 ? '-' : number_format($this->lifearea_ratings_avg, 2, ',', '.'));
     }
 
     public function setAtFormattedAttribute($value)

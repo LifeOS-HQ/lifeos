@@ -4,6 +4,6 @@
 
 <h1>Berichte</h1>
 
-<review-table></review-table>
+<review-table index-path="{{ \App\Models\Reviews\Review::indexPath() }}"></review-table>
 
 @endsection
