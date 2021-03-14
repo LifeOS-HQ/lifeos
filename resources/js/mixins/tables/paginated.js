@@ -24,6 +24,20 @@ export const paginatedMixin = {
         page() {
             return this.filter.page;
         },
+        pages() {
+            var pages = [];
+            for (var i = 1; i <= this.paginate.lastPage; i++) {
+                if (this.showPageButton(i)) {
+                    const lastItem = pages[pages.length - 1];
+                    if (lastItem < (i - 1) && lastItem != '...') {
+                        pages.push('...');
+                    }
+                    pages.push(i);
+                }
+            }
+
+            return pages;
+        },
     },
 
     methods: {
@@ -34,6 +48,17 @@ export const paginatedMixin = {
             this.paginate.prevPageUrl = response.data.prev_page_url;
             this.paginate.lastPage = response.data.last_page;
             this.paginate.currentPage = response.data.current_page;
-        }
+        },
+        showPageButton(page) {
+            if (page == 1 || page == this.paginate.lastPage) {
+                return true;
+            }
+
+            if (page <= this.filter.page + 2 && page >= this.filter.page - 2) {
+                return true;
+            }
+
+            return false;
+        },
     },
 };

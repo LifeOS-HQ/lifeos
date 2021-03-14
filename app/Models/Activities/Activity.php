@@ -3,13 +3,22 @@
 namespace App\Models\Activities;
 
 use App\Models\Lifeareas\Lifearea;
+use App\Traits\BelongsToUser;
 use App\User;
+use D15r\ModelLabels\Traits\HasLabels;
+use D15r\ModelPath\Traits\HasModelPath;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Activity extends Model
 {
+    use BelongsToUser,
+        HasLabels,
+        HasModelPath;
+
+    const ROUTE_NAME = 'activities';
+
     protected $appends = [
         'path',
     ];
@@ -56,19 +65,19 @@ class Activity extends Model
         return true;
     }
 
-    public function getPathAttribute()
+    protected static function labels() : array
     {
-        return '/activity/' . $this->id;
+        return [
+            'nominativ' => [
+                'singular' => 'Aktivität',
+                'plural' => 'Aktivitäten',
+            ],
+        ];
     }
 
     public function lifearea() : BelongsTo
     {
         return $this->belongsTo(Lifearea::class, 'lifearea_id');
-    }
-
-    public function user() : BelongsTo
-    {
-        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function scopeLifearea(Builder $query, $value) : Builder
@@ -78,7 +87,7 @@ class Activity extends Model
         }
 
         if ($value == 0) {
-            $query->whereNull('lifearea_id');
+            return $query->whereNull('lifearea_id');
         }
 
         return $query->where('lifearea_id', $value);

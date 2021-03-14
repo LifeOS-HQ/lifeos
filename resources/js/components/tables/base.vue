@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <form v-if="filter.show" id="filter" class="py-3">
+        <form v-if="filter.show" id="filter" class="pb-1">
             <div class="form-row">
 
                 <slot name="filter"></slot>

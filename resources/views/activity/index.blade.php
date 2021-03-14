@@ -2,6 +2,6 @@
 
 @section('content')
 
-<activity-table :lifeareas="{{ json_encode($lifeareas) }}"></activity-table>
+<activity-table index-path="{{ \App\Models\Activities\Activity::indexPath() }}" :lifeareas="{{ json_encode($lifeareas) }}"></activity-table>
 
 @endsection

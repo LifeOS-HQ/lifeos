@@ -27,7 +27,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home/rentablo', 'Home\Rentablo\RentabloController@index')->name('home.rentablo.index');
     Route::get('/home/server', 'Home\Servers\StatusController@index')->name('home.server.index');
 
-    Route::resource('activity', 'Activities\ActivityController');
+    Route::resource(\App\Models\Activities\Activity::ROUTE_NAME, 'Activities\ActivityController');
     Route::resource('health', 'Health\HealthController');
 
     Route::resource('journal', 'Journals\JournalController');
