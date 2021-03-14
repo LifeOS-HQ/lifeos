@@ -25,9 +25,18 @@ class LifeareaController extends Controller
         $user = auth()->user();
 
         if ($request->wantsJson()) {
-            return $user->lifeareas()
+            $models = $user->lifeareas()
+                ->with([
+                    'ratings',
+                ])
                 ->orderBy('title', 'ASC')
                 ->get();
+
+            foreach ($models as $key => $model) {
+                $model->append('ratings_avg_formatted');
+            }
+
+            return $models;
         }
 
         return view($this->baseViewPath . '.index');

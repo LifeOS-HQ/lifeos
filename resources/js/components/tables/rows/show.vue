@@ -4,7 +4,7 @@
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-secondary" title="Anzeigen" @click="show" v-if="hasShowButton"><i class="fas fa-fw fa-eye"></i></button>
-                <button type="button" class="btn btn-secondary" title="Bearbeiten" @click="edit"><i class="fas fa-fw fa-edit"></i></button>
+                <button type="button" class="btn btn-secondary" title="Bearbeiten" @click="edit" v-if="hasEditButton"><i class="fas fa-fw fa-edit"></i></button>
                 <button type="button" class="btn btn-secondary" title="Löschen" @click="$emit('destroying')"><i class="fas fa-fw fa-trash"></i></button>
             </div>
         </td>
@@ -28,6 +28,11 @@
                 type: Boolean,
                 required: false,
                 default: false,
+            },
+            hasEditButton: {
+                type: Boolean,
+                required: false,
+                default: true,
             },
             hasShowButton: {
                 type: Boolean,

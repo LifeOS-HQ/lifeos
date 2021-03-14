@@ -2,8 +2,8 @@
 
 @section('content')
 
-<h1>Lebensbereiche</h1>
+<h1>{{ \App\Models\Lifeareas\Lifearea::label() }}</h1>
 
-<lifearea-table></lifearea-table>
+<lifearea-table index-path="{{ \App\Models\Lifeareas\Lifearea::indexPath() }}"></lifearea-table>
 
 @endsection

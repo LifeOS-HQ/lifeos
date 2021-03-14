@@ -38,7 +38,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('journal.rating', 'Journals\RatingController');
     Route::put('/journal/{journal}/sort/rating', 'Journals\Ratings\SortController@update')->name('journal.sort.rating.update');
 
-    Route::resource('lifearea', 'Lifeareas\LifeareaController');
+    Route::resource(\App\Models\Lifeareas\Lifearea::ROUTE_NAME, 'Lifeareas\LifeareaController');
     Route::resource(\App\Models\Lifeareas\Scale::ROUTE_NAME, 'Lifeareas\ScaleController');
     Route::get('lifeareas/{lifearea}/levels/{level}/goals', [\App\Http\Controllers\Lifeareas\Levels\Goals\GoalController::class, 'index'])->name('lifeareas.levels.goals.index');
     Route::get('lifeareas/{lifearea}/levels/{level}/goals/create', [\App\Http\Controllers\Lifeareas\Levels\Goals\GoalController::class, 'create'])->name('lifeareas.levels.goals.create');

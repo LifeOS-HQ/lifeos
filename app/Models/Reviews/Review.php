@@ -112,7 +112,7 @@ class Review extends Model
 
     public function getLifeareaRatingsAvgAttribute() : float
     {
-        return $this->lifeareas()->avg('rating');
+        return $this->lifeareas()->avg('rating') ?? 0;
     }
 
     public function getLifeareaRatingsAvgFormattedAttribute() : string

@@ -1,173 +1,72 @@
 <template>
-    <div>
-        <div class="row">
-            <div class="col d-flex align-items-start mb-1 mb-sm-0">
-                <div class="form-group mb-0 mr-1">
-                    <div>
-                        <input type="text" class="form-control" :class="'title' in errors ? 'is-invalid' : ''" v-model="form.title" placeholder="Name" @keydown.enter="create">
-                        <div class="invalid-feedback" v-text="'title' in errors ? errors.title[0] : ''"></div>
-                    </div>
-                </div>
-                <button class="btn btn-primary" @click="create"><i class="fas fa-plus-square"></i></button>
+
+    <table-base :is-loading="isLoading" :items-length="items.length" :has-filter="hasFilter()" @creating="create" @paginating="filter.page = $event" @searching="searching($event)">
+
+        <template v-slot:form>
+            <div class="form-group mb-0 mr-1">
+                <input-text v-model="form.title" placeholder="Name" :error="error('title')" @keydown.enter="create"></input-text>
             </div>
-            <div class="col-auto d-flex">
-                <div class="form-group" style="margin-bottom: 0;">
+        </template>
 
-                </div>
-                <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
+        <template v-slot:filter>
+
+            <div class="form-group">
+                <label class="col-form-label col-form-label-sm" for="filter-lifearea">Lebensbereich</label>
+                <select class="form-control form-control-sm" id="filter-lifearea" v-model="filter.lifearea_id" @change="search">
+                    <option :value="null">Alle Lebensbereiche</option>
+                    <option :value="0">Ohne Lebensbereich</option>
+                    <option :value="lifearea.id" v-for="(lifearea, index) in lifeareas">{{ lifearea.title }}</option>
+                </select>
             </div>
-        </div>
 
-        <form v-if="filter.show" id="filter" class="mt-1">
-            <div  class="form-row">
+        </template>
 
+        <template v-slot:thead>
+            <tr>
+                <th class="" width="100%">Titel</th>
+                <th class="text-right" width="110">Ø Bewertung</th>
+                <th class="text-right d-none d-sm-table-cell w-action" width="100">Aktion</th>
+            </tr>
+        </template>
 
+        <template v-slot:tbody>
+            <row :item="item" :key="item.id" v-for="(item, index) in items" @deleted="deleted(index)"></row>
+        </template>
 
-            </div>
-        </form>
+    </table-base>
 
-        <div v-if="isLoading" class="mt-3 p-5">
-            <center>
-                <span style="font-size: 48px;">
-                    <i class="fas fa-spinner fa-spin"></i><br />
-                </span>
-                Lade Daten..
-            </center>
-        </div>
-        <div class="table-responsive mt-3" v-else-if="items.length">
-            <table class="table table-hover table-striped bg-white">
-                <thead>
-                    <tr>
-                        <th class="">Titel</th>
-                        <th class="text-right">Ø Bewertung</th>
-                        <th class="text-right d-none d-sm-table-cell w-action">Aktion</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <row :item="item" :key="item.id" :uri="uri" v-for="(item, index) in items" @deleted="remove(index)" @updated="updated(index, $event)"></row>
-                </tbody>
-            </table>
-        </div>
-        <div class="alert alert-dark mt-3" v-else><center>Keine Lebensbereiche vorhanden</center></div>
-    </div>
 </template>
 
 <script>
-    import row from "./row.vue";
+    import row from './row.vue';
+    import tableBase from '../tables/base.vue';
+    import inputText from '../forms/inputs/text.vue';
+
+    import { baseMixin } from '../../mixins/tables/base.js';
 
     export default {
 
         components: {
+            inputText,
             row,
+            tableBase,
         },
 
-        props: {
-
-        },
+        mixins: [
+            baseMixin,
+        ],
 
         data () {
-
-            var d = new Date();
-
             return {
-                uri: '/lifearea',
-                items: [],
-                isLoading: true,
-                paginate: {
-                    nextPageUrl: null,
-                    prevPageUrl: null,
-                    lastPage: 0,
-                },
-                filter: {
-                    show: true,
-                    page: 1,
-                },
                 form: {
                     title: '',
                 },
-                errors: {},
             };
         },
 
-        mounted() {
-
-            this.fetch();
-
-        },
-
-        watch: {
-            page () {
-                this.fetch();
-            },
-        },
-
-        computed: {
-            page() {
-                return this.filter.page;
-            },
-            pages() {
-                var pages = [];
-                for (var i = 1; i <= this.paginate.lastPage; i++) {
-                    if (this.showPageButton(i)) {
-                        const lastItem = pages[pages.length - 1];
-                        if (lastItem < (i - 1) && lastItem != '...') {
-                            pages.push('...');
-                        }
-                        pages.push(i);
-                    }
-                }
-
-                return pages;
-            },
-        },
-
         methods: {
-            create() {
-                var component = this;
-                axios.post(component.uri, component.form)
-                    .then(function (response) {
-                        location.href = response.data.path;
-                    })
-                    .catch( function (error) {
-                        component.errors = error.response.data.errors;
-                        Vue.error('Lebensbereich konnte nicht erstellt werden!');
-                });
-            },
-            fetch() {
-                var component = this;
-                component.isLoading = true;
-                axios.get(component.uri, {
-                    params: component.filter
-                })
-                    .then(function (response) {
-                        component.items = response.data;
-                        component.isLoading = false;
-                    })
-                    .catch(function (error) {
-                        Vue.error('Lebensbereiche konnten nicht geladen werden!');
-                        console.log(error);
-                    });
-            },
-            search() {
-                this.filter.page = 1;
-                this.fetch();
-            },
-            updated(index, item) {
-                Vue.set(this.items, index, item);
-            },
-            remove(index) {
-                this.items.splice(index, 1);
-            },
-            showPageButton(page) {
-                if (page == 1 || page == this.paginate.lastPage) {
-                    return true;
-                }
-
-                if (page <= this.filter.page + 2 && page >= this.filter.page - 2) {
-                    return true;
-                }
-
-                return false;
+            created(item) {
+                location.href = item.path;
             },
         },
     };

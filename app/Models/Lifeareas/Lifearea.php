@@ -4,13 +4,22 @@ namespace App\Models\Lifeareas;
 
 use App\Models\Lifeareas\Scale;
 use App\Models\Reviews\Lifearea as ReviewLifearea;
+use App\Traits\BelongsToUser;
 use App\User;
+use D15r\ModelLabels\Traits\HasLabels;
+use D15r\ModelPath\Traits\HasModelPath;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Lifearea extends Model
 {
+    use BelongsToUser,
+        HasLabels,
+        HasModelPath;
+
+    const ROUTE_NAME = 'lifeareas';
+
     protected $appends = [
         'path',
     ];
@@ -62,6 +71,16 @@ class Lifearea extends Model
         });
     }
 
+    protected static function labels() : array
+    {
+        return [
+            'nominativ' => [
+                'singular' => 'Lebensbereich',
+                'plural' => 'Lebensbereiche',
+            ],
+        ];
+    }
+
     protected function createScales()
     {
         for ($i = 1; $i <= 10; $i++) {
@@ -72,14 +91,21 @@ class Lifearea extends Model
         }
     }
 
-    public function getPathAttribute()
-    {
-        return '/lifearea/' . $this->id;
-    }
-
     public function isDeletable() : bool
     {
         return true;
+    }
+
+    public function getRatingsAvgAttribute() : float
+    {
+        return $this->ratings()->avg('rating') ?? 0;
+    }
+
+    public function getRatingsAvgFormattedAttribute() : string
+    {
+        $ratings_avg = $this->ratings_avg;
+
+        return ($ratings_avg == 0 ? '-' : number_format($this->ratings_avg, 2, ',', '.'));
     }
 
     public function activities() : HasMany

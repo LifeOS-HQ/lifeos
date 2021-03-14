@@ -6,7 +6,7 @@
 
     <h1 class="col pl-0">Lebensbereich > {{ $model->title }}</h1>
     <div class="text-right">
-        <a class="btn btn-secondary btn-sm" href="/lifearea">Übersicht</a>
+        <a class="btn btn-secondary btn-sm" href="{{ $model->index_path }}">Übersicht</a>
     </div>
 
 </div>

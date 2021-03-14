@@ -14,7 +14,7 @@
                 <a href="/work"><li>Arbeit</li></a>
                 <a href="/review"><li>Berichte</li></a>
                 <a href="/health"><li>Gesundheit</li></a>
-                <a href="/lifearea"><li>Lebensbereiche</li></a>
+                <a href="{{ \App\Models\Lifeareas\Lifearea::indexPath() }}"><li>{{ \App\Models\Lifeareas\Lifearea::label() }}</li></a>
                 <a href="/portfolio"><li>Portfolio</li></a>
                 <a href="/journal"><li>Tagebuch</li></a>
                 <a href="/workouts"><li>Training</li></a>
