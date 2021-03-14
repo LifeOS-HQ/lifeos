@@ -1,7 +1,7 @@
 <template>
     <div>
         <show :item="item" :key="index" v-for="(item, index) in blocks" @deleted="remove(index)" @updated="updated(index, $event)"></show>
-        <button type="button" class="btn btn-secondary" title="Anlegen" @click="store"><i class="fas fa-fw fa-plus"></i></button>
+        <button type="button" class="btn btn-secondary btn-sm btn-block" title="Anlegen" @click="store"><i class="fas fa-fw fa-plus"></i></button>
     </div>
 </template>
 

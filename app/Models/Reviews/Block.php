@@ -2,11 +2,13 @@
 
 namespace App\Models\Reviews;
 
+use App\Support\Markdown;
 use Illuminate\Database\Eloquent\Model;
 
 class Block extends Model
 {
     protected $appends = [
+        'body_markdown',
         'path',
     ];
 
@@ -57,5 +59,14 @@ class Block extends Model
     public function getPathAttribute()
     {
         return '/review/' . $this->review_id . '/block/' . $this->id;
+    }
+
+    public function getBodyMarkdownAttribute() : string
+    {
+        if (is_null($this->body)) {
+            return '';
+        }
+
+        return Markdown::convertToHtml($this->body);
     }
 }

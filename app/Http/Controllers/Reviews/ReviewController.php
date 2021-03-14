@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Reviews;
 
 use App\Http\Controllers\Controller;
 use App\Models\Reviews\Review;
+use App\Models\Services\Data\Attributes\Attribute;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 
 class ReviewController extends Controller
@@ -68,11 +70,39 @@ class ReviewController extends Controller
      */
     public function show(Review $review)
     {
+        $periods = new CarbonPeriod($review->at->subDays(7), '1 days', $review->at->subDays(1));
+
+        $mood_attribute = Attribute::with([
+                'values' => function ($query) use ($review) {
+                    return $query->whereDate('at', '<', $review->at);
+                },
+            ])->where('slug', 'mood')
+            ->first();
+        $mood_note_attribute = Attribute::with([
+                'values' => function ($query) use ($review) {
+                    return $query->whereDate('at', '<', $review->at);
+                },
+            ])->where('slug', 'mood_note')
+            ->first();
+
+        $days = [];
+        foreach ($periods as $key => $period) {
+            $days[$period->format('Y-m-d')] = [
+                'date_formatted' => $period->format('d.m.Y'),
+                'day_name' => $period->dayName,
+                'mood' => $mood_attribute->values->where('at', $period)->first() ?? 0,
+                'mood_note' => $mood_note_attribute->values->where('at', $period)->first() ?? '',
+            ];
+        }
+
+        krsort($days);
+
         return view($this->baseViewPath . '.show')
             ->with('model', $review->load([
                 'blocks',
                 'lifeareas.lifearea.scales',
-            ]));
+            ]))
+            ->with('days', $days);
     }
 
     /**

@@ -4882,6 +4882,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -4955,7 +4962,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -6766,6 +6772,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -6775,6 +6815,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: {
     model: {
+      required: true,
+      type: Object
+    },
+    days: {
       required: true,
       type: Object
     }
@@ -51289,7 +51333,7 @@ var render = function() {
       _c(
         "button",
         {
-          staticClass: "btn btn-secondary",
+          staticClass: "btn btn-secondary btn-sm btn-block",
           attrs: { type: "button", title: "Anlegen" },
           on: { click: _vm.store }
         },
@@ -51334,7 +51378,7 @@ var render = function() {
                   expression: "form.title"
                 }
               ],
-              staticClass: "form-control align-middle",
+              staticClass: "form-control form-control-sm align-middle",
               class: "title" in _vm.errors ? "is-invalid" : "",
               attrs: { type: "text" },
               domProps: { value: _vm.form.title },
@@ -51373,6 +51417,12 @@ var render = function() {
             [
               _c(
                 "button",
+                { staticClass: "btn btn-primary", on: { click: _vm.update } },
+                [_c("i", { staticClass: "fas fa-fw fa-save" })]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
                 {
                   staticClass: "btn btn-secondary",
                   on: {
@@ -51382,29 +51432,13 @@ var render = function() {
                   }
                 },
                 [_c("i", { staticClass: "fas fa-fw fa-times" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                { staticClass: "btn btn-primary", on: { click: _vm.update } },
-                [_c("i", { staticClass: "fas fa-fw fa-save" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-secondary",
-                  attrs: { type: "button", title: "Löschen" },
-                  on: { click: _vm.destroy }
-                },
-                [_c("i", { staticClass: "fas fa-fw fa-trash" })]
               )
             ]
           )
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
-          _c("div", { staticClass: "form-group" }, [
+          _c("div", { staticClass: "form-group mb-0" }, [
             _c("textarea", {
               directives: [
                 {
@@ -51414,8 +51448,8 @@ var render = function() {
                   expression: "form.body"
                 }
               ],
-              staticClass: "form-control",
-              attrs: { rows: "3" },
+              staticClass: "form-control form-control-sm",
+              attrs: { rows: "10" },
               domProps: { value: _vm.form.body },
               on: {
                 input: function($event) {
@@ -51426,7 +51460,9 @@ var render = function() {
                 }
               }
             })
-          ])
+          ]),
+          _vm._v(" "),
+          _vm._m(0)
         ])
       ])
     : _c("div", { staticClass: "card mb-3" }, [
@@ -51442,7 +51478,7 @@ var render = function() {
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-primary",
+                  staticClass: "btn btn-secondary",
                   on: {
                     click: function($event) {
                       _vm.isEditing = true
@@ -51466,17 +51502,31 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", {
-          staticClass: "card-body pointer white-space-pre",
-          domProps: { innerHTML: _vm._s(_vm.item.body) },
-          on: {
-            click: function($event) {
-              _vm.isEditing = true
-            }
-          }
+          staticClass: "card-body",
+          domProps: { innerHTML: _vm._s(_vm.item.body_markdown) }
         })
       ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("small", [
+      _c(
+        "a",
+        {
+          staticClass: "text-body",
+          attrs: {
+            href: "https://guides.github.com/features/mastering-markdown/",
+            target: "_blank"
+          }
+        },
+        [_vm._v("Styling with Markdown is supported")]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -51502,46 +51552,72 @@ var render = function() {
     _c("div", { staticClass: "card-header" }, [_vm._v("Lebensbereiche")]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
-      _c("table", { staticClass: "table table-hover table-striped" }, [
-        _c(
-          "tbody",
-          _vm._l(_vm.items, function(item, index) {
-            return _c("show", {
-              key: index,
-              attrs: { item: item },
-              on: {
-                deleted: function($event) {
-                  return _vm.remove(index)
-                },
-                updated: function($event) {
-                  return _vm.updated(index, $event)
+      _c(
+        "table",
+        {
+          staticClass:
+            "table table-fixed table-hover table-striped table-sm bg-white"
+        },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.items, function(item, index) {
+              return _c("show", {
+                key: index,
+                attrs: { item: item },
+                on: {
+                  deleted: function($event) {
+                    return _vm.remove(index)
+                  },
+                  updated: function($event) {
+                    return _vm.updated(index, $event)
+                  }
                 }
-              }
-            })
-          }),
-          1
-        ),
-        _vm._v(" "),
-        _c("tfoot", [
-          _c("tr", [
-            _c("td", { staticClass: "align-middle" }),
-            _vm._v(" "),
-            _c(
-              "td",
-              { staticClass: "align-middle font-weight-bold text-right" },
-              [_vm._v("Ø " + _vm._s(_vm.avarage))]
-            ),
-            _vm._v(" "),
-            _c("td", { staticClass: "align-middle" }),
-            _vm._v(" "),
-            _c("td", { staticClass: "align-middle text-right" })
+              })
+            }),
+            1
+          ),
+          _vm._v(" "),
+          _c("tfoot", [
+            _c("tr", [
+              _c("td", { staticClass: "align-middle" }),
+              _vm._v(" "),
+              _c(
+                "td",
+                { staticClass: "align-middle font-weight-bold text-right" },
+                [_vm._v("Ø " + _vm._s(_vm.avarage))]
+              ),
+              _vm._v(" "),
+              _c("td", { staticClass: "align-middle" }),
+              _vm._v(" "),
+              _c("td", { staticClass: "align-middle text-right" })
+            ])
           ])
-        ])
-      ])
+        ]
+      )
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Lebensbereich")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right" }, [_vm._v("Bewertung")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Beschreibung")]),
+        _vm._v(" "),
+        _c("th", { attrs: { width: "100" } })
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -51668,6 +51744,12 @@ var render = function() {
             [
               _c(
                 "button",
+                { staticClass: "btn btn-primary", on: { click: _vm.update } },
+                [_c("i", { staticClass: "fas fa-fw fa-save" })]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
                 {
                   staticClass: "btn btn-secondary",
                   on: {
@@ -51677,22 +51759,6 @@ var render = function() {
                   }
                 },
                 [_c("i", { staticClass: "fas fa-fw fa-times" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                { staticClass: "btn btn-primary", on: { click: _vm.update } },
-                [_c("i", { staticClass: "fas fa-fw fa-save" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-secondary",
-                  attrs: { type: "button", title: "Löschen" },
-                  on: { click: _vm.destroy }
-                },
-                [_c("i", { staticClass: "fas fa-fw fa-trash" })]
               )
             ]
           )
@@ -51719,7 +51785,7 @@ var render = function() {
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-primary",
+                  staticClass: "btn btn-secondary",
                   on: {
                     click: function($event) {
                       _vm.isEditing = true
@@ -54621,33 +54687,78 @@ var render = function() {
     _c("div", { staticClass: "row" }, [
       _c("h1", { staticClass: "col" }, [_vm._v(_vm._s(_vm.model.title))]),
       _vm._v(" "),
-      _vm._m(0)
+      _c("div", { staticClass: "col-auto" }, [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-secondary btn-sm",
+            attrs: { href: _vm.model.index_path }
+          },
+          [_vm._v("Übersicht")]
+        )
+      ])
     ]),
     _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "row" },
-      [
-        _c("block-index", {
-          staticClass: "col-8",
-          attrs: { model: _vm.model }
-        }),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "col-4" },
-          [
-            _c("lifearea-index", { attrs: { model: _vm.model } }),
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-12 col-lg-6" },
+        [
+          _c("block-index", { attrs: { model: _vm.model } }),
+          _vm._v(" "),
+          _vm._m(0)
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "col-12 col-lg-6" },
+        [
+          _c("lifearea-index", { attrs: { model: _vm.model } }),
+          _vm._v(" "),
+          _c("div", { staticClass: "card mt-3" }, [
+            _c("div", { staticClass: "card-header" }, [_vm._v("Tage")]),
             _vm._v(" "),
-            false
-              ? undefined
-              : _vm._e()
-          ],
-          1
-        )
-      ],
-      1
-    )
+            _c("div", { staticClass: "card-body" }, [
+              _c(
+                "table",
+                {
+                  staticClass:
+                    "table table-fixed table-hover table-striped table-sm bg-white"
+                },
+                [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.days, function(day, index) {
+                      return _c("tr", [
+                        _c("td", [
+                          _c("div", [_vm._v(_vm._s(day.day_name))]),
+                          _vm._v(" "),
+                          _c("div", [_vm._v(_vm._s(day.date_formatted))])
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-right" }, [
+                          _vm._v(_vm._s(day.mood.raw))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "white-space-pre" }, [
+                          _vm._v(_vm._s(day.mood_note.raw))
+                        ])
+                      ])
+                    }),
+                    0
+                  )
+                ]
+              )
+            ])
+          ])
+        ],
+        1
+      )
+    ])
   ])
 }
 var staticRenderFns = [
@@ -54655,12 +54766,28 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-auto" }, [
-      _c(
-        "a",
-        { staticClass: "btn btn-secondary", attrs: { href: "/review" } },
-        [_vm._v("Übersicht")]
-      )
+    return _c("div", { staticClass: "card mt-3" }, [
+      _c("div", { staticClass: "card-header" }, [_vm._v("Newsletter")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _vm._v(
+          "\n\n                    Newsletter aus Blocks erstellen. Hier eine Auswahl der Blocks treffen.\n\n                "
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("th", { attrs: { width: "90" } }, [_vm._v("Datum")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "text-right", attrs: { width: "90" } }, [
+        _vm._v("Bewertung")
+      ]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Zusammenfassung")])
     ])
   }
 ]

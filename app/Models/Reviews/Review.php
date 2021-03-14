@@ -4,6 +4,9 @@ namespace App\Models\Reviews;
 
 use App\Models\Reviews\Block;
 use App\Models\Reviews\Lifearea;
+use App\Traits\BelongsToUser;
+use D15r\ModelLabels\Traits\HasLabels;
+use D15r\ModelPath\Traits\HasModelPath;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
@@ -11,6 +14,12 @@ use Illuminate\Support\Carbon;
 
 class Review extends Model
 {
+    use BelongsToUser,
+        HasLabels,
+        HasModelPath;
+
+    const ROUTE_NAME = 'review';
+
     protected $appends = [
         'path',
         'at_formatted'
@@ -84,9 +93,14 @@ class Review extends Model
         });
     }
 
-    public function getPathAttribute()
+    protected static function labels() : array
     {
-        return '/review/' . $this->id;
+        return [
+            'nominativ' => [
+                'singular' => 'Bewertung',
+                'plural' => 'Bewertungen',
+            ],
+        ];
     }
 
     public function getAtFormattedAttribute() : string

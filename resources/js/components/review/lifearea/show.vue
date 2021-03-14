@@ -13,9 +13,8 @@
         </td>
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
-                <button class="btn btn-secondary" @click="isEditing = false"><i class="fas fa-fw fa-times"></i></button>
                 <button class="btn btn-primary" @click="update"><i class="fas fa-fw fa-save"></i></button>
-                <button type="button" class="btn btn-secondary" title="Löschen" @click="destroy"><i class="fas fa-fw fa-trash"></i></button>
+                <button class="btn btn-secondary" @click="isEditing = false"><i class="fas fa-fw fa-times"></i></button>
             </div>
         </td>
     </tr>
@@ -25,7 +24,7 @@
         <td class="align-middle">{{ item.comment }}</td>
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
-                <button class="btn btn-primary" @click="isEditing = true"><i class="fas fa-fw fa-edit"></i></button>
+                <button class="btn btn-secondary" @click="isEditing = true"><i class="fas fa-fw fa-edit"></i></button>
                 <button type="button" class="btn btn-secondary" title="Löschen" @click="destroy"><i class="fas fa-fw fa-trash"></i></button>
             </div>
         </td>

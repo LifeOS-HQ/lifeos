@@ -2,7 +2,15 @@
     <div class="card">
         <div class="card-header">Lebensbereiche</div>
         <div class="card-body">
-            <table class="table table-hover table-striped">
+            <table class="table table-fixed table-hover table-striped table-sm bg-white">
+                <thead>
+                    <tr>
+                        <th>Lebensbereich</th>
+                        <th class="text-right">Bewertung</th>
+                        <th>Beschreibung</th>
+                        <th width="100"></th>
+                    </tr>
+                </thead>
                 <tbody>
                     <show :item="item" :key="index" v-for="(item, index) in items" @deleted="remove(index)" @updated="updated(index, $event)"></show>
                 </tbody>
@@ -11,8 +19,7 @@
                         <td class="align-middle"></td>
                         <td class="align-middle font-weight-bold text-right">Ø {{ avarage }}</td>
                         <td class="align-middle"></td>
-                        <td class="align-middle text-right">
-                        </td>
+                        <td class="align-middle text-right"></td>
                     </tr>
                 </tfoot>
             </table>
