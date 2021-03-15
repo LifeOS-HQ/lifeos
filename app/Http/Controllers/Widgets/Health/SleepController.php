@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Widgets\Health;
 
 use App\Http\Controllers\Controller;
 use App\Models\Services\Data\Attributes\Attribute;
+use App\Support\Chart\Color;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 
@@ -12,10 +13,6 @@ class SleepController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-
-        $colors = [
-            '#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1'
-        ];
 
         $start = now()->subDays(30);
         $end = now();
@@ -66,7 +63,7 @@ class SleepController extends Controller
         $avgs = [];
         $i = 0;
         foreach ($attributes as $slug => $attribute) {
-            $color = $colors[$i];
+            $color = Color::random();
             $series[] = [
                 'name' => $attribute->name,
                 'data' => array_values($data[$attribute->slug]),

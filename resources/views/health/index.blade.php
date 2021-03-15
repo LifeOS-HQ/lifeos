@@ -13,6 +13,8 @@
 
             @livewire('health.index.nutrition')
 
+            <widget-health-steps></widget-health-steps>
+
         </div>
 
         <div class="col-12 col-lg-6">

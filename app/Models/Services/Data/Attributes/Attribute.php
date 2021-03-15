@@ -80,7 +80,7 @@ class Attribute extends Model
                 return now()->hour(0)->minute(0)->second(0)->addMinutes($raw)->format('H:i');
                 break;
             default:
-                return $raw;
+                return (float) $raw;
                 break;
         }
     }

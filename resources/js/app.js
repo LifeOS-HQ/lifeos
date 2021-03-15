@@ -88,6 +88,7 @@ Vue.component('work-index', require('./components/work/index.vue').default);
 
 // Widgets
 Vue.component('widget-health-sleep', require('./components/widgets/health/sleep.vue').default);
+Vue.component('widget-health-steps', require('./components/widgets/health/steps.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

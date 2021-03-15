@@ -80,5 +80,6 @@ Route::middleware(['auth'])->group(function () {
 
     // Widgets
     Route::get('/widgets/health/sleep', [\App\Http\Controllers\Widgets\Health\SleepController::class, 'index'])->name('widgets.health.sleep.index');
+    Route::get('/widgets/health/steps', [\App\Http\Controllers\Widgets\Health\StepsController::class, 'index'])->name('widgets.health.steps.index');
 
 });
