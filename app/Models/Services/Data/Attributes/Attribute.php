@@ -3,6 +3,8 @@
 namespace App\Models\Services\Data\Attributes;
 
 use App\Models\Services\Data\Value;
+use App\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -67,11 +69,18 @@ class Attribute extends Model
             case 'energy':
                 return $this->kjToKcal($raw);
                 break;
-
+            case 'sleep':
+            case 'time_in_bed':
+                return $this->minToHour($raw);
+                break;
             default:
                 return $raw;
                 break;
         }
+    }
+
+    public function valueFormatted($value) {
+
     }
 
     public function getBgClass($raw) : string
@@ -95,9 +104,14 @@ class Attribute extends Model
         }
     }
 
-    protected function kjToKcal($raw)
+    protected function kjToKcal($raw) : int
     {
         return round($raw / 0.004184 / 1000, 0);
+    }
+
+    protected function minToHour($raw) : float
+    {
+        return round($raw / 60, 2);
     }
 
     public function getPathAttribute()
@@ -108,5 +122,23 @@ class Attribute extends Model
     public function values() : HasMany
     {
         return $this->hasMany(Value::class, 'attribute_id');
+    }
+
+    public function loadValuesForUser(User $user, int $values_count) : self
+    {
+        $this->load([
+            'values' => function ($query) use ($user, $values_count){
+                return $query->where('user_id', $user->id)
+                    ->latest('at')
+                    ->take($values_count);
+            },
+        ]);
+
+        return $this;
+    }
+
+    public function scopeForUser(Builder $query, User $user) : Builder
+    {
+        return $query->where('user_id', $user->id);
     }
 }

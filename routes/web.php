@@ -78,4 +78,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('workouts', 'Workouts\WorkoutController');
     Route::resource('workouts.histories', 'Workouts\HistoryController');
 
+    // Widgets
+    Route::get('/widgets/health/sleep', [\App\Http\Controllers\Widgets\Health\SleepController::class, 'index'])->name('widgets.health.sleep.index');
+
 });

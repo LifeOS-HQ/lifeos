@@ -1,4 +1,4 @@
-<div wire:init="loadItems" class="card mt-3">
+<div wire:init="loadItems" class="card mb-3">
     <div class="card-header">Kalorien</div>
     <div class="card-body">
         <div class="row">
