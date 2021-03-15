@@ -86,6 +86,9 @@ Vue.component('work-month-table', require('./components/work/month/table.vue').d
 Vue.component('work-year-table', require('./components/work/year/table.vue').default);
 Vue.component('work-index', require('./components/work/index.vue').default);
 
+// Widgets
+Vue.component('widget-health-sleep', require('./components/widgets/health/sleep.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

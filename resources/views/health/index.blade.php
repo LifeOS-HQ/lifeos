@@ -17,7 +17,7 @@
 
         <div class="col-12 col-lg-6">
 
-
+            <widget-health-sleep></widget-health-sleep>
 
         </div>
 
