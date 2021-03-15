@@ -21,11 +21,21 @@ class SleepController extends Controller
         $end = now();
         $periods = new CarbonPeriod($start, '1 days', $end);
 
+        $sleep_start_attribute = Attribute::where('slug', 'sleep_start')->first();
+        $sleep_start_avg = $sleep_start_attribute->values()
+            ->where('user_id', $user->id)
+            ->whereDate('at', '>=', $start)
+            ->avg('raw');
+
+        $sleep_end_attribute = Attribute::where('slug', 'sleep_end')->first();
+        $sleep_end_avg = $sleep_end_attribute->values()
+            ->where('user_id', $user->id)
+            ->whereDate('at', '>=', $start)
+            ->avg('raw');
+
         $attribute_slugs = [
             'sleep',
             'time_in_bed',
-            // 'sleep_start',
-            // 'sleep_end',
         ];
 
         $attributes = [];
@@ -53,6 +63,7 @@ class SleepController extends Controller
 
         $series = [];
         $plotlines = [];
+        $avgs = [];
         $i = 0;
         foreach ($attributes as $slug => $attribute) {
             $color = $colors[$i];
@@ -69,6 +80,7 @@ class SleepController extends Controller
             ];
             $values_count = count($data[$attribute->slug]);
             $values_avg = array_sum($data[$attribute->slug]) / count(array_filter($data[$attribute->slug]));
+            $avgs[$attribute->slug] = $values_avg;
             $series[] = [
                 'name' => 'Ø ' . $attribute->name,
                 'data' => array_fill(0, $values_count, $values_avg),
@@ -105,7 +117,10 @@ class SleepController extends Controller
                 ],
             ],
             'table' => [
-
+                'time_in_bed_avg_formatted' => number_format($avgs['time_in_bed'], 2, ',', '.'),
+                'sleep_avg_formatted' => number_format($avgs['sleep'], 2, ',', '.'),
+                'sleep_start_avg_formatted' => $sleep_start_attribute->value($sleep_start_avg),
+                'sleep_end_avg_formatted' => $sleep_end_attribute->value($sleep_end_avg),
             ],
         ];
     }

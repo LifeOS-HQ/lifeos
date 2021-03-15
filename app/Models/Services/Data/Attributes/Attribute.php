@@ -73,6 +73,12 @@ class Attribute extends Model
             case 'time_in_bed':
                 return $this->minToHour($raw);
                 break;
+            case 'sleep_start':
+                return now()->hour(12)->minute(0)->second(0)->addMinutes($raw)->format('H:i');
+                break;
+            case 'sleep_end':
+                return now()->hour(0)->minute(0)->second(0)->addMinutes($raw)->format('H:i');
+                break;
             default:
                 return $raw;
                 break;

@@ -5128,6 +5128,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -51918,7 +51939,58 @@ var render = function() {
           )
         : _c(
             "div",
-            [_c("highcharts", { attrs: { options: _vm.chartOptions } })],
+            [
+              _c("highcharts", { attrs: { options: _vm.chartOptions } }),
+              _vm._v(" "),
+              _c(
+                "table",
+                {
+                  staticClass:
+                    "table table-fixed table-hover table-striped table-sm bg-white"
+                },
+                [
+                  _c("tbody", [
+                    _c("tr", [
+                      _c("td", [_vm._v("Ø Zeit im Bett")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(_vm.table.time_in_bed_avg_formatted) + " h"
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Ø Schlaf")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(_vm._s(_vm.table.sleep_avg_formatted) + " h")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Ø Eingeschlafen")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(_vm.table.sleep_start_avg_formatted) + " Uhr"
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Ø Aufgewacht")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(_vm.table.sleep_end_avg_formatted) + " Uhr"
+                        )
+                      ])
+                    ])
+                  ])
+                ]
+              )
+            ],
             1
           )
     ])
