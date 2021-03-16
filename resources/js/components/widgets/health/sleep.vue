@@ -26,6 +26,33 @@
 
                 <highcharts :options="chartOptions"></highcharts>
 
+                <div class="row mb-1">
+                    <div class="col-auto">
+                        <button class="btn btn-sm mr-1" :class="(slug == attribute.slug ? 'btn-primary' : 'btn-secondary')" v-for="(interval, slug) in interval_avgs" @click="setAttribute(slug)">{{ interval.name }}</button>
+                    </div>
+                </div>
+
+                <table class="table table-fixed table-hover table-striped table-sm bg-white">
+                    <thead>
+                        <tr>
+                            <th width="30"></th>
+                            <th>Zeitraum bis</th>
+                            <th class="text-right">Ø {{ attribute.name}}</th>
+                            <th class="text-right">Differenz</th>
+                            <th class="text-right">Prozent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(interval, interval_index) in attribute.intervals">
+                            <td><i class="fas" :class="[interval.icon_class, interval.font_color_class]" v-if="interval_index != (attribute.intervals.length - 1)"></i></td>
+                            <td>{{ interval.date_formatted }}</td>
+                            <td class="text-right">{{ interval.avg_formatted }}</td>
+                            <td class="text-right" :class="interval.font_color_class">{{ interval_index == (attribute.intervals.length - 1) ? '' : interval.difference_absolute_formatted }}</td>
+                            <td class="text-right" :class="interval.font_color_class">{{ interval_index == (attribute.intervals.length - 1) ? '' : interval.difference_percentage_formatted + ' %' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
                 <table class="table table-fixed table-hover table-striped table-sm bg-white">
                     <tbody>
                         <tr>
@@ -78,6 +105,12 @@
 
                 },
                 isLoading: true,
+                interval_avgs: {
+
+                },
+                attribute: {
+
+                },
                 table: {
 
                 },
@@ -111,8 +144,17 @@
             },
             fetched(response) {
                 this.chartOptions = response.data.chartOptions;
+                this.chartOptions.plotOptions.column.events.click = function (event) {
+                    component.setAttribute(event.point.series.options.custom.slug);
+                };
+                this.interval_avgs = response.data.interval_avgs;
                 this.table = response.data.table;
-            }
+
+                this.setAttribute(Object.keys(this.interval_avgs)[0]);
+            },
+            setAttribute(slug) {
+                this.attribute = this.interval_avgs[slug];
+            },
         },
 
     };

@@ -16,6 +16,17 @@ class StepsController extends Controller
         $chart = new Chart();
         return $chart->forUser(auth()->user())
             ->startFromWeeksAgo($request->input('weeks_count'))
+            ->addYAxis([
+                'title' => [
+                    'text' => 'Schritte (step)',
+                ],
+            ])
+            ->addYAxis([
+                'title' => [
+                    'text' => 'Aktive Zeit (min)',
+                ],
+                'opposite' => true,
+            ])
             ->addSlug('steps', [
                 'type' => 'column',
                 'yAxis' => 0,
@@ -25,6 +36,5 @@ class StepsController extends Controller
                 'yAxis' => 1,
             ])
             ->build();
-
     }
 }

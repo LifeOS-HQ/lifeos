@@ -110,7 +110,6 @@
                 })
                     .then( function (response) {
                         component.fetched(response)
-
                         component.isLoading = false;
                     })
                     .catch(function (error) {

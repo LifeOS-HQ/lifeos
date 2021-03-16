@@ -4,13 +4,23 @@ namespace App\Support\Chart;
 
 use App\Models\Services\Data\Attributes\Attribute;
 use App\User;
+use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Support\Arr;
 
 class Chart
 {
     protected $start_at;
     protected $end_at;
     protected $user;
+    protected $yAxis = [];
+
+    /**
+     * avg of all attribute values
+     * key is attribute slug
+     * @var array
+     */
+    protected $avgs = [];
 
     /**
      * holds the chart options for highcharts
@@ -46,6 +56,13 @@ class Chart
     public function addSlug(string $slug, array $options = []) : self
     {
         $this->slugs[$slug] = $options;
+
+        return $this;
+    }
+
+    public function addYAxis(array $options) : self
+    {
+        $this->yAxis[] = $options;
 
         return $this;
     }
@@ -88,8 +105,6 @@ class Chart
         }
 
         $series = [];
-        $plotlines = [];
-        $avgs = [];
         $i = 0;
         foreach ($attributes as $slug => $attribute) {
             $color = $attribute->color;
@@ -109,7 +124,7 @@ class Chart
             $series[] = $serie;
             $values_count = count($data[$attribute->slug]);
             $values_avg = array_sum($data[$attribute->slug]) / count(array_filter($data[$attribute->slug]));
-            $avgs[$attribute->slug] = $values_avg;
+            $this->avgs[$attribute->slug] = $values_avg;
             $series[] = [
                 'name' => 'Ø ' . $attribute->name,
                 'data' => array_fill(0, $values_count, $values_avg),
@@ -169,19 +184,7 @@ class Chart
                 'title' => [
                     'text' => '',
                 ],
-                'yAxis' => [
-                    [
-                        'title' => [
-                            'text' => 'Schritte (step)',
-                        ],
-                    ],
-                    [
-                        'title' => [
-                            'text' => 'Aktive Zeit (min)',
-                        ],
-                        'opposite' => true,
-                    ],
-                ],
+                'yAxis' => $this->yAxis,
             ],
             'interval_avgs' => $interval_avgs,
         ];
@@ -192,5 +195,15 @@ class Chart
     public function options() : array
     {
         return $this->options;
+    }
+
+    public function start_at() : Carbon
+    {
+        return $this->start_at;
+    }
+
+    public function avg(string $slug)
+    {
+        Arr::get($this->avgs, $slug, null);
     }
 }

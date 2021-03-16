@@ -5153,6 +5153,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -5166,6 +5193,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       chartOptions: {},
       isLoading: true,
+      interval_avgs: {},
+      attribute: {},
       table: {},
       indexPath: '/widgets/health/sleep',
       filter: {
@@ -5192,7 +5221,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     fetched: function fetched(response) {
       this.chartOptions = response.data.chartOptions;
+
+      this.chartOptions.plotOptions.column.events.click = function (event) {
+        component.setAttribute(event.point.series.options.custom.slug);
+      };
+
+      this.interval_avgs = response.data.interval_avgs;
       this.table = response.data.table;
+      this.setAttribute(Object.keys(this.interval_avgs)[0]);
+    },
+    setAttribute: function setAttribute(slug) {
+      this.attribute = this.interval_avgs[slug];
     }
   }
 });
@@ -52123,6 +52162,127 @@ var render = function() {
             "div",
             [
               _c("highcharts", { attrs: { options: _vm.chartOptions } }),
+              _vm._v(" "),
+              _c("div", { staticClass: "row mb-1" }, [
+                _c(
+                  "div",
+                  { staticClass: "col-auto" },
+                  _vm._l(_vm.interval_avgs, function(interval, slug) {
+                    return _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm mr-1",
+                        class:
+                          slug == _vm.attribute.slug
+                            ? "btn-primary"
+                            : "btn-secondary",
+                        on: {
+                          click: function($event) {
+                            return _vm.setAttribute(slug)
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(interval.name))]
+                    )
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "table",
+                {
+                  staticClass:
+                    "table table-fixed table-hover table-striped table-sm bg-white"
+                },
+                [
+                  _c("thead", [
+                    _c("tr", [
+                      _c("th", { attrs: { width: "30" } }),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Zeitraum bis")]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "text-right" }, [
+                        _vm._v("Ø " + _vm._s(_vm.attribute.name))
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "text-right" }, [
+                        _vm._v("Differenz")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "text-right" }, [
+                        _vm._v("Prozent")
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.attribute.intervals, function(
+                      interval,
+                      interval_index
+                    ) {
+                      return _c("tr", [
+                        _c("td", [
+                          interval_index != _vm.attribute.intervals.length - 1
+                            ? _c("i", {
+                                staticClass: "fas",
+                                class: [
+                                  interval.icon_class,
+                                  interval.font_color_class
+                                ]
+                              })
+                            : _vm._e()
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(interval.date_formatted))]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-right" }, [
+                          _vm._v(_vm._s(interval.avg_formatted))
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          {
+                            staticClass: "text-right",
+                            class: interval.font_color_class
+                          },
+                          [
+                            _vm._v(
+                              _vm._s(
+                                interval_index ==
+                                  _vm.attribute.intervals.length - 1
+                                  ? ""
+                                  : interval.difference_absolute_formatted
+                              )
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          {
+                            staticClass: "text-right",
+                            class: interval.font_color_class
+                          },
+                          [
+                            _vm._v(
+                              _vm._s(
+                                interval_index ==
+                                  _vm.attribute.intervals.length - 1
+                                  ? ""
+                                  : interval.difference_percentage_formatted +
+                                      " %"
+                              )
+                            )
+                          ]
+                        )
+                      ])
+                    }),
+                    0
+                  )
+                ]
+              ),
               _vm._v(" "),
               _c(
                 "table",
