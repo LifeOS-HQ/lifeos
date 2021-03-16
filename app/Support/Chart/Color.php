@@ -17,7 +17,7 @@ class Color
         }
 
         $colors_count = count(self::COLORS);
-        $key = $key - (round($key / $colors_count, 0) * $colors_count);
+        $key = abs($key - (round($key / $colors_count, 0) * $colors_count));
 
         return self::get($key);
     }

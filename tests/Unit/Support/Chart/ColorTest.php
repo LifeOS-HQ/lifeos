@@ -17,7 +17,7 @@ class ColorTest extends TestCase
 
         $this->assertEquals('#f15c80', Color::get(5));
         $this->assertEquals('#f15c80', Color::get(15));
+        $this->assertEquals('#8085e9', Color::get(16));
         $this->assertEquals('#f15c80', Color::get(105));
-
     }
 }
