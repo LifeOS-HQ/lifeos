@@ -31,6 +31,8 @@
 <script>
     import widgetBase from '../base.vue';
 
+    import { baseMixin } from '../../../mixins/widgets/base.js';
+
     export default {
 
         components: {
@@ -38,7 +40,7 @@
         },
 
         mixins: [
-            //
+            baseMixin,
         ],
 
         props: {
@@ -47,22 +49,9 @@
 
         data () {
             return {
-                chartOptions: {
-
-                },
-                isLoading: true,
-                interval_avgs: {
-
-                },
-                attribute: {
-
-                },
+                indexPath: '/widgets/health/sleep',
                 table: {
 
-                },
-                indexPath: '/widgets/health/sleep',
-                filter: {
-                    weeks_count: 4,
                 },
             };
         },
@@ -72,22 +61,6 @@
         },
 
         methods: {
-            fetch() {
-                var component = this;
-                component.isLoading = true;
-                axios.get(component.indexPath, {
-                    params: component.filter,
-                })
-                    .then( function (response) {
-                        component.fetched(response)
-
-                        component.isLoading = false;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                        Vue.error('Daten konnten nicht geladen werden.');
-                    });
-            },
             fetched(response) {
                 var component = this;
                 component.chartOptions = response.data.chartOptions;
@@ -98,9 +71,6 @@
                 component.table = response.data.table;
 
                 component.setAttribute(Object.keys(component.interval_avgs)[0]);
-            },
-            setAttribute(slug) {
-                this.attribute = this.interval_avgs[slug];
             },
         },
 

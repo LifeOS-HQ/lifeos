@@ -5227,6 +5227,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _base_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../base.vue */ "./resources/js/components/widgets/base.vue");
+/* harmony import */ var _mixins_widgets_base_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mixins/widgets/base.js */ "./resources/js/mixins/widgets/base.js");
 //
 //
 //
@@ -5258,44 +5259,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     widgetBase: _base_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  mixins: [//
-  ],
+  mixins: [_mixins_widgets_base_js__WEBPACK_IMPORTED_MODULE_1__["baseMixin"]],
   props: {//
   },
   data: function data() {
     return {
-      chartOptions: {},
-      isLoading: true,
-      interval_avgs: {},
-      attribute: {},
-      table: {},
       indexPath: '/widgets/health/sleep',
-      filter: {
-        weeks_count: 4
-      }
+      table: {}
     };
   },
   mounted: function mounted() {
     this.fetch();
   },
   methods: {
-    fetch: function fetch() {
-      var component = this;
-      component.isLoading = true;
-      axios.get(component.indexPath, {
-        params: component.filter
-      }).then(function (response) {
-        component.fetched(response);
-        component.isLoading = false;
-      })["catch"](function (error) {
-        console.log(error);
-        Vue.error('Daten konnten nicht geladen werden.');
-      });
-    },
     fetched: function fetched(response) {
       var component = this;
       component.chartOptions = response.data.chartOptions;
@@ -5307,9 +5288,6 @@ __webpack_require__.r(__webpack_exports__);
       component.interval_avgs = response.data.interval_avgs;
       component.table = response.data.table;
       component.setAttribute(Object.keys(component.interval_avgs)[0]);
-    },
-    setAttribute: function setAttribute(slug) {
-      this.attribute = this.interval_avgs[slug];
     }
   }
 });
@@ -5326,6 +5304,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _base_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../base.vue */ "./resources/js/components/widgets/base.vue");
+/* harmony import */ var _mixins_widgets_base_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mixins/widgets/base.js */ "./resources/js/mixins/widgets/base.js");
 //
 //
 //
@@ -5334,58 +5313,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     widgetBase: _base_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  mixins: [//
-  ],
+  mixins: [_mixins_widgets_base_js__WEBPACK_IMPORTED_MODULE_1__["baseMixin"]],
   props: {//
   },
   data: function data() {
     return {
-      chartOptions: {},
-      isLoading: true,
-      interval_avgs: {},
-      attribute: {},
-      indexPath: '/widgets/health/steps',
-      filter: {
-        weeks_count: 4
-      }
+      indexPath: '/widgets/health/steps'
     };
   },
-  mounted: function mounted() {
-    this.fetch();
-  },
-  methods: {
-    fetch: function fetch() {
-      var component = this;
-      component.isLoading = true;
-      axios.get(component.indexPath, {
-        params: component.filter
-      }).then(function (response) {
-        component.fetched(response);
-        component.isLoading = false;
-      })["catch"](function (error) {
-        console.log(error);
-        Vue.error('Daten konnten nicht geladen werden.');
-      });
-    },
-    fetched: function fetched(response) {
-      var component = this;
-      component.chartOptions = response.data.chartOptions;
-
-      component.chartOptions.plotOptions.column.events.click = function (event) {
-        component.setAttribute(event.point.series.options.custom.slug);
-      };
-
-      component.interval_avgs = response.data.interval_avgs;
-      component.setAttribute(Object.keys(component.interval_avgs)[0]);
-    },
-    setAttribute: function setAttribute(slug) {
-      this.attribute = this.interval_avgs[slug];
-    }
+  methods: {//
   }
 });
 
@@ -73716,6 +73658,64 @@ var showMixin = {
     },
     show: function show() {
       location.href = this.item.path;
+    }
+  }
+};
+
+/***/ }),
+
+/***/ "./resources/js/mixins/widgets/base.js":
+/*!*********************************************!*\
+  !*** ./resources/js/mixins/widgets/base.js ***!
+  \*********************************************/
+/*! exports provided: baseMixin */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "baseMixin", function() { return baseMixin; });
+var baseMixin = {
+  data: function data() {
+    return {
+      chartOptions: {},
+      isLoading: true,
+      interval_avgs: {},
+      attribute: {},
+      filter: {
+        weeks_count: 4
+      }
+    };
+  },
+  mounted: function mounted() {
+    this.fetch();
+  },
+  methods: {
+    fetch: function fetch() {
+      var component = this;
+      component.isLoading = true;
+      axios.get(component.indexPath, {
+        params: component.filter
+      }).then(function (response) {
+        component.fetched(response);
+        component.isLoading = false;
+      })["catch"](function (error) {
+        console.log(error);
+        Vue.error('Daten konnten nicht geladen werden.');
+      });
+    },
+    fetched: function fetched(response) {
+      var component = this;
+      component.chartOptions = response.data.chartOptions;
+
+      component.chartOptions.plotOptions.column.events.click = function (event) {
+        component.setAttribute(event.point.series.options.custom.slug);
+      };
+
+      component.interval_avgs = response.data.interval_avgs;
+      component.setAttribute(Object.keys(component.interval_avgs)[0]);
+    },
+    setAttribute: function setAttribute(slug) {
+      this.attribute = this.interval_avgs[slug];
     }
   }
 };

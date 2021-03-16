@@ -11,8 +11,6 @@
 
         <div class="col-12 col-lg-6">
 
-            @livewire('health.index.nutrition')
-
             <widget-health-steps></widget-health-steps>
 
         </div>
@@ -20,6 +18,8 @@
         <div class="col-12 col-lg-6">
 
             <widget-health-sleep></widget-health-sleep>
+
+            @livewire('health.index.nutrition')
 
         </div>
 
