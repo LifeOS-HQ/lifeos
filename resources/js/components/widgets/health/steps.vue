@@ -28,7 +28,7 @@
 
                 <div class="row mb-1">
                     <div class="col-auto">
-                        <button class="btn btn-secondary btn-sm mr-1" v-for="(interval, slug) in interval_avgs" @click="setAttribute(slug)">{{ interval.name }}</button>
+                        <button class="btn btn-sm mr-1" :class="(slug == attribute.slug ? 'btn-primary' : 'btn-secondary')" v-for="(interval, slug) in interval_avgs" @click="setAttribute(slug)">{{ interval.name }}</button>
                     </div>
                 </div>
 
@@ -75,13 +75,7 @@
         ],
 
         props: {
-            attributeSlugs: {
-                required: false,
-                type: Array,
-                default() {
-                    return [];
-                },
-            },
+            //
         },
 
         data () {
@@ -98,7 +92,6 @@
                 },
                 indexPath: '/widgets/health/steps',
                 filter: {
-                    // attribute_slugs: this.attributeSlugs,
                     weeks_count: 4,
                 },
             };

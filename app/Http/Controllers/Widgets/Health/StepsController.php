@@ -51,6 +51,7 @@ class StepsController extends Controller
             foreach ($attributes as $attribute) {
                 $value = $attribute->values->where('at', $period)->first();
                 $data[$attribute->slug][$day_key] = (is_null($value) ? 0 : $attribute->value($value->raw) ?? 0);
+                $interval_avgs[$attribute->slug]['slug'] = $attribute->slug;
                 $interval_avgs[$attribute->slug]['name'] = $attribute->name;
                 $interval_avgs[$attribute->slug]['intervals'][$interval_avgs_key]['date_formatted'] = $period->format('d.m.Y');
                 $interval_avgs[$attribute->slug]['intervals'][$interval_avgs_key]['values'][] = $data[$attribute->slug][$day_key];

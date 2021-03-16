@@ -5280,14 +5280,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mixins: [//
   ],
-  props: {
-    attributeSlugs: {
-      required: false,
-      type: Array,
-      "default": function _default() {
-        return [];
-      }
-    }
+  props: {//
   },
   data: function data() {
     return {
@@ -5297,7 +5290,6 @@ __webpack_require__.r(__webpack_exports__);
       attribute: {},
       indexPath: '/widgets/health/steps',
       filter: {
-        // attribute_slugs: this.attributeSlugs,
         weeks_count: 4
       }
     };
@@ -52285,7 +52277,11 @@ var render = function() {
                     return _c(
                       "button",
                       {
-                        staticClass: "btn btn-secondary btn-sm mr-1",
+                        staticClass: "btn btn-sm mr-1",
+                        class:
+                          slug == _vm.attribute.slug
+                            ? "btn-primary"
+                            : "btn-secondary",
                         on: {
                           click: function($event) {
                             return _vm.setAttribute(slug)

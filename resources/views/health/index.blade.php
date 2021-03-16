@@ -13,7 +13,7 @@
 
             @livewire('health.index.nutrition')
 
-            <widget-health-steps :attribute-slugs="{{ json_encode(['floors', 'sugar']) }}"></widget-health-steps>
+            <widget-health-steps></widget-health-steps>
 
         </div>
 
