@@ -120,6 +120,11 @@ class Attribute extends Model
         return round($raw / 60, 2);
     }
 
+    public function getColorAttribute() : string
+    {
+        return \App\Support\Chart\Color::get($this->id);
+    }
+
     public function getPathAttribute()
     {
         return '/attribute/' . $this->id;

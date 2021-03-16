@@ -1,9 +1,13 @@
 <template>
 
     <div class="card mb-3">
-        <div class="card-header d-flex justify-content-between">
-            <div>Schritte</div>
-            <div></div>
+        <div class="card-header d-flex align-items-center">
+            <div class="col">Schritte</div>
+            <div class="col-auto">
+                <select class="form-control form-control-sm" v-model="filter.weeks_count" @change="fetch">
+                    <option v-for="n in 10" :value="n">{{ n }} Wochen</option>
+                </select>
+            </div>
         </div>
         <div class="card-body">
 
@@ -22,6 +26,12 @@
 
                 <highcharts :options="chartOptions"></highcharts>
 
+                <div class="row mb-1">
+                    <div class="col-auto">
+                        <button class="btn btn-secondary btn-sm mr-1" v-for="(interval, slug) in interval_avgs" @click="setAttribute(slug)">{{ interval.name }}</button>
+                    </div>
+                </div>
+
                 <table class="table table-fixed table-hover table-striped table-sm bg-white">
                     <thead>
                         <tr>
@@ -34,11 +44,11 @@
                     </thead>
                     <tbody>
                         <tr v-for="(interval, interval_index) in attribute.intervals">
-                            <td><i class="fas" :class="[interval.icon_class, interval.font_color_class]" v-if="interval_index > 1"></i></td>
+                            <td><i class="fas" :class="[interval.icon_class, interval.font_color_class]" v-if="interval_index != (attribute.intervals.length - 1)"></i></td>
                             <td>{{ interval.date_formatted }}</td>
                             <td class="text-right">{{ interval.avg_formatted }}</td>
-                            <td class="text-right" :class="interval.font_color_class">{{ interval_index == 1 ? '-' : interval.difference_absolute_formatted }}</td>
-                            <td class="text-right" :class="interval.font_color_class">{{ interval_index == 1 ? '-' : interval.difference_percentage_formatted + ' %' }}</td>
+                            <td class="text-right" :class="interval.font_color_class">{{ interval_index == (attribute.intervals.length - 1) ? '' : interval.difference_absolute_formatted }}</td>
+                            <td class="text-right" :class="interval.font_color_class">{{ interval_index == (attribute.intervals.length - 1) ? '' : interval.difference_percentage_formatted + ' %' }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -65,18 +75,12 @@
         ],
 
         props: {
-            //
-        },
-
-        computed: {
-            intervals() {
-                var intervals = [],
-                    first_attribute = this.interval_avgs[Object.keys(this.interval_avgs)[0]];
-                for (var index in first_attribute.intervals) {
-                    intervals.push(first_attribute.intervals[index].date_formatted);
-                }
-
-                return intervals;
+            attributeSlugs: {
+                required: false,
+                type: Array,
+                default() {
+                    return [];
+                },
             },
         },
 
@@ -86,7 +90,7 @@
 
                 },
                 isLoading: true,
-                table: {
+                interval_avgs: {
 
                 },
                 attribute: {
@@ -94,7 +98,8 @@
                 },
                 indexPath: '/widgets/health/steps',
                 filter: {
-
+                    // attribute_slugs: this.attributeSlugs,
+                    weeks_count: 4,
                 },
             };
         },
@@ -124,11 +129,14 @@
                 var component = this;
                 this.chartOptions = response.data.chartOptions;
                 this.chartOptions.plotOptions.column.events.click = function (event) {
-                    component.attribute = component.interval_avgs[event.point.series.options.custom.slug];
+                    component.setAttribute(event.point.series.options.custom.slug);
                 };
                 this.interval_avgs = response.data.interval_avgs;
-                this.attribute = this.interval_avgs[Object.keys(this.interval_avgs)[0]];
-            }
+                this.setAttribute(Object.keys(this.interval_avgs)[0]);
+            },
+            setAttribute(slug) {
+                this.attribute = this.interval_avgs[slug];
+            },
         },
 
     };

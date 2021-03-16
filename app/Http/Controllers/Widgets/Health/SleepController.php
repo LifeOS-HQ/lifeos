@@ -14,7 +14,7 @@ class SleepController extends Controller
     {
         $user = auth()->user();
 
-        $start = now()->subDays(30);
+        $start = now()->subDays((7 * $request->input('weeks_count')) -1);
         $end = now();
         $periods = new CarbonPeriod($start, '1 days', $end);
 
@@ -63,7 +63,7 @@ class SleepController extends Controller
         $avgs = [];
         $i = 0;
         foreach ($attributes as $slug => $attribute) {
-            $color = Color::random();
+            $color = $attribute->color;
             $series[] = [
                 'name' => $attribute->name,
                 'data' => array_values($data[$attribute->slug]),

@@ -5149,6 +5149,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -5164,7 +5168,9 @@ __webpack_require__.r(__webpack_exports__);
       isLoading: true,
       table: {},
       indexPath: '/widgets/health/sleep',
-      filter: {}
+      filter: {
+        weeks_count: 4
+      }
     };
   },
   mounted: function mounted() {
@@ -5257,6 +5263,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -5264,28 +5280,26 @@ __webpack_require__.r(__webpack_exports__);
   },
   mixins: [//
   ],
-  props: {//
-  },
-  computed: {
-    intervals: function intervals() {
-      var intervals = [],
-          first_attribute = this.interval_avgs[Object.keys(this.interval_avgs)[0]];
-
-      for (var index in first_attribute.intervals) {
-        intervals.push(first_attribute.intervals[index].date_formatted);
+  props: {
+    attributeSlugs: {
+      required: false,
+      type: Array,
+      "default": function _default() {
+        return [];
       }
-
-      return intervals;
     }
   },
   data: function data() {
     return {
       chartOptions: {},
       isLoading: true,
-      table: {},
+      interval_avgs: {},
       attribute: {},
       indexPath: '/widgets/health/steps',
-      filter: {}
+      filter: {
+        // attribute_slugs: this.attributeSlugs,
+        weeks_count: 4
+      }
     };
   },
   mounted: function mounted() {
@@ -5310,11 +5324,14 @@ __webpack_require__.r(__webpack_exports__);
       this.chartOptions = response.data.chartOptions;
 
       this.chartOptions.plotOptions.column.events.click = function (event) {
-        component.attribute = component.interval_avgs[event.point.series.options.custom.slug];
+        component.setAttribute(event.point.series.options.custom.slug);
       };
 
       this.interval_avgs = response.data.interval_avgs;
-      this.attribute = this.interval_avgs[Object.keys(this.interval_avgs)[0]];
+      this.setAttribute(Object.keys(this.interval_avgs)[0]);
+    },
+    setAttribute: function setAttribute(slug) {
+      this.attribute = this.interval_avgs[slug];
     }
   }
 });
@@ -52047,7 +52064,52 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "card-header d-flex align-items-center" }, [
+      _c("div", { staticClass: "col" }, [_vm._v("Schlaf")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-auto" }, [
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.filter.weeks_count,
+                expression: "filter.weeks_count"
+              }
+            ],
+            staticClass: "form-control form-control-sm",
+            on: {
+              change: [
+                function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.$set(
+                    _vm.filter,
+                    "weeks_count",
+                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                  )
+                },
+                _vm.fetch
+              ]
+            }
+          },
+          _vm._l(10, function(n) {
+            return _c("option", { domProps: { value: n } }, [
+              _vm._v(_vm._s(n) + " Wochen")
+            ])
+          }),
+          0
+        )
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
       _vm.isLoading
@@ -52124,18 +52186,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "card-header d-flex justify-content-between" },
-      [_c("div", [_vm._v("Schlaf")]), _vm._v(" "), _c("div")]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -52158,7 +52209,52 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card mb-3" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "card-header d-flex align-items-center" }, [
+      _c("div", { staticClass: "col" }, [_vm._v("Schritte")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-auto" }, [
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.filter.weeks_count,
+                expression: "filter.weeks_count"
+              }
+            ],
+            staticClass: "form-control form-control-sm",
+            on: {
+              change: [
+                function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.$set(
+                    _vm.filter,
+                    "weeks_count",
+                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                  )
+                },
+                _vm.fetch
+              ]
+            }
+          },
+          _vm._l(10, function(n) {
+            return _c("option", { domProps: { value: n } }, [
+              _vm._v(_vm._s(n) + " Wochen")
+            ])
+          }),
+          0
+        )
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
       _vm.isLoading
@@ -52180,6 +52276,28 @@ var render = function() {
             "div",
             [
               _c("highcharts", { attrs: { options: _vm.chartOptions } }),
+              _vm._v(" "),
+              _c("div", { staticClass: "row mb-1" }, [
+                _c(
+                  "div",
+                  { staticClass: "col-auto" },
+                  _vm._l(_vm.interval_avgs, function(interval, slug) {
+                    return _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-secondary btn-sm mr-1",
+                        on: {
+                          click: function($event) {
+                            return _vm.setAttribute(slug)
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(interval.name))]
+                    )
+                  }),
+                  0
+                )
+              ]),
               _vm._v(" "),
               _c(
                 "table",
@@ -52216,7 +52334,7 @@ var render = function() {
                     ) {
                       return _c("tr", [
                         _c("td", [
-                          interval_index > 1
+                          interval_index != _vm.attribute.intervals.length - 1
                             ? _c("i", {
                                 staticClass: "fas",
                                 class: [
@@ -52242,8 +52360,9 @@ var render = function() {
                           [
                             _vm._v(
                               _vm._s(
-                                interval_index == 1
-                                  ? "-"
+                                interval_index ==
+                                  _vm.attribute.intervals.length - 1
+                                  ? ""
                                   : interval.difference_absolute_formatted
                               )
                             )
@@ -52259,8 +52378,9 @@ var render = function() {
                           [
                             _vm._v(
                               _vm._s(
-                                interval_index == 1
-                                  ? "-"
+                                interval_index ==
+                                  _vm.attribute.intervals.length - 1
+                                  ? ""
                                   : interval.difference_percentage_formatted +
                                       " %"
                               )
@@ -52279,18 +52399,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "card-header d-flex justify-content-between" },
-      [_c("div", [_vm._v("Schritte")]), _vm._v(" "), _c("div")]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

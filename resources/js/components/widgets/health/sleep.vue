@@ -1,9 +1,13 @@
 <template>
 
     <div class="card">
-        <div class="card-header d-flex justify-content-between">
-            <div>Schlaf</div>
-            <div></div>
+        <div class="card-header d-flex align-items-center">
+            <div class="col">Schlaf</div>
+            <div class="col-auto">
+                <select class="form-control form-control-sm" v-model="filter.weeks_count" @change="fetch">
+                    <option v-for="n in 10" :value="n">{{ n }} Wochen</option>
+                </select>
+            </div>
         </div>
         <div class="card-body">
 
@@ -79,7 +83,7 @@
                 },
                 indexPath: '/widgets/health/sleep',
                 filter: {
-
+                    weeks_count: 4,
                 },
             };
         },

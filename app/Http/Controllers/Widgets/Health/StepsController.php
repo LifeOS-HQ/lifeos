@@ -14,30 +14,16 @@ class StepsController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-        $start = now()->subDays(27);
+        $start = now()->subDays((7 * $request->input('weeks_count')) -1);
 
         $end = now();
         $periods = new CarbonPeriod($start, '1 days', $end);
 
-        $sleep_start_attribute = Attribute::where('slug', 'sleep_start')->first();
-        $sleep_start_avg = $sleep_start_attribute->values()
-            ->where('user_id', $user->id)
-            ->whereDate('at', '>=', $start)
-            ->avg('raw');
-
-        $sleep_end_attribute = Attribute::where('slug', 'sleep_end')->first();
-        $sleep_end_avg = $sleep_end_attribute->values()
-            ->where('user_id', $user->id)
-            ->whereDate('at', '>=', $start)
-            ->avg('raw');
-
         $attribute_slugs = [
             'steps',
             'steps_active_min',
-            // 'floors',
-            // 'active_energy',
-            //'steps_distance',
         ];
+
 
         $attributes = [];
         foreach ($attribute_slugs as $key => $slug) {
@@ -76,7 +62,7 @@ class StepsController extends Controller
         $avgs = [];
         $i = 0;
         foreach ($attributes as $slug => $attribute) {
-            $color = Color::random();
+            $color = $attribute->color;
             $series[] = [
                 'cursor' => 'pointer',
                 'name' => $attribute->name,
@@ -112,7 +98,8 @@ class StepsController extends Controller
 
             $last_interval_avgs_key = 1;
             foreach ($interval_avgs[$attribute->slug]['intervals'] as $interval_avgs_key => &$interval) {
-                $interval['avg'] = array_sum($interval['values']) / count(array_filter($interval['values']));
+                $filtered_count = count(array_filter($interval['values']));
+                $interval['avg'] = ($filtered_count == 0 ? 0 : array_sum($interval['values']) / $filtered_count);
                 $interval['difference_absolute'] = round($interval['avg'] - $interval_avgs[$attribute->slug]['intervals'][$last_interval_avgs_key]['avg'], 2);
                 $interval['difference_percentage'] = ($interval['avg'] == 0 ? 0 : round($interval['difference_absolute'] / $interval['avg'], 2));
                 $interval['avg_formatted'] = number_format($interval['avg'], 2, ',', '.');
@@ -132,7 +119,7 @@ class StepsController extends Controller
                 }
                 $last_interval_avgs_key = $interval_avgs_key;
             }
-            krsort($interval_avgs[$attribute->slug]['intervals']);
+            $interval_avgs[$attribute->slug]['intervals'] = array_reverse($interval_avgs[$attribute->slug]['intervals']);
 
             $i++;
         }
