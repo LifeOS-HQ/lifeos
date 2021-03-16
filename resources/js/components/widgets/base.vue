@@ -4,7 +4,7 @@
         <div class="card-header d-flex align-items-center">
             <div class="col">{{ title }}</div>
             <div class="col-auto">
-                <select class="form-control form-control-sm" :value="filterWeeksCount" @change="$emit('updatingWeeksCount', Number($event.target.value))">
+                <select class="form-control form-control-sm" :value="filterIntervalCount" @change="$emit('updatingIntervalCount', Number($event.target.value))">
                     <option v-for="n in 10" :value="n">{{ n }} Wochen</option>
                 </select>
             </div>
@@ -111,7 +111,7 @@
                 required: true,
                 type: Boolean,
             },
-            filterWeeksCount: {
+            filterIntervalCount: {
                 required: false,
                 type: Number,
                 default: 4,

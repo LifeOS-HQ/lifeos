@@ -1,42 +1,18 @@
 <template>
 
-    <div class="card">
-        <div class="card-header d-flex justify-content-between">
-            <div>Schlaf</div>
-            <div></div>
-        </div>
-        <div class="card-body">
+    <widget-base title="Schritte" :chartOptions="chartOptions" :interval_avgs="interval_avgs" :attribute="attribute" :is-loading="isLoading" :filter-interval-count="filter.weeks_count" @updatingAttribute="setAttribute($event)" @updatingIntervalCount="filter.weeks_count = $event; fetch();">
 
-            <div v-if="isLoading" class="mt-3 p-5">
-
-                <center>
-                    <span style="font-size: 48px;">
-                        <i class="fas fa-spinner fa-spin"></i><br />
-                    </span>
-                    Lade Daten..
-                </center>
-
-            </div>
-
-            <div v-else>
-
-                <highcharts :options="chartOptions"></highcharts>
-
-            </div>
-
-        </div>
-
-    </div>
+    </widget-base>
 
 </template>
 
 <script>
-    import {Chart} from 'highcharts-vue'
+    import widgetBase from '../base.vue';
 
     export default {
 
         components: {
-            highcharts: Chart
+            widgetBase
         },
 
         mixins: [
@@ -53,12 +29,15 @@
 
                 },
                 isLoading: true,
-                table: {
+                interval_avgs: {
 
                 },
-                indexPath: '',
-                filter: {
+                attribute: {
 
+                },
+                indexPath: '/widgets/',
+                filter: {
+                    weeks_count: 4,
                 },
             };
         },
@@ -76,7 +55,6 @@
                 })
                     .then( function (response) {
                         component.fetched(response)
-
                         component.isLoading = false;
                     })
                     .catch(function (error) {
@@ -85,9 +63,17 @@
                     });
             },
             fetched(response) {
-                this.chartOptions = response.data.chartOptions;
-                this.table = response.data.table;
-            }
+                var component = this;
+                component.chartOptions = response.data.chartOptions;
+                component.chartOptions.plotOptions.column.events.click = function (event) {
+                    component.setAttribute(event.point.series.options.custom.slug);
+                };
+                component.interval_avgs = response.data.interval_avgs;
+                component.setAttribute(Object.keys(component.interval_avgs)[0]);
+            },
+            setAttribute(slug) {
+                this.attribute = this.interval_avgs[slug];
+            },
         },
 
     };

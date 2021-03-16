@@ -1,6 +1,8 @@
 <template>
 
-    <widget-base title="Schritte" :chartOptions="chartOptions" :interval_avgs="interval_avgs" :attribute="attribute" :is-loading="isLoading" :filter-weeks-count="filter.weeks_count" @updatingAttribute="setAttribute($event)" @updatingWeeksCount="filter.weeks_count = $event; fetch();"></widget-base>
+    <widget-base title="Schritte" :chartOptions="chartOptions" :interval_avgs="interval_avgs" :attribute="attribute" :is-loading="isLoading" :filter-interval-count="filter.weeks_count" @updatingAttribute="setAttribute($event)" @updatingIntervalCount="filter.weeks_count = $event; fetch();">
+
+    </widget-base>
 
 </template>
 

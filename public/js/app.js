@@ -5199,7 +5199,7 @@ __webpack_require__.r(__webpack_exports__);
       required: true,
       type: Boolean
     },
-    filterWeeksCount: {
+    filterIntervalCount: {
       required: false,
       type: Number,
       "default": 4
@@ -5326,6 +5326,8 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _base_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../base.vue */ "./resources/js/components/widgets/base.vue");
+//
+//
 //
 //
 //
@@ -52123,10 +52125,10 @@ var render = function() {
           "select",
           {
             staticClass: "form-control form-control-sm",
-            domProps: { value: _vm.filterWeeksCount },
+            domProps: { value: _vm.filterIntervalCount },
             on: {
               change: function($event) {
-                _vm.$emit("updatingWeeksCount", Number($event.target.value))
+                _vm.$emit("updatingIntervalCount", Number($event.target.value))
               }
             }
           },
@@ -52322,13 +52324,13 @@ var render = function() {
         interval_avgs: _vm.interval_avgs,
         attribute: _vm.attribute,
         "is-loading": _vm.isLoading,
-        "filter-weeks-count": _vm.filter.weeks_count
+        "filter-interval-count": _vm.filter.weeks_count
       },
       on: {
         updatingAttribute: function($event) {
           return _vm.setAttribute($event)
         },
-        updatingWeeksCount: function($event) {
+        updatingIntervalCount: function($event) {
           _vm.filter.weeks_count = $event
           _vm.fetch()
         }
@@ -52407,13 +52409,13 @@ var render = function() {
       interval_avgs: _vm.interval_avgs,
       attribute: _vm.attribute,
       "is-loading": _vm.isLoading,
-      "filter-weeks-count": _vm.filter.weeks_count
+      "filter-interval-count": _vm.filter.weeks_count
     },
     on: {
       updatingAttribute: function($event) {
         return _vm.setAttribute($event)
       },
-      updatingWeeksCount: function($event) {
+      updatingIntervalCount: function($event) {
         _vm.filter.weeks_count = $event
         _vm.fetch()
       }
