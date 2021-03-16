@@ -5085,10 +5085,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/health/sleep.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/widgets/health/sleep.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/base.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/widgets/base.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5165,6 +5165,83 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    highcharts: highcharts_vue__WEBPACK_IMPORTED_MODULE_0__["Chart"]
+  },
+  mixins: [//
+  ],
+  props: {
+    title: {
+      required: false,
+      type: String,
+      "default": ''
+    },
+    chartOptions: {
+      required: false,
+      type: Object,
+      "default": {}
+    },
+    interval_avgs: {
+      required: false,
+      type: Object,
+      "default": function _default() {
+        return {};
+      }
+    },
+    attribute: {
+      required: false,
+      type: Object,
+      "default": {}
+    },
+    isLoading: {
+      required: true,
+      type: Boolean
+    },
+    filterWeeksCount: {
+      required: false,
+      type: Number,
+      "default": 4
+    }
+  },
+  data: function data() {
+    return {
+      filter: {//
+      }
+    };
+  },
+  methods: {//
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/health/sleep.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/widgets/health/sleep.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _base_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../base.vue */ "./resources/js/components/widgets/base.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5183,7 +5260,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    highcharts: highcharts_vue__WEBPACK_IMPORTED_MODULE_0__["Chart"]
+    widgetBase: _base_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   mixins: [//
   ],
@@ -5220,15 +5297,16 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     fetched: function fetched(response) {
-      this.chartOptions = response.data.chartOptions;
+      var component = this;
+      component.chartOptions = response.data.chartOptions;
 
-      this.chartOptions.plotOptions.column.events.click = function (event) {
+      component.chartOptions.plotOptions.column.events.click = function (event) {
         component.setAttribute(event.point.series.options.custom.slug);
       };
 
-      this.interval_avgs = response.data.interval_avgs;
-      this.table = response.data.table;
-      this.setAttribute(Object.keys(this.interval_avgs)[0]);
+      component.interval_avgs = response.data.interval_avgs;
+      component.table = response.data.table;
+      component.setAttribute(Object.keys(component.interval_avgs)[0]);
     },
     setAttribute: function setAttribute(slug) {
       this.attribute = this.interval_avgs[slug];
@@ -5247,65 +5325,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var highcharts_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! highcharts-vue */ "./node_modules/highcharts-vue/dist/highcharts-vue.min.js");
-/* harmony import */ var highcharts_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(highcharts_vue__WEBPACK_IMPORTED_MODULE_0__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _base_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../base.vue */ "./resources/js/components/widgets/base.vue");
 //
 //
 //
@@ -5315,7 +5335,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    highcharts: highcharts_vue__WEBPACK_IMPORTED_MODULE_0__["Chart"]
+    widgetBase: _base_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   mixins: [//
   ],
@@ -5352,14 +5372,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     fetched: function fetched(response) {
       var component = this;
-      this.chartOptions = response.data.chartOptions;
+      component.chartOptions = response.data.chartOptions;
 
-      this.chartOptions.plotOptions.column.events.click = function (event) {
+      component.chartOptions.plotOptions.column.events.click = function (event) {
         component.setAttribute(event.point.series.options.custom.slug);
       };
 
-      this.interval_avgs = response.data.interval_avgs;
-      this.setAttribute(Object.keys(this.interval_avgs)[0]);
+      component.interval_avgs = response.data.interval_avgs;
+      component.setAttribute(Object.keys(component.interval_avgs)[0]);
     },
     setAttribute: function setAttribute(slug) {
       this.attribute = this.interval_avgs[slug];
@@ -52079,10 +52099,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/health/sleep.vue?vue&type=template&id=108038e2&":
-/*!***********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/widgets/health/sleep.vue?vue&type=template&id=108038e2& ***!
-  \***********************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/base.vue?vue&type=template&id=d8502508&":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/widgets/base.vue?vue&type=template&id=d8502508& ***!
+  \***************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -52094,42 +52114,20 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card" }, [
+  return _c("div", { staticClass: "card mb-3" }, [
     _c("div", { staticClass: "card-header d-flex align-items-center" }, [
-      _c("div", { staticClass: "col" }, [_vm._v("Schlaf")]),
+      _c("div", { staticClass: "col" }, [_vm._v(_vm._s(_vm.title))]),
       _vm._v(" "),
       _c("div", { staticClass: "col-auto" }, [
         _c(
           "select",
           {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.filter.weeks_count,
-                expression: "filter.weeks_count"
-              }
-            ],
             staticClass: "form-control form-control-sm",
+            domProps: { value: _vm.filterWeeksCount },
             on: {
-              change: [
-                function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.$set(
-                    _vm.filter,
-                    "weeks_count",
-                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                  )
-                },
-                _vm.fetch
-              ]
+              change: function($event) {
+                _vm.$emit("updatingWeeksCount", Number($event.target.value))
+              }
             }
           },
           _vm._l(10, function(n) {
@@ -52161,182 +52159,224 @@ var render = function() {
         : _c(
             "div",
             [
-              _c("highcharts", { attrs: { options: _vm.chartOptions } }),
-              _vm._v(" "),
-              _c("div", { staticClass: "row mb-1" }, [
-                _c(
-                  "div",
-                  { staticClass: "col-auto" },
-                  _vm._l(_vm.interval_avgs, function(interval, slug) {
-                    return _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm mr-1",
-                        class:
-                          slug == _vm.attribute.slug
-                            ? "btn-primary"
-                            : "btn-secondary",
-                        on: {
-                          click: function($event) {
-                            return _vm.setAttribute(slug)
-                          }
-                        }
-                      },
-                      [_vm._v(_vm._s(interval.name))]
-                    )
-                  }),
-                  0
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "table",
-                {
-                  staticClass:
-                    "table table-fixed table-hover table-striped table-sm bg-white"
-                },
-                [
-                  _c("thead", [
-                    _c("tr", [
-                      _c("th", { attrs: { width: "30" } }),
-                      _vm._v(" "),
-                      _c("th", [_vm._v("Zeitraum bis")]),
-                      _vm._v(" "),
-                      _c("th", { staticClass: "text-right" }, [
-                        _vm._v("Ø " + _vm._s(_vm.attribute.name))
-                      ]),
-                      _vm._v(" "),
-                      _c("th", { staticClass: "text-right" }, [
-                        _vm._v("Differenz")
-                      ]),
-                      _vm._v(" "),
-                      _c("th", { staticClass: "text-right" }, [
-                        _vm._v("Prozent")
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
+              _vm._t("body", [
+                _c("highcharts", { attrs: { options: _vm.chartOptions } }),
+                _vm._v(" "),
+                _c("div", { staticClass: "row mb-1" }, [
                   _c(
-                    "tbody",
-                    _vm._l(_vm.attribute.intervals, function(
-                      interval,
-                      interval_index
-                    ) {
-                      return _c("tr", [
-                        _c("td", [
-                          interval_index != _vm.attribute.intervals.length - 1
-                            ? _c("i", {
-                                staticClass: "fas",
-                                class: [
-                                  interval.icon_class,
-                                  interval.font_color_class
-                                ]
-                              })
-                            : _vm._e()
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(interval.date_formatted))]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "text-right" }, [
-                          _vm._v(_vm._s(interval.avg_formatted))
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          {
-                            staticClass: "text-right",
-                            class: interval.font_color_class
-                          },
-                          [
-                            _vm._v(
-                              _vm._s(
-                                interval_index ==
-                                  _vm.attribute.intervals.length - 1
-                                  ? ""
-                                  : interval.difference_absolute_formatted
-                              )
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          {
-                            staticClass: "text-right",
-                            class: interval.font_color_class
-                          },
-                          [
-                            _vm._v(
-                              _vm._s(
-                                interval_index ==
-                                  _vm.attribute.intervals.length - 1
-                                  ? ""
-                                  : interval.difference_percentage_formatted +
-                                      " %"
-                              )
-                            )
-                          ]
-                        )
-                      ])
+                    "div",
+                    { staticClass: "col-auto" },
+                    _vm._l(_vm.interval_avgs, function(interval, slug) {
+                      return _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm mr-1",
+                          class:
+                            slug == _vm.attribute.slug
+                              ? "btn-primary"
+                              : "btn-secondary",
+                          on: {
+                            click: function($event) {
+                              return _vm.$emit("updatingAttribute", slug)
+                            }
+                          }
+                        },
+                        [_vm._v(_vm._s(interval.name))]
+                      )
                     }),
                     0
                   )
-                ]
-              ),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "table",
+                  {
+                    staticClass:
+                      "table table-fixed table-hover table-striped table-sm bg-white"
+                  },
+                  [
+                    _c("thead", [
+                      _c("tr", [
+                        _c("th", { attrs: { width: "30" } }),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Zeitraum bis")]),
+                        _vm._v(" "),
+                        _c("th", { staticClass: "text-right" }, [
+                          _vm._v("Ø " + _vm._s(_vm.attribute.name))
+                        ]),
+                        _vm._v(" "),
+                        _c("th", { staticClass: "text-right" }, [
+                          _vm._v("Differenz")
+                        ]),
+                        _vm._v(" "),
+                        _c("th", { staticClass: "text-right" }, [
+                          _vm._v("Prozent")
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.attribute.intervals, function(
+                        interval,
+                        interval_index
+                      ) {
+                        return _c("tr", [
+                          _c("td", [
+                            interval_index != _vm.attribute.intervals.length - 1
+                              ? _c("i", {
+                                  staticClass: "fas",
+                                  class: [
+                                    interval.icon_class,
+                                    interval.font_color_class
+                                  ]
+                                })
+                              : _vm._e()
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(interval.date_formatted))]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "text-right" }, [
+                            _vm._v(_vm._s(interval.avg_formatted))
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            {
+                              staticClass: "text-right",
+                              class: interval.font_color_class
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  interval_index ==
+                                    _vm.attribute.intervals.length - 1
+                                    ? ""
+                                    : interval.difference_absolute_formatted
+                                )
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            {
+                              staticClass: "text-right",
+                              class: interval.font_color_class
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  interval_index ==
+                                    _vm.attribute.intervals.length - 1
+                                    ? ""
+                                    : interval.difference_percentage_formatted +
+                                        " %"
+                                )
+                              )
+                            ]
+                          )
+                        ])
+                      }),
+                      0
+                    )
+                  ]
+                )
+              ]),
               _vm._v(" "),
-              _c(
-                "table",
-                {
-                  staticClass:
-                    "table table-fixed table-hover table-striped table-sm bg-white"
-                },
-                [
-                  _c("tbody", [
-                    _c("tr", [
-                      _c("td", [_vm._v("Ø Zeit im Bett")]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(
-                          _vm._s(_vm.table.time_in_bed_avg_formatted) + " h"
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", [_vm._v("Ø Schlaf")]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(_vm._s(_vm.table.sleep_avg_formatted) + " h")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", [_vm._v("Ø Eingeschlafen")]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(
-                          _vm._s(_vm.table.sleep_start_avg_formatted) + " Uhr"
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", [_vm._v("Ø Aufgewacht")]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(
-                          _vm._s(_vm.table.sleep_end_avg_formatted) + " Uhr"
-                        )
-                      ])
-                    ])
-                  ])
-                ]
-              )
+              _vm._t("default")
             ],
-            1
+            2
           )
     ])
   ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/health/sleep.vue?vue&type=template&id=108038e2&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/widgets/health/sleep.vue?vue&type=template&id=108038e2& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "widget-base",
+    {
+      attrs: {
+        title: "Schlaf",
+        chartOptions: _vm.chartOptions,
+        interval_avgs: _vm.interval_avgs,
+        attribute: _vm.attribute,
+        "is-loading": _vm.isLoading,
+        "filter-weeks-count": _vm.filter.weeks_count
+      },
+      on: {
+        updatingAttribute: function($event) {
+          return _vm.setAttribute($event)
+        },
+        updatingWeeksCount: function($event) {
+          _vm.filter.weeks_count = $event
+          _vm.fetch()
+        }
+      }
+    },
+    [
+      _c(
+        "table",
+        {
+          staticClass:
+            "table table-fixed table-hover table-striped table-sm bg-white"
+        },
+        [
+          _c("tbody", [
+            _c("tr", [
+              _c("td", [_vm._v("Ø Zeit im Bett")]),
+              _vm._v(" "),
+              _c("td", [
+                _vm._v(_vm._s(_vm.table.time_in_bed_avg_formatted) + " h")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c("td", [_vm._v("Ø Schlaf")]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(_vm.table.sleep_avg_formatted) + " h")])
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c("td", [_vm._v("Ø Eingeschlafen")]),
+              _vm._v(" "),
+              _c("td", [
+                _vm._v(_vm._s(_vm.table.sleep_start_avg_formatted) + " Uhr")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c("td", [_vm._v("Ø Aufgewacht")]),
+              _vm._v(" "),
+              _c("td", [
+                _vm._v(_vm._s(_vm.table.sleep_end_avg_formatted) + " Uhr")
+              ])
+            ])
+          ])
+        ]
+      )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -52360,200 +52400,25 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card mb-3" }, [
-    _c("div", { staticClass: "card-header d-flex align-items-center" }, [
-      _c("div", { staticClass: "col" }, [_vm._v("Schritte")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-auto" }, [
-        _c(
-          "select",
-          {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.filter.weeks_count,
-                expression: "filter.weeks_count"
-              }
-            ],
-            staticClass: "form-control form-control-sm",
-            on: {
-              change: [
-                function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.$set(
-                    _vm.filter,
-                    "weeks_count",
-                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                  )
-                },
-                _vm.fetch
-              ]
-            }
-          },
-          _vm._l(10, function(n) {
-            return _c("option", { domProps: { value: n } }, [
-              _vm._v(_vm._s(n) + " Wochen")
-            ])
-          }),
-          0
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "card-body" }, [
-      _vm.isLoading
-        ? _c(
-            "div",
-            { staticClass: "mt-3 p-5" },
-            [
-              _c("center", [
-                _c("span", { staticStyle: { "font-size": "48px" } }, [
-                  _c("i", { staticClass: "fas fa-spinner fa-spin" }),
-                  _c("br")
-                ]),
-                _vm._v("\n                Lade Daten..\n            ")
-              ])
-            ],
-            1
-          )
-        : _c(
-            "div",
-            [
-              _c("highcharts", { attrs: { options: _vm.chartOptions } }),
-              _vm._v(" "),
-              _c("div", { staticClass: "row mb-1" }, [
-                _c(
-                  "div",
-                  { staticClass: "col-auto" },
-                  _vm._l(_vm.interval_avgs, function(interval, slug) {
-                    return _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm mr-1",
-                        class:
-                          slug == _vm.attribute.slug
-                            ? "btn-primary"
-                            : "btn-secondary",
-                        on: {
-                          click: function($event) {
-                            return _vm.setAttribute(slug)
-                          }
-                        }
-                      },
-                      [_vm._v(_vm._s(interval.name))]
-                    )
-                  }),
-                  0
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "table",
-                {
-                  staticClass:
-                    "table table-fixed table-hover table-striped table-sm bg-white"
-                },
-                [
-                  _c("thead", [
-                    _c("tr", [
-                      _c("th", { attrs: { width: "30" } }),
-                      _vm._v(" "),
-                      _c("th", [_vm._v("Zeitraum bis")]),
-                      _vm._v(" "),
-                      _c("th", { staticClass: "text-right" }, [
-                        _vm._v("Ø " + _vm._s(_vm.attribute.name))
-                      ]),
-                      _vm._v(" "),
-                      _c("th", { staticClass: "text-right" }, [
-                        _vm._v("Differenz")
-                      ]),
-                      _vm._v(" "),
-                      _c("th", { staticClass: "text-right" }, [
-                        _vm._v("Prozent")
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "tbody",
-                    _vm._l(_vm.attribute.intervals, function(
-                      interval,
-                      interval_index
-                    ) {
-                      return _c("tr", [
-                        _c("td", [
-                          interval_index != _vm.attribute.intervals.length - 1
-                            ? _c("i", {
-                                staticClass: "fas",
-                                class: [
-                                  interval.icon_class,
-                                  interval.font_color_class
-                                ]
-                              })
-                            : _vm._e()
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(interval.date_formatted))]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "text-right" }, [
-                          _vm._v(_vm._s(interval.avg_formatted))
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          {
-                            staticClass: "text-right",
-                            class: interval.font_color_class
-                          },
-                          [
-                            _vm._v(
-                              _vm._s(
-                                interval_index ==
-                                  _vm.attribute.intervals.length - 1
-                                  ? ""
-                                  : interval.difference_absolute_formatted
-                              )
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          {
-                            staticClass: "text-right",
-                            class: interval.font_color_class
-                          },
-                          [
-                            _vm._v(
-                              _vm._s(
-                                interval_index ==
-                                  _vm.attribute.intervals.length - 1
-                                  ? ""
-                                  : interval.difference_percentage_formatted +
-                                      " %"
-                              )
-                            )
-                          ]
-                        )
-                      ])
-                    }),
-                    0
-                  )
-                ]
-              )
-            ],
-            1
-          )
-    ])
-  ])
+  return _c("widget-base", {
+    attrs: {
+      title: "Schritte",
+      chartOptions: _vm.chartOptions,
+      interval_avgs: _vm.interval_avgs,
+      attribute: _vm.attribute,
+      "is-loading": _vm.isLoading,
+      "filter-weeks-count": _vm.filter.weeks_count
+    },
+    on: {
+      updatingAttribute: function($event) {
+        return _vm.setAttribute($event)
+      },
+      updatingWeeksCount: function($event) {
+        _vm.filter.weeks_count = $event
+        _vm.fetch()
+      }
+    }
+  })
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -72749,6 +72614,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_template_id_50d3f7d8___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_template_id_50d3f7d8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/widgets/base.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/components/widgets/base.vue ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _base_vue_vue_type_template_id_d8502508___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./base.vue?vue&type=template&id=d8502508& */ "./resources/js/components/widgets/base.vue?vue&type=template&id=d8502508&");
+/* harmony import */ var _base_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./base.vue?vue&type=script&lang=js& */ "./resources/js/components/widgets/base.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _base_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _base_vue_vue_type_template_id_d8502508___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _base_vue_vue_type_template_id_d8502508___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/widgets/base.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/widgets/base.vue?vue&type=script&lang=js&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/widgets/base.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_base_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./base.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/base.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_base_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/widgets/base.vue?vue&type=template&id=d8502508&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/widgets/base.vue?vue&type=template&id=d8502508& ***!
+  \*********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_base_vue_vue_type_template_id_d8502508___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./base.vue?vue&type=template&id=d8502508& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/base.vue?vue&type=template&id=d8502508&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_base_vue_vue_type_template_id_d8502508___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_base_vue_vue_type_template_id_d8502508___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

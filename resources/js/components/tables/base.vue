@@ -75,7 +75,8 @@
                 type: Boolean,
                 required: false,
                 default: true,
-            },hasFilter: {
+            },
+            hasFilter: {
                 type: Boolean,
                 required: false,
                 default: false,

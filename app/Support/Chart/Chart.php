@@ -204,6 +204,6 @@ class Chart
 
     public function avg(string $slug)
     {
-        Arr::get($this->avgs, $slug, null);
+        return Arr::get($this->avgs, $slug, null);
     }
 }
