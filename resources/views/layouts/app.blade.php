@@ -13,6 +13,7 @@
                 <a href="{{ \App\Models\Activities\Activity::indexPath() }}"><li>{{ \App\Models\Activities\Activity::label() }}</li></a>
                 <a href="/work"><li>Arbeit</li></a>
                 <a href="/review"><li>Berichte</li></a>
+                <a href="/diet"><li>Ernährung</li></a>
                 <a href="/health"><li>Gesundheit</li></a>
                 <a href="{{ \App\Models\Lifeareas\Lifearea::indexPath() }}"><li>{{ \App\Models\Lifeareas\Lifearea::label() }}</li></a>
                 <a href="/portfolio"><li>Portfolio</li></a>

@@ -13,7 +13,9 @@ export const baseMixin = {
 
             },
             filter: {
-                weeks_count: 4,
+                interval_count: 4,
+                interval_unit: 'weeks',
+                interval_reference: 'relative',
             },
         };
     },
@@ -50,5 +52,9 @@ export const baseMixin = {
         setAttribute(slug) {
             this.attribute = this.interval_avgs[slug];
         },
+        updatingFilter({key, value}) {
+            Vue.set(this.filter, key, value);
+            this.fetch();
+        }
     },
 };

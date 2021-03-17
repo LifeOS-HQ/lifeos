@@ -15,7 +15,7 @@ class StepsController extends Controller
     {
         $chart = new Chart();
         return $chart->forUser(auth()->user())
-            ->startFromWeeksAgo($request->input('weeks_count'))
+            ->startFrom($request->input('interval_unit'), $request->input('interval_count'))
             ->addYAxis([
                 'title' => [
                     'text' => 'Schritte (step)',

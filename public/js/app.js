@@ -5165,6 +5165,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -5199,16 +5216,32 @@ __webpack_require__.r(__webpack_exports__);
       required: true,
       type: Boolean
     },
-    filterIntervalCount: {
+    filter: {
       required: false,
-      type: Number,
-      "default": 4
+      type: Object,
+      "default": function _default() {
+        return {
+          interval_count: 4,
+          interval_unit: 'weeks',
+          interval_reference: 'relative'
+        };
+      }
+    },
+    intervalUnits: {
+      required: false,
+      type: Object,
+      "default": function _default() {
+        return {
+          days: 'Tage',
+          weeks: 'Wochen',
+          months: 'Monate',
+          years: 'Jahre'
+        };
+      }
     }
   },
   data: function data() {
-    return {
-      filter: {//
-      }
+    return {//
     };
   },
   methods: {//
@@ -5258,6 +5291,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5272,9 +5332,6 @@ __webpack_require__.r(__webpack_exports__);
       indexPath: '/widgets/health/sleep',
       table: {}
     };
-  },
-  mounted: function mounted() {
-    this.fetch();
   },
   methods: {
     fetched: function fetched(response) {
@@ -52060,27 +52117,62 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card mb-3" }, [
     _c("div", { staticClass: "card-header d-flex align-items-center" }, [
-      _c("div", { staticClass: "col" }, [_vm._v(_vm._s(_vm.title))]),
+      _c("div", { staticClass: "col pl-0" }, [
+        _vm._v("\n            " + _vm._s(_vm.title) + "\n        ")
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-auto" }, [
-        _c(
-          "select",
-          {
-            staticClass: "form-control form-control-sm",
-            domProps: { value: _vm.filterIntervalCount },
-            on: {
-              change: function($event) {
-                _vm.$emit("updatingIntervalCount", Number($event.target.value))
+      _c("div", { staticClass: "d-flex" }, [
+        _c("div", { staticClass: "col-auto px-0 ml-1" }, [
+          _c(
+            "select",
+            {
+              staticClass: "form-control form-control-sm",
+              domProps: { value: _vm.filter.interval_count },
+              on: {
+                change: function($event) {
+                  _vm.$emit("updatingFilter", {
+                    key: "interval_count",
+                    value: Number($event.target.value)
+                  })
+                }
               }
-            }
-          },
-          _vm._l(10, function(n) {
-            return _c("option", { domProps: { value: n } }, [
-              _vm._v(_vm._s(n) + " Wochen")
-            ])
-          }),
-          0
-        )
+            },
+            _vm._l(12, function(n) {
+              return _c("option", { domProps: { value: n } }, [
+                _vm._v(_vm._s(n))
+              ])
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-auto px-0 ml-1" }, [
+          _c(
+            "select",
+            {
+              staticClass: "form-control form-control-sm",
+              domProps: { value: _vm.filter.interval_unit },
+              on: {
+                change: function($event) {
+                  return _vm.$emit("updatingFilter", {
+                    key: "interval_unit",
+                    value: $event.target.value
+                  })
+                }
+              }
+            },
+            _vm._l(_vm.intervalUnits, function(name, slug) {
+              return _c("option", { domProps: { value: slug } }, [
+                _vm._v(_vm._s(name))
+              ])
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        false
+          ? undefined
+          : _vm._e()
       ])
     ]),
     _vm._v(" "),
@@ -52103,6 +52195,8 @@ var render = function() {
         : _c(
             "div",
             [
+              _vm._t("header"),
+              _vm._v(" "),
               _vm._t("body", [
                 _c("highcharts", { attrs: { options: _vm.chartOptions } }),
                 _vm._v(" "),
@@ -52266,19 +52360,82 @@ var render = function() {
         interval_avgs: _vm.interval_avgs,
         attribute: _vm.attribute,
         "is-loading": _vm.isLoading,
-        "filter-interval-count": _vm.filter.weeks_count
+        filter: _vm.filter
       },
       on: {
         updatingAttribute: function($event) {
           return _vm.setAttribute($event)
         },
-        updatingIntervalCount: function($event) {
-          _vm.filter.weeks_count = $event
-          _vm.fetch()
+        updatingFilter: function($event) {
+          return _vm.updatingFilter($event)
         }
-      }
+      },
+      scopedSlots: _vm._u([
+        {
+          key: "header",
+          fn: function() {
+            return [
+              _c("div", { staticClass: "text-center mb-3" }, [
+                _c("ul", { staticClass: "list-group list-group-horizontal" }, [
+                  _c("li", { staticClass: "col list-group-item" }, [
+                    _c("div", { staticClass: "font-weight-bolder" }, [
+                      _vm._v(_vm._s(_vm.table.sleep_avg_formatted) + " h")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "text-muted" }, [
+                      _vm._v("Ø Schlaf")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "col list-group-item" }, [
+                    _c("div", { staticClass: "font-weight-bolder" }, [
+                      _vm._v(_vm._s(_vm.table.time_in_bed_avg_formatted) + " h")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "text-muted" }, [
+                      _vm._v("Ø Zeit im Bett")
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "ul",
+                  { staticClass: "mt-0 list-group list-group-horizontal" },
+                  [
+                    _c("li", { staticClass: "col list-group-item" }, [
+                      _c("div", { staticClass: "font-weight-bolder" }, [
+                        _vm._v(
+                          _vm._s(_vm.table.sleep_start_avg_formatted) + " Uhr"
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "text-muted" }, [
+                        _vm._v("Ø Eingeschlafen")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("li", { staticClass: "col list-group-item" }, [
+                      _c("div", { staticClass: "font-weight-bolder" }, [
+                        _vm._v(
+                          _vm._s(_vm.table.sleep_end_avg_formatted) + " Uhr"
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "text-muted" }, [
+                        _vm._v("Ø Aufgewacht")
+                      ])
+                    ])
+                  ]
+                )
+              ])
+            ]
+          },
+          proxy: true
+        }
+      ])
     },
     [
+      _vm._v(" "),
       _c(
         "table",
         {
@@ -52351,15 +52508,14 @@ var render = function() {
       interval_avgs: _vm.interval_avgs,
       attribute: _vm.attribute,
       "is-loading": _vm.isLoading,
-      "filter-interval-count": _vm.filter.weeks_count
+      filter: _vm.filter
     },
     on: {
       updatingAttribute: function($event) {
         return _vm.setAttribute($event)
       },
-      updatingIntervalCount: function($event) {
-        _vm.filter.weeks_count = $event
-        _vm.fetch()
+      updatingFilter: function($event) {
+        return _vm.updatingFilter($event)
       }
     }
   })
@@ -73682,7 +73838,9 @@ var baseMixin = {
       interval_avgs: {},
       attribute: {},
       filter: {
-        weeks_count: 4
+        interval_count: 4,
+        interval_unit: 'weeks',
+        interval_reference: 'relative'
       }
     };
   },
@@ -73716,6 +73874,12 @@ var baseMixin = {
     },
     setAttribute: function setAttribute(slug) {
       this.attribute = this.interval_avgs[slug];
+    },
+    updatingFilter: function updatingFilter(_ref) {
+      var key = _ref.key,
+          value = _ref.value;
+      Vue.set(this.filter, key, value);
+      this.fetch();
     }
   }
 };

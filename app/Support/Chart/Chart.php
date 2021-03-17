@@ -14,6 +14,10 @@ class Chart
     protected $end_at;
     protected $user;
     protected $yAxis = [];
+    protected $interval = [
+        'count' => 4,
+        'unit' => 'weeks',
+    ];
 
     /**
      * avg of all attribute values
@@ -41,7 +45,18 @@ class Chart
 
     public function startFromWeeksAgo(int $weeks_count) : self
     {
-        $this->start_at = now()->subDays((7 * $weeks_count) -1);
+        $this->start_at = now()->subWeeks($weeks_count);
+
+        return $this;
+    }
+
+    public function startFrom(string $interval_unit, int $interval_count)
+    {
+        $this->interval = [
+            'count' => $interval_count,
+            'unit' => $interval_unit,
+        ];
+        $this->start_at = now()->sub($interval_unit, $interval_count);
 
         return $this;
     }
@@ -70,6 +85,12 @@ class Chart
     public function build() : array
     {
         $periods = new CarbonPeriod($this->start_at, '1 days', $this->end_at);
+        $carbon_period_intervals = new CarbonPeriod($this->start_at, '1 ' . $this->interval['unit'], $this->end_at);
+
+        $period_intervals = [];
+        foreach ($carbon_period_intervals as $key => $date) {
+            $period_intervals[] = $date->format('Y-m-d');
+        }
 
         $attributes = [];
         foreach ($this->slugs as $slug => $serie) {
@@ -88,7 +109,8 @@ class Chart
         $interval_avgs = [];
         $interval_avgs_key = 0;
         foreach ($periods as $key => $period) {
-            if ($key % $interval_length == 0) {
+            // dump($period->format('Y-m-d'), $period_intervals, in_array($period->format('Y-m-d'), $period_intervals));
+            if (in_array($period->format('Y-m-d'), $period_intervals)) {
                 $interval_avgs_key++;
             }
             $period->startOfDay();
@@ -117,13 +139,14 @@ class Chart
                     'slug' => $slug,
                 ],
                 // 'tooltip' => [
-                //     'headerFormat' => '<b>{point.key}</b><br/>{series.name}<br/>',
+                //     'headerFormat' => '<b>{point.key}</b><br/>{point.series.options.custom.slug}<br/>',
                 //     'pointFormat' => '{point.y:0.2f}'
                 // ],
             ]);
             $series[] = $serie;
             $values_count = count($data[$attribute->slug]);
-            $values_avg = array_sum($data[$attribute->slug]) / count(array_filter($data[$attribute->slug]));
+            $values_avg_count = count(array_filter($data[$attribute->slug]));
+            $values_avg = ($values_avg_count == 0 ? 0 : array_sum($data[$attribute->slug]) / $values_avg_count);
             $this->avgs[$attribute->slug] = $values_avg;
             $series[] = [
                 'name' => 'Ø ' . $attribute->name,
@@ -170,6 +193,9 @@ class Chart
 
         $this->options = [
             'chartOptions' => [
+                'chart' => [
+                    'zoomType' => 'x',
+                ],
                 'xAxis' => [
                     'categories' => array_values($days),
                 ],

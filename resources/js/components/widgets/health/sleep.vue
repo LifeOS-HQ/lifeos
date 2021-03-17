@@ -1,6 +1,33 @@
 <template>
 
-    <widget-base title="Schlaf" :chartOptions="chartOptions" :interval_avgs="interval_avgs" :attribute="attribute" :is-loading="isLoading" :filter-interval-count="filter.weeks_count" @updatingAttribute="setAttribute($event)" @updatingIntervalCount="filter.weeks_count = $event; fetch();">
+    <widget-base title="Schlaf" :chartOptions="chartOptions" :interval_avgs="interval_avgs" :attribute="attribute" :is-loading="isLoading" :filter="filter" @updatingAttribute="setAttribute($event)" @updatingFilter="updatingFilter($event)">
+
+        <template v-slot:header>
+
+            <div class="text-center mb-3">
+                    <ul class="list-group list-group-horizontal">
+                        <li class="col list-group-item">
+                            <div class="font-weight-bolder">{{ table.sleep_avg_formatted }} h</div>
+                            <div class="text-muted">Ø Schlaf</div>
+                        </li>
+                        <li class="col list-group-item">
+                            <div class="font-weight-bolder">{{ table.time_in_bed_avg_formatted }} h</div>
+                            <div class="text-muted">Ø Zeit im Bett</div>
+                        </li>
+                    </ul>
+                    <ul class="mt-0 list-group list-group-horizontal">
+                        <li class="col list-group-item">
+                            <div class="font-weight-bolder">{{ table.sleep_start_avg_formatted }} Uhr</div>
+                            <div class="text-muted">Ø Eingeschlafen</div>
+                        </li>
+                        <li class="col list-group-item">
+                            <div class="font-weight-bolder">{{ table.sleep_end_avg_formatted }} Uhr</div>
+                            <div class="text-muted">Ø Aufgewacht</div>
+                        </li>
+                    </ul>
+            </div>
+
+        </template>
 
         <table class="table table-fixed table-hover table-striped table-sm bg-white">
 
@@ -54,10 +81,6 @@
 
                 },
             };
-        },
-
-        mounted () {
-            this.fetch();
         },
 
         methods: {

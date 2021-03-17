@@ -17,7 +17,7 @@ class SleepController extends Controller
 
         $user = auth()->user();
         $options = $chart->forUser($user)
-            ->startFromWeeksAgo($request->input('weeks_count'))
+            ->startFrom($request->input('interval_unit'), $request->input('interval_count'))
             ->addYAxis([
                 'title' => [
                     'text' => 'Stunden (h)',

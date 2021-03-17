@@ -2,11 +2,26 @@
 
     <div class="card mb-3">
         <div class="card-header d-flex align-items-center">
-            <div class="col">{{ title }}</div>
-            <div class="col-auto">
-                <select class="form-control form-control-sm" :value="filterIntervalCount" @change="$emit('updatingIntervalCount', Number($event.target.value))">
-                    <option v-for="n in 10" :value="n">{{ n }} Wochen</option>
-                </select>
+            <div class="col pl-0">
+                {{ title }}
+            </div>
+            <div class="d-flex">
+                <div class="col-auto px-0 ml-1">
+                    <select class="form-control form-control-sm" :value="filter.interval_count" @change="$emit('updatingFilter', {key: 'interval_count', value: Number($event.target.value)})">
+                        <option v-for="n in 12" :value="n">{{ n }}</option>
+                    </select>
+                </div>
+                <div class="col-auto px-0 ml-1">
+                    <select class="form-control form-control-sm" :value="filter.interval_unit" @change="$emit('updatingFilter', {key: 'interval_unit', value: $event.target.value})">
+                        <option v-for="(name, slug) in intervalUnits" :value="slug">{{ name }}</option>
+                    </select>
+                </div>
+                <div class="col-auto px-0 ml-1" v-if="false">
+                    <select class="form-control form-control-sm" :value="filter.interval_reference" @change="$emit('updatingFilter', {key: 'interval_reference', value: $event.target.value})">
+                        <option value="absolute">Absolut</option>
+                        <option value="relative">Relativ</option>
+                    </select>
+                </div>
             </div>
         </div>
         <div class="card-body">
@@ -23,6 +38,8 @@
             </div>
 
             <div v-else>
+
+                <slot name="header"></slot>
 
                 <slot name="body">
 
@@ -111,18 +128,34 @@
                 required: true,
                 type: Boolean,
             },
-            filterIntervalCount: {
+            filter: {
                 required: false,
-                type: Number,
-                default: 4,
+                type: Object,
+                default() {
+                    return {
+                        interval_count: 4,
+                        interval_unit: 'weeks',
+                        interval_reference: 'relative',
+                    };
+                },
+            },
+            intervalUnits: {
+                required: false,
+                type: Object,
+                default () {
+                    return {
+                        days: 'Tage',
+                        weeks: 'Wochen',
+                        months: 'Monate',
+                        years: 'Jahre',
+                    }
+                },
             },
         },
 
         data () {
             return {
-                filter: {
-                    //
-                },
+                //
             };
         },
 
