@@ -5,11 +5,16 @@ namespace App\Models\Services\Data\Attributes;
 use App\Models\Services\Data\Value;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class Attribute extends Model
 {
+    use HasFactory;
+
     protected $appends = [
         'path',
     ];
@@ -27,6 +32,13 @@ class Attribute extends Model
     ];
 
     public $table = 'data_attributes';
+
+    /**
+     * Type of the attribute
+     * is responsible for chart options and value formatting
+     * @var [type]
+     */
+    protected $attribute_type;
 
     /**
      * The booting method of the model.
@@ -51,6 +63,16 @@ class Attribute extends Model
         {
             return true;
         });
+
+        static::retrieved(function($model)
+        {
+            return true;
+        });
+    }
+
+    protected function setAttributeType()
+    {
+        $this->attribute_type = \App\Models\Services\Data\Attributes\Types\Factory::make($this->slug, $this->raw);
     }
 
     public function isDeletable() : bool
@@ -63,6 +85,8 @@ class Attribute extends Model
         if (is_null($raw)) {
             return null;
         }
+
+        // return $this->attribute_type->value($raw);
 
         switch ($this->slug) {
             case 'active_energy':
@@ -85,8 +109,9 @@ class Attribute extends Model
         }
     }
 
-    public function valueFormatted($value) {
-
+    public function valueFormatted($raw) : string
+    {
+        return $this->attribute_type->formatted($raw);
     }
 
     public function getBgClass($raw) : string
@@ -125,9 +150,31 @@ class Attribute extends Model
         return \App\Support\Chart\Color::get($this->id);
     }
 
+    public function getAxisOptions() : array
+    {
+        $options = [
+            'title' => [
+                'text' => $this->attribute_type->label . ' (' . $this->attribute_type->unit . ')',
+            ],
+        ];
+
+        return $options;
+    }
+
+    public function getAttributeTypeAttribute()
+    {
+        return $this->attribute_type;
+    }
+
     public function getPathAttribute()
     {
         return '/attribute/' . $this->id;
+    }
+
+    public function setSlugAttribute($value) : void
+    {
+        $this->attributes['slug'] = $value;
+        $this->setAttributeType();
     }
 
     public function values() : HasMany

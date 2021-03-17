@@ -22,7 +22,8 @@ class TypeFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'id' => $this->faker->unique()->numberBetween(1, 10),
+            'name' => $this->faker->word,
         ];
     }
 }

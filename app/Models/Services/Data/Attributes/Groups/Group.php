@@ -3,11 +3,14 @@
 namespace App\Models\Services\Data\Attributes\Groups;
 
 use App\Models\Services\Data\Attributes\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Group extends Model
 {
+    use HasFactory;
+
     protected $appends = [
         'path',
     ];
