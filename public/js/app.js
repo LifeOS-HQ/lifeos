@@ -5443,19 +5443,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -52663,58 +52650,64 @@ var render = function() {
         key: "header",
         fn: function() {
           return [
-            _c("div", { staticClass: "text-center mb-3" }, [
-              _c("ul", { staticClass: "list-group list-group-horizontal" }, [
-                _c("li", { staticClass: "col list-group-item" }, [
-                  _c("div", { staticClass: "font-weight-bolder" }, [
-                    _vm._v(
-                      _vm._s(_vm.table.current_weight_avg_formatted) + " kg"
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "text-muted" }, [
-                    _vm._v("Ø Gewicht letzte 7 Tage")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("li", { staticClass: "col list-group-item" }, [
-                  _c("div", { staticClass: "font-weight-bolder" }, [
-                    _vm._v(_vm._s(_vm.table.last_weight_avg_formatted) + " kg")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "text-muted" }, [
-                    _vm._v("Ø Gewicht vor 14 - 7 Tage")
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "ul",
-                { staticClass: "mt-0 list-group list-group-horizontal" },
-                [
-                  _c("li", { staticClass: "col list-group-item" }, [
-                    _c("div", { staticClass: "font-weight-bolder" }, [
-                      _vm._v(
-                        _vm._s(_vm.table.weight_difference_formatted) + " kg"
-                      )
-                    ]),
+            _c(
+              "table",
+              {
+                staticClass:
+                  "table table-fixed table-hover table-striped table-sm bg-white mb-3"
+              },
+              [
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td", [_vm._v("Ø Gewicht vor 14 - 7 Tage")]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "text-muted" }, [
-                      _vm._v("Differenz")
-                    ])
+                    _c(
+                      "td",
+                      { staticClass: "text-right", attrs: { width: "100" } },
+                      [
+                        _vm._v(
+                          _vm._s(_vm.table.last_weight_avg_formatted) + " kg"
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("td")
                   ]),
                   _vm._v(" "),
-                  _c("li", { staticClass: "col list-group-item" }, [
-                    _c("div", { staticClass: "font-weight-bolder" }, [
-                      _vm._v(
-                        _vm._s(_vm.table.weight_difference_goal_formatted) +
-                          " kg"
-                      )
-                    ]),
+                  _c("tr", [
+                    _c("td", [_vm._v("Ø Gewicht letzte 7 Tage")]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "text-muted" }, [
+                    _c(
+                      "td",
+                      { staticClass: "text-right", attrs: { width: "100" } },
+                      [
+                        _vm._v(
+                          _vm._s(_vm.table.current_weight_avg_formatted) + " kg"
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("td")
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", [_vm._v("Differenz")]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "text-right", attrs: { width: "100" } },
+                      [
+                        _vm._v(
+                          _vm._s(_vm.table.weight_difference_formatted) + " kg"
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-muted" }, [
                       _vm._v(
-                        "Ziel (" +
+                        "Ziel: " +
+                          _vm._s(_vm.table.weight_difference_goal_formatted) +
+                          " kg (" +
                           _vm._s(
                             _vm.table
                               .weight_difference_goal_difference_formatted
@@ -52722,39 +52715,29 @@ var render = function() {
                           " kg)"
                       )
                     ])
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "ul",
-                { staticClass: "mt-0 list-group list-group-horizontal" },
-                [
-                  _c("li", { staticClass: "col list-group-item" }, [
-                    _c("div", { staticClass: "font-weight-bolder" }, [
-                      _vm._v(
-                        _vm._s(_vm.table.weight_difference_kcal_formatted) +
-                          " kcal"
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "text-muted" }, [
-                      _vm._v("Differenz Kalorien pro Tag")
-                    ])
                   ]),
                   _vm._v(" "),
-                  _c("li", { staticClass: "col list-group-item" }, [
-                    _c("div", { staticClass: "font-weight-bolder" }, [
-                      _vm._v(
-                        _vm._s(
-                          _vm.table.weight_difference_goal_kcal_formatted
-                        ) + " kcal"
-                      )
-                    ]),
+                  _c("tr", [
+                    _c("td", [_vm._v("Differenz Kalorien pro Tag")]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "text-muted" }, [
+                    _c(
+                      "td",
+                      { staticClass: "text-right", attrs: { width: "100" } },
+                      [
+                        _vm._v(
+                          _vm._s(_vm.table.weight_difference_kcal_formatted) +
+                            " kcal"
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-muted" }, [
                       _vm._v(
-                        "Ziel (" +
+                        "Ziel: " +
+                          _vm._s(
+                            _vm.table.weight_difference_goal_kcal_formatted
+                          ) +
+                          " kcal (" +
                           _vm._s(
                             _vm.table
                               .weight_difference_goal_kcal_difference_formatted
@@ -52762,34 +52745,26 @@ var render = function() {
                           " kcal)"
                       )
                     ])
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "ul",
-                { staticClass: "mt-0 list-group list-group-horizontal" },
-                [
-                  _c("li", { staticClass: "col list-group-item" }, [
-                    _c("div", { staticClass: "font-weight-bolder" }, [
-                      _vm._v(_vm._s(_vm.table.energy_avg_formatted) + " kcal")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "text-muted" }, [
-                      _vm._v("Ø Kalorien letzte 7 Tage")
-                    ])
                   ]),
                   _vm._v(" "),
-                  _c("li", { staticClass: "col list-group-item" }, [
-                    _c("div", { staticClass: "font-weight-bolder" }, [
-                      _vm._v(
-                        _vm._s(_vm.table.energy_avg_goal_formatted) + " kcal"
-                      )
-                    ]),
+                  _c("tr", [
+                    _c("td", [_vm._v("Ø Kalorien letzte 7 Tage")]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "text-muted" }, [
+                    _c(
+                      "td",
+                      { staticClass: "text-right", attrs: { width: "100" } },
+                      [
+                        _vm._v(
+                          _vm._s(_vm.table.energy_avg_goal_formatted) + " kcal"
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-muted" }, [
                       _vm._v(
-                        "Ziel (" +
+                        "Ziel: " +
+                          _vm._s(_vm.table.energy_avg_goal_formatted) +
+                          " kcal (" +
                           _vm._s(
                             _vm.table.energy_avg_goal_diference_formatted
                           ) +
@@ -52797,9 +52772,9 @@ var render = function() {
                       )
                     ])
                   ])
-                ]
-              )
-            ])
+                ])
+              ]
+            )
           ]
         },
         proxy: true

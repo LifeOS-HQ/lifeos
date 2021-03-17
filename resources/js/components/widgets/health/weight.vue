@@ -4,48 +4,35 @@
 
         <template v-slot:header>
 
-            <div class="text-center mb-3">
-                <ul class="list-group list-group-horizontal">
-                    <li class="col list-group-item">
-                        <div class="font-weight-bolder">{{ table.current_weight_avg_formatted }} kg</div>
-                        <div class="text-muted">Ø Gewicht letzte 7 Tage</div>
-                    </li>
-                    <li class="col list-group-item">
-                        <div class="font-weight-bolder">{{ table.last_weight_avg_formatted }} kg</div>
-                        <div class="text-muted">Ø Gewicht vor 14 - 7 Tage</div>
-                    </li>
-                </ul>
-                <ul class="mt-0 list-group list-group-horizontal">
-                    <li class="col list-group-item">
-                        <div class="font-weight-bolder">{{ table.weight_difference_formatted }} kg</div>
-                        <div class="text-muted">Differenz</div>
-                    </li>
-                    <li class="col list-group-item">
-                        <div class="font-weight-bolder">{{ table.weight_difference_goal_formatted }} kg</div>
-                        <div class="text-muted">Ziel ({{ table.weight_difference_goal_difference_formatted }} kg)</div>
-                    </li>
-                </ul>
-                <ul class="mt-0 list-group list-group-horizontal">
-                    <li class="col list-group-item">
-                        <div class="font-weight-bolder">{{ table.weight_difference_kcal_formatted }} kcal</div>
-                        <div class="text-muted">Differenz Kalorien pro Tag</div>
-                    </li>
-                    <li class="col list-group-item">
-                        <div class="font-weight-bolder">{{ table.weight_difference_goal_kcal_formatted }} kcal</div>
-                        <div class="text-muted">Ziel ({{ table.weight_difference_goal_kcal_difference_formatted }} kcal)</div>
-                    </li>
-                </ul>
-                <ul class="mt-0 list-group list-group-horizontal">
-                    <li class="col list-group-item">
-                        <div class="font-weight-bolder">{{ table.energy_avg_formatted }} kcal</div>
-                        <div class="text-muted">Ø Kalorien letzte 7 Tage</div>
-                    </li>
-                    <li class="col list-group-item">
-                        <div class="font-weight-bolder">{{ table.energy_avg_goal_formatted }} kcal</div>
-                        <div class="text-muted">Ziel ({{ table.energy_avg_goal_diference_formatted }} kcal)</div>
-                    </li>
-                </ul>
-            </div>
+            <table class="table table-fixed table-hover table-striped table-sm bg-white mb-3">
+                <tbody>
+                    <tr>
+                        <td>Ø Gewicht vor 14 - 7 Tage</td>
+                        <td class="text-right" width="100">{{ table.last_weight_avg_formatted }} kg</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Ø Gewicht letzte 7 Tage</td>
+                        <td class="text-right" width="100">{{ table.current_weight_avg_formatted }} kg</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Differenz</td>
+                        <td class="text-right" width="100">{{ table.weight_difference_formatted }} kg</td>
+                        <td class="text-muted">Ziel: {{ table.weight_difference_goal_formatted }} kg ({{ table.weight_difference_goal_difference_formatted }} kg)</td>
+                    </tr>
+                    <tr>
+                        <td>Differenz Kalorien pro Tag</td>
+                        <td class="text-right" width="100">{{ table.weight_difference_kcal_formatted }} kcal</td>
+                        <td class="text-muted">Ziel: {{ table.weight_difference_goal_kcal_formatted }} kcal ({{ table.weight_difference_goal_kcal_difference_formatted }} kcal)</td>
+                    </tr>
+                    <tr>
+                        <td>Ø Kalorien letzte 7 Tage</td>
+                        <td class="text-right" width="100">{{ table.energy_avg_goal_formatted }} kcal</td>
+                        <td class="text-muted">Ziel: {{ table.energy_avg_goal_formatted }} kcal ({{ table.energy_avg_goal_diference_formatted }} kcal)</td>
+                    </tr>
+                </tbody>
+            </table>
 
         </template>
 
