@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-header d-flex justify-content-between">
             <div>Arbeitszeit {{ month_name }}</div>
             <a class="text-body" href="/work"><i class="fas fa-arrow-right"></i></a>

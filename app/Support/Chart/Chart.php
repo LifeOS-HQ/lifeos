@@ -130,7 +130,7 @@ class Chart
         $i = 0;
         foreach ($attributes as $slug => $attribute) {
             $color = $attribute->color;
-            $serie = array_merge($this->slugs[$slug], [
+            $serie = array_merge([
                 'cursor' => 'pointer',
                 'name' => $attribute->name,
                 'data' => array_values($data[$attribute->slug]),
@@ -142,26 +142,29 @@ class Chart
                 //     'headerFormat' => '<b>{point.key}</b><br/>{point.series.options.custom.slug}<br/>',
                 //     'pointFormat' => '{point.y:0.2f}'
                 // ],
-            ]);
+            ], $this->slugs[$slug]);
             $series[] = $serie;
             $values_count = count($data[$attribute->slug]);
             $values_avg_count = count(array_filter($data[$attribute->slug]));
             $values_avg = ($values_avg_count == 0 ? 0 : array_sum($data[$attribute->slug]) / $values_avg_count);
             $this->avgs[$attribute->slug] = $values_avg;
-            $series[] = [
-                'name' => 'Ø ' . $attribute->name,
-                'data' => array_fill(0, $values_count, $values_avg),
-                'color' => $color,
-                'type' => 'line',
-                'yAxis' => $serie['yAxis'],
-                'tooltip' => [
-                    'headerFormat' => '<b>{series.name}</b><br/>',
-                    'pointFormat' => '{point.y:0.2f}'
-                ],
-                'marker' => [
-                    'enabled' => false,
-                ],
-            ];
+
+            if ($serie['type'] != 'line') {
+                $series[] = [
+                    'name' => 'Ø ' . $attribute->name,
+                    'data' => array_fill(0, $values_count, $values_avg),
+                    'color' => $color,
+                    'type' => 'line',
+                    'yAxis' => $serie['yAxis'],
+                    'tooltip' => [
+                        'headerFormat' => '<b>{series.name}</b><br/>',
+                        'pointFormat' => '{point.y:0.2f}'
+                    ],
+                    'marker' => [
+                        'enabled' => false,
+                    ],
+                ];
+            }
 
             $last_interval_avgs_key = 1;
             foreach ($interval_avgs[$attribute->slug]['intervals'] as $interval_avgs_key => &$interval) {

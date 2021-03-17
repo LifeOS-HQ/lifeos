@@ -46,10 +46,11 @@
 
             <home-work-show class="mt-3"></home-work-show>
 
+            <widget-health-weight></widget-health-weight>
             @livewire('home.health.weight')
             @livewire('home.health.calories')
 
-            <home-server-index class="mt-3"></home-server-index>
+            <!-- <home-server-index class="mt-3"></home-server-index> -->
 
         </div>
 

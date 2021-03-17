@@ -5,26 +5,26 @@
         <template v-slot:header>
 
             <div class="text-center mb-3">
-                    <ul class="list-group list-group-horizontal">
-                        <li class="col list-group-item">
-                            <div class="font-weight-bolder">{{ table.sleep_avg_formatted }} h</div>
-                            <div class="text-muted">Ø Schlaf</div>
-                        </li>
-                        <li class="col list-group-item">
-                            <div class="font-weight-bolder">{{ table.time_in_bed_avg_formatted }} h</div>
-                            <div class="text-muted">Ø Zeit im Bett</div>
-                        </li>
-                    </ul>
-                    <ul class="mt-0 list-group list-group-horizontal">
-                        <li class="col list-group-item">
-                            <div class="font-weight-bolder">{{ table.sleep_start_avg_formatted }} Uhr</div>
-                            <div class="text-muted">Ø Eingeschlafen</div>
-                        </li>
-                        <li class="col list-group-item">
-                            <div class="font-weight-bolder">{{ table.sleep_end_avg_formatted }} Uhr</div>
-                            <div class="text-muted">Ø Aufgewacht</div>
-                        </li>
-                    </ul>
+                <ul class="list-group list-group-horizontal">
+                    <li class="col list-group-item">
+                        <div class="font-weight-bolder">{{ table.sleep_avg_formatted }} h</div>
+                        <div class="text-muted">Ø Schlaf</div>
+                    </li>
+                    <li class="col list-group-item">
+                        <div class="font-weight-bolder">{{ table.time_in_bed_avg_formatted }} h</div>
+                        <div class="text-muted">Ø Zeit im Bett</div>
+                    </li>
+                </ul>
+                <ul class="mt-0 list-group list-group-horizontal">
+                    <li class="col list-group-item">
+                        <div class="font-weight-bolder">{{ table.sleep_start_avg_formatted }} Uhr</div>
+                        <div class="text-muted">Ø Eingeschlafen</div>
+                    </li>
+                    <li class="col list-group-item">
+                        <div class="font-weight-bolder">{{ table.sleep_end_avg_formatted }} Uhr</div>
+                        <div class="text-muted">Ø Aufgewacht</div>
+                    </li>
+                </ul>
             </div>
 
         </template>
