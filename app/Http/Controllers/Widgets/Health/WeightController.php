@@ -61,11 +61,9 @@ class WeightController extends Controller
             ])->get();
 
         $body_fat_attribute = $attributes->where('slug', 'body_fat')->first();
-        $body_fat_avg = $body_fat_attribute->values()->where('user_id', auth()->user()->id)->whereDate('at', '>=', $start)->avg('raw');
+        $body_fat_avg = $body_fat_attribute->values()->where('user_id', auth()->user()->id)->whereDate('at', '>=', now()->subDays(7))->whereDate('at', '<', now())->avg('raw');
 
         $weight_attribute = $attributes->where('slug', 'weight')->first();
-        $last_weights = $weight_attribute->values()->where('user_id', auth()->user()->id)->latest('at')->limit(7)->offset(1)->get();
-
         $current_weight_avg = $weight_attribute->values()->where('user_id', auth()->user()->id)->whereDate('at', '>=', now()->subDays(7))->whereDate('at', '<', now())->avg('raw');
         $last_weight_avg = $weight_attribute->values()->where('user_id', auth()->user()->id)->whereDate('at', '>=', now()->subDays(14))->whereDate('at', '<', now()->subDays(7))->avg('raw');
 
