@@ -7,6 +7,6 @@
         <a href="{{ url('workouts/exercises') }}" class="btn btn-secondary btn-sm">Übungen</a>
     </div>
 
-    @livewire('workouts.index')
+    <workout-table index-path="{{ \App\Models\Workouts\Workout::indexPath() }}"></workout-table>
 
 @endsection

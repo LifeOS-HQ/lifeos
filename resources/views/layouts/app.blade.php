@@ -14,11 +14,11 @@
                 <a href="/work"><li>Arbeit</li></a>
                 <a href="/review"><li>Berichte</li></a>
                 <a href="/diet"><li>Ernährung</li></a>
+                <a href="/fitness"><li>Fitness</li></a>
                 <a href="/health"><li>Gesundheit</li></a>
                 <a href="{{ \App\Models\Lifeareas\Lifearea::indexPath() }}"><li>{{ \App\Models\Lifeareas\Lifearea::label() }}</li></a>
                 <a href="/portfolio"><li>Portfolio</li></a>
                 <a href="/journal"><li>Tagebuch</li></a>
-                <a href="/workouts"><li>Training</li></a>
             </ul>
             <div class="px-3 text-white text-center"><p><a href="https://github.com/Cardmonitor/cardmonitor" target="_blank">View on Github</a></p></div>
             <div class="bg-secondary text-white p-2 d-flex justify-content-around">

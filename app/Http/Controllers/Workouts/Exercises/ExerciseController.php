@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Workouts;
+namespace App\Http\Controllers\Workouts\Exercises;
 
 use App\Http\Controllers\Controller;
+use App\Models\Workouts\Exercises\Exercise;
 use App\Models\Workouts\Workout;
 use Illuminate\Http\Request;
 
-class WorkoutController extends Controller
+class ExerciseController extends Controller
 {
     protected $baseViewPath = 'workout';
 
@@ -23,11 +24,7 @@ class WorkoutController extends Controller
     public function index(Request $request)
     {
         if ($request->wantsJson()) {
-            return auth()->user()
-                ->workouts()
-                ->search($request->input('searchtext'))
-                ->orderBy('name')
-                ->get();
+            //
         }
 
         return view($this->baseViewPath . '.index');
@@ -49,13 +46,33 @@ class WorkoutController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Workout $workout)
     {
         $attributes = $request->validate([
-            'name' => 'required|string',
+            'exercise_id' => 'required',
         ]);
 
-        return auth()->user()->workouts()->create($attributes);
+        $exercise = $workout->exercises()->create([
+            'exercise_id' => $attributes['exercise_id'],
+            'user_id' => $workout->user_id,
+            'goal_type' => 'reps_count',
+            'goal_target' => 1,
+            'order' => ($workout->exercises()->count() + 1),
+        ]);
+
+        $exercise->sets()->create([
+            'user_id' => $exercise->user_id,
+            'exercise_id' => $exercise->exercise_id,
+            'workout_id' => $workout->id,
+            'order' => 1,
+            'reps_count' => 1,
+            'weight_in_g' => 0,
+        ]);
+
+        return $exercise->load([
+            'exercise',
+            'sets',
+        ]);
     }
 
     /**
@@ -64,16 +81,10 @@ class WorkoutController extends Controller
      * @param  \App\Models\Workouts\Workout  $workout
      * @return \Illuminate\Http\Response
      */
-    public function show(Workout $workout)
+    public function show(Workout $workout, Exercise $exercise)
     {
-        $workout->load([
-            'exercises.exercise',
-            'exercises.sets',
-        ]);
-
         return view($this->baseViewPath . '.show')
-            ->with('model', $workout)
-            ->with('exercises', auth()->user()->exercises()->orderBy('name')->get());
+            ->with('model', $exercise);
     }
 
     /**
@@ -82,10 +93,10 @@ class WorkoutController extends Controller
      * @param  \App\Models\Workouts\Workout  $workout
      * @return \Illuminate\Http\Response
      */
-    public function edit(Workout $workout)
+    public function edit(Workout $workout, Exercise $exercise)
     {
         return view($this->baseViewPath . '.edit')
-            ->with('model', $workout);
+            ->with('model', $exercise);
     }
 
     /**
@@ -95,13 +106,13 @@ class WorkoutController extends Controller
      * @param  \App\Models\Workouts\Workout  $workout
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Workout $workout)
+    public function update(Request $request, Workout $workout, Exercise $exercise)
     {
         $attributes = $request->validate([
-            'name' => 'required|string',
+
         ]);
 
-        $workout->update($attributes);
+        $exercise->update($attributes);
 
         if ($request->wantsJson()) {
             return $workout;
@@ -120,10 +131,10 @@ class WorkoutController extends Controller
      * @param  \App\Models\Workouts\Workout  $workout
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Workout $workout)
+    public function destroy(Request $request, Workout $workout, Exercise $exercise)
     {
         if ($isDeletable = $workout->isDeletable()) {
-            $workout->delete();
+            $exercise->delete();
         }
 
         if ($request->wantsJson()) {

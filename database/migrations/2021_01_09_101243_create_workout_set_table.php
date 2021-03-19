@@ -16,6 +16,7 @@ class CreateWorkoutSetTable extends Migration
         Schema::create('workout_set', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
+            $table->foreignId('workout_exercise_id');
             $table->foreignId('exercise_id');
             $table->foreignId('workout_id');
 
@@ -26,6 +27,7 @@ class CreateWorkoutSetTable extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('workout_exercise_id')->references('id')->on('workout_exercise');
             $table->foreign('exercise_id')->references('id')->on('exercises');
             $table->foreign('workout_id')->references('id')->on('workouts');
         });

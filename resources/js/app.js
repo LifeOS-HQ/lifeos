@@ -86,6 +86,11 @@ Vue.component('work-month-table', require('./components/work/month/table.vue').d
 Vue.component('work-year-table', require('./components/work/year/table.vue').default);
 Vue.component('work-index', require('./components/work/index.vue').default);
 
+Vue.component('workout-table', require('./components/fitness/workouts/table.vue').default);
+Vue.component('workout-exercises-index', require('./components/fitness/workouts/exercises/index.vue').default);
+Vue.component('workout-exercises-sets-table', require('./components/fitness/workouts/exercises/sets/table.vue').default);
+
+
 // Widgets
 Vue.component('widget-health-sleep', require('./components/widgets/health/sleep.vue').default);
 Vue.component('widget-health-steps', require('./components/widgets/health/steps.vue').default);

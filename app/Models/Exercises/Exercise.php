@@ -3,11 +3,14 @@
 namespace App\Models\Exercises;
 
 use App\Models\Workouts\Set;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Exercise extends Model
 {
+    use HasFactory;
+
     protected $appends = [
         'path',
     ];

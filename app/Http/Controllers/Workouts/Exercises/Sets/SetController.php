@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Workouts;
+namespace App\Http\Controllers\Workouts\Exercises\Sets;
 
 use App\Http\Controllers\Controller;
+use App\Models\Workouts\Exercises\Exercise;
 use App\Models\Workouts\Set;
+use App\Models\Workouts\Workout;
 use Illuminate\Http\Request;
 
 class SetController extends Controller
@@ -12,7 +14,7 @@ class SetController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(Set::class, 'set');
+        // $this->authorizeResource(Set::class, 'set');
     }
 
     /**
@@ -20,7 +22,7 @@ class SetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, Workout $workout, Exercise $exercise)
     {
         if ($request->wantsJson()) {
             //
@@ -45,9 +47,30 @@ class SetController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Workout $workout, Exercise $exercise)
     {
-        //
+        $sets = $exercise->sets;
+
+        $attributes = [
+            'user_id' => $exercise->user_id,
+            'exercise_id' => $exercise->exercise_id,
+            'workout_id' => $workout->id,
+            'order' => ($sets->count() + 1),
+        ];
+
+        if ($sets->count()) {
+            $last_set = $sets->last();
+            $attributes['reps_count'] = $last_set->reps_count;
+            $attributes['weight_in_g'] = $last_set->weight_in_g;
+        }
+        else {
+            $attributes['reps_count'] = 1;
+            $attributes['weight_in_g'] = 0;
+        }
+
+        $set = $exercise->sets()->create($attributes);
+
+        return $set;
     }
 
     /**
@@ -56,7 +79,7 @@ class SetController extends Controller
      * @param  \App\Models\Workouts\Set  $set
      * @return \Illuminate\Http\Response
      */
-    public function show(Set $set)
+    public function show(Request $request, Workout $workout, Exercise $exercise, Set $set)
     {
         return view($this->baseViewPath . '.show')
             ->with('model', $set);
@@ -81,10 +104,11 @@ class SetController extends Controller
      * @param  \App\Models\Workouts\Set  $set
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Set $set)
+    public function update(Request $request, Workout $workout, Exercise $exercise, Set $set)
     {
         $attributes = $request->validate([
-
+            'weight_in_kg_formatted' => 'required|formatted_number',
+            'reps_count' => 'required|integer',
         ]);
 
         $set->update($attributes);
@@ -106,7 +130,7 @@ class SetController extends Controller
      * @param  \App\Models\Workouts\Set  $set
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Set $set)
+    public function destroy(Request $request, Workout $workout, Exercise $exercise, Set $set)
     {
         if ($isDeletable = $set->isDeletable()) {
             $set->delete();

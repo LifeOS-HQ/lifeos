@@ -1,25 +1,26 @@
 <?php
 
-namespace App\Models\Workouts;
+namespace App\Models\Workouts\Exercises;
 
+use App\Models\Workouts\Set;
 use App\Traits\BelongsToUser;
 use D15r\ModelLabels\Traits\HasLabels;
 use D15r\ModelPath\Traits\HasModelPath;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Arr;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Set extends Model
+class Exercise extends Model
 {
-    use BelongsToUser,
+    use HasFactory,
         HasLabels,
         HasModelPath;
 
-    const ROUTE_NAME = 'fitness.workouts.exercises.sets';
+    const ROUTE_NAME = 'fitness.workouts.exercises';
 
     protected $appends = [
-        'weight_in_kg',
-        'weight_in_kg_formatted',
+        'sets_index_path',
     ];
 
     protected $casts = [
@@ -32,16 +33,14 @@ class Set extends Model
 
     protected $fillable = [
         'user_id',
-        'workout_exercise_id',
         'exercise_id',
         'workout_id',
-        'weight_in_g',
-        'reps_count',
+        'goal_type',
+        'goal_target',
         'order',
-        'weight_in_kg_formatted',
     ];
 
-    public $table = 'workout_set';
+    public $table = 'workout_exercise';
 
     /**
      * The booting method of the model.
@@ -66,14 +65,21 @@ class Set extends Model
         {
             return true;
         });
+
+        static::deleting(function($model)
+        {
+            $model->sets()->delete();
+
+            return true;
+        });
     }
 
     protected static function labels() : array
     {
         return [
             'nominativ' => [
-                'singular' => 'Set',
-                'plural' => 'Sets',
+                'singular' => 'Übung',
+                'plural' => 'Übungen',
             ],
         ];
     }
@@ -93,38 +99,29 @@ class Set extends Model
         ];
     }
 
-    public function getWeightInKgAttribute() : float
+    public function getSetsIndexPathAttribute() : string
     {
-        return $this->attributes['weight_in_g'] / 1000;
-    }
-
-    public function getWeightInKgFormattedAttribute() : string
-    {
-        return number_format($this->weight_in_kg, 2, ',', '');
-    }
-
-    public function setWeightInKgFormattedAttribute(string $value) : void
-    {
-        $this->attributes['weight_in_g'] = str_replace(',', '.', $value) * 1000;
-        Arr::forget($this->attributes, 'weight_in_kg_formatted');
+        return route(Set::ROUTE_NAME . '.index', [
+            'workout' => $this->workout_id,
+            'exercise' => $this->id,
+        ]);
     }
 
     public function getRouteParameterAttribute() : array
     {
         return [
             'workout' => $this->workout_id,
-            'exercise' => $this->workout_exercise_id,
-            'set' => $this->id,
+            'exercise' => $this->id
         ];
     }
 
     public function exercise() : BelongsTo
     {
-        return $this->belongsTo(App\Models\Exercises\Exercise::class, 'exercise_id');
+        return $this->belongsTo(\App\Models\Exercises\Exercise::class, 'exercise_id');
     }
 
-    public function workout() : BelongsTo
+    public function sets() : HasMany
     {
-        return $this->belongsTo(App\Models\Workouts\Workout::class, 'workout_id');
+        return $this->hasMany(\App\Models\Workouts\Set::class, 'workout_exercise_id');
     }
 }

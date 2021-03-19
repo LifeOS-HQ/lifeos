@@ -4,14 +4,26 @@ namespace App\Models\Workouts;
 
 use App\Models\Exercises\Exercise;
 use App\Models\Workouts\History;
+use App\Traits\BelongsToUser;
+use D15r\ModelLabels\Traits\HasLabels;
+use D15r\ModelPath\Traits\HasModelPath;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Workout extends Model
 {
+    use BelongsToUser,
+        HasFactory,
+        HasLabels,
+        HasModelPath;
+
+    const ROUTE_NAME = 'fitness.workouts';
+
     protected $appends = [
-        'path',
+        //
     ];
 
     protected $casts = [
@@ -51,27 +63,31 @@ class Workout extends Model
         });
     }
 
+    protected static function labels() : array
+    {
+        return [
+            'nominativ' => [
+                'singular' => 'Trainingsplan',
+                'plural' => 'Trainingspläne',
+            ],
+        ];
+    }
+
     public function isDeletable() : bool
     {
         return true;
     }
 
-    public function getPathAttribute()
+    public function getRouteParameterAttribute() : array
     {
-        return route('workouts.show', [
+        return [
             'workout' => $this->id,
-        ]);
+        ];
     }
 
-    public function exercises() : BelongsToMany
+    public function exercises() : HasMany
     {
-        return $this->belongsToMany(Exercise::class, 'workout_exercise')
-            ->withTimestamps()
-            ->withPivot([
-                'order',
-                'goal_type',
-                'goal_target',
-            ]);
+        return $this->hasMany(\App\Models\Workouts\Exercises\Exercise::class, 'workout_id');
     }
 
     public function histories() : hasMany
@@ -82,5 +98,14 @@ class Workout extends Model
     public function sets() : HasMany
     {
         return $this->hasMany(Set::class, 'workout_id');
+    }
+
+    public function scopeSearch(Builder $query, $value) : Builder
+    {
+        if (empty($value)) {
+            return $query;
+        }
+
+        return $query->where('name', 'LIKE', '%' . $value . '%');
     }
 }

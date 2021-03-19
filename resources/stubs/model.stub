@@ -2,12 +2,21 @@
 
 namespace DummyNamespace;
 
+use D15r\ModelLabels\Traits\HasLabels;
+use D15r\ModelPath\Traits\HasModelPath;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class DummyClass extends Model
 {
+    use HasFactory,
+        HasLabels,
+        HasModelPath;
+
+    const ROUTE_NAME = '';
+
     protected $appends = [
-        'path',
+        //
     ];
 
     protected $casts = [
@@ -18,8 +27,8 @@ class DummyClass extends Model
         //
     ];
 
-    protected $guarded = [
-        'id',
+    protected $fillable = [
+        //
     ];
 
     /**
@@ -52,8 +61,13 @@ class DummyClass extends Model
         return true;
     }
 
-    public function getPathAttribute()
+    protected static function labels() : array
     {
-        return '/DummyModelVariable/' . $this->id;
+        return [
+            'nominativ' => [
+                'singular' => 'Singular',
+                'plural' => 'Plural',
+            ],
+        ];
     }
 }

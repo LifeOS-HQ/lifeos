@@ -1,19 +1,19 @@
 <?php
 
-namespace Database\Factories\Workouts;
+namespace Database\Factories\Exercises;
 
-use App\Models\Workouts\Workout;
+use App\Models\Exercises\Exercise;
 use App\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class WorkoutFactory extends Factory
+class ExerciseFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Workout::class;
+    protected $model = Exercise::class;
 
     /**
      * Define the model's default state.

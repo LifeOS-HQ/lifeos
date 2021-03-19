@@ -44,6 +44,9 @@ class Index extends Component
     public function getItems()
     {
         return $this->model->exercises()
+            ->with([
+                'exercise',
+            ])
             ->get();
     }
 
@@ -52,7 +55,7 @@ class Index extends Component
         $items = $this->getItems();
 
         return view('livewire.workouts.exercises.index')
-            ->with('exercises', auth()->user()->exercises()->whereNotIn('id', $items->pluck('id'))->orderBy('name')->get())
+            ->with('exercises', auth()->user()->exercises()->whereNotIn('id', $items->pluck('exercise.id'))->orderBy('name')->get())
             ->with('items', $items);
     }
 }

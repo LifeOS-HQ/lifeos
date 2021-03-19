@@ -29,28 +29,6 @@
 
         </template>
 
-        <table class="table table-fixed table-hover table-striped table-sm bg-white">
-
-            <tbody>
-                <tr>
-                    <td>Ø Zeit im Bett</td>
-                    <td>{{ table.time_in_bed_avg_formatted }} h</td>
-                </tr>
-                <tr>
-                    <td>Ø Schlaf</td>
-                    <td>{{ table.sleep_avg_formatted }} h</td>
-                </tr>
-                <tr>
-                    <td>Ø Eingeschlafen</td>
-                    <td>{{ table.sleep_start_avg_formatted }} Uhr</td>
-                </tr>
-                <tr>
-                    <td>Ø Aufgewacht</td>
-                    <td>{{ table.sleep_end_avg_formatted }} Uhr</td>
-                </tr>
-            </tbody>
-        </table>
-
     </widget-base>
 
 </template>

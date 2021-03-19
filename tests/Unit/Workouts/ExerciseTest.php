@@ -2,17 +2,30 @@
 
 namespace Tests\Unit\Workouts;
 
-use Tests\TestCase;
+use App\Models\Workouts\Exercises\Exercise;
+use Tests\Unit\TestCase;
 
 class ExerciseTest extends TestCase
 {
+    protected $class_name = Exercise::class;
+
     /**
-     * A basic unit test example.
-     *
-     * @return void
+     * @test
      */
-    public function testExample()
+    public function it_has_model_paths()
     {
-        $this->assertTrue(true);
+        $model = factory($this->class_name)->create();
+        $route_parameter = [
+            'item' => $model->id,
+        ];
+
+        $routes = [
+            'index_path' => strtok(route($this->class_name::ROUTE_NAME . '.index', $route_parameter), '?'),
+            'create_path' => strtok(route($this->class_name::ROUTE_NAME . '.create', $route_parameter), '?'),
+            'path' => route($this->class_name::ROUTE_NAME . '.show', $route_parameter),
+            'edit_path' => route($this->class_name::ROUTE_NAME . '.edit', $route_parameter),
+        ];
+
+        $this->testModelPaths($model, $routes);
     }
 }

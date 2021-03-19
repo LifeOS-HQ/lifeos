@@ -6,9 +6,7 @@
                 <select wire:model.defer="form.exercise_id" class="form-control @error('form.name') is-invalid @enderror" id="name" placeholder="Übung">
                     <option value="0">Übung wählen</option>
                     @foreach ($exercises as $exercise)
-                        @if (! $model->exercises->contains('id', $exercise->id))
-                            <option value="{{ $exercise->id }}">{{ $exercise->name }}</option>
-                        @endif
+                        <option value="{{ $exercise->id }}">{{ $exercise->name }}</option>
                     @endforeach
                 </select>
                 @error('form.name')
@@ -26,14 +24,14 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
-                        <h1 class="flex-grow-1">{{ $item->name }}</h1>
+                        <h1 class="flex-grow-1">{{ $item->exercise->name }}</h1>
                         <div>
                             <div class="btn-group btn-group-sm">
                                 <button class="btn btn-secondary btn-sm" title="Löschen" wire:click="destroy({{ $item->id }})"><i class="fas fa-fw fa-trash"></i></button>
                             </div>
                         </div>
                     </div>
-                    <h2>{{ $item->pivot->goal_type }}: {{ $item->pivot->goal_target }}</h2>
+                    <h2>{{ $item->goal_type }}: {{ $item->goal_target }}</h2>
                     @livewire('workouts.sets.index', ['exercise' => $item, 'workout' => $model])
                 </div>
             </div>

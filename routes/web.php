@@ -27,6 +27,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home/rentablo', 'Home\Rentablo\RentabloController@index')->name('home.rentablo.index');
     Route::get('/home/server', 'Home\Servers\StatusController@index')->name('home.server.index');
 
+    Route::get('/fitness', 'Fitness\FitnessController@index')->name('fitness.index');
+
     Route::resource(\App\Models\Activities\Activity::ROUTE_NAME, 'Activities\ActivityController');
     Route::resource('health', 'Health\HealthController');
 
@@ -75,7 +77,19 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('work/year', 'Work\YearController');
 
     Route::resource('workouts/exercises', 'Exercises\ExerciseController');
-    Route::resource('workouts', 'Workouts\WorkoutController');
+    Route::resource('/fitness/workouts', 'Workouts\WorkoutController', ['as' => 'fitness']);
+        Route::get('/fitness/workouts/{workout}/exercises', [\App\Http\Controllers\Workouts\Exercises\ExerciseController::class, 'index'])->name('fitness.workouts.exercises.index');
+        Route::post('/fitness/workouts/{workout}/exercises', [\App\Http\Controllers\Workouts\Exercises\ExerciseController::class, 'store'])->name('fitness.workouts.exercises.store');
+        Route::get('/fitness/workouts/{workout}/exercises/{exercise}', [\App\Http\Controllers\Workouts\Exercises\ExerciseController::class, 'show'])->name('fitness.workouts.exercises.show');
+        Route::put('/fitness/workouts/{workout}/exercises/{exercise}', [\App\Http\Controllers\Workouts\Exercises\ExerciseController::class, 'update '])->name('fitness.workouts.exercises.update');
+        Route::delete('/fitness/workouts/{workout}/exercises/{exercise}', [\App\Http\Controllers\Workouts\Exercises\ExerciseController::class, 'destroy'])->name('fitness.workouts.exercises.destroy');
+            Route::get('/fitness/workouts/{workout}/exercises/{exercise}/sets', [\App\Http\Controllers\Workouts\Exercises\Sets\SetController::class, 'index'])->name('fitness.workouts.exercises.sets.index');
+            Route::post('/fitness/workouts/{workout}/exercises/{exercise}/sets', [\App\Http\Controllers\Workouts\Exercises\Sets\SetController::class, 'store'])->name('fitness.workouts.exercises.sets.store');
+            Route::get('/fitness/workouts/{workout}/exercises/{exercise}/sets/{set}', [\App\Http\Controllers\Workouts\Exercises\Sets\SetController::class, 'show'])->name('fitness.workouts.exercises.sets.show');
+            Route::put('/fitness/workouts/{workout}/exercises/{exercise}/sets/{set}', [\App\Http\Controllers\Workouts\Exercises\Sets\SetController::class, 'update'])->name('fitness.workouts.exercises.sets.update');
+            Route::delete('/fitness/workouts/{workout}/exercises/{exercise}/sets/{set}', [\App\Http\Controllers\Workouts\Exercises\Sets\SetController::class, 'destroy'])->name('fitness.workouts.exercises.sets.destroy');
+
+
     Route::resource('workouts.histories', 'Workouts\HistoryController');
 
     // Widgets
