@@ -97,4 +97,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/widgets/health/steps', [\App\Http\Controllers\Widgets\Health\StepsController::class, 'index'])->name('widgets.health.steps.index');
     Route::get('/widgets/health/weight', [\App\Http\Controllers\Widgets\Health\WeightController::class, 'index'])->name('widgets.health.weight.index');
 
+    Route::get('/widgets/data/health/calories', [\App\Http\Controllers\Widgets\Data\Health\CaloriesController::class, 'index'])->name('widgets.data.health.calories.index');
+
 });

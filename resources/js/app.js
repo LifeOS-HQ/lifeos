@@ -95,6 +95,7 @@ Vue.component('workout-exercises-sets-table', require('./components/fitness/work
 Vue.component('widget-health-sleep', require('./components/widgets/health/sleep.vue').default);
 Vue.component('widget-health-steps', require('./components/widgets/health/steps.vue').default);
 Vue.component('widget-health-weight', require('./components/widgets/health/weight.vue').default);
+Vue.component('widget-health-calories-show', require('./components/widgets/health/calories/show.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
