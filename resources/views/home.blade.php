@@ -49,8 +49,6 @@
             <widget-health-weight></widget-health-weight>
             <widget-health-calories-show></widget-health-calories-show>
 
-            @livewire('home.health.calories')
-
             <!-- <home-server-index class="mt-3"></home-server-index> -->
 
         </div>
