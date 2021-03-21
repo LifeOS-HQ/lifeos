@@ -31,7 +31,7 @@ class SleepController extends Controller
                 'type' => 'column',
                 'yAxis' => 0,
             ])
-            ->build();
+            ->base()->get();
 
         $start = $chart->start_at();
 

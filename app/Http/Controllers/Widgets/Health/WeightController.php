@@ -50,7 +50,7 @@ class WeightController extends Controller
                 'yAxis' => 0,
                 'zIndex' => 4,
             ])
-            ->build();
+            ->base()->get();
 
         $start = $chart->start_at();
 

@@ -39,7 +39,7 @@ class CaloriesController extends Controller
                 ],
                 'yAxis' => 0,
             ])
-            ->build();
+            ->base()->get();
 
         $start = $chart->start_at();
 

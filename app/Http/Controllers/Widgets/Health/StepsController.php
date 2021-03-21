@@ -35,6 +35,6 @@ class StepsController extends Controller
                 'type' => 'column',
                 'yAxis' => 1,
             ])
-            ->build();
+            ->base()->get();
     }
 }

@@ -20,6 +20,26 @@ class Chart
     ];
 
     /**
+     * all days in the period used as categories for chart
+     * key: Y-m-d
+     * value: d.m.Y
+     * @var array
+     */
+    protected $days = [];
+
+    /**
+     * values per attribute and day
+     * @var array
+     */
+    protected $data = [];
+
+    /**
+     * Average per interval e.g. 1 day, week, month oder year
+     * @var array
+     */
+    protected $interval_avgs = [];
+
+    /**
      * avg of all attribute values
      * key is attribute slug
      * @var array
@@ -82,58 +102,18 @@ class Chart
         return $this;
     }
 
-    public function build() : array
+    public function base() : self
     {
-        $periods = new CarbonPeriod($this->start_at, '1 days', $this->end_at);
-        $carbon_period_intervals = new CarbonPeriod($this->start_at, '1 ' . $this->interval['unit'], $this->end_at);
-
-        $period_intervals = [];
-        foreach ($carbon_period_intervals as $key => $date) {
-            $period_intervals[] = $date->format('Y-m-d');
-        }
-
-        $attributes = [];
-        foreach ($this->slugs as $slug => $serie) {
-            $attributes[$slug] = Attribute::with([
-                'values' => function ($query) {
-                    return $query->where('user_id', $this->user->id)
-                        ->whereDate('at', '>=', $this->start_at);
-                },
-            ])->where('slug', $slug)
-            ->first();
-        }
-
-        $days = [];
-        $data = [];
-        $interval_length = 7;
-        $interval_avgs = [];
-        $interval_avgs_key = 0;
-        foreach ($periods as $key => $period) {
-            // dump($period->format('Y-m-d'), $period_intervals, in_array($period->format('Y-m-d'), $period_intervals));
-            if (in_array($period->format('Y-m-d'), $period_intervals)) {
-                $interval_avgs_key++;
-            }
-            $period->startOfDay();
-            $day_key = $period->format('Y-m-d');
-            $days[$day_key] = $period->format('d.m.Y'); // Categories
-            foreach ($attributes as $attribute) {
-                $value = $attribute->values->where('at', $period)->first();
-                $data[$attribute->slug][$day_key] = (is_null($value) ? 0 : $attribute->value($value->raw) ?? 0);
-                $interval_avgs[$attribute->slug]['slug'] = $attribute->slug;
-                $interval_avgs[$attribute->slug]['name'] = $attribute->name;
-                $interval_avgs[$attribute->slug]['intervals'][$interval_avgs_key]['date_formatted'] = $period->format('d.m.Y');
-                $interval_avgs[$attribute->slug]['intervals'][$interval_avgs_key]['values'][] = $data[$attribute->slug][$day_key];
-            }
-        }
+        $this->build();
 
         $series = [];
         $i = 0;
-        foreach ($attributes as $slug => $attribute) {
+        foreach ($this->attributes as $slug => $attribute) {
             $color = $attribute->color;
             $serie = array_merge([
                 'cursor' => 'pointer',
                 'name' => $attribute->name,
-                'data' => array_values($data[$attribute->slug]),
+                'data' => array_values($this->data[$attribute->slug]),
                 'color' => $color,
                 'custom' => [
                     'slug' => $slug,
@@ -144,15 +124,12 @@ class Chart
                 // ],
             ], $this->slugs[$slug]);
             $series[] = $serie;
-            $values_count = count($data[$attribute->slug]);
-            $values_avg_count = count(array_filter($data[$attribute->slug]));
-            $values_avg = ($values_avg_count == 0 ? 0 : array_sum($data[$attribute->slug]) / $values_avg_count);
-            $this->avgs[$attribute->slug] = $values_avg;
 
             if ($serie['type'] != 'line') {
+                $values_count = count($this->data[$attribute->slug]);
                 $series[] = [
                     'name' => 'Ø ' . $attribute->name,
-                    'data' => array_fill(0, $values_count, $values_avg),
+                    'data' => array_fill(0, $values_count, $this->avg($attribute->slug)),
                     'color' => $color,
                     'type' => 'line',
                     'yAxis' => $serie['yAxis'],
@@ -166,11 +143,115 @@ class Chart
                 ];
             }
 
+            $i++;
+        }
+
+        $this->chart_options = [
+            'chart' => [
+                'zoomType' => 'x',
+            ],
+            'xAxis' => [
+                'categories' => array_values($this->days),
+            ],
+            'plotOptions' => [
+                'column' => [
+                    'events' => [
+                        'click' => 'function (event) { }',
+                    ],
+                ],
+            ],
+            'series' => $series,
+            'title' => [
+                'text' => '',
+            ],
+            'yAxis' => $this->yAxis,
+        ];
+
+        return $this;
+    }
+
+    protected function setPeriods() : CarbonPeriod
+    {
+        $this->periods = new CarbonPeriod($this->start_at, '1 days', $this->end_at);
+
+        return $this->periods;
+    }
+
+    protected function setPriodIntervals() : array
+    {
+        $carbon_period_intervals = new CarbonPeriod($this->start_at, '1 ' . $this->interval['unit'], $this->end_at);
+
+        $this->period_intervals = [];
+        foreach ($carbon_period_intervals as $key => $date) {
+            $this->period_intervals[] = $date->format('Y-m-d');
+        }
+
+        return $this->period_intervals;
+    }
+
+    protected function setAttributes() : array
+    {
+        $this->attributes = [];
+
+        foreach ($this->slugs as $slug => $serie) {
+            $this->attributes[$slug] = Attribute::with([
+                'values' => function ($query) {
+                    return $query->where('user_id', $this->user->id)
+                        ->whereDate('at', '>=', $this->start_at);
+                },
+            ])->where('slug', $slug)
+            ->first();
+        }
+
+        return $this->attributes;
+    }
+
+    protected function setData() : void
+    {
+        $interval_avgs_key = 0;
+        foreach ($this->periods as $key => $period) {
+            if ($this->isNextPeriod($period)) {
+                $interval_avgs_key++;
+            }
+            $period->startOfDay();
+            $day_key = $period->format('Y-m-d');
+            $this->days[$day_key] = $period->format('d.m.Y'); // Categories
+            foreach ($this->attributes as $attribute) {
+                $value = $attribute->values->where('at', $period)->first();
+                $this->data[$attribute->slug][$day_key] = (is_null($value) ? 0 : $attribute->value($value->raw) ?? 0);
+                $this->interval_avgs[$attribute->slug]['slug'] = $attribute->slug;
+                $this->interval_avgs[$attribute->slug]['name'] = $attribute->name;
+                $this->interval_avgs[$attribute->slug]['intervals'][$interval_avgs_key]['date_formatted'] = $period->format('d.m.Y');
+                $this->interval_avgs[$attribute->slug]['intervals'][$interval_avgs_key]['values'][] = $this->data[$attribute->slug][$day_key];
+            }
+        }
+    }
+
+    protected function isNextPeriod(Carbon $periode) : bool
+    {
+        return (in_array($periode->format('Y-m-d'), $this->period_intervals));
+    }
+
+    public function build() : self
+    {
+        $this->setPeriods();
+        $this->setPriodIntervals();
+
+        $this->setAttributes();
+
+        $this->setData($this->attributes);
+
+        foreach ($this->attributes as $slug => $attribute) {
+
+            $values_avg_count = count(array_filter($this->data[$attribute->slug]));
+            $values_avg = ($values_avg_count == 0 ? 0 : array_sum($this->data[$attribute->slug]) / $values_avg_count);
+            $this->avgs[$attribute->slug] = $values_avg;
+
             $last_interval_avgs_key = 1;
-            foreach ($interval_avgs[$attribute->slug]['intervals'] as $interval_avgs_key => &$interval) {
+            foreach ($this->interval_avgs[$attribute->slug]['intervals'] as $interval_avgs_key => &$interval) {
                 $filtered_count = count(array_filter($interval['values']));
                 $interval['avg'] = ($filtered_count == 0 ? 0 : array_sum($interval['values']) / $filtered_count);
-                $interval['difference_absolute'] = round($interval['avg'] - $interval_avgs[$attribute->slug]['intervals'][$last_interval_avgs_key]['avg'], 2);
+                $interval['difference_absolute'] = round($interval['avg'] - $this->interval_avgs[$attribute->slug]['intervals'][$last_interval_avgs_key]['avg'], 2);
                 $interval['difference_percentage'] = ($interval['avg'] == 0 ? 0 : round($interval['difference_absolute'] / $interval['avg'], 2));
                 $interval['avg_formatted'] = number_format($interval['avg'], 2, ',', '.');
                 $interval['difference_absolute_formatted'] = number_format($interval['difference_absolute'], 2, ',', '.');
@@ -189,36 +270,19 @@ class Chart
                 }
                 $last_interval_avgs_key = $interval_avgs_key;
             }
-            $interval_avgs[$attribute->slug]['intervals'] = array_reverse($interval_avgs[$attribute->slug]['intervals']);
 
-            $i++;
+            $this->interval_avgs[$attribute->slug]['intervals'] = array_reverse($this->interval_avgs[$attribute->slug]['intervals']);
         }
 
-        $this->options = [
-            'chartOptions' => [
-                'chart' => [
-                    'zoomType' => 'x',
-                ],
-                'xAxis' => [
-                    'categories' => array_values($days),
-                ],
-                'plotOptions' => [
-                    'column' => [
-                        'events' => [
-                            'click' => 'function (event) { }',
-                        ],
-                    ],
-                ],
-                'series' => $series,
-                'title' => [
-                    'text' => '',
-                ],
-                'yAxis' => $this->yAxis,
-            ],
-            'interval_avgs' => $interval_avgs,
-        ];
+        return $this;
+    }
 
-        return $this->options;
+    public function get() : array
+    {
+        return [
+            'chartOptions' => $this->chart_options,
+            'interval_avgs' => $this->interval_avgs,
+        ];
     }
 
     public function options() : array
