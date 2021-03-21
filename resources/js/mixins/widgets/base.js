@@ -43,9 +43,16 @@ export const baseMixin = {
         fetched(response) {
             var component = this;
             component.chartOptions = response.data.chartOptions;
-            component.chartOptions.plotOptions.column.events.click = function (event) {
-                component.setAttribute(event.point.series.options.custom.slug);
-            };
+            if ('column' in component.chartOptions.plotOptions) {
+                component.chartOptions.plotOptions.column.events.click = function (event) {
+                    component.setAttribute(event.point.series.options.custom.slug);
+                };
+            }
+            else if ('pie' in component.chartOptions.plotOptions) {
+                component.chartOptions.plotOptions.pie.events.click = function (event) {
+                    component.setAttribute(event.point.slug);
+                };
+            }
             component.interval_avgs = response.data.interval_avgs;
             component.setAttribute(Object.keys(component.interval_avgs)[0]);
         },

@@ -48,6 +48,7 @@
 
             <widget-health-weight></widget-health-weight>
             <widget-health-calories-show></widget-health-calories-show>
+            <widget-health-macros-show></widget-health-macros-show>
 
             <!-- <home-server-index class="mt-3"></home-server-index> -->
 

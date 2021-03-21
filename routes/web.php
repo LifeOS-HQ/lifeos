@@ -110,5 +110,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/widgets/health/weight', [\App\Http\Controllers\Widgets\Health\WeightController::class, 'index'])->name('widgets.health.weight.index');
 
     Route::get('/widgets/data/health/calories', [\App\Http\Controllers\Widgets\Data\Health\CaloriesController::class, 'index'])->name('widgets.data.health.calories.index');
+    Route::get('/widgets/data/health/macros', [\App\Http\Controllers\Widgets\Data\Health\MacrosController::class, 'index'])->name('widgets.data.health.macros.index');
 
 });

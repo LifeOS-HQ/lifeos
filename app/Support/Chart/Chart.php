@@ -194,6 +194,7 @@ class Chart
                 'name' => $attribute->name,
                 'y' => $this->getPercentage($attribute, $avg),
                 'avg' => $avg,
+                'slug' => $attribute->slug,
             ];
         }
 
@@ -217,6 +218,9 @@ class Chart
                     'dataLabels' => [
                         'enabled' => true,
                         'format' => '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    ],
+                    'events' => [
+                        'click' => 'function (event) { }',
                     ],
                 ],
             ],

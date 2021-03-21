@@ -1,6 +1,6 @@
 <template>
 
-    <widget-base title="Kalorien" :chartOptions="chartOptions" :interval_avgs="interval_avgs" :attribute="attribute" :is-loading="isLoading" :filter="filter" @updatingAttribute="setAttribute($event)" @updatingFilter="updatingFilter($event)">
+    <widget-base title="Makros" :chartOptions="chartOptions" :interval_avgs="interval_avgs" :attribute="attribute" :is-loading="isLoading" :filter="filter" @updatingAttribute="setAttribute($event)" @updatingFilter="updatingFilter($event)">
 
     </widget-base>
 
@@ -14,7 +14,7 @@
     export default {
 
         components: {
-            widgetBase,
+            widgetBase
         },
 
         mixins: [
@@ -27,7 +27,7 @@
 
         data () {
             return {
-                indexPath: '/widgets/data/health/calories',
+                indexPath: '/widgets/data/health/macros',
             };
         },
 
