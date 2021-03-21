@@ -24,8 +24,15 @@ export const editableMixin = {
 
     methods: {
         destroy() {
-            axios.delete(this.item.path);
-            this.$emit('deleted', this.item.id);
+            var component = this;
+            axios.delete(component.item.path)
+                .then(function (response) {
+                    component.$emit("deleted", component.item);
+            })
+                .catch(function (error) {
+                    component.errors = error.response.data.errors;
+                    Vue.errorDelete(component.item);
+            });
         },
         error(name) {
             return (name in this.errors ? this.errors[name][0] : '');

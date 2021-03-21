@@ -13,6 +13,6 @@
         </div>
     </div>
 
-    @livewire('workouts.histories.index', ['model' => $model])
+    <workout-histories-table index-path="{{ \App\Models\Workouts\History::indexPath(['workout_id' => $model->id]) }}"></workout-histories-table>
 
 @endsection

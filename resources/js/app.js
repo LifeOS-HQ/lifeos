@@ -90,6 +90,7 @@ Vue.component('workout-table', require('./components/fitness/workouts/table.vue'
 Vue.component('workout-exercises-index', require('./components/fitness/workouts/exercises/index.vue').default);
 Vue.component('workout-exercises-sets-table', require('./components/fitness/workouts/exercises/sets/table.vue').default);
 
+Vue.component('workout-histories-table', require('./components/fitness/workouts/histories/table.vue').default);
 Vue.component('workout-histories-exercises-index', require('./components/fitness/workouts/histories/exercises/index.vue').default);
 
 

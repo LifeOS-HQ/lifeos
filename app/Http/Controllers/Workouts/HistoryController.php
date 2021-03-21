@@ -11,6 +11,12 @@ class HistoryController extends Controller
 {
     public function index(Request $request, Workout $workout)
     {
+        if ($request->wantsJson()) {
+            return $workout->histories()
+                ->orderBy('start_at', 'DESC')
+                ->paginate();
+        }
+
         $workout->load([
             // 'histories',
         ]);
@@ -44,6 +50,9 @@ class HistoryController extends Controller
             }
         }
 
+        if ($request->wantsJson()) {
+            return $workout_history;
+        }
 
         return redirect($workout_history->path);
     }

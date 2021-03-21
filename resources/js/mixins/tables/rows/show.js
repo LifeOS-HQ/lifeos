@@ -20,8 +20,15 @@ export const showMixin = {
 
     methods: {
         destroy() {
-            axios.delete(this.item.path);
-            this.$emit("deleted", this.item);
+            var component = this;
+            axios.delete(component.item.path)
+                .then(function (response) {
+                    component.$emit("deleted", component.item);
+            })
+                .catch(function (error) {
+                    component.errors = error.response.data.errors;
+                    Vue.errorDelete(component.item);
+            });
         },
         edit() {
             location.href = this.item.path + '/edit';

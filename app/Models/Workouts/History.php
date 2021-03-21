@@ -17,7 +17,7 @@ class History extends Model
     const ROUTE_NAME = 'fitness.workouts.histories';
 
     protected $appends = [
-        // 'path',
+        'start_at_formatted',
     ];
 
     protected $casts = [
@@ -62,6 +62,9 @@ class History extends Model
         static::deleting(function($model)
         {
             foreach($model->exercise_histories as $exercise_history) {
+                foreach ($exercise_history->sets as $key => $set) {
+                    $set->delete();
+                }
                 $exercise_history->delete();
             }
 
@@ -92,6 +95,11 @@ class History extends Model
             'index_path',
             'path',
         ];
+    }
+
+    public function getStartAtFormattedAttribute() : string
+    {
+        return $this->start_at->format('d.m.Y H:i');
     }
 
     public function getRouteParameterAttribute() : array
