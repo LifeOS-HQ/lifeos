@@ -13,10 +13,7 @@
                 <button class="btn btn-primary btn-sm" @click="create"><i class="fas fa-plus-square"></i></button>
             </div>
             <div class="col-auto d-flex">
-                <div class="form-group" style="margin-bottom: 0;">
-                    <filter-search v-model="filter.searchtext" @input="$emit('searching', filter.searchtext)"></filter-search>
-                </div>
-                <button class="btn btn-secondary btn-sm ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
+
             </div>
         </div>
 
@@ -27,13 +24,11 @@
 </template>
 
 <script>
-    import filterSearch from "../../../filter/search.vue";
     import show from './show.vue';
 
     export default {
 
         components: {
-            filterSearch,
             show,
         },
 

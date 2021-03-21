@@ -88,9 +88,21 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/fitness/workouts/{workout}/exercises/{exercise}/sets/{set}', [\App\Http\Controllers\Workouts\Exercises\Sets\SetController::class, 'show'])->name('fitness.workouts.exercises.sets.show');
             Route::put('/fitness/workouts/{workout}/exercises/{exercise}/sets/{set}', [\App\Http\Controllers\Workouts\Exercises\Sets\SetController::class, 'update'])->name('fitness.workouts.exercises.sets.update');
             Route::delete('/fitness/workouts/{workout}/exercises/{exercise}/sets/{set}', [\App\Http\Controllers\Workouts\Exercises\Sets\SetController::class, 'destroy'])->name('fitness.workouts.exercises.sets.destroy');
-
-
-    Route::resource('workouts.histories', 'Workouts\HistoryController');
+        Route::get('/fitness/workouts/{workout}/histories', [\App\Http\Controllers\Workouts\HistoryController::class, 'index'])->name('fitness.workouts.histories.index');
+        Route::post('/fitness/workouts/{workout}/histories', [\App\Http\Controllers\Workouts\HistoryController::class, 'store'])->name('fitness.workouts.histories.store');
+        Route::get('/fitness/workouts/{workout}/histories/{history}', [\App\Http\Controllers\Workouts\HistoryController::class, 'show'])->name('fitness.workouts.histories.show');
+        Route::put('/fitness/workouts/{workout}/histories/{history}', [\App\Http\Controllers\Workouts\HistoryController::class, 'update '])->name('fitness.workouts.histories.update');
+        Route::delete('/fitness/workouts/{workout}/histories/{history}', [\App\Http\Controllers\Workouts\HistoryController::class, 'destroy'])->name('fitness.workouts.histories.destroy');
+            Route::get('/fitness/workouts/histories/{history}/exercises', [\App\Http\Controllers\Workouts\Exercises\HistoryController::class, 'index'])->name('fitness.workouts.histories.exercises.index');
+            Route::post('/fitness/workouts/histories/{history}/exercises', [\App\Http\Controllers\Workouts\Exercises\HistoryController::class, 'store'])->name('fitness.workouts.histories.exercises.store');
+            Route::get('/fitness/workouts/histories/{history}/exercises/{exercise_history}', [\App\Http\Controllers\Workouts\Exercises\HistoryController::class, 'show'])->name('fitness.workouts.histories.exercises.show');
+            Route::put('/fitness/workouts/histories/{history}/exercises/{exercise_history}', [\App\Http\Controllers\Workouts\Exercises\HistoryController::class, 'update '])->name('fitness.workouts.histories.exercises.update');
+            Route::delete('/fitness/workouts/histories/{history}/exercises/{exercise_history}', [\App\Http\Controllers\Workouts\Exercises\HistoryController::class, 'destroy'])->name('fitness.workouts.histories.exercises.destroy');
+                Route::get('/fitness/workouts/histories/{history}/exercises/{exercise_history}/sets', [\App\Http\Controllers\Workouts\Exercises\Sets\HistoryController::class, 'index'])->name('fitness.workouts.histories.exercises.sets.index');
+                Route::post('/fitness/workouts/histories/{history}/exercises/{exercise_history}/sets', [\App\Http\Controllers\Workouts\Exercises\Sets\HistoryController::class, 'store'])->name('fitness.workouts.histories.exercises.sets.store');
+                Route::get('/fitness/workouts/histories/{history}/exercises/{exercise_history}/sets/{set_history}', [\App\Http\Controllers\Workouts\Exercises\Sets\HistoryController::class, 'show'])->name('fitness.workouts.histories.exercises.sets.show');
+                Route::put('/fitness/workouts/histories/{history}/exercises/{exercise_history}/sets/{set_history}', [\App\Http\Controllers\Workouts\Exercises\Sets\HistoryController::class, 'update'])->name('fitness.workouts.histories.exercises.sets.update');
+                Route::delete('/fitness/workouts/histories/{history}/exercises/{exercise_history}/sets/{set_history}', [\App\Http\Controllers\Workouts\Exercises\Sets\HistoryController::class, 'destroy'])->name('fitness.workouts.histories.exercises.sets.destroy');
 
     // Widgets
     Route::get('/widgets/health/sleep', [\App\Http\Controllers\Widgets\Health\SleepController::class, 'index'])->name('widgets.health.sleep.index');

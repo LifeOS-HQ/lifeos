@@ -52,7 +52,7 @@ class ExerciseController extends Controller
             'exercise_id' => 'required',
         ]);
 
-        $exercise = $workout->exercises()->create([
+        $workout_exercise = $workout->exercises()->create([
             'exercise_id' => $attributes['exercise_id'],
             'user_id' => $workout->user_id,
             'goal_type' => 'reps_count',
@@ -60,16 +60,16 @@ class ExerciseController extends Controller
             'order' => ($workout->exercises()->count() + 1),
         ]);
 
-        $exercise->sets()->create([
-            'user_id' => $exercise->user_id,
-            'exercise_id' => $exercise->exercise_id,
-            'workout_id' => $workout->id,
-            'order' => 1,
-            'reps_count' => 1,
-            'weight_in_g' => 0,
-        ]);
+        // $workout_exercise->sets()->create([
+        //     'user_id' => $workout_exercise->user_id,
+        //     'exercise_id' => $workout_exercise->exercise_id,
+        //     'workout_id' => $workout->id,
+        //     'order' => 1,
+        //     'reps_count' => 1,
+        //     'weight_in_g' => 0,
+        // ]);
 
-        return $exercise->load([
+        return $workout_exercise->load([
             'exercise',
             'sets',
         ]);

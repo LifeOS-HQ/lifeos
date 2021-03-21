@@ -29,7 +29,7 @@
 
 <script>
     import row from "./row.vue";
-    import tableBase from '../../../../tables/base.vue';
+    import tableBase from '../../../../../tables/base.vue';
 
     export default {
 

@@ -61,6 +61,15 @@ class Workout extends Model
         {
             return true;
         });
+
+        static::deleting(function($model)
+        {
+            $model->exercises()->delete();
+            $model->histories()->delete();
+            $model->sets()->delete();
+
+            return true;
+        });
     }
 
     protected static function labels() : array

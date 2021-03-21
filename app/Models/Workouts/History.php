@@ -2,11 +2,20 @@
 
 namespace App\Models\Workouts;
 
+use App\Traits\BelongsToUser;
+use D15r\ModelLabels\Traits\HasLabels;
+use D15r\ModelPath\Traits\HasModelPath;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class History extends Model
 {
+    use BelongsToUser,
+        HasLabels,
+        HasModelPath;
+
+    const ROUTE_NAME = 'fitness.workouts.histories';
+
     protected $appends = [
         // 'path',
     ];
@@ -49,6 +58,25 @@ class History extends Model
         {
             return true;
         });
+
+        static::deleting(function($model)
+        {
+            foreach($model->exercise_histories as $exercise_history) {
+                $exercise_history->delete();
+            }
+
+            return true;
+        });
+    }
+
+    protected static function labels() : array
+    {
+        return [
+            'nominativ' => [
+                'singular' => 'Training',
+                'plural' => 'Trainings',
+            ],
+        ];
     }
 
     public function isDeletable() : bool
@@ -56,12 +84,22 @@ class History extends Model
         return true;
     }
 
-    public function getPathAttribute()
+    protected function getAvailablePaths() : array
     {
-        return route('workouts.histories.show', [
+        return [
+            // 'create_path',
+            // 'edit_path',
+            'index_path',
+            'path',
+        ];
+    }
+
+    public function getRouteParameterAttribute() : array
+    {
+        return [
             'workout' => $this->workout_id,
             'history' => $this->id,
-        ]);
+        ];
     }
 
     public function exercise_histories() : HasMany

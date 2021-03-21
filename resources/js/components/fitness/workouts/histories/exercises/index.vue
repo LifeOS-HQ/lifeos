@@ -1,41 +1,35 @@
 <template>
 
-    <table-base :is-loading="false" :items-length="items.length" :has-filter="false" @creating="create">
+    <div>
 
-        <template v-slot:form>
+        <div class="row mb-3">
+            <div class="col d-flex align-items-start mb-1 mb-sm-0">
+                <div class="form-group mb-0 mr-1">
+                    <select class="form-control form-control-sm" v-model="form.exercise_id">
+                        <option :value="0">Übung wählen</option>
+                        <option :value="exercise.id" v-for="(exercise, index) in exercises">{{ exercise.name }}</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary btn-sm" @click="create"><i class="fas fa-plus-square"></i></button>
+            </div>
+            <div class="col-auto d-flex">
 
-        </template>
+            </div>
+        </div>
 
-        <template v-slot:filter>
+        <show :item="item" :key="item.id" v-for="(item, index) in items" @deleted="deleted(index)" @updated="updated(index, $event)"></show>
 
-        </template>
-
-        <template v-slot:thead>
-            <tr>
-                <th class="">#</th>
-                <th class="">Gewicht</th>
-                <th class="">Wiederholungen</th>
-                <th class="text-right d-none d-sm-table-cell w-action">Aktion</th>
-            </tr>
-        </template>
-
-        <template v-slot:tbody>
-            <row :item="item" :index="index" :key="item.id" v-for="(item, index) in items" @deleted="deleted(index)" @updated="updated(index, $event)"></row>
-        </template>
-
-    </table-base>
+    </div>
 
 </template>
 
 <script>
-    import row from "./row.vue";
-    import tableBase from '../../../../tables/base.vue';
+    import show from './show.vue';
 
     export default {
 
         components: {
-            row,
-            tableBase,
+            show,
         },
 
         mixins: [
@@ -43,6 +37,10 @@
         ],
 
         props: {
+            exercises: {
+                required: true,
+                type: Array,
+            },
             indexPath: {
                 type: String,
                 required: true,
@@ -53,20 +51,27 @@
             },
         },
 
-        data () {
-            return {
-                items: this.model.sets,
-            };
-        },
-
         computed: {
             //
+        },
+
+        data () {
+            return {
+                filter: {
+                    show: false,
+                    searchtext: '',
+                },
+                form: {
+                    exercise_id: 0,
+                },
+                items: this.model.exercise_histories,
+            };
         },
 
         methods: {
             create() {
                 var component = this;
-                axios.post(this.indexPath, component.form)
+                axios.post(component.indexPath, component.form)
                     .then(function (response) {
                         component.resetForm();
                         component.created(response.data);
@@ -85,9 +90,7 @@
             },
             resetForm() {
                 this.resetErrors();
-                for (var index in this.form) {
-                    this.form[index] = '';
-                }
+                this.form.exercise_id = 0;
             },
             error(name) {
                 return (name in this.errors ? this.errors[name][0] : '');

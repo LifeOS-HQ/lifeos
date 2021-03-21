@@ -4,14 +4,20 @@
 
     <div class="row align-items-center mb-3">
         <div class="col">
-            <h1 class="col mb-0">Training > {{ $model->name }}</h1>
+            <h1 class="col mb-0 pl-0">Training > {{ $model->name }}</h1>
         </div>
         <div id="buttons" class="col-auto d-flex align-items-center justify-content-around">
-            <a class="btn btn-secondary btn-sm ml-1" href="{{ route('workouts.histories.index', ['workout' => $model->id]) }}">Tagebuch</a>
-            <form action="{{ route('workouts.histories.store', ['workout' => $model]) }}" class="ml-1" method="POST">
+            <a class="btn btn-secondary btn-sm ml-1" href="{{ \App\Models\Workouts\History::indexPath(['workout_id' => $model->id]) }}">Tagebuch</a>
+            <form action="{{ \App\Models\Workouts\History::indexPath(['workout_id' => $model->id]) }}" class="ml-1" method="POST">
                 @csrf
 
                 <button type="submit" class="btn btn-success btn-sm">Starten</button>
+            </form>
+            <form action="{{ $model->path }}" class="ml-1" method="POST">
+                @csrf
+                @method('DELETE')
+
+                <button type="submit" class="btn btn-danger btn-sm">Löschen</button>
             </form>
         </div>
     </div>
