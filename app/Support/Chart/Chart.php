@@ -170,6 +170,78 @@ class Chart
         return $this;
     }
 
+    public function pie(array $chart_options = []) : self
+    {
+        $this->build();
+
+        $nutrients = Attribute::with([
+                'values' => function ($query) {
+                    return $query->where('user_id', auth()->user()->id)
+                        ->latest('at')
+                        ->take(30);
+                },
+            ])->whereIn('slug', [
+                'carbohydrates',
+                'fat',
+                'protein',
+            ])->get();
+
+        $data = [];
+        foreach ($this->attributes as $attribute) {
+            $avg = $this->avg($attribute->slug);
+
+            $data[] = [
+                'name' => $attribute->name,
+                'y' => $this->getPercentage($attribute, $avg),
+                'avg' => $avg,
+            ];
+        }
+
+        $this->chart_options = array_merge([
+            'chart' => [
+                'type' => 'pie',
+            ],
+            'title' => [
+                'text' => 'Titel'
+            ],
+            'series' => [
+                0 => [
+                    'name' => 'Serie',
+                    'data' => [],
+                ],
+            ],
+            'plotOptions' => [
+                'pie' => [
+                    'allowPointSelect' => true,
+                    'cursor' => 'pointer',
+                    'dataLabels' => [
+                        'enabled' => true,
+                        'format' => '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    ],
+                ],
+            ],
+            'tooltip' => [
+                'pointFormat' => '{series.name}: <b>{point.avg:.1f}</b>',
+            ],
+        ], $chart_options);
+
+        $this->chart_options['series'][0]['data'] = $data;
+
+        return $this;
+    }
+
+    protected function getPercentage(Attribute $attribute, $avg)
+    {
+        if (! Arr::has($this->slugs[$attribute->slug], 'percentage_callback')) {
+            return $avg;
+        }
+
+        $percentage = $this->slugs[$attribute->slug]['percentage_callback']($attribute, $avg);
+        Arr::forget($this->slugs[$attribute->slug], 'percentage_callback');
+
+        return $percentage;
+    }
+
     protected function setPeriods() : CarbonPeriod
     {
         $this->periods = new CarbonPeriod($this->start_at, '1 days', $this->end_at);
