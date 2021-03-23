@@ -48,7 +48,7 @@
 
             <widget-health-weight></widget-health-weight>
             <widget-health-calories-show></widget-health-calories-show>
-            <widget-health-macros-show></widget-health-macros-show>
+            <widget-time-show></widget-time-show>
 
             <!-- <home-server-index class="mt-3"></home-server-index> -->
 
@@ -57,6 +57,7 @@
         <div class="col-12 col-lg-6">
 
             <home-rentablo-index class="mt-3"></home-rentablo-index>
+            <widget-health-macros-show></widget-health-macros-show>
 
         </div>
 

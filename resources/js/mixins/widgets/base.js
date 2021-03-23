@@ -57,7 +57,9 @@ export const baseMixin = {
             component.setAttribute(Object.keys(component.interval_avgs)[0]);
         },
         setAttribute(slug) {
-            this.attribute = this.interval_avgs[slug];
+            if (slug in this.interval_avgs) {
+                this.attribute = this.interval_avgs[slug];
+            }
         },
         updatingFilter({key, value}) {
             Vue.set(this.filter, key, value);

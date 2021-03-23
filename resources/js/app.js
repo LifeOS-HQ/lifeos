@@ -100,6 +100,7 @@ Vue.component('widget-health-steps', require('./components/widgets/health/steps.
 Vue.component('widget-health-weight', require('./components/widgets/health/weight.vue').default);
 Vue.component('widget-health-calories-show', require('./components/widgets/health/calories/show.vue').default);
 Vue.component('widget-health-macros-show', require('./components/widgets/health/macros/show.vue').default);
+Vue.component('widget-time-show', require('./components/widgets/time/show.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

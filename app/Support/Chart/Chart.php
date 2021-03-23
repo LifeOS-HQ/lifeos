@@ -20,6 +20,12 @@ class Chart
     ];
 
     /**
+     * Attributes for data
+     * @var array
+     */
+    protected $attributes = [];
+
+    /**
      * all days in the period used as categories for chart
      * key: Y-m-d
      * value: d.m.Y
@@ -84,6 +90,13 @@ class Chart
     public function forUser(User $user) : self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function addAttribute(Attribute $attribute) : self
+    {
+        $this->attributes[$attribute->slug] = $attribute;
 
         return $this;
     }
@@ -236,6 +249,10 @@ class Chart
 
     protected function getPercentage(Attribute $attribute, $avg)
     {
+        if (! Arr::has($this->slugs, $attribute->slug)) {
+            return $avg;
+        }
+
         if (! Arr::has($this->slugs[$attribute->slug], 'percentage_callback')) {
             return $avg;
         }
@@ -253,7 +270,7 @@ class Chart
         return $this->periods;
     }
 
-    protected function setPriodIntervals() : array
+    protected function setPeriodIntervals() : array
     {
         $carbon_period_intervals = new CarbonPeriod($this->start_at, '1 ' . $this->interval['unit'], $this->end_at);
 
@@ -267,8 +284,6 @@ class Chart
 
     protected function setAttributes() : array
     {
-        $this->attributes = [];
-
         foreach ($this->slugs as $slug => $serie) {
             $this->attributes[$slug] = Attribute::with([
                 'values' => function ($query) {
@@ -303,7 +318,7 @@ class Chart
         }
     }
 
-    protected function isNextPeriod(Carbon $periode) : bool
+    public function isNextPeriod(Carbon $periode) : bool
     {
         return (in_array($periode->format('Y-m-d'), $this->period_intervals));
     }
@@ -311,7 +326,7 @@ class Chart
     public function build() : self
     {
         $this->setPeriods();
-        $this->setPriodIntervals();
+        $this->setPeriodIntervals();
 
         $this->setAttributes();
 
@@ -369,6 +384,11 @@ class Chart
     public function start_at() : Carbon
     {
         return $this->start_at;
+    }
+
+    public function periods() : CarbonPeriod
+    {
+        return $this->periods;
     }
 
     public function avg(string $slug)

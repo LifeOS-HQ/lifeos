@@ -95,6 +95,8 @@ class Attribute extends Model
                 break;
             case 'sleep':
             case 'time_in_bed':
+            case 'workouts_min':
+            case 'working_min':
                 return $this->minToHour($raw);
                 break;
             case 'sleep_start':
