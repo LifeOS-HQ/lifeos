@@ -8,11 +8,11 @@
         <a href="#" class="btn btn-secondary btn-sm">Tagebuch</a>
     </div>
 
-    Widgets:
-    anstehende Trainings
-    absolvierte Training
-    Anzahl trainings
-    Aktivitätskalorien
+    <h2>Widgets</h2>
+    <div>anstehende Trainings</div>
+    <div>absolvierte Training</div>
+    <div>Anzahl trainings</div>
+    <div>Aktivitätskalorien</div>
 
 
 @endsection

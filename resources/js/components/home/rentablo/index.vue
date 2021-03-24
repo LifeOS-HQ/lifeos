@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-header d-flex justify-content-between">
             <div>Rentablo</div>
             <div><i class="fas fa-sync pointer" @click="refresh"></i></div>

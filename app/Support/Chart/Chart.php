@@ -40,6 +40,12 @@ class Chart
     protected $data = [];
 
     /**
+     * Stores callbaks for events
+     * @var array
+     */
+    protected $events = [];
+
+    /**
      * Average per interval e.g. 1 day, week, month oder year
      * @var array
      */
@@ -97,6 +103,13 @@ class Chart
     public function addAttribute(Attribute $attribute) : self
     {
         $this->attributes[$attribute->slug] = $attribute;
+
+        return $this;
+    }
+
+    public function addEvent(string $event, Callable $callback) : self
+    {
+        $this->events[$event][] = $callback;
 
         return $this;
     }
@@ -294,6 +307,12 @@ class Chart
             ->first();
         }
 
+        if (Arr::has($this->events, 'settedAttributes')) {
+            foreach ($this->events['settedAttributes'] as $key => $callback) {
+                $callback($this);
+            }
+        }
+
         return $this->attributes;
     }
 
@@ -374,6 +393,11 @@ class Chart
             'chartOptions' => $this->chart_options,
             'interval_avgs' => $this->interval_avgs,
         ];
+    }
+
+    public function attributes() : array
+    {
+        return $this->attributes;
     }
 
     public function options() : array

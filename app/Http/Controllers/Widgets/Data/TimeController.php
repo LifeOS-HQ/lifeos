@@ -24,6 +24,33 @@ class TimeController extends Controller
         $chart->forUser($user)
             ->startFrom($request->input('interval_unit'), $request->input('interval_count'));
 
+        $chart->addEvent('settedAttributes', function (Chart $chart) {
+            $leisure_min_attribute = new Attribute([
+                'name' => 'Leisure',
+                'slug' => 'leisure_min',
+            ]);
+            $leisure_min_attribute->values = new Collection();
+
+            $minutes_in_day = (24 * 60);
+            foreach ($chart->periods() as $key => $period) {
+                $period = $period->startOfDay();
+                $leisure_min_value = new Value([
+                    'at' => $period,
+                    'raw' => $minutes_in_day,
+                ]);
+                foreach ($chart->attributes() as $slug => $attribute) {
+                    $value = $attribute->values->where('at', $period)->first();
+                    $leisure_min_value->raw -= (is_null($value) ? 0 : ($value->raw ?? 0));
+                }
+                if ($leisure_min_value->raw == $minutes_in_day) {
+                    $leisure_min_value->raw = 0;
+                }
+                $leisure_min_attribute->values->push($leisure_min_value);
+            }
+
+            $chart->addAttribute($leisure_min_attribute);
+        });
+
         $working_times = Time::where('user_id', $user->id)
             ->whereDate('start_at', '>=', $chart->start_at())
             ->get();
@@ -74,20 +101,6 @@ class TimeController extends Controller
         $options = $chart->addSlug('time_in_bed', [])
             ->addSlug('workouts_min', [])
             ->pie($makros_chart)->get();
-
-        $hours_in_day = 24;
-        $hours_sum = 0;
-        foreach ($options['chartOptions']['series'][0]['data'] as $key => $data) {
-            $hours_sum += $data['y'];
-        }
-
-        $leisure_h = ($hours_in_day - $hours_sum);
-        $options['chartOptions']['series'][0]['data'][] = [
-            'name' => 'Leisure',
-            'y' => $leisure_h,
-            'avg' => $leisure_h,
-            'slug' => '',
-        ];
 
         return $options;
     }
