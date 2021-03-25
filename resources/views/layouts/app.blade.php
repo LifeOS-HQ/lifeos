@@ -7,7 +7,7 @@
     <div class="wrapper" id="app">
         <nav id="nav" style="">
             <div class="navbar">
-                <a class="navbar-brand" href="/">LifeOS</a>
+                <a class="navbar-brand" href="/home">LifeOS</a>
             </div>
             <ul class="col">
                 <a href="{{ \App\Models\Activities\Activity::indexPath() }}"><li>{{ \App\Models\Activities\Activity::label() }}</li></a>

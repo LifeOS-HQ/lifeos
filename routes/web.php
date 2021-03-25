@@ -15,13 +15,16 @@ Route::get('/test', function () {
     return 'test';
 });
 
+Route::get('/', function () {
+    return view('marketing.landing');
+});
+
 Route::post('deploy', 'DeploymentController@store');
 
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/', 'HomeController@index');
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/home/work', 'Home\Work\WorkController@show')->name('home.work.show');
     Route::get('/home/rentablo', 'Home\Rentablo\RentabloController@index')->name('home.rentablo.index');
