@@ -1,20 +1,23 @@
 @extends('layouts.guest')
 
 @section('content')
-        <div class="jumbotron mb-0">
-            <div class="container">
-                <h1 class="display-4">Das Betriebssystem für dein Leben!</h1>
-                <p class="lead">Tools für jeden Lebensbereich.</p>
-                <hr class="my-4">
-                <p>
-                    Ich versuche ständig mein Leben zu verbessern.
-                    LifeOS dient mir dabei als Werkzeug, um das umzusetzen.
-                    <a href="https://danielsundermeier.gitbook.io/knowledge/leben/leben" target="_blank">Hier</a> schreibe ich meine Gedanken auf.
-                    Die Notizen sind die Grundlage für diese Tools.
-                </p>
-                <a class="btn btn-primary btn-lg" href="{{ route('register')}}" role="button">Jetzt Beta-Tester werden</a>
+    <div class="jumbotron mb-0">
+        <div class="container">
+            <h1 class="display-4">Das Betriebssystem für dein Leben!</h1>
+            <p class="lead">Tools für jeden Lebensbereich.</p>
+            <hr class="my-4">
+            <p>
+                Ich versuche ständig mein Leben zu verbessern.
+                LifeOS dient mir dabei als Werkzeug, um das umzusetzen.
+                <a href="https://danielsundermeier.gitbook.io/knowledge/leben/leben" target="_blank">Hier</a> schreibe ich meine Gedanken auf.
+                Die Notizen sind die Grundlage für diese Tools.
+            </p>
+            <a class="btn btn-primary btn-lg" href="{{ route('register')}}" role="button">Jetzt Beta-Tester werden</a>
+            <div>
+                <img class="img-fluid img-rounded mt-3" src="{{ Storage::disk('public')->url('landingpage/home.png') }}">
             </div>
         </div>
+    </div>
 
     <section class="bg-dark text-white py-5">
 
@@ -26,7 +29,7 @@
 
                     <h2>Arbeit</h2>
                     <h3>Arbeitszeit</h3>
-                    <p>Tracke deine Arbeitszeit und werte die Daten aus. Wie viele Tage habe ich gearbeitet, wie viele Stunden arebite ich pro Tag.</p>
+                    <p>Tracke deine Arbeitszeit und werte die Daten aus. Wie viele Tage habe ich gearbeitet, wie viele Stunden arbeite ich pro Tag.</p>
                     <h3>Lohn</h3>
                     <p>Übersicht über deinen Brutto- und Nettolohn.</p>
 
