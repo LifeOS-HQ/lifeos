@@ -10,9 +10,9 @@
                 Ich versuche ständig mein Leben zu verbessern.
                 LifeOS dient mir dabei als Werkzeug, um das umzusetzen.
                 <a href="https://danielsundermeier.gitbook.io/knowledge/leben/leben" target="_blank">Hier</a> schreibe ich meine Gedanken auf.
-                Die Notizen sind die Grundlage für diese Tools.
+                Diese Tools sind das Ergebnis. Sie helfen mir dabei meine Ziele zu erreichen.
             </p>
-            <a class="btn btn-primary btn-lg" href="{{ route('register')}}" role="button">Jetzt Beta-Tester werden</a>
+            <a class="btn btn-primary btn-lg" href="{{ route('register')}}" role="button">Jetzt Alpha-Tester werden</a>
             <div>
                 <img class="img-fluid img-rounded mt-3" src="{{ Storage::disk('public')->url('landingpage/home.png') }}">
             </div>
