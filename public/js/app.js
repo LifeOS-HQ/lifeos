@@ -55427,7 +55427,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("widget-base", {
     attrs: {
-      title: "Makros",
+      title: "Zeit",
       chartOptions: _vm.chartOptions,
       interval_avgs: _vm.interval_avgs,
       attribute: _vm.attribute,
