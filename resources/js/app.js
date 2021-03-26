@@ -69,6 +69,8 @@ Vue.component('home-server-index', require('./components/home/server/index.vue')
 
 Vue.component('activity-table', require('./components/activity/table.vue').default);
 
+Vue.component('blog-post-table', require('./components/blog/post/table.vue').default);
+
 Vue.component('journal-index', require('./components/journal/index.vue').default);
 Vue.component('journal-gratitude-table', require('./components/journal/gratitude/table.vue').default);
 

@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/test', function () {
-    return 'test';
-});
-
 Route::get('/', function () {
     return view('marketing.landing');
 });
@@ -22,6 +18,14 @@ Route::get('/', function () {
 Route::post('deploy', 'DeploymentController@store');
 
 Auth::routes();
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource('/blog/posts', '\App\Http\Controllers\Blog\Posts\PostController', ['as' => 'blog']);
+    Route::post('/blog/posts/{post}/publish', [\App\Http\Controllers\Blog\Posts\PublishController::class, 'store'])->name('blog.posts.publish.store');
+});
+
+Route::get('/blog', [\App\Http\Controllers\Blog\BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{post:slug}', [\App\Http\Controllers\Blog\BlogController::class, 'show'])->name('blog.show');
 
 Route::middleware(['auth'])->group(function () {
 
