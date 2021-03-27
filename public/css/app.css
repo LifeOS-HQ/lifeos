@@ -17473,3 +17473,7 @@ header h1 {
   background-color: #064E3B;
 }
 
+.blog-post img {
+  max-width: 100%;
+}
+

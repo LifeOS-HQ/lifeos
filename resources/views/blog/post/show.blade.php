@@ -29,7 +29,7 @@
 
     <div class="card">
         <div class="card-header">{{ $model->title }}</div>
-        <div class="card-body">{!! $model->body_markdown !!}</div>
+        <div class="card-body blog-post">{!! $model->body_markdown !!}</div>
     </div>
 
 @endsection
