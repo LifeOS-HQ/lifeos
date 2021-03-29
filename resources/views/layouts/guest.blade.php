@@ -79,6 +79,16 @@
             @yield('content')
         </main>
 
+        <footer class="bg-dark mt-3">
+            <div class="container p-3">
+                <ul class="nav mt-0">
+                    <li class="nav-item"><a class="nav-link text-white-50" href="{{ route('blog.index') }}">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link text-white-50" href="{{ route('contact.index') }}">Kontakt</a></li>
+                    <li class="nav-item"><a class="nav-link text-white-50" href="{{ route('impressum.index') }}">Impressum</a></li>
+                </ul>
+            </div>
+        </footer>
+
         <flash-message :initial-message="{{ session()->has('status') ? json_encode(session('status')) : 'null' }}"></flash-message>
     </div>
 </body>

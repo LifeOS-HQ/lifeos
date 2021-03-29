@@ -24,6 +24,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/blog/posts/{post}/publish', [\App\Http\Controllers\Blog\Posts\PublishController::class, 'store'])->name('blog.posts.publish.store');
 });
 
+Route::get('/impressum', [\App\Http\Controllers\ImpressumController::class, 'index'])->name('impressum.index');
+Route::get('/contact', [\App\Http\Controllers\ContactController::class, 'index'])->name('contact.index');
+Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
+
 Route::get('/blog', [\App\Http\Controllers\Blog\BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{post:slug}', [\App\Http\Controllers\Blog\BlogController::class, 'show'])->name('blog.show');
 
