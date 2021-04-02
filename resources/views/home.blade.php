@@ -44,9 +44,8 @@
 
         <div class="col-12 col-lg-6">
 
-            <home-work-show class="mt-3"></home-work-show>
+            <home-work-show></home-work-show>
 
-            <widget-health-weight></widget-health-weight>
             <widget-health-calories-show></widget-health-calories-show>
             <widget-time-show></widget-time-show>
 
@@ -56,7 +55,7 @@
 
         <div class="col-12 col-lg-6">
 
-            <home-rentablo-index class="mt-3"></home-rentablo-index>
+            <widget-health-weight></widget-health-weight>
             <widget-health-macros-show></widget-health-macros-show>
 
         </div>

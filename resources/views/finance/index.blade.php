@@ -9,9 +9,17 @@
         <a href="#" class="btn btn-secondary btn-sm">Konten (TODO)</a>
     </div>
 
-    <h2>Widgets</h2>
-    <div>Depot</div>
-    <div>Ausgaben</div>
+    <div class="row">
+
+        <div class="col-12 col-lg-6">
+            Ausgaben
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <home-rentablo-index></home-rentablo-index>
+        </div>
+
+    </div>
 
 
 @endsection
