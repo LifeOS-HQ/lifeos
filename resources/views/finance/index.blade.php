@@ -5,6 +5,7 @@
     <h1>Finanzen</h1>
     <div>
         <a href="/portfolio" class="btn btn-secondary btn-sm">Portfolio</a>
+        <a href="/finance/indipendence" class="btn btn-secondary btn-sm">Finanzielle Unabhängigkeit</a>
         <a href="#" class="btn btn-secondary btn-sm">Budget (TODO)</a>
         <a href="#" class="btn btn-secondary btn-sm">Konten (TODO)</a>
     </div>

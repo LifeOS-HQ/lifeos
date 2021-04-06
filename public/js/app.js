@@ -2151,6 +2151,379 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/finance/indipendence/index.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/finance/indipendence/index.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var highcharts_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! highcharts-vue */ "./node_modules/highcharts-vue/dist/highcharts-vue.min.js");
+/* harmony import */ var highcharts_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(highcharts_vue__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    highcharts: highcharts_vue__WEBPACK_IMPORTED_MODULE_0__["Chart"]
+  },
+  mixins: [//
+  ],
+  props: {//
+  },
+  data: function data() {
+    return {
+      form: {
+        expenses: {
+          month: 500
+        },
+        income: {
+          month: 4500
+        },
+        investments: {
+          month: 4000,
+          withdrawrate: 3,
+          "return": 6,
+          start_amount: 200000,
+          interest_sum: 0,
+          sum: 0
+        }
+      },
+      user: {
+        age: 34
+      },
+      chartOptions: {
+        chart: {
+          type: 'area'
+        },
+        xAxis: {
+          categories: []
+        },
+        yAxis: [{
+          min: 0,
+          title: {
+            text: 'Euro (€)'
+          }
+        }],
+        plotOptions: {
+          area: {
+            stacking: 'normal'
+          }
+        },
+        tooltip: {
+          useHTML: true,
+          shared: true,
+          formatter: function formatter() {
+            var points = '<div><b>' + this.x + ': ' + this.points[0].total.format(0, ',', '.') + ' €</b></div>';
+            $.each(this.points, function (i, point) {
+              points += '<div style="color: ' + point.series.color + '">' + point.series.name + ': ' + point.y.format(0, ',', '.') + ' €</div>';
+            });
+            return points;
+          }
+        },
+        title: {
+          text: ''
+        },
+        series: []
+      }
+    };
+  },
+  computed: {
+    expenses_year: function expenses_year() {
+      return this.form.expenses.month * 12;
+    },
+    income_year: function income_year() {
+      return this.form.income.month * 12;
+    },
+    investments_year: function investments_year() {
+      return this.form.investments.month * 12;
+    },
+    savingsrate: function savingsrate() {
+      if (this.investments_year == 0 || this.income_year == 0) {
+        return 0;
+      }
+
+      return this.investments_year / this.income_year;
+    },
+    networth: function networth() {
+      if (this.form.investments.withdrawrate == 0 || this.expenses_year == 0) {
+        return 0;
+      }
+
+      return this.expenses_year / (this.form.investments.withdrawrate / 100);
+    },
+    years: function years() {
+      var years = [],
+          start_amount = this.form.investments.start_amount,
+          investments_year = this.investments_year,
+          interest = 0,
+          end_amount = 0,
+          is_networth_goal = false,
+          is_networth_goal_reached = false,
+          year_start = new Date().getFullYear(),
+          age = this.user.age,
+          series = [{
+        color: '#f7a35c',
+        name: 'Rendite',
+        data: []
+      }, {
+        color: '#7cb5ec',
+        name: 'Investments',
+        data: []
+      }];
+      this.form.investments.sum = 0;
+      this.form.investments.interest_sum = 0;
+
+      if (this.networth == 0) {
+        return years;
+      }
+
+      for (var i = 0; i < 20; i++) {
+        start_amount += +investments_year;
+        interest = start_amount * (this.form.investments["return"] / 100);
+        end_amount = start_amount + interest;
+        is_networth_goal = false;
+
+        if (is_networth_goal_reached == false && end_amount >= this.networth) {
+          is_networth_goal = true;
+          is_networth_goal_reached = true;
+        }
+
+        var year = {
+          n: i + 1,
+          year: year_start,
+          age: age,
+          start: start_amount,
+          investments: investments_year,
+          interest: interest,
+          end: end_amount,
+          is_networth_goal: is_networth_goal,
+          withdraw_year: end_amount * this.form.investments.withdrawrate / 100
+        };
+        years.push(year);
+        start_amount = end_amount;
+        this.chartOptions.xAxis.categories.push(year_start);
+        this.form.investments.sum += investments_year;
+        this.form.investments.interest_sum += interest;
+        year_start++;
+        age++;
+        series[1].data.push(this.form.investments.sum);
+        series[0].data.push(this.form.investments.interest_sum);
+      }
+
+      this.chartOptions.series = series;
+      return years;
+    }
+  },
+  methods: {
+    setInvestmentsMonth: function setInvestmentsMonth() {
+      if (this.income_year < this.expenses_year) {
+        return;
+      }
+
+      this.form.investments.month = (this.income_year - this.expenses_year) / 12;
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/fitness/workouts/exercises/index.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/fitness/workouts/exercises/index.vue?vue&type=script&lang=js& ***!
@@ -48849,6 +49222,619 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/finance/indipendence/index.vue?vue&type=template&id=7a7c7703&":
+/*!*****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/finance/indipendence/index.vue?vue&type=template&id=7a7c7703& ***!
+  \*****************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row align-items-stretch" }, [
+      _c("div", { staticClass: "col-12 col-md-6 mb-3" }, [
+        _c("div", { staticClass: "card h-100" }, [
+          _c("div", { staticClass: "card-header" }, [_vm._v("Ausgaben")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "form-group row" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "col-sm-4 col-form-label col-form-label-sm",
+                  attrs: { for: "expenses_month" }
+                },
+                [_vm._v("Ausgaben Monat")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-8" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.expenses.month,
+                      expression: "form.expenses.month"
+                    }
+                  ],
+                  staticClass: "form-control form-control-sm",
+                  attrs: { type: "text", id: "expenses_month" },
+                  domProps: { value: _vm.form.expenses.month },
+                  on: {
+                    input: [
+                      function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.form.expenses,
+                          "month",
+                          $event.target.value
+                        )
+                      },
+                      _vm.setInvestmentsMonth
+                    ]
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group row" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "col-sm-4 col-form-label col-form-label-sm",
+                  attrs: { for: "expenses_month" }
+                },
+                [_vm._v("Ausgaben Jahr")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-8" }, [
+                _c("input", {
+                  staticClass: "form-control form-control-sm disabled",
+                  attrs: {
+                    type: "text",
+                    id: "expenses_month",
+                    readonly: "readonly"
+                  },
+                  domProps: { value: _vm.expenses_year }
+                })
+              ])
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-12 col-md-6 mb-3" }, [
+        _c("div", { staticClass: "card h-100" }, [
+          _c("div", { staticClass: "card-header" }, [_vm._v("Sparrate")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "form-group row" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "col-sm-4 col-form-label col-form-label-sm",
+                  attrs: { for: "expenses_month" }
+                },
+                [_vm._v("Einnahmen Monat (netto)")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-8" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.income.month,
+                      expression: "form.income.month"
+                    }
+                  ],
+                  staticClass: "form-control form-control-sm",
+                  attrs: { type: "text", id: "expenses_month" },
+                  domProps: { value: _vm.form.income.month },
+                  on: {
+                    input: [
+                      function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form.income, "month", $event.target.value)
+                      },
+                      _vm.setInvestmentsMonth
+                    ]
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group row" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "col-sm-4 col-form-label col-form-label-sm",
+                  attrs: { for: "income_year" }
+                },
+                [_vm._v("Einnahmen Jahr")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-8" }, [
+                _c("input", {
+                  staticClass: "form-control form-control-sm disabled",
+                  attrs: {
+                    type: "text",
+                    id: "income_year",
+                    readonly: "readonly"
+                  },
+                  domProps: { value: _vm.income_year }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group row" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "col-sm-4 col-form-label col-form-label-sm",
+                  attrs: { for: "expenses_month" }
+                },
+                [_vm._v("Investments Monat")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-8" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.investments.month,
+                      expression: "form.investments.month"
+                    }
+                  ],
+                  staticClass: "form-control form-control-sm",
+                  attrs: { type: "text", id: "expenses_month" },
+                  domProps: { value: _vm.form.investments.month },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form.investments,
+                        "month",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group row" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "col-sm-4 col-form-label col-form-label-sm",
+                  attrs: { for: "investments_year" }
+                },
+                [_vm._v("Investments Jahr")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-8" }, [
+                _c("input", {
+                  staticClass: "form-control form-control-sm disabled",
+                  attrs: {
+                    type: "text",
+                    id: "investments_year",
+                    readonly: "readonly"
+                  },
+                  domProps: { value: _vm.investments_year }
+                })
+              ])
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-12 col-md-6 mb-3" }, [
+        _c("div", { staticClass: "card h-100" }, [
+          _c("div", { staticClass: "card-header" }, [_vm._v("Depotgröße")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "form-group row" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "col-sm-4 col-form-label col-form-label-sm",
+                  attrs: { for: "expenses_month" }
+                },
+                [_vm._v("Entnahmerate (%)")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-8" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.investments.withdrawrate,
+                      expression: "form.investments.withdrawrate"
+                    }
+                  ],
+                  staticClass: "form-control form-control-sm",
+                  attrs: { type: "text", id: "expenses_month" },
+                  domProps: { value: _vm.form.investments.withdrawrate },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form.investments,
+                        "withdrawrate",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group row" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "col-sm-4 col-form-label col-form-label-sm",
+                  attrs: { for: "networth" }
+                },
+                [_vm._v("Depotgröße")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-8" }, [
+                _c("input", {
+                  staticClass: "form-control form-control-sm disabled",
+                  attrs: { type: "text", id: "networth", readonly: "readonly" },
+                  domProps: { value: _vm.networth.format(2, ",", ".") }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group row" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "col-sm-4 col-form-label col-form-label-sm",
+                  attrs: { for: "user_age" }
+                },
+                [_vm._v("Alter")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-8" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.user.age,
+                      expression: "user.age"
+                    }
+                  ],
+                  staticClass: "form-control form-control-sm",
+                  attrs: { type: "text", id: "user_age" },
+                  domProps: { value: _vm.user.age },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.user, "age", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-12 col-md-6 mb-3" }, [
+        _c("div", { staticClass: "card h-100" }, [
+          _c("div", { staticClass: "card-header" }, [_vm._v("Dauer")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "form-group row" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "col-sm-4 col-form-label col-form-label-sm",
+                  attrs: { for: "investments_start_amount" }
+                },
+                [_vm._v("Startwert")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-8" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.investments.start_amount,
+                      expression: "form.investments.start_amount"
+                    }
+                  ],
+                  staticClass: "form-control form-control-sm",
+                  attrs: { type: "text", id: "investments_start_amount" },
+                  domProps: { value: _vm.form.investments.start_amount },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form.investments,
+                        "start_amount",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group row" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "col-sm-4 col-form-label col-form-label-sm",
+                  attrs: { for: "investments_return" }
+                },
+                [_vm._v("Rendite")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-8" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.investments.return,
+                      expression: "form.investments.return"
+                    }
+                  ],
+                  staticClass: "form-control form-control-sm",
+                  attrs: { type: "text", id: "investments_return" },
+                  domProps: { value: _vm.form.investments.return },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form.investments,
+                        "return",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group row" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "col-sm-4 col-form-label col-form-label-sm",
+                  attrs: { for: "savingsrate" }
+                },
+                [_vm._v("Sparrate (%)")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-8" }, [
+                _c("input", {
+                  staticClass: "form-control form-control-sm disabled",
+                  attrs: {
+                    type: "text",
+                    id: "savingsrate",
+                    readonly: "readonly"
+                  },
+                  domProps: {
+                    value: (_vm.savingsrate * 100).format(2, ",", ".")
+                  }
+                })
+              ])
+            ])
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row mt-3" }, [
+      _c("div", { staticClass: "col" }, [
+        _vm.years.length
+          ? _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [_vm._v("Depot")]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "card-body" },
+                [
+                  _c("highcharts", { attrs: { options: _vm.chartOptions } }),
+                  _vm._v(" "),
+                  _c(
+                    "table",
+                    {
+                      staticClass:
+                        "table table-fixed table-hover table-striped table-sm bg-white mt-1"
+                    },
+                    [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.years, function(year) {
+                          return _c(
+                            "tr",
+                            {
+                              class: year.is_networth_goal
+                                ? "table-success"
+                                : ""
+                            },
+                            [
+                              _c("td", [_vm._v(_vm._s(year.n))]),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "text-right" }, [
+                                _vm._v(_vm._s(year.year))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "text-right" }, [
+                                _vm._v(_vm._s(year.age))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "text-right" }, [
+                                _vm._v(_vm._s(year.start.format(2, ",", ".")))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "text-right" }, [
+                                _vm._v(
+                                  _vm._s(year.investments.format(2, ",", "."))
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "text-right" }, [
+                                _vm._v(
+                                  _vm._s(year.interest.format(2, ",", "."))
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "text-right" }, [
+                                _vm._v(_vm._s(year.end.format(2, ",", ".")))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "text-right" }, [
+                                _vm._v(
+                                  _vm._s(year.withdraw_year.format(2, ",", "."))
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "text-right" }, [
+                                _vm._v(
+                                  _vm._s(
+                                    (year.withdraw_year / 12).format(
+                                      2,
+                                      ",",
+                                      "."
+                                    )
+                                  )
+                                )
+                              ])
+                            ]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _c("tfoot", [
+                        _c("tr", [
+                          _c("td"),
+                          _vm._v(" "),
+                          _c("td"),
+                          _vm._v(" "),
+                          _c("td"),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "text-right" }),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            { staticClass: "text-right font-weight-bold" },
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.form.investments.sum.format(2, ",", ".")
+                                )
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            { staticClass: "text-right font-weight-bold" },
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.form.investments.interest_sum.format(
+                                    2,
+                                    ",",
+                                    "."
+                                  )
+                                )
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "text-right" }),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "text-right" }),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "text-right" })
+                        ])
+                      ])
+                    ]
+                  )
+                ],
+                1
+              )
+            ])
+          : _vm._e()
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { width: "30" } }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right", attrs: { width: "50" } }, [
+          _vm._v("Jahr")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right", attrs: { width: "50" } }, [
+          _vm._v("Alter")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right" }, [_vm._v("Start")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right" }, [_vm._v("Einzahlungen")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right" }, [_vm._v("Rendite")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right" }, [_vm._v("Ende")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right" }, [_vm._v("Auszahlung Jahr")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right" }, [_vm._v("Auszahlung Monat")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/fitness/workouts/exercises/index.vue?vue&type=template&id=77790d57&":
 /*!***********************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/fitness/workouts/exercises/index.vue?vue&type=template&id=77790d57& ***!
@@ -73129,6 +74115,7 @@ Vue.component('home-rentablo-index', __webpack_require__(/*! ./components/home/r
 Vue.component('home-server-index', __webpack_require__(/*! ./components/home/server/index.vue */ "./resources/js/components/home/server/index.vue")["default"]);
 Vue.component('activity-table', __webpack_require__(/*! ./components/activity/table.vue */ "./resources/js/components/activity/table.vue")["default"]);
 Vue.component('blog-post-table', __webpack_require__(/*! ./components/blog/post/table.vue */ "./resources/js/components/blog/post/table.vue")["default"]);
+Vue.component('finance-indipendence-index', __webpack_require__(/*! ./components/finance/indipendence/index.vue */ "./resources/js/components/finance/indipendence/index.vue")["default"]);
 Vue.component('journal-index', __webpack_require__(/*! ./components/journal/index.vue */ "./resources/js/components/journal/index.vue")["default"]);
 Vue.component('journal-gratitude-table', __webpack_require__(/*! ./components/journal/gratitude/table.vue */ "./resources/js/components/journal/gratitude/table.vue")["default"]);
 Vue.component('lifearea-table', __webpack_require__(/*! ./components/lifearea/table.vue */ "./resources/js/components/lifearea/table.vue")["default"]);
@@ -73560,6 +74547,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_search_vue_vue_type_template_id_bc2c4f38___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_search_vue_vue_type_template_id_bc2c4f38___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/finance/indipendence/index.vue":
+/*!****************************************************************!*\
+  !*** ./resources/js/components/finance/indipendence/index.vue ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _index_vue_vue_type_template_id_7a7c7703___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=7a7c7703& */ "./resources/js/components/finance/indipendence/index.vue?vue&type=template&id=7a7c7703&");
+/* harmony import */ var _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js& */ "./resources/js/components/finance/indipendence/index.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _index_vue_vue_type_template_id_7a7c7703___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _index_vue_vue_type_template_id_7a7c7703___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/finance/indipendence/index.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/finance/indipendence/index.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/finance/indipendence/index.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/finance/indipendence/index.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/finance/indipendence/index.vue?vue&type=template&id=7a7c7703&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/finance/indipendence/index.vue?vue&type=template&id=7a7c7703& ***!
+  \***********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_7a7c7703___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=template&id=7a7c7703& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/finance/indipendence/index.vue?vue&type=template&id=7a7c7703&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_7a7c7703___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_7a7c7703___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

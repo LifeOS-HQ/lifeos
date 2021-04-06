@@ -71,6 +71,8 @@ Vue.component('activity-table', require('./components/activity/table.vue').defau
 
 Vue.component('blog-post-table', require('./components/blog/post/table.vue').default);
 
+Vue.component('finance-indipendence-index', require('./components/finance/indipendence/index.vue').default);
+
 Vue.component('journal-index', require('./components/journal/index.vue').default);
 Vue.component('journal-gratitude-table', require('./components/journal/gratitude/table.vue').default);
 
