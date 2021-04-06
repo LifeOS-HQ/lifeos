@@ -12,14 +12,14 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label col-form-label-sm" for="expenses_month">Ausgaben Monat</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control form-control-sm" id="expenses_month" v-model="form.expenses.month" @input="setInvestmentsMonth">
+                                <input type="text" class="form-control form-control-sm" id="expenses_month" v-model="form.expenses.month" @input="setInvestmentsMonth(); form.expenses.year = $event.target.value * 12">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-4 col-form-label col-form-label-sm" for="expenses_month">Ausgaben Jahr</label>
+                            <label class="col-sm-4 col-form-label col-form-label-sm" for="expenses_year">Ausgaben Jahr</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control form-control-sm disabled" id="expenses_month" :value="expenses_year" readonly="readonly">
+                                <input type="text" class="form-control form-control-sm" id="expenses_year" v-model="form.expenses.year" @input="setInvestmentsMonth(); form.expenses.month = $event.target.value / 12">
                             </div>
                         </div>
 
@@ -35,30 +35,30 @@
                     <div class="card-body">
 
                         <div class="form-group row">
-                            <label class="col-sm-4 col-form-label col-form-label-sm" for="expenses_month">Einnahmen Monat (netto)</label>
+                            <label class="col-sm-4 col-form-label col-form-label-sm" for="income_month">Einnahmen Monat (netto)</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control form-control-sm" id="expenses_month" v-model="form.income.month" @input="setInvestmentsMonth">
+                                <input type="text" class="form-control form-control-sm" id="income_month" v-model="form.income.month" @input="setInvestmentsMonth(); form.income.year = $event.target.value * 12">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label col-form-label-sm" for="income_year">Einnahmen Jahr</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control form-control-sm disabled" id="income_year" :value="income_year" readonly="readonly">
+                                <input type="text" class="form-control form-control-sm" id="income_year" v-model="form.income.year" @input="setInvestmentsMonth(); form.income.month = $event.target.value / 12">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-4 col-form-label col-form-label-sm" for="expenses_month">Investments Monat</label>
+                            <label class="col-sm-4 col-form-label col-form-label-sm" for="investments_month">Investments Monat</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control form-control-sm" id="expenses_month" v-model="form.investments.month">
+                                <input type="text" class="form-control form-control-sm" id="investments_month" v-model="form.investments.month" @input="form.investments.year = $event.target.value * 12">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-4 col-form-label col-form-label-sm" for="investments_year">Investments Jahr</label>
+                            <label class="col-sm-4 col-form-label col-form-label-sm" for="investments_year">Einnahmen Jahr</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control form-control-sm disabled" id="investments_year" :value="investments_year" readonly="readonly">
+                                <input type="text" class="form-control form-control-sm" id="investments_year" v-model="form.investments.year" @input="form.investments.month = $event.target.value / 12">
                             </div>
                         </div>
 
@@ -114,7 +114,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-4 col-form-label col-form-label-sm" for="investments_return">Rendite</label>
+                            <label class="col-sm-4 col-form-label col-form-label-sm" for="investments_return">Rendite (%)</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control form-control-sm" id="investments_return" v-model="form.investments.return">
                             </div>
@@ -217,12 +217,15 @@
                 form: {
                     expenses: {
                         month: 500,
+                        year: 6000,
                     },
                     income: {
                         month: 4500,
+                        year: 54000
                     },
                     investments: {
                         month: 4000,
+                        year: 48000,
                         withdrawrate: 3,
                         return: 6,
                         start_amount: 200000,
@@ -274,31 +277,22 @@
         },
 
         computed: {
-            expenses_year() {
-                return this.form.expenses.month * 12;
-            },
-            income_year() {
-                return this.form.income.month * 12;
-            },
-            investments_year() {
-                return this.form.investments.month * 12;
-            },
             savingsrate() {
-                if (this.investments_year == 0 || this.income_year == 0) {
+                if (this.form.investments.year == 0 || this.form.income.year == 0) {
                     return 0;
                 }
-                return this.investments_year / this.income_year;
+                return this.form.investments.year / this.form.income.year;
             },
             networth() {
-                if (this.form.investments.withdrawrate == 0 || this.expenses_year == 0) {
+                if (this.form.investments.withdrawrate == 0 || this.form.expenses.year == 0) {
                     return 0;
                 }
-                return this.expenses_year / (this.form.investments.withdrawrate / 100);
+                return this.form.expenses.year / (this.form.investments.withdrawrate / 100);
             },
             years() {
                 var years = [],
                     start_amount = this.form.investments.start_amount,
-                    investments_year = this.investments_year,
+                    investments_year = this.form.investments.year,
                     interest = 0,
                     end_amount = 0,
                     is_networth_goal = false,
@@ -325,7 +319,7 @@
                 }
 
                 for (var i = 0; i < 20; i++) {
-                    start_amount +=  + investments_year;
+                    start_amount += investments_year;
                     interest = start_amount * (this.form.investments.return / 100);
                     end_amount = start_amount + interest;
                     is_networth_goal = false;
@@ -367,10 +361,10 @@
 
         methods: {
             setInvestmentsMonth() {
-                if (this.income_year < this.expenses_year) {
+                if (this.form.income.year < this.form.expenses.year) {
                     return;
                 }
-                this.form.investments.month = (this.income_year - this.expenses_year) / 12;
+                this.form.investments.month = (this.form.income.year - this.form.expenses.year) / 12;
             },
         },
     };

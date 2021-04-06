@@ -2371,13 +2371,16 @@ __webpack_require__.r(__webpack_exports__);
     return {
       form: {
         expenses: {
-          month: 500
+          month: 500,
+          year: 6000
         },
         income: {
-          month: 4500
+          month: 4500,
+          year: 54000
         },
         investments: {
           month: 4000,
+          year: 48000,
           withdrawrate: 3,
           "return": 6,
           start_amount: 200000,
@@ -2425,33 +2428,24 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
-    expenses_year: function expenses_year() {
-      return this.form.expenses.month * 12;
-    },
-    income_year: function income_year() {
-      return this.form.income.month * 12;
-    },
-    investments_year: function investments_year() {
-      return this.form.investments.month * 12;
-    },
     savingsrate: function savingsrate() {
-      if (this.investments_year == 0 || this.income_year == 0) {
+      if (this.form.investments.year == 0 || this.form.income.year == 0) {
         return 0;
       }
 
-      return this.investments_year / this.income_year;
+      return this.form.investments.year / this.form.income.year;
     },
     networth: function networth() {
-      if (this.form.investments.withdrawrate == 0 || this.expenses_year == 0) {
+      if (this.form.investments.withdrawrate == 0 || this.form.expenses.year == 0) {
         return 0;
       }
 
-      return this.expenses_year / (this.form.investments.withdrawrate / 100);
+      return this.form.expenses.year / (this.form.investments.withdrawrate / 100);
     },
     years: function years() {
       var years = [],
           start_amount = this.form.investments.start_amount,
-          investments_year = this.investments_year,
+          investments_year = this.form.investments.year,
           interest = 0,
           end_amount = 0,
           is_networth_goal = false,
@@ -2475,7 +2469,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       for (var i = 0; i < 20; i++) {
-        start_amount += +investments_year;
+        start_amount += investments_year;
         interest = start_amount * (this.form.investments["return"] / 100);
         end_amount = start_amount + interest;
         is_networth_goal = false;
@@ -2513,11 +2507,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     setInvestmentsMonth: function setInvestmentsMonth() {
-      if (this.income_year < this.expenses_year) {
+      if (this.form.income.year < this.form.expenses.year) {
         return;
       }
 
-      this.form.investments.month = (this.income_year - this.expenses_year) / 12;
+      this.form.investments.month = (this.form.income.year - this.form.expenses.year) / 12;
     }
   }
 });
@@ -49279,7 +49273,10 @@ var render = function() {
                           $event.target.value
                         )
                       },
-                      _vm.setInvestmentsMonth
+                      function($event) {
+                        _vm.setInvestmentsMonth()
+                        _vm.form.expenses.year = $event.target.value * 12
+                      }
                     ]
                   }
                 })
@@ -49291,20 +49288,38 @@ var render = function() {
                 "label",
                 {
                   staticClass: "col-sm-4 col-form-label col-form-label-sm",
-                  attrs: { for: "expenses_month" }
+                  attrs: { for: "expenses_year" }
                 },
                 [_vm._v("Ausgaben Jahr")]
               ),
               _vm._v(" "),
               _c("div", { staticClass: "col-sm-8" }, [
                 _c("input", {
-                  staticClass: "form-control form-control-sm disabled",
-                  attrs: {
-                    type: "text",
-                    id: "expenses_month",
-                    readonly: "readonly"
-                  },
-                  domProps: { value: _vm.expenses_year }
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.expenses.year,
+                      expression: "form.expenses.year"
+                    }
+                  ],
+                  staticClass: "form-control form-control-sm",
+                  attrs: { type: "text", id: "expenses_year" },
+                  domProps: { value: _vm.form.expenses.year },
+                  on: {
+                    input: [
+                      function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form.expenses, "year", $event.target.value)
+                      },
+                      function($event) {
+                        _vm.setInvestmentsMonth()
+                        _vm.form.expenses.month = $event.target.value / 12
+                      }
+                    ]
+                  }
                 })
               ])
             ])
@@ -49322,7 +49337,7 @@ var render = function() {
                 "label",
                 {
                   staticClass: "col-sm-4 col-form-label col-form-label-sm",
-                  attrs: { for: "expenses_month" }
+                  attrs: { for: "income_month" }
                 },
                 [_vm._v("Einnahmen Monat (netto)")]
               ),
@@ -49338,7 +49353,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control form-control-sm",
-                  attrs: { type: "text", id: "expenses_month" },
+                  attrs: { type: "text", id: "income_month" },
                   domProps: { value: _vm.form.income.month },
                   on: {
                     input: [
@@ -49348,7 +49363,10 @@ var render = function() {
                         }
                         _vm.$set(_vm.form.income, "month", $event.target.value)
                       },
-                      _vm.setInvestmentsMonth
+                      function($event) {
+                        _vm.setInvestmentsMonth()
+                        _vm.form.income.year = $event.target.value * 12
+                      }
                     ]
                   }
                 })
@@ -49367,13 +49385,31 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "col-sm-8" }, [
                 _c("input", {
-                  staticClass: "form-control form-control-sm disabled",
-                  attrs: {
-                    type: "text",
-                    id: "income_year",
-                    readonly: "readonly"
-                  },
-                  domProps: { value: _vm.income_year }
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.income.year,
+                      expression: "form.income.year"
+                    }
+                  ],
+                  staticClass: "form-control form-control-sm",
+                  attrs: { type: "text", id: "income_year" },
+                  domProps: { value: _vm.form.income.year },
+                  on: {
+                    input: [
+                      function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form.income, "year", $event.target.value)
+                      },
+                      function($event) {
+                        _vm.setInvestmentsMonth()
+                        _vm.form.income.month = $event.target.value / 12
+                      }
+                    ]
+                  }
                 })
               ])
             ]),
@@ -49383,7 +49419,7 @@ var render = function() {
                 "label",
                 {
                   staticClass: "col-sm-4 col-form-label col-form-label-sm",
-                  attrs: { for: "expenses_month" }
+                  attrs: { for: "investments_month" }
                 },
                 [_vm._v("Investments Monat")]
               ),
@@ -49399,19 +49435,24 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control form-control-sm",
-                  attrs: { type: "text", id: "expenses_month" },
+                  attrs: { type: "text", id: "investments_month" },
                   domProps: { value: _vm.form.investments.month },
                   on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+                    input: [
+                      function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.form.investments,
+                          "month",
+                          $event.target.value
+                        )
+                      },
+                      function($event) {
+                        _vm.form.investments.year = $event.target.value * 12
                       }
-                      _vm.$set(
-                        _vm.form.investments,
-                        "month",
-                        $event.target.value
-                      )
-                    }
+                    ]
                   }
                 })
               ])
@@ -49424,18 +49465,39 @@ var render = function() {
                   staticClass: "col-sm-4 col-form-label col-form-label-sm",
                   attrs: { for: "investments_year" }
                 },
-                [_vm._v("Investments Jahr")]
+                [_vm._v("Einnahmen Jahr")]
               ),
               _vm._v(" "),
               _c("div", { staticClass: "col-sm-8" }, [
                 _c("input", {
-                  staticClass: "form-control form-control-sm disabled",
-                  attrs: {
-                    type: "text",
-                    id: "investments_year",
-                    readonly: "readonly"
-                  },
-                  domProps: { value: _vm.investments_year }
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.investments.year,
+                      expression: "form.investments.year"
+                    }
+                  ],
+                  staticClass: "form-control form-control-sm",
+                  attrs: { type: "text", id: "investments_year" },
+                  domProps: { value: _vm.form.investments.year },
+                  on: {
+                    input: [
+                      function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.form.investments,
+                          "year",
+                          $event.target.value
+                        )
+                      },
+                      function($event) {
+                        _vm.form.investments.month = $event.target.value / 12
+                      }
+                    ]
+                  }
                 })
               ])
             ])
@@ -49595,7 +49657,7 @@ var render = function() {
                   staticClass: "col-sm-4 col-form-label col-form-label-sm",
                   attrs: { for: "investments_return" }
                 },
-                [_vm._v("Rendite")]
+                [_vm._v("Rendite (%)")]
               ),
               _vm._v(" "),
               _c("div", { staticClass: "col-sm-8" }, [
