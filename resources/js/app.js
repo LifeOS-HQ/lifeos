@@ -99,6 +99,8 @@ Vue.component('workout-histories-exercises-index', require('./components/fitness
 
 
 // Widgets
+Vue.component('widget-index', require('./components/widgets/index.vue').default);
+
 Vue.component('widget-health-sleep', require('./components/widgets/health/sleep.vue').default);
 Vue.component('widget-health-steps', require('./components/widgets/health/steps.vue').default);
 Vue.component('widget-health-weight', require('./components/widgets/health/weight.vue').default);

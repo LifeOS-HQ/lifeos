@@ -122,6 +122,12 @@ Route::middleware(['auth'])->group(function () {
                 Route::delete('/fitness/workouts/histories/{history}/exercises/{exercise_history}/sets/{set_history}', [\App\Http\Controllers\Workouts\Exercises\Sets\HistoryController::class, 'destroy'])->name('fitness.workouts.histories.exercises.sets.destroy');
 
     // Widgets
+    Route::get('/widgets/user/{view}', [\App\Http\Controllers\Widgets\Users\UserController::class, 'index'])->name('widgets.user.index');
+    Route::post('/widgets/user/{view}', [\App\Http\Controllers\Widgets\Users\UserController::class, 'store'])->name('widgets.user.store');
+    Route::get('/widgets/user/{view}/{user}', [\App\Http\Controllers\Widgets\Users\UserController::class, 'show'])->name('widgets.user.show');
+    Route::get('/widgets/user/{view}/{user}/edit', [\App\Http\Controllers\Widgets\Users\UserController::class, 'edit'])->name('widgets.user.edit');
+    Route::delete('/widgets/user/{view}/{user}', [\App\Http\Controllers\Widgets\Users\UserController::class, 'destroy'])->name('widgets.user.destroy');
+
     Route::get('/widgets/health/sleep', [\App\Http\Controllers\Widgets\Health\SleepController::class, 'index'])->name('widgets.health.sleep.index');
     Route::get('/widgets/health/steps', [\App\Http\Controllers\Widgets\Health\StepsController::class, 'index'])->name('widgets.health.steps.index');
     Route::get('/widgets/health/weight', [\App\Http\Controllers\Widgets\Health\WeightController::class, 'index'])->name('widgets.health.weight.index');

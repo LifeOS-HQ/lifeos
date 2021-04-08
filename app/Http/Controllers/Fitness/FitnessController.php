@@ -13,6 +13,7 @@ class FitnessController extends Controller
 
         }
 
-        return view('fitness.index');
+        return view('fitness.index')
+            ->with('widgets', \App\Models\Widgets\Users\User::where('user_id', auth()->user()->id)->where('view', 'fitness-index')->where('is_active', true)->orderBy('sort', 'ASC')->get());
     }
 }
