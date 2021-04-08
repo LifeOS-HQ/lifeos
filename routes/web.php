@@ -38,6 +38,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home/rentablo', 'Home\Rentablo\RentabloController@index')->name('home.rentablo.index');
     Route::get('/home/server', 'Home\Servers\StatusController@index')->name('home.server.index');
 
+    Route::get('/data/day/{date_string?}', [\App\Http\Controllers\Data\DayController::class, 'index'])->name('data.day.index');
+    Route::get('/data/day/{date_string}/{group}', [\App\Http\Controllers\Data\DayController::class, 'show'])->name('data.day.show');
+
     Route::get('/diet', 'Diet\DietController@index')->name('diet.index');
     Route::get('/finance', 'Finance\FinanceController@index')->name('finance.index');
         Route::get('/finance/indipendence', 'Finance\Indipendence\IndipendenceController@index')->name('finance.indipendence.index');

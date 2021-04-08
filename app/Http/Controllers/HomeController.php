@@ -54,6 +54,9 @@ class HomeController extends Controller
                     'bg_class' => 'bg-dark',
                     'mood' => 0,
                     'mood_note' => '',
+                    'day_path' => route('data.day.index', [
+                        'date_string' => $day->format('Y-m-d')
+                    ]),
                 ];
                 continue;
             }
@@ -61,6 +64,9 @@ class HomeController extends Controller
                 'bg_class' => $mood_attribute->getBgClass($mood_day->raw),
                 'mood' => $mood_day->raw,
                 'mood_note' => $mood_note_day->raw,
+                'day_path' => route('data.day.index', [
+                    'date_string' => $day->format('Y-m-d')
+                ]),
             ];
         }
 

@@ -82,6 +82,13 @@ class Chart
         return $this;
     }
 
+    public function day(Carbon $end_at) : self
+    {
+        $this->end_at = $end_at;
+
+        return $this;
+    }
+
     public function startFrom(string $interval_unit, int $interval_count)
     {
         $this->interval = [
@@ -278,6 +285,9 @@ class Chart
 
     protected function setPeriods() : CarbonPeriod
     {
+        if (is_null($this->start_at)) {
+            $this->start_at = $this->end_at;
+        }
         $this->periods = new CarbonPeriod($this->start_at, '1 days', $this->end_at);
 
         return $this->periods;
