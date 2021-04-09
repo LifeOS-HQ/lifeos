@@ -311,7 +311,7 @@
                         },
                     ];
 
-                this.form.investments.sum = 0;
+                this.form.investments.sum = start_amount;
                 this.form.investments.interest_sum = 0;
 
                 if (this.networth == 0) {

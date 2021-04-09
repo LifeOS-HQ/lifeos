@@ -2461,7 +2461,7 @@ __webpack_require__.r(__webpack_exports__);
         name: 'Investments',
         data: []
       }];
-      this.form.investments.sum = 0;
+      this.form.investments.sum = start_amount;
       this.form.investments.interest_sum = 0;
 
       if (this.networth == 0) {
