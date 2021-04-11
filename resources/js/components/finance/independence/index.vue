@@ -12,14 +12,14 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label col-form-label-sm" for="expenses_month">Ausgaben Monat</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control form-control-sm" id="expenses_month" v-model="form.expenses.month" @input="setInvestmentsMonth(); form.expenses.year = $event.target.value * 12">
+                                <input type="text" class="form-control form-control-sm" id="expenses_month" v-model="form.expenses.month" @input="form.expenses.year = $event.target.value * 12; setInvestmentsMonth();">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label col-form-label-sm" for="expenses_year">Ausgaben Jahr</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control form-control-sm" id="expenses_year" v-model="form.expenses.year" @input="setInvestmentsMonth(); form.expenses.month = $event.target.value / 12">
+                                <input type="text" class="form-control form-control-sm" id="expenses_year" v-model="form.expenses.year" @input="form.expenses.month = $event.target.value / 12; setInvestmentsMonth();">
                             </div>
                         </div>
 
@@ -37,14 +37,14 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label col-form-label-sm" for="income_month">Einnahmen Monat (netto)</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control form-control-sm" id="income_month" v-model="form.income.month" @input="setInvestmentsMonth(); form.income.year = $event.target.value * 12">
+                                <input type="text" class="form-control form-control-sm" id="income_month" v-model="form.income.month" @input="form.income.year = $event.target.value * 12; setInvestmentsMonth();">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label col-form-label-sm" for="income_year">Einnahmen Jahr</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control form-control-sm" id="income_year" v-model="form.income.year" @input="setInvestmentsMonth(); form.income.month = $event.target.value / 12">
+                                <input type="text" class="form-control form-control-sm" id="income_year" v-model="form.income.year" @input="form.income.month = $event.target.value / 12; setInvestmentsMonth();">
                             </div>
                         </div>
 
@@ -56,7 +56,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-4 col-form-label col-form-label-sm" for="investments_year">Einnahmen Jahr</label>
+                            <label class="col-sm-4 col-form-label col-form-label-sm" for="investments_year">Investments Jahr</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control form-control-sm" id="investments_year" v-model="form.investments.year" @input="form.investments.month = $event.target.value / 12">
                             </div>
@@ -362,9 +362,12 @@
         methods: {
             setInvestmentsMonth() {
                 if (this.form.income.year < this.form.expenses.year) {
-                    return;
+                    this.form.investments.month = 0;
                 }
-                this.form.investments.month = (this.form.income.year - this.form.expenses.year) / 12;
+                else {
+                    this.form.investments.month = (this.form.income.year - this.form.expenses.year) / 12;
+                }
+                this.form.investments.year = this.form.investments.month * 12;
             },
         },
     };

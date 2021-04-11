@@ -2508,10 +2508,12 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     setInvestmentsMonth: function setInvestmentsMonth() {
       if (this.form.income.year < this.form.expenses.year) {
-        return;
+        this.form.investments.month = 0;
+      } else {
+        this.form.investments.month = (this.form.income.year - this.form.expenses.year) / 12;
       }
 
-      this.form.investments.month = (this.form.income.year - this.form.expenses.year) / 12;
+      this.form.investments.year = this.form.investments.month * 12;
     }
   }
 });
@@ -49445,8 +49447,8 @@ var render = function() {
                         )
                       },
                       function($event) {
-                        _vm.setInvestmentsMonth()
                         _vm.form.expenses.year = $event.target.value * 12
+                        _vm.setInvestmentsMonth()
                       }
                     ]
                   }
@@ -49486,8 +49488,8 @@ var render = function() {
                         _vm.$set(_vm.form.expenses, "year", $event.target.value)
                       },
                       function($event) {
-                        _vm.setInvestmentsMonth()
                         _vm.form.expenses.month = $event.target.value / 12
+                        _vm.setInvestmentsMonth()
                       }
                     ]
                   }
@@ -49535,8 +49537,8 @@ var render = function() {
                         _vm.$set(_vm.form.income, "month", $event.target.value)
                       },
                       function($event) {
-                        _vm.setInvestmentsMonth()
                         _vm.form.income.year = $event.target.value * 12
+                        _vm.setInvestmentsMonth()
                       }
                     ]
                   }
@@ -49576,8 +49578,8 @@ var render = function() {
                         _vm.$set(_vm.form.income, "year", $event.target.value)
                       },
                       function($event) {
-                        _vm.setInvestmentsMonth()
                         _vm.form.income.month = $event.target.value / 12
+                        _vm.setInvestmentsMonth()
                       }
                     ]
                   }
@@ -49636,7 +49638,7 @@ var render = function() {
                   staticClass: "col-sm-4 col-form-label col-form-label-sm",
                   attrs: { for: "investments_year" }
                 },
-                [_vm._v("Einnahmen Jahr")]
+                [_vm._v("Investments Jahr")]
               ),
               _vm._v(" "),
               _c("div", { staticClass: "col-sm-8" }, [
