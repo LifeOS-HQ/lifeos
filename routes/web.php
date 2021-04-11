@@ -43,7 +43,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/diet', 'Diet\DietController@index')->name('diet.index');
     Route::get('/finance', 'Finance\FinanceController@index')->name('finance.index');
-        Route::get('/finance/indipendence', 'Finance\Indipendence\IndipendenceController@index')->name('finance.indipendence.index');
+        Route::get('/finance/independence', 'Finance\Independence\IndependenceController@index')->name('finance.independence.index');
     Route::get('/fitness', 'Fitness\FitnessController@index')->name('fitness.index');
 
     Route::resource(\App\Models\Activities\Activity::ROUTE_NAME, 'Activities\ActivityController');

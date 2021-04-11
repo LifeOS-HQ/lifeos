@@ -7,6 +7,6 @@
         <a href="{{ route('finance.index') }}" class="btn btn-secondary btn-sm">Finanzen</a>
     </div>
 
-    <finance-indipendence-index class="mt-3"></finance-indipendence-index>
+    <finance-independence-index class="mt-3"></finance-independence-index>
 
 @endsection

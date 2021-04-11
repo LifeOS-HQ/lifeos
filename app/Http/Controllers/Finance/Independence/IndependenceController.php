@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Finance\Indipendence;
+namespace App\Http\Controllers\Finance\Independence;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class IndipendenceController extends Controller
+class IndependenceController extends Controller
 {
     public function index(Request $request)
     {
@@ -13,6 +13,6 @@ class IndipendenceController extends Controller
 
         }
 
-        return view('finance.indipendence.index');
+        return view('finance.independence.index');
     }
 }
