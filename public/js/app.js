@@ -2444,7 +2444,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     years: function years() {
       var years = [],
-          start_amount = this.form.investments.start_amount,
+          start_amount = this.form.investments.start_amount || 0,
           investments_year = this.form.investments.year,
           interest = 0,
           end_amount = 0,
@@ -49797,9 +49797,10 @@ var render = function() {
                   directives: [
                     {
                       name: "model",
-                      rawName: "v-model",
+                      rawName: "v-model.number",
                       value: _vm.form.investments.start_amount,
-                      expression: "form.investments.start_amount"
+                      expression: "form.investments.start_amount",
+                      modifiers: { number: true }
                     }
                   ],
                   staticClass: "form-control form-control-sm",
@@ -49813,8 +49814,11 @@ var render = function() {
                       _vm.$set(
                         _vm.form.investments,
                         "start_amount",
-                        $event.target.value
+                        _vm._n($event.target.value)
                       )
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
                     }
                   }
                 })

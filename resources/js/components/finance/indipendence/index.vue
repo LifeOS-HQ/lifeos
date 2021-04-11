@@ -109,7 +109,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label col-form-label-sm" for="investments_start_amount">Startwert</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control form-control-sm" id="investments_start_amount" v-model="form.investments.start_amount">
+                                <input type="text" class="form-control form-control-sm" id="investments_start_amount" v-model.number="form.investments.start_amount">
                             </div>
                         </div>
 
@@ -291,13 +291,13 @@
             },
             years() {
                 var years = [],
-                    start_amount = this.form.investments.start_amount,
+                    start_amount = this.form.investments.start_amount || 0,
                     investments_year = this.form.investments.year,
                     interest = 0,
                     end_amount = 0,
                     is_networth_goal = false,
                     is_networth_goal_reached = false,
-                    year_start = (new Date).getFullYear(),
+                    year_start = (new Date()).getFullYear(),
                     age = this.user.age,
                     series = [
                         {
