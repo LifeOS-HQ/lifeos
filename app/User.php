@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Activities\Activity;
+use App\Models\Contacts\Contact;
 use App\Models\Exercises\Exercise;
 use App\Models\Journals\Journal;
 use App\Models\Lifeareas\Lifearea;
@@ -52,6 +53,11 @@ class User extends Authenticatable
     public function activities() : HasMany
     {
         return $this->hasMany(Activity::class, 'user_id');
+    }
+
+    public function contacts() : HasMany
+    {
+        return $this->hasMany(Contact::class, 'user_id');
     }
 
     public function exercises() : HasMany

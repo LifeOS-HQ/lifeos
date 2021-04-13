@@ -38,6 +38,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home/rentablo', 'Home\Rentablo\RentabloController@index')->name('home.rentablo.index');
     Route::get('/home/server', 'Home\Servers\StatusController@index')->name('home.server.index');
 
+    Route::resource(\App\Models\Contacts\Contact::ROUTE_NAME, 'Contacts\ContactController');
+
     Route::get('/data/day/{date_string?}', [\App\Http\Controllers\Data\DayController::class, 'index'])->name('data.day.index');
     Route::get('/data/day/{date_string}/{group}', [\App\Http\Controllers\Data\DayController::class, 'show'])->name('data.day.show');
 

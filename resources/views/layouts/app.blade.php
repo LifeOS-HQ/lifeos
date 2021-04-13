@@ -17,6 +17,7 @@
                 <a href="/finance"><li>Finanzen</li></a>
                 <a href="/fitness"><li>Fitness</li></a>
                 <a href="/health"><li>Gesundheit</li></a>
+                <a href="{{ \App\Models\Contacts\Contact::indexPath() }}"><li>{{ \App\Models\Contacts\Contact::label() }}</li></a>
                 <a href="{{ \App\Models\Lifeareas\Lifearea::indexPath() }}"><li>{{ \App\Models\Lifeareas\Lifearea::label() }}</li></a>
                 <a href="/journal"><li>Tagebuch</li></a>
             </ul>
@@ -60,8 +61,18 @@
                 </div>
             </nav>
 
+
             <div id="content" class="container-fluid mt-3" style="height: 100vh;">
+
+                @if(View::hasSection('headline'))
+                    <div class="row align-items-center mb-3">
+                        <h2 class="col my-0">@yield('headline')</h2>
+                        <div id="buttons" class="col-auto d-flex align-items-center justify-content-around">@yield('buttons')</div>
+                    </div>
+                @endif
+
                 @yield('content')
+
             </div>
 
         </div>
