@@ -11,6 +11,14 @@
 |
 */
 
+Route::bind('model', function ($id) {
+    switch(app()->request->route('type')) {
+        case \App\Models\Contacts\Contact::ROUTE_NAME: return \App\Models\Contacts\Contact::findOrFail($id); break;
+
+        default: abort(404);
+    }
+});
+
 Route::get('/', function () {
     return view('marketing.landing');
 });
@@ -122,6 +130,12 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/fitness/workouts/histories/{history}/exercises/{exercise_history}/sets/{set_history}', [\App\Http\Controllers\Workouts\Exercises\Sets\HistoryController::class, 'show'])->name('fitness.workouts.histories.exercises.sets.show');
                 Route::put('/fitness/workouts/histories/{history}/exercises/{exercise_history}/sets/{set_history}', [\App\Http\Controllers\Workouts\Exercises\Sets\HistoryController::class, 'update'])->name('fitness.workouts.histories.exercises.sets.update');
                 Route::delete('/fitness/workouts/histories/{history}/exercises/{exercise_history}/sets/{set_history}', [\App\Http\Controllers\Workouts\Exercises\Sets\HistoryController::class, 'destroy'])->name('fitness.workouts.histories.exercises.sets.destroy');
+
+    Route::get('{type}/{model}/comments', [\App\Http\Controllers\Comments\CommentController::class, 'index'])->name('comments.index');
+    Route::post('{type}/{model}/comments', [\App\Http\Controllers\Comments\CommentController::class, 'store'])->name('comments.store');
+    Route::get('comments/{comment}', [\App\Http\Controllers\Comments\CommentController::class, 'show'])->name('comments.show');
+    Route::put('comments/{comment}', [\App\Http\Controllers\Comments\CommentController::class, 'update'])->name('comments.update');
+    Route::delete('comments/{comment}', [\App\Http\Controllers\Comments\CommentController::class, 'destroy'])->name('comments.destroy');
 
     // Widgets
     Route::get('/widgets/user/{view}', [\App\Http\Controllers\Widgets\Users\UserController::class, 'index'])->name('widgets.user.index');

@@ -2,6 +2,7 @@
 
 namespace App\Models\Contacts;
 
+use App\Traits\HasComments;
 use Carbon\Carbon;
 use D15r\ModelLabels\Traits\HasLabels;
 use D15r\ModelPath\Traits\HasModelPath;
@@ -11,7 +12,8 @@ use Illuminate\Support\Arr;
 
 class Contact extends Model
 {
-    use HasFactory,
+    use HasComments,
+        HasFactory,
         HasLabels,
         HasModelPath;
 

@@ -123,4 +123,11 @@
 
     </div>
 
+    <div class="card mb-3">
+        <div class="card-header">Kommentare</div>
+        <div class="card-body">
+            <comment-index :model="{{ json_encode($model) }}"></comment-index>
+        </div>
+    </div>
+
 @endsection
