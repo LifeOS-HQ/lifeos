@@ -410,6 +410,11 @@ class Chart
         return $this->attributes;
     }
 
+    public function interval_avgs() : array
+    {
+        return $this->interval_avgs;
+    }
+
     public function options() : array
     {
         return $this->options;

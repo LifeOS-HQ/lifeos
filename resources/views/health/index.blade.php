@@ -9,6 +9,16 @@
 
     <div class="row">
 
+        <div class="col-12">
+
+            <widget-health-weight-development-show></widget-health-weight-development-show>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
         <div class="col-12 col-lg-6">
 
             <widget-health-steps></widget-health-steps>
