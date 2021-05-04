@@ -22,6 +22,7 @@
         <div class="col-12 col-lg-6">
 
             <widget-health-steps></widget-health-steps>
+            <widget-health-macro-calculator-show></widget-health-macro-calculator-show>
 
         </div>
 

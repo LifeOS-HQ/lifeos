@@ -7213,6 +7213,151 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/health/macro-calculator/show.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/widgets/health/macro-calculator/show.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {//
+  },
+  mixins: [//
+  ],
+  props: {//
+  },
+  computed: {
+    protein_per_kg_weight: function protein_per_kg_weight() {
+      if (!this.protein.per_kg_weight_formatted) {
+        return 0;
+      }
+
+      return parseFloat(Number(this.protein.per_kg_weight_formatted.replace(',', '.')).format(1, '.', ''));
+    },
+    protein_grams: function protein_grams() {
+      if (this.calories_out <= 0 || this.weight <= 0) {
+        return 0;
+      }
+
+      var grams = this.protein_per_kg_weight * this.weight;
+      this.protein.calories = grams * 4;
+      this.protein.percentage = this.protein.calories / this.calories_out * 100;
+      return grams;
+    },
+    fat_grams: function fat_grams() {
+      if (this.calories_out <= 0 || this.weight <= 0) {
+        return 0;
+      }
+
+      this.fat.calories = this.calories_out * this.fat.percentage / 100;
+      return this.fat.calories / 9;
+    },
+    carbohydrates_grams: function carbohydrates_grams() {
+      if (this.calories_out <= 0 || this.weight <= 0) {
+        return 0;
+      }
+
+      this.carbohydrates.calories = this.calories_out - this.protein.calories - this.fat.calories;
+      this.carbohydrates.percentage = this.carbohydrates.calories / this.calories_out * 100;
+      return this.carbohydrates.calories / 4;
+    }
+  },
+  data: function data() {
+    return {
+      calories_out: 2500,
+      weight: 75,
+      carbohydrates: {
+        calories: 0,
+        percentage: 0
+      },
+      fat: {
+        percentage: 25,
+        calories: 0
+      },
+      protein: {
+        per_kg_weight_formatted: '2,0',
+        calories: 0,
+        percentage: 0
+      }
+    };
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/health/macros/show.vue?vue&type=script&lang=js&":
 /*!*************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/widgets/health/macros/show.vue?vue&type=script&lang=js& ***!
@@ -57271,6 +57416,281 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/health/macro-calculator/show.vue?vue&type=template&id=2ba171a1&":
+/*!***************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/widgets/health/macro-calculator/show.vue?vue&type=template&id=2ba171a1& ***!
+  \***************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card mb-3" }, [
+    _c("div", { staticClass: "card-header" }, [_vm._v("Makro Rechner")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body" }, [
+      _c("div", { staticClass: "form-group row" }, [
+        _c(
+          "label",
+          {
+            staticClass: "col-sm-6 col-form-label col-form-label-sm",
+            attrs: { for: "weight" }
+          },
+          [_vm._v("Gewicht [kg]")]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-6" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.weight,
+                expression: "weight"
+              }
+            ],
+            staticClass: "form-control form-control-sm",
+            attrs: { type: "number", min: "0", steps: "1", id: "weight" },
+            domProps: { value: _vm.weight },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.weight = $event.target.value
+              }
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group row" }, [
+        _c(
+          "label",
+          {
+            staticClass: "col-sm-6 col-form-label col-form-label-sm",
+            attrs: { for: "calories_out" }
+          },
+          [_vm._v("Kalorien [kcal]")]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-6" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.calories_out,
+                expression: "calories_out"
+              }
+            ],
+            staticClass: "form-control form-control-sm",
+            attrs: { type: "number", min: "0", steps: "1", id: "calories_out" },
+            domProps: { value: _vm.calories_out },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.calories_out = $event.target.value
+              }
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group row" }, [
+        _c(
+          "label",
+          {
+            staticClass: "col-sm-6 col-form-label col-form-label-sm",
+            attrs: { for: "protein.per_kg_weight_formatted" }
+          },
+          [_vm._v("Protein / kg Körpergewicht [g]")]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-6" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.protein.per_kg_weight_formatted,
+                expression: "protein.per_kg_weight_formatted"
+              }
+            ],
+            staticClass: "form-control form-control-sm",
+            attrs: {
+              type: "number",
+              min: "0",
+              steps: "1",
+              id: "protein.per_kg_weight_formatted"
+            },
+            domProps: { value: _vm.protein.per_kg_weight_formatted },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(
+                  _vm.protein,
+                  "per_kg_weight_formatted",
+                  $event.target.value
+                )
+              }
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group row" }, [
+        _c(
+          "label",
+          {
+            staticClass: "col-sm-6 col-form-label col-form-label-sm",
+            attrs: { for: "fat.percentage" }
+          },
+          [_vm._v("Fett [%]")]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-6" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.fat.percentage,
+                expression: "fat.percentage"
+              }
+            ],
+            staticClass: "form-control form-control-sm",
+            attrs: {
+              type: "number",
+              min: "0",
+              steps: "1",
+              id: "fat.percentage"
+            },
+            domProps: { value: _vm.fat.percentage },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.fat, "percentage", $event.target.value)
+              }
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "table",
+        {
+          staticClass:
+            "table table-fixed table-hover table-striped table-sm bg-white"
+        },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("tbody", [
+            _c("tr", [
+              _c("td", [_vm._v("Proteine")]),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [
+                _vm._v(_vm._s(_vm.protein_grams.format(0, ",", "")) + " g")
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [
+                _vm._v(
+                  _vm._s(_vm.protein.calories.format(0, ",", "")) + " kcal"
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [
+                _vm._v(_vm._s(_vm.protein.percentage.format(0, ",", "")) + " %")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c("td", [_vm._v("Fette")]),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [
+                _vm._v(_vm._s(_vm.fat_grams.format(0, ",", "")) + " g")
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [
+                _vm._v(_vm._s(_vm.fat.calories.format(0, ",", "")) + " kcal")
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [
+                _vm._v(_vm._s(_vm.fat.percentage.format(0, ",", "")) + " %")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c("td", [_vm._v("Kohlenhydrate")]),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [
+                _vm._v(
+                  _vm._s(_vm.carbohydrates_grams.format(0, ",", "")) + " g"
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [
+                _vm._v(
+                  _vm._s(_vm.carbohydrates.calories.format(0, ",", "")) +
+                    " kcal"
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [
+                _vm._v(
+                  _vm._s(_vm.carbohydrates.percentage.format(0, ",", "")) + " %"
+                )
+              ])
+            ])
+          ])
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { width: "100%" } }, [_vm._v("Nährstoff")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right", attrs: { width: "100" } }, [
+          _vm._v("g")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right", attrs: { width: "100" } }, [
+          _vm._v("kcal")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right", attrs: { width: "100" } }, [
+          _vm._v("%")
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/health/macros/show.vue?vue&type=template&id=0de1d39d&":
 /*!*****************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/widgets/health/macros/show.vue?vue&type=template&id=0de1d39d& ***!
@@ -75592,6 +76012,7 @@ Vue.component('widget-health-weight', __webpack_require__(/*! ./components/widge
 Vue.component('widget-health-calories-show', __webpack_require__(/*! ./components/widgets/health/calories/show.vue */ "./resources/js/components/widgets/health/calories/show.vue")["default"]);
 Vue.component('widget-health-macros-show', __webpack_require__(/*! ./components/widgets/health/macros/show.vue */ "./resources/js/components/widgets/health/macros/show.vue")["default"]);
 Vue.component('widget-health-weight-development-show', __webpack_require__(/*! ./components/widgets/health/weight-development/show.vue */ "./resources/js/components/widgets/health/weight-development/show.vue")["default"]);
+Vue.component('widget-health-macro-calculator-show', __webpack_require__(/*! ./components/widgets/health/macro-calculator/show.vue */ "./resources/js/components/widgets/health/macro-calculator/show.vue")["default"]);
 Vue.component('widget-time-show', __webpack_require__(/*! ./components/widgets/time/show.vue */ "./resources/js/components/widgets/time/show.vue")["default"]);
 Vue.component('widget-day-show', __webpack_require__(/*! ./components/widgets/day/show.vue */ "./resources/js/components/widgets/day/show.vue")["default"]);
 /**
@@ -79674,6 +80095,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_template_id_51b0099e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_template_id_51b0099e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/widgets/health/macro-calculator/show.vue":
+/*!**************************************************************************!*\
+  !*** ./resources/js/components/widgets/health/macro-calculator/show.vue ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _show_vue_vue_type_template_id_2ba171a1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./show.vue?vue&type=template&id=2ba171a1& */ "./resources/js/components/widgets/health/macro-calculator/show.vue?vue&type=template&id=2ba171a1&");
+/* harmony import */ var _show_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./show.vue?vue&type=script&lang=js& */ "./resources/js/components/widgets/health/macro-calculator/show.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _show_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _show_vue_vue_type_template_id_2ba171a1___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _show_vue_vue_type_template_id_2ba171a1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/widgets/health/macro-calculator/show.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/widgets/health/macro-calculator/show.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/components/widgets/health/macro-calculator/show.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./show.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/health/macro-calculator/show.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/widgets/health/macro-calculator/show.vue?vue&type=template&id=2ba171a1&":
+/*!*********************************************************************************************************!*\
+  !*** ./resources/js/components/widgets/health/macro-calculator/show.vue?vue&type=template&id=2ba171a1& ***!
+  \*********************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_template_id_2ba171a1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./show.vue?vue&type=template&id=2ba171a1& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/health/macro-calculator/show.vue?vue&type=template&id=2ba171a1&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_template_id_2ba171a1___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_template_id_2ba171a1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

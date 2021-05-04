@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Services\Service;
 use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
@@ -24,5 +25,17 @@ class DatabaseSeeder extends Seeder
         // $this->call(UsersTableSeeder::class);
 
         Artisan::call('work:time:import');
+
+        Service::create([
+            'slug' => 'exist',
+            'name' => 'exist.io',
+            'type' => 'oauth',
+        ]);
+
+        Service::create([
+            'slug' => 'rentablo',
+            'name' => 'Rentablo',
+            'type' => 'password',
+        ]);
     }
 }
