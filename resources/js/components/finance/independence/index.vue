@@ -319,9 +319,8 @@
                 }
 
                 for (var i = 0; i < 20; i++) {
-                    start_amount += investments_year;
-                    interest = start_amount * (this.form.investments.return / 100);
-                    end_amount = start_amount + interest;
+                    interest = (start_amount + investments_year) * (this.form.investments.return / 100);
+                    end_amount = start_amount + investments_year + interest;
                     is_networth_goal = false;
                     if  (is_networth_goal_reached == false && end_amount >= this.networth) {
                         is_networth_goal = true;
