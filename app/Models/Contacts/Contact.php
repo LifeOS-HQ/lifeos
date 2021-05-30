@@ -103,6 +103,10 @@ class Contact extends Model
 
     public function getBirthdateAtFormattedAttribute() : string
     {
+        if (is_null($this->birthdate_at)) {
+            return '';
+        }
+
         return $this->birthdate_at->format('d.m.Y');
     }
 
@@ -114,6 +118,10 @@ class Contact extends Model
 
     public function getFirstMetAtFormattedAttribute() : string
     {
+        if (is_null($this->first_met_at)) {
+            return '';
+        }
+
         return $this->first_met_at->format('d.m.Y');
     }
 
