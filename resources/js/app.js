@@ -88,6 +88,9 @@ Vue.component('portfolio-table', require('./components/portfolio/table.vue').def
 Vue.component('portfolio-dividend-month', require('./components/portfolio/dividend/month.vue').default);
 Vue.component('review-table', require('./components/review/table.vue').default);
 Vue.component('review-show', require('./pages/review/show.vue').default);
+Vue.component('review-show', require('./pages/review/show.vue').default);
+
+Vue.component('user-client-table', require('./components/user/client/table.vue').default);
 
 Vue.component('work-time-table', require('./components/work/time/table.vue').default);
 Vue.component('work-month-table', require('./components/work/month/table.vue').default);

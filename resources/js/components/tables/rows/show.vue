@@ -3,6 +3,7 @@
         <slot name="show"></slot>
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
+                <slot name="preBtnGroup"></slot>
                 <button type="button" class="btn btn-secondary" title="Anzeigen" @click="show" v-if="hasShowButton"><i class="fas fa-fw fa-eye"></i></button>
                 <button type="button" class="btn btn-secondary" title="Bearbeiten" @click="edit" v-if="hasEditButton"><i class="fas fa-fw fa-edit"></i></button>
                 <button type="button" class="btn btn-secondary" title="Löschen" @click="$emit('destroying')"><i class="fas fa-fw fa-trash"></i></button>

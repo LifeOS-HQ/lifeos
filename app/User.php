@@ -55,6 +55,16 @@ class User extends Authenticatable
         return $this->hasMany(Activity::class, 'user_id');
     }
 
+    public function clients() : BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_client', 'coach_id', 'client_id');
+    }
+
+    public function coaches() : BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_client', 'client_id', 'coach_id');
+    }
+
     public function contacts() : HasMany
     {
         return $this->hasMany(Contact::class, 'user_id');

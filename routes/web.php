@@ -48,6 +48,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource(\App\Models\Contacts\Contact::ROUTE_NAME, 'Contacts\ContactController');
 
+    Route::resource('/clients', 'Users\ClientController');
+
     Route::get('/data/day/{date_string?}', [\App\Http\Controllers\Data\DayController::class, 'index'])->name('data.day.index');
     Route::get('/data/day/{date_string}/{group}', [\App\Http\Controllers\Data\DayController::class, 'show'])->name('data.day.show');
 
