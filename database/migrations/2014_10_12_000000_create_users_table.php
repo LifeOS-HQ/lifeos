@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('api_token', 80)->unique()->nullable()->default(null);
             $table->rememberToken();
+            $table->boolean('is_coach')->default(false);
             $table->timestamps();
         });
     }
