@@ -4,24 +4,23 @@ namespace App\Http\Controllers\Diet\Foods;
 
 use App\Http\Controllers\Controller;
 use App\Models\Diet\Foods\Food;
+use App\Models\Diet\Foods\Packaging;
 use Illuminate\Http\Request;
 
-class FoodController extends Controller
+class PackagingController extends Controller
 {
-    protected $baseViewPath = 'diet.food';
+    protected $baseViewPath = 'packaging';
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, Food $food)
     {
         if ($request->wantsJson()) {
-            return Food::orderBy('name', 'ASC')->paginate();
+            return $food->packagings()->orderBy('amount', 'ASC')->get();
         }
-
-        return view($this->baseViewPath . '.index');
     }
 
     /**
@@ -29,7 +28,7 @@ class FoodController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Food $food)
     {
         //
     }
@@ -40,81 +39,75 @@ class FoodController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Food $food)
     {
         $attributes = $request->validate([
-
+            'amount_formatted' => 'required|formatted_number',
         ]);
 
-        return Food::create([
-            'name' => 'Neues Nahrungsmittel',
-        ]);
+        return $food->packagings()->create($attributes);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Diet\Foods\Food  $food
+     * @param  \App\Models\Diet\Foods\Packaging  $packaging
      * @return \Illuminate\Http\Response
      */
-    public function show(Food $food)
+    public function show(Food $food, Packaging $packaging)
     {
         return view($this->baseViewPath . '.show')
-            ->with('model', $food);
+            ->with('model', $packaging);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Diet\Foods\Food  $food
+     * @param  \App\Models\Diet\Foods\Packaging  $packaging
      * @return \Illuminate\Http\Response
      */
-    public function edit(Food $food)
+    public function edit(Food $food, Packaging $packaging)
     {
         return view($this->baseViewPath . '.edit')
-            ->with('model', $food);
+            ->with('model', $packaging);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Diet\Foods\Food  $food
+     * @param  \App\Models\Diet\Foods\Packaging  $packaging
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Food $food)
+    public function update(Request $request, Food $food, Packaging $packaging)
     {
         $attributes = $request->validate([
-            'name' => 'required|string',
-            'calories_formatted' => 'required|formatted_number',
-            'carbohydrate_formatted' => 'required|formatted_number',
-            'fat_formatted' => 'required|formatted_number',
-            'protein_formatted' => 'required|formatted_number',
+            'amount_formatted' => 'required|formatted_number',
         ]);
 
-        $food->update($attributes);
+        $packaging->update($attributes);
 
         if ($request->wantsJson()) {
-            return $food;
+            return $packaging;
         }
 
-        return redirect($food->path)
+        return redirect($packaging->path)
             ->with('status', [
                 'type' => 'success',
-                'text' => 'gespeichert.',
+                'text' => $packaging->label(1) . ' gespeichert.',
             ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Diet\Foods\Food  $food
+     * @param  \App\Models\Diet\Foods\Packaging  $packaging
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Food $food)
+    public function destroy(Request $request, Food $food, Packaging $packaging)
     {
-        if ($isDeletable = $food->isDeletable()) {
-            $food->delete();
+        if ($isDeletable = $packaging->isDeletable()) {
+            $packaging->delete();
         }
 
         if ($request->wantsJson()) {
@@ -126,17 +119,17 @@ class FoodController extends Controller
         if ($isDeletable) {
             $status = [
                 'type' => 'success',
-                'text' => $food->label(1) . ' gelöscht.',
+                'text' => $packaging->label(1) . ' gelöscht.',
             ];
         }
         else {
             $status = [
                 'type' => 'danger',
-                'text' => 'kann nicht gelöscht werden.',
+                'text' => $packaging->label(1) . ' kann nicht gelöscht werden.',
             ];
         }
 
-        return redirect($food->index_path)
+        return redirect($food->path)
             ->with('status', $status);
     }
 }

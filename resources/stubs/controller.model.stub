@@ -93,10 +93,10 @@ class DummyClass extends Controller
             return $DummyModelVariable;
         }
 
-        return back()
+        return redirect($DummyModelVariable->path)
             ->with('status', [
                 'type' => 'success',
-                'text' => 'gespeichert.',
+                'text' => $DummyModelVariable->label(1) . ' gespeichert.',
             ]);
     }
 
@@ -121,17 +121,17 @@ class DummyClass extends Controller
         if ($isDeletable) {
             $status = [
                 'type' => 'success',
-                'text' => 'gelöscht.',
+                'text' => $DummyModelVariable->label(1) . ' gelöscht.',
             ];
         }
         else {
             $status = [
                 'type' => 'danger',
-                'text' => 'kann nicht gelöscht werden.',
+                'text' => $DummyModelVariable->label(1) . ' kann nicht gelöscht werden.',
             ];
         }
 
-        return redirect(route($this->baseViewPath . '.index'))
+        return redirect($DummyModelVariable->index_path)
             ->with('status', $status);
     }
 }

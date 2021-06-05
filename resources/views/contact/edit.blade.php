@@ -8,7 +8,7 @@
 
 @section('content')
 
-<form action="{{ $model->path }}" method="POST">
+    <form action="{{ $model->path }}" method="POST">
         @csrf
         @method('PUT')
 

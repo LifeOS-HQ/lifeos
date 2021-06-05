@@ -4,8 +4,9 @@
 
     <h1>Ernährung</h1>
     <div class="mb-3">
-        <a href="#" class="btn btn-secondary btn-sm">Pläne (TODO)</a>
+        <a href="{{ \App\Models\Diet\Foods\Food::indexPath() }}" class="btn btn-secondary btn-sm">Nahrungsmittel</a>
         <a href="#" class="btn btn-secondary btn-sm">Tagebuch (TODO)</a>
+        <a href="#" class="btn btn-secondary btn-sm">Pläne (TODO)</a>
     </div>
 
     <div class="row">

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFoodTable extends Migration
+class CreateFoodPackagingTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class CreateFoodTable extends Migration
      */
     public function up()
     {
-        Schema::create('food', function (Blueprint $table) {
+        Schema::create('food_packaging', function (Blueprint $table) {
             $table->id();
-
-            $table->string('name');
-            $table->double('calories', 6, 3)->default(0);
-            $table->double('carbohydrate', 6, 3)->default(0);
-            $table->double('fat', 6, 3)->default(0);
-            $table->double('protein', 6, 3)->default(0);
+            $table->foreignId('food_id');
+            $table->double('amount', 6, 3)->default(0);
 
             $table->timestamps();
+
+            $table->foreign('food_id')->references('id')->on('food');
         });
     }
 
@@ -33,6 +31,6 @@ class CreateFoodTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('food');
+        Schema::dropIfExists('food_packaging');
     }
 }

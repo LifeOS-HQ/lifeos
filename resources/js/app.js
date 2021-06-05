@@ -73,6 +73,9 @@ Vue.component('comment-index', require('./components/comment/index.vue').default
 
 Vue.component('contact-table', require('./components/contact/table.vue').default);
 
+Vue.component('diet-food-table', require('./components/diet/food/table.vue').default);
+Vue.component('diet-food-packaging-table', require('./components/diet/food/packaging/table.vue').default);
+
 Vue.component('blog-post-table', require('./components/blog/post/table.vue').default);
 
 Vue.component('finance-independence-index', require('./components/finance/independence/index.vue').default);
