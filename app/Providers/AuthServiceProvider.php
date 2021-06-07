@@ -44,13 +44,15 @@ class AuthServiceProvider extends ServiceProvider
         ReviewLifearea::class => ReviewLifeareaPolicy::class,
         Scale::class => ScalePolicy::class,
         Rating::class => RatingPolicy::class,
-        \App\Models\Journals\Activities\Activity::class => \App\Policies\Journals\ActivityPolicy::class,
         \App\Models\Contacts\Contact::class => \App\Policies\Contacts\ContactPolicy::class,
-        \App\Models\Workouts\Workout::class => \App\Policies\Workouts\WorkoutPolicy::class,
-        \App\Models\Workouts\WorkoutHistory::class => \App\Policies\Workouts\WorkoutHistoryPolicy::class,
+        \App\Models\Diet\Diary\Day::class => \App\Policies\Diet\Diary\DayPolicy::class,
+        \App\Models\Diet\Diary\Meals\Meal::class => \App\Policies\Diet\Diary\Meals\MealPolicy::class,
         \App\Models\Exercises\Exercise::class => \App\Policies\Exercises\ExercisePolicy::class,
+        \App\Models\Journals\Activities\Activity::class => \App\Policies\Journals\ActivityPolicy::class,
         \App\Models\Services\Service::class => \App\Policies\Services\ServicePolicy::class,
         \App\Models\Widgets\Users\User::class => \App\Policies\Widgets\Users\UserPolicy::class,
+        \App\Models\Workouts\Workout::class => \App\Policies\Workouts\WorkoutPolicy::class,
+        \App\Models\Workouts\WorkoutHistory::class => \App\Policies\Workouts\WorkoutHistoryPolicy::class,
     ];
 
     /**

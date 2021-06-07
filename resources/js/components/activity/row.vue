@@ -16,7 +16,7 @@
 
         <template v-slot:show>
             <td class="align-middle pointer" @click="isEditing = true">{{ item.title }}</td>
-            <td class="align-middle pointer" @click="isEditing = true">{{ item.lifearea ? item.lifearea.title : '-' }}</td>
+            <td class="align-middle pointer" @click="isEditing = true">{{ item.lifearea ? item.lifearea.title : '-' }}</td>
         </template>
 
     </editable>

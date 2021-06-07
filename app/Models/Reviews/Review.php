@@ -66,6 +66,7 @@ class Review extends Model
             $lastModel = self::with([
                 'blocks'
             ])
+                ->where('user_id', $model->user_id)
                 ->where('id', '!=', $model->id)
                 ->latest()
                 ->first();

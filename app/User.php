@@ -70,6 +70,11 @@ class User extends Authenticatable
         return $this->hasMany(Contact::class, 'user_id');
     }
 
+    public function diet_days() : HasMany
+    {
+        return $this->hasMany(\App\Models\Diet\Diary\Day::class, 'user_id');
+    }
+
     public function exercises() : HasMany
     {
         return $this->hasMany(Exercise::class, 'user_id');

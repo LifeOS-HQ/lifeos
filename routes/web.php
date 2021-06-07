@@ -54,6 +54,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/data/day/{date_string}/{group}', [\App\Http\Controllers\Data\DayController::class, 'show'])->name('data.day.show');
 
     Route::get('/diet', 'Diet\DietController@index')->name('diet.index');
+    Route::resource('/diet/days', 'Diet\Diary\DayController', ['as' => 'diet']);
+    Route::resource('/diet/days.meals', 'Diet\Diary\Meals\MealController', ['as' => 'diet']);
+    Route::resource('/diet/days/meals.foods', 'Diet\Diary\Meals\FoodController', ['as' => 'diet.days']);
     Route::resource('/diet/recipes', 'Diet\Recipes\RecipeController', ['as' => 'diet']);
     Route::resource('/diet/foods', 'Diet\Foods\FoodController', ['as' => 'diet']);
     Route::resource('/diet/foods.packagings', 'Diet\Foods\PackagingController', ['as' => 'diet']);

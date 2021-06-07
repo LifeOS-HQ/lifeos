@@ -60,6 +60,13 @@ class Food extends Model
         {
             return true;
         });
+
+        static::deleting(function($model)
+        {
+            $model->packagings()->delete();
+
+            return true;
+        });
     }
 
     public function isDeletable() : bool
