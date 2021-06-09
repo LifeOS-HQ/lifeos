@@ -57,9 +57,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/diet/days', 'Diet\Diary\DayController', ['as' => 'diet']);
     Route::resource('/diet/days.meals', 'Diet\Diary\Meals\MealController', ['as' => 'diet']);
     Route::resource('/diet/days/meals.foods', 'Diet\Diary\Meals\FoodController', ['as' => 'diet.days']);
-    Route::resource('/diet/recipes', 'Diet\Recipes\RecipeController', ['as' => 'diet']);
     Route::resource('/diet/foods', 'Diet\Foods\FoodController', ['as' => 'diet']);
     Route::resource('/diet/foods.packagings', 'Diet\Foods\PackagingController', ['as' => 'diet']);
+    Route::resource('/diet/plans', 'Diet\Plans\PlanController', ['as' => 'diet']);
+    Route::resource('/diet/recipes', 'Diet\Recipes\RecipeController', ['as' => 'diet']);
 
     Route::get('/finance', 'Finance\FinanceController@index')->name('finance.index');
         Route::get('/finance/independence', 'Finance\Independence\IndependenceController@index')->name('finance.independence.index');

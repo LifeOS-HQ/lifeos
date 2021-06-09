@@ -6,7 +6,7 @@
     <div class="mb-3">
         <a href="{{ \App\Models\Diet\Foods\Food::indexPath() }}" class="btn btn-secondary btn-sm">Nahrungsmittel</a>
         <a href="{{ \App\Models\Diet\Diary\Day::indexPath() }}" class="btn btn-secondary btn-sm">Tagebuch (WIP)</a>
-        <a href="#" class="btn btn-secondary btn-sm">Pläne (TODO)</a>
+        <a href="{{ \App\Models\Diet\Plans\Plan::indexPath() }}" class="btn btn-secondary btn-sm">Pläne (WIP)</a>
     </div>
 
     <div class="row">

@@ -38,12 +38,12 @@
 </template>
 
 <script>
-    import row from "./row.vue";
+    import row from './row.vue';
     import tableBase from '../tables/base.vue';
     import inputText from '../forms/inputs/text.vue';
 
-    import { baseMixin } from "../../mixins/tables/base.js";
-    import { paginatedMixin } from "../../mixins/tables/paginated.js";
+    import { baseMixin } from '../../mixins/tables/base.js';
+    import { paginatedMixin } from '../../mixins/tables/paginated.js';
 
     export default {
 
