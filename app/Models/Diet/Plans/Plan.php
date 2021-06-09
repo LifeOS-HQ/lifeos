@@ -79,11 +79,23 @@ class Plan extends Model
         ];
     }
 
+    public function days() : HasMany
+    {
+        return $this->hasMany(\App\Models\Diet\Plans\Day::class, 'plan_id');
+    }
+
     public function getRouteParameterAttribute() : array
     {
         return [
             'plan' => $this->id,
         ];
+    }
+
+    public function getDaysPathAttribute() : string
+    {
+        return \App\Models\Diet\Plans\Day::indexPath([
+            'plan_id' => $this->id,
+        ]);
     }
 
     public function getValidFromFormattedAttribute() : string

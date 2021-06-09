@@ -78,6 +78,7 @@ Vue.component('diet-diary-meal-index', require('./components/diet/diary/meal/ind
 Vue.component('diet-food-table', require('./components/diet/food/table.vue').default);
 Vue.component('diet-food-packaging-table', require('./components/diet/food/packaging/table.vue').default);
 Vue.component('diet-plan-table', require('./components/diet/plan/table.vue').default);
+Vue.component('diet-plan-day-table', require('./components/diet/plan/day/table.vue').default);
 
 Vue.component('blog-post-table', require('./components/blog/post/table.vue').default);
 

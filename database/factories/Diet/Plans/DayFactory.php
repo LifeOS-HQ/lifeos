@@ -1,9 +1,8 @@
 <?php
 
-namespace Database\Factories\Diet\Diary;
+namespace Database\Factories\Diet\Plans;
 
-use App\Models\Diet\Diary\Day;
-use App\User;
+use App\Models\Diet\Plans\Day;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DayFactory extends Factory

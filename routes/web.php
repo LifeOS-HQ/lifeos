@@ -60,6 +60,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/diet/foods', 'Diet\Foods\FoodController', ['as' => 'diet']);
     Route::resource('/diet/foods.packagings', 'Diet\Foods\PackagingController', ['as' => 'diet']);
     Route::resource('/diet/plans', 'Diet\Plans\PlanController', ['as' => 'diet']);
+    Route::resource('/diet/plans.days', 'Diet\Plans\DayController', ['as' => 'diet']);
     Route::resource('/diet/recipes', 'Diet\Recipes\RecipeController', ['as' => 'diet']);
 
     Route::get('/finance', 'Finance\FinanceController@index')->name('finance.index');

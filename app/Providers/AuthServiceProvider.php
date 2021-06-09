@@ -54,6 +54,7 @@ class AuthServiceProvider extends ServiceProvider
         \App\Models\Widgets\Users\User::class => \App\Policies\Widgets\Users\UserPolicy::class,
         \App\Models\Workouts\Workout::class => \App\Policies\Workouts\WorkoutPolicy::class,
         \App\Models\Workouts\WorkoutHistory::class => \App\Policies\Workouts\WorkoutHistoryPolicy::class,
+        \App\Models\Diet\Plans\Day::class => \App\Policies\Diet\Plans\DayPolicy::class,
     ];
 
     /**
