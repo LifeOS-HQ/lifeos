@@ -17,7 +17,6 @@ class CreateDietDaysMealsTable extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('day_id');
-            $table->foreignId('recipe_id')->nullable();
 
             $table->dateTime('at')->nullable();
             $table->unsignedTinyInteger('order_by')->default(0);
@@ -36,7 +35,6 @@ class CreateDietDaysMealsTable extends Migration
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('day_id')->references('id')->on('diet_days')->onDelete('cascade');
-            $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
         });
     }
 
