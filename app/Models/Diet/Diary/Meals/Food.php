@@ -56,11 +56,27 @@ class Food extends Model
 
         static::created(function($model)
         {
+            $model->cache();
+
             return true;
         });
 
         static::updating(function($model)
         {
+            return true;
+        });
+
+        static::updated(function($model)
+        {
+            $model->cache();
+
+            return true;
+        });
+
+        static::deleted(function($model)
+        {
+            $model->meal->cache();
+
             return true;
         });
     }
@@ -80,9 +96,37 @@ class Food extends Model
         ];
     }
 
+    public function cache() : void
+    {
+        $this->loadMissing([
+            'food',
+            'meal',
+        ]);
+
+        $this->setNutritionValues()
+            ->saveQuietly();
+
+        $this->meal->cache();
+    }
+
+    public function setNutritionValues() : self
+    {
+        $this->calories = $this->food->calories * $this->amount;
+        $this->carbohydrate = $this->food->carbohydrate * $this->amount;
+        $this->fat = $this->food->fat * $this->amount;
+        $this->protein = $this->food->protein * $this->amount;
+
+        return $this;
+    }
+
     public function food() : BelongsTo
     {
         return $this->belongsTo(\App\Models\Diet\Foods\Food::class, 'food_id');
+    }
+
+    public function meal() : BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Diet\Diary\Meals\Meal::class, 'diet_days_meal_id');
     }
 
     public function getRouteParameterAttribute() : array

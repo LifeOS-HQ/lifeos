@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Unit\Diet\Recipes;
+namespace Tests\Unit\Diet\Plans\Meals;
 
 use Tests\TestCase;
 
-class RecipeTest extends TestCase
+class FoodTest extends TestCase
 {
     /**
      * A basic unit test example.

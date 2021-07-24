@@ -24,7 +24,10 @@ class DayController extends Controller
     public function index(Request $request, Plan $plan)
     {
         if ($request->wantsJson()) {
-            return $plan->days()->orderBy('order_by', 'ASC')->get();
+            return $plan->days()
+                ->with('meals')
+                ->orderBy('order_by', 'ASC')
+                ->get();
         }
 
         return view($this->baseViewPath . '.index');

@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('headline', $model->label())
+@section('headline', $model->label() . ' -> ' . $model->name)
 
 @section('content')
 
-<diet-plan-day-table index-path="{{ $model->days_path }}" :model="{{ json_encode($model) }}"></diet-plan-day-table>
+<diet-plan-day-show index-path="{{ $model->days_path }}" :model="{{ json_encode($model) }}" :foods="{{ $foods }}"></diet-plan-day-show>
 
 @endsection

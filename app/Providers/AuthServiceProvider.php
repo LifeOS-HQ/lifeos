@@ -47,6 +47,9 @@ class AuthServiceProvider extends ServiceProvider
         \App\Models\Contacts\Contact::class => \App\Policies\Contacts\ContactPolicy::class,
         \App\Models\Diet\Diary\Day::class => \App\Policies\Diet\Diary\DayPolicy::class,
         \App\Models\Diet\Diary\Meals\Meal::class => \App\Policies\Diet\Diary\Meals\MealPolicy::class,
+        \App\Models\Diet\Meals\Meal::class => \App\Policies\Diet\Meals\MealPolicy::class,
+        \App\Models\Diet\Plans\Day::class => \App\Policies\Diet\Plans\DayPolicy::class,
+        \App\Models\Diet\Plans\Meals\Meal::class => \App\Policies\Diet\Plans\Meals\MealPolicy::class,
         \App\Models\Diet\Plans\Plan::class => \App\Policies\Diet\Plans\PlanPolicy::class,
         \App\Models\Exercises\Exercise::class => \App\Policies\Exercises\ExercisePolicy::class,
         \App\Models\Journals\Activities\Activity::class => \App\Policies\Journals\ActivityPolicy::class,
@@ -54,7 +57,6 @@ class AuthServiceProvider extends ServiceProvider
         \App\Models\Widgets\Users\User::class => \App\Policies\Widgets\Users\UserPolicy::class,
         \App\Models\Workouts\Workout::class => \App\Policies\Workouts\WorkoutPolicy::class,
         \App\Models\Workouts\WorkoutHistory::class => \App\Policies\Workouts\WorkoutHistoryPolicy::class,
-        \App\Models\Diet\Plans\Day::class => \App\Policies\Diet\Plans\DayPolicy::class,
     ];
 
     /**

@@ -6,6 +6,7 @@ use D15r\ModelLabels\Traits\HasLabels;
 use D15r\ModelPath\Traits\HasModelPath;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Day extends Model
 {
@@ -16,7 +17,7 @@ class Day extends Model
     const ROUTE_NAME = 'diet.plans.days';
 
     protected $appends = [
-        //
+        'meals_path',
     ];
 
     protected $casts = [
@@ -77,6 +78,19 @@ class Day extends Model
                 'plural' => 'Tage',
             ],
         ];
+    }
+
+    public function meals() : HasMany
+    {
+        return $this->hasMany(\App\Models\Diet\Plans\Meals\Meal::class, 'day_id');
+    }
+
+    public function getMealsPathAttribute() : string
+    {
+        return \App\Models\Diet\Plans\Meals\Meal::indexPath([
+            'plan_id' => $this->plan_id,
+            'day_id' => $this->id,
+        ]);
     }
 
     public function setDefaultName() : void

@@ -66,7 +66,8 @@ class PlanController extends Controller
     public function show(Plan $plan)
     {
         return view($this->baseViewPath . '.show')
-            ->with('model', $plan);
+            ->with('model', $plan)
+            ->with('foods', \App\Models\Diet\Foods\Food::orderBy('name', 'ASC')->get());
     }
 
     /**

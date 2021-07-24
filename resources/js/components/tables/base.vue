@@ -7,7 +7,7 @@
             </div>
             <div class="col-auto d-flex">
                 <div class="form-group" style="margin-bottom: 0;">
-                    <filter-search v-model="filter.searchtext" @input="$emit('searching', filter.searchtext)"></filter-search>
+                    <filter-search v-model="filter.searchtext" @input="$emit('searching', filter.searchtext)" v-if="isSearchable"></filter-search>
                 </div>
                 <button class="btn btn-secondary btn-sm ml-1" @click="filter.show = !filter.show" v-if="hasFilter"><i class="fas fa-filter"></i></button>
             </div>
@@ -40,7 +40,7 @@
                 <slot name="tfoot"></slot>
             </tfoot>
         </table>
-        <div class="alert alert-dark" v-else><center>Keine Datensätze vorhanden</center></div>
+        <div class="alert alert-dark" v-else><center><slot name="no-data">Keine Datensätze vorhanden</slot></center></div>
         <nav aria-label="Page navigation example">
             <ul class="pagination" v-show="paginate.lastPage > 1">
                 <li class="page-item" v-show="paginate.prevPageUrl">
@@ -85,6 +85,11 @@
                 type: Boolean,
                 required: false,
                 default: false,
+            },
+            isSearchable: {
+                type: Boolean,
+                required: false,
+                default: true,
             },
             isShowingFooter: {
                 type: Boolean,

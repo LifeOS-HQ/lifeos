@@ -1,18 +1,18 @@
 <?php
 
-namespace Tests\Feature\Controller\Diet\Recipes;
+namespace Tests\Feature\Controller\Diet\Meals;
 
-use App\Models\Diet\Recipes\Recipe;
+use DummyFullModelClass;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
-class RecipeControllerTest extends TestCase
+class FoodControllerTest extends TestCase
 {
-    protected $baseRouteName = 'recipe';
-    protected $baseViewPath = 'recipe';
-    protected $className = Recipe::class;
+    protected $baseRouteName = 'DummyModelVariable';
+    protected $baseViewPath = 'DummyModelVariable';
+    protected $className = DummyModelClass::class;
 
     /**
      * @test
@@ -24,10 +24,10 @@ class RecipeControllerTest extends TestCase
         $actions = [
             'index' => [],
             'store' => [],
-            'show' => ['recipe' => $id],
-            'edit' => ['recipe' => $id],
-            'update' => ['recipe' => $id],
-            'destroy' => ['recipe' => $id],
+            'show' => ['DummyModelVariable' => $id],
+            'edit' => ['DummyModelVariable' => $id],
+            'update' => ['DummyModelVariable' => $id],
+            'destroy' => ['DummyModelVariable' => $id],
         ];
         $this->guestsCanNotAccess($actions);
     }
@@ -39,7 +39,7 @@ class RecipeControllerTest extends TestCase
     {
         $modelOfADifferentUser = factory($this->className)->create();
 
-        $this->a_user_can_not_see_models_from_a_different_user(['recipe' => $modelOfADifferentUser->id]);
+        $this->a_user_can_not_see_models_from_a_different_user(['DummyModelVariable' => $modelOfADifferentUser->id]);
     }
 
     /**
@@ -91,7 +91,7 @@ class RecipeControllerTest extends TestCase
 
         $model = $this->createModel();
 
-        $this->getShowViewResponse(['recipe' => $model->id])
+        $this->getShowViewResponse(['DummyModelVariable' => $model->id])
             ->assertViewIs($this->baseViewPath . '.show')
             ->assertViewHas('model');
     }
@@ -103,7 +103,7 @@ class RecipeControllerTest extends TestCase
     {
         $model = $this->createModel();
 
-        $this->getEditViewResponse(['recipe' => $model->id])
+        $this->getEditViewResponse(['DummyModelVariable' => $model->id])
             ->assertViewIs($this->baseViewPath . '.edit')
             ->assertViewHas('model');
     }
@@ -123,7 +123,7 @@ class RecipeControllerTest extends TestCase
 
         ];
 
-        $response = $this->put(route($this->baseRouteName . '.update', ['recipe' => $model->id]), $data)
+        $response = $this->put(route($this->baseRouteName . '.update', ['DummyModelVariable' => $model->id]), $data)
             ->assertStatus(Response::HTTP_FOUND)
             ->assertSessionHasNoErrors();
 
@@ -139,7 +139,7 @@ class RecipeControllerTest extends TestCase
     {
         $model = $this->createModel();
 
-        $this->deleteModel($model, ['recipe' => $model->id])
+        $this->deleteModel($model, ['DummyModelVariable' => $model->id])
             ->assertRedirect();
     }
 }

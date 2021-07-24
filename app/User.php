@@ -75,6 +75,11 @@ class User extends Authenticatable
         return $this->hasMany(\App\Models\Diet\Diary\Day::class, 'user_id');
     }
 
+    public function diet_meals() : HasMany
+    {
+        return $this->hasMany(\App\Models\Diet\Meals\Meal::class, 'user_id');
+    }
+
     public function diet_plans() : HasMany
     {
         return $this->hasMany(\App\Models\Diet\Plans\Plan::class, 'user_id');

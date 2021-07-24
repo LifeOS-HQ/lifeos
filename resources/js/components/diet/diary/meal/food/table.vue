@@ -1,6 +1,6 @@
 <template>
 
-    <table-base :is-loading="isLoading" :items-length="items.length" :has-filter="hasFilter()" @creating="create" @paginating="filter.page = $event" @searching="searching($event)">
+    <table-base :is-loading="isLoading" :is-showing-footer="true" :items-length="items.length" :has-filter="hasFilter()" @creating="create" @paginating="filter.page = $event" @searching="searching($event)">
 
         <template v-slot:form>
             <div class="form-group mb-0 mr-1">
@@ -15,6 +15,11 @@
 
         </template>
 
+        <template v-slot:no-data>
+            Mahlzeit hinzufügen (TODO) <br />
+            Mahlzeit von gestern hinzufügen
+        </template>
+
         <template v-slot:thead>
             <tr>
                 <th class="">Nahrungsmittel</th>
@@ -25,6 +30,29 @@
 
         <template v-slot:tbody>
             <row :item="item" :key="item.id" :foods="foods" v-for="(item, index) in items" @deleted="deleted(index)" @updated="updated(index, $event)"></row>
+        </template>
+
+        <template v-slot:tfoot>
+            <tr class="font-weight-bold">
+                <td>Kalorien</td>
+                <td class="text-right">{{ nutrition_values.calories.format(2, ',', '.') }}</td>
+                <td></td>
+            </tr>
+            <tr class="font-weight-bold">
+                <td>Kohlenhydrate</td>
+                <td class="text-right">{{ nutrition_values.carbohydrate.format(2, ',', '.') }}</td>
+                <td></td>
+            </tr>
+            <tr class="font-weight-bold">
+                <td>Fett</td>
+                <td class="text-right">{{ nutrition_values.fat.format(2, ',', '.') }}</td>
+                <td></td>
+            </tr>
+            <tr class="font-weight-bold">
+                <td>Protein</td>
+                <td class="text-right">{{ nutrition_values.protein.format(2, ',', '.') }}</td>
+                <td></td>
+            </tr>
         </template>
 
     </table-base>
@@ -74,7 +102,23 @@
         },
 
         computed: {
+            nutrition_values() {
+                var values = {
+                    calories: 0,
+                    carbohydrate: 0,
+                    fat: 0,
+                    protein: 0,
+                };
 
+                this.items.forEach(function (food, index) {
+                    values.calories += food.calories;
+                    values.carbohydrate += food.carbohydrate;
+                    values.fat += food.fat;
+                    values.protein += food.protein;
+                });
+
+                return values;
+            }
         },
 
         methods: {

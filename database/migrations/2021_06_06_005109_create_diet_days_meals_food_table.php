@@ -20,15 +20,15 @@ class CreateDietDaysMealsFoodTable extends Migration
             $table->foreignId('food_id');
 
             $table->unsignedTinyInteger('order_by')->default(0);
-            $table->double('amount', 6, 3)->default(0);
+            $table->double('amount', 10, 3)->default(0);
 
             $table->unsignedTinyInteger('rating_points')->default(0);
             $table->text('rating_comment')->nullable();
 
-            $table->double('calories', 6, 3)->default(0);
-            $table->double('carbohydrate', 6, 3)->default(0);
-            $table->double('fat', 6, 3)->default(0);
-            $table->double('protein', 6, 3)->default(0);
+            $table->double('calories', 10, 3)->default(0);
+            $table->double('carbohydrate', 10, 3)->default(0);
+            $table->double('fat', 10, 3)->default(0);
+            $table->double('protein', 10, 3)->default(0);
 
             $table->timestamps();
 
@@ -45,6 +45,6 @@ class CreateDietDaysMealsFoodTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('food');
+        Schema::dropIfExists('diet_days_meals_food');
     }
 }

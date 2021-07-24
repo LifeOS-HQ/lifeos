@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('headline', $model->label())
+@section('headline', 'Ernährungstagebuch')
 
 @section('content')
 

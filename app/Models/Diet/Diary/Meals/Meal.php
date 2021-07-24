@@ -83,6 +83,33 @@ class Meal extends Model
         ];
     }
 
+    public function cache() : void
+    {
+        $this->loadMissing([
+            'foods',
+        ]);
+
+        $this->setNutritionValues()
+            ->saveQuietly();
+    }
+
+    public function setNutritionValues() : self
+    {
+        $this->calories = 0;
+        $this->carbohydrate = 0;
+        $this->fat = 0;
+        $this->protein = 0;
+
+        foreach ($this->foods as $food) {
+            $this->calories += $food->calories;
+            $this->carbohydrate += $food->carbohydrate;
+            $this->fat += $food->fat;
+            $this->protein += $food->protein;
+        }
+
+        return $this;
+    }
+
     public function foods() : HasMany
     {
         return $this->hasMany(\App\Models\Diet\Diary\Meals\Food::class, 'diet_days_meal_id');

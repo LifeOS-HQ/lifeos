@@ -1,18 +1,18 @@
 <?php
 
-namespace Database\Factories\Diet\Recipes;
+namespace Database\Factories\Diet\Plans\Meals;
 
-use App\Models\Diet\Recipes\Recipe;
+use App\Models\Diet\Plans\Meals\Meal;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class RecipeFactory extends Factory
+class MealFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Recipe::class;
+    protected $model = Meal::class;
 
     /**
      * Define the model's default state.

@@ -16,7 +16,7 @@ class CreateFoodPackagingTable extends Migration
         Schema::create('food_packaging', function (Blueprint $table) {
             $table->id();
             $table->foreignId('food_id');
-            $table->double('amount', 6, 3)->default(0);
+            $table->double('amount', 10, 3)->default(0);
 
             $table->timestamps();
 

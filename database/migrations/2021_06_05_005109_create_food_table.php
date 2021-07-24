@@ -17,10 +17,10 @@ class CreateFoodTable extends Migration
             $table->id();
 
             $table->string('name');
-            $table->double('calories', 6, 3)->default(0);
-            $table->double('carbohydrate', 6, 3)->default(0);
-            $table->double('fat', 6, 3)->default(0);
-            $table->double('protein', 6, 3)->default(0);
+            $table->double('calories', 10, 3)->default(0);
+            $table->double('carbohydrate', 10, 3)->default(0);
+            $table->double('fat', 10, 3)->default(0);
+            $table->double('protein', 10, 3)->default(0);
 
             $table->timestamps();
         });
