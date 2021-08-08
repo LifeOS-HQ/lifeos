@@ -67,8 +67,12 @@
                         <td class="text-right font-weight-bold">{{ Number(sum_net).format(2, ',', '.') }}</td>
                         <td class="text-right d-none d-sm-table-cell w-action"></td>
                     </tr>
-                    <tr>
-                        <td class="" width="125"></td>
+                    <tr v-show="completed_months.length > 0">
+                        <td class="" width="125">
+                            <span v-show="completed_months.length != items.length">
+                                {{ completed_months.length }} Komplette
+                            </span>
+                        </td>
                         <td class="text-right font-weight-bold">Ø {{ Number(sum_working_days / completed_months.length).format(0, ',', '.') }}</td>
                         <td class="text-right font-weight-bold">Ø {{ Number(sum_hours_worked / completed_months.length).format(2, ',', '.') }}</td>
                         <td class="text-right"></td>

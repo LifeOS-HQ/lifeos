@@ -10051,6 +10051,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -63561,92 +63565,128 @@ var render = function() {
                   })
                 ]),
                 _vm._v(" "),
-                _c("tr", [
-                  _c("td", { attrs: { width: "125" } }),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right font-weight-bold" }, [
-                    _vm._v(
-                      "Ø " +
-                        _vm._s(
-                          Number(
-                            _vm.sum_working_days / _vm.completed_months.length
-                          ).format(0, ",", ".")
-                        )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right font-weight-bold" }, [
-                    _vm._v(
-                      "Ø " +
-                        _vm._s(
-                          Number(
-                            _vm.sum_hours_worked / _vm.completed_months.length
-                          ).format(2, ",", ".")
-                        )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right font-weight-bold" }, [
-                    _vm._v(
-                      "Ø " +
-                        _vm._s(
-                          Number(
-                            _vm.sum_wage / _vm.completed_months.length
-                          ).format(2, ",", ".")
-                        )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right font-weight-bold" }, [
-                    _vm._v(
-                      "Ø " +
-                        _vm._s(
-                          Number(
-                            _vm.sum_wage_bonus / _vm.completed_months.length
-                          ).format(2, ",", ".")
-                        )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right font-weight-bold" }, [
-                    _vm._v(
-                      "Ø " +
-                        _vm._s(
-                          Number(
-                            _vm.sum_bonus / _vm.completed_months.length
-                          ).format(2, ",", ".")
-                        )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right font-weight-bold" }, [
-                    _vm._v(
-                      "Ø " +
-                        _vm._s(
-                          Number(
-                            _vm.sum_gross / _vm.completed_months.length
-                          ).format(2, ",", ".")
-                        )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right font-weight-bold" }, [
-                    _vm._v(
-                      "Ø " +
-                        _vm._s(
-                          Number(
-                            _vm.sum_net / _vm.completed_months.length
-                          ).format(2, ",", ".")
-                        )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", {
-                    staticClass: "text-right d-none d-sm-table-cell w-action"
-                  })
-                ])
+                _c(
+                  "tr",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.completed_months.length > 0,
+                        expression: "completed_months.length > 0"
+                      }
+                    ]
+                  },
+                  [
+                    _c("td", { attrs: { width: "125" } }, [
+                      _c(
+                        "span",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value:
+                                _vm.completed_months.length != _vm.items.length,
+                              expression:
+                                "completed_months.length != items.length"
+                            }
+                          ]
+                        },
+                        [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(_vm.completed_months.length) +
+                              " Komplette\n                        "
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right font-weight-bold" }, [
+                      _vm._v(
+                        "Ø " +
+                          _vm._s(
+                            Number(
+                              _vm.sum_working_days / _vm.completed_months.length
+                            ).format(0, ",", ".")
+                          )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right font-weight-bold" }, [
+                      _vm._v(
+                        "Ø " +
+                          _vm._s(
+                            Number(
+                              _vm.sum_hours_worked / _vm.completed_months.length
+                            ).format(2, ",", ".")
+                          )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right font-weight-bold" }, [
+                      _vm._v(
+                        "Ø " +
+                          _vm._s(
+                            Number(
+                              _vm.sum_wage / _vm.completed_months.length
+                            ).format(2, ",", ".")
+                          )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right font-weight-bold" }, [
+                      _vm._v(
+                        "Ø " +
+                          _vm._s(
+                            Number(
+                              _vm.sum_wage_bonus / _vm.completed_months.length
+                            ).format(2, ",", ".")
+                          )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right font-weight-bold" }, [
+                      _vm._v(
+                        "Ø " +
+                          _vm._s(
+                            Number(
+                              _vm.sum_bonus / _vm.completed_months.length
+                            ).format(2, ",", ".")
+                          )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right font-weight-bold" }, [
+                      _vm._v(
+                        "Ø " +
+                          _vm._s(
+                            Number(
+                              _vm.sum_gross / _vm.completed_months.length
+                            ).format(2, ",", ".")
+                          )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right font-weight-bold" }, [
+                      _vm._v(
+                        "Ø " +
+                          _vm._s(
+                            Number(
+                              _vm.sum_net / _vm.completed_months.length
+                            ).format(2, ",", ".")
+                          )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", {
+                      staticClass: "text-right d-none d-sm-table-cell w-action"
+                    })
+                  ]
+                )
               ])
             ]
           )
