@@ -69,14 +69,14 @@
                     </tr>
                     <tr>
                         <td class="" width="125"></td>
-                        <td class="text-right font-weight-bold">Ø {{ Number(sum_working_days / items.length).format(0, ',', '.') }}</td>
-                        <td class="text-right font-weight-bold">Ø {{ Number(sum_hours_worked / items.length).format(2, ',', '.') }}</td>
+                        <td class="text-right font-weight-bold">Ø {{ Number(sum_working_days / completed_months.length).format(0, ',', '.') }}</td>
+                        <td class="text-right font-weight-bold">Ø {{ Number(sum_hours_worked / completed_months.length).format(2, ',', '.') }}</td>
                         <td class="text-right"></td>
-                        <td class="text-right font-weight-bold">Ø {{ Number(sum_wage / items.length).format(2, ',', '.') }}</td>
-                        <td class="text-right font-weight-bold">Ø {{ Number(sum_wage_bonus / items.length).format(2, ',', '.') }}</td>
-                        <td class="text-right font-weight-bold">Ø {{ Number(sum_bonus / items.length).format(2, ',', '.') }}</td>
-                        <td class="text-right font-weight-bold">Ø {{ Number(sum_gross / items.length).format(2, ',', '.') }}</td>
-                        <td class="text-right font-weight-bold">Ø {{ Number(sum_net / items.length).format(2, ',', '.') }}</td>
+                        <td class="text-right font-weight-bold">Ø {{ Number(sum_wage / completed_months.length).format(2, ',', '.') }}</td>
+                        <td class="text-right font-weight-bold">Ø {{ Number(sum_wage_bonus / completed_months.length).format(2, ',', '.') }}</td>
+                        <td class="text-right font-weight-bold">Ø {{ Number(sum_bonus / completed_months.length).format(2, ',', '.') }}</td>
+                        <td class="text-right font-weight-bold">Ø {{ Number(sum_gross / completed_months.length).format(2, ',', '.') }}</td>
+                        <td class="text-right font-weight-bold">Ø {{ Number(sum_net / completed_months.length).format(2, ',', '.') }}</td>
                         <td class="text-right d-none d-sm-table-cell w-action"></td>
                     </tr>
                 </tfoot>
@@ -137,6 +137,11 @@
         },
 
         computed: {
+            completed_months() {
+                return this.items.filter( function (month) {
+                    return (month.net_in_cents > 0);
+                })
+            },
             page() {
                 return this.filter.page;
             },

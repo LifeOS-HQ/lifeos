@@ -1,6 +1,6 @@
 <template>
     <div>
-        <show :item="item" :foods="foods" :key="index" v-for="(item, index) in meals" @deleted="remove(index)" @updated="updated(index, $event)"></show>
+        <show :item="item" :foods="foods" :diet_meals="diet_meals" :key="index" v-for="(item, index) in meals" @deleted="remove(index)" @updated="updated(index, $event)"></show>
         <button type="button" class="btn btn-secondary btn-sm btn-block" title="Anlegen" @click="store"><i class="fas fa-fw fa-plus"></i></button>
     </div>
 </template>
@@ -16,6 +16,10 @@
 
         props: {
             foods: {
+                required: true,
+                type: Array,
+            },
+            diet_meals: {
                 required: true,
                 type: Array,
             },

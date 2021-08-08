@@ -58,13 +58,16 @@ class DayController extends Controller
      */
     public function show(Day $day)
     {
+        $user = auth()->user();
+
         $day->load([
             'meals',
         ]);
 
         return view($this->baseViewPath . '.show')
             ->with('model', $day)
-            ->with('foods', \App\Models\Diet\Foods\Food::orderBy('name', 'ASC')->get());
+            ->with('foods', \App\Models\Diet\Foods\Food::orderBy('name', 'ASC')->get())
+            ->with('diet_meals', $user->diet_meals()->orderBy('name', 'ASC')->get());
     }
 
     /**

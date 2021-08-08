@@ -17,6 +17,10 @@ class Food extends Model
 
     const ROUTE_NAME = 'diet.foods';
 
+    const DEFAULT_MICRONUTRIENTS = [
+        //
+    ];
+
     protected $appends = [
         //
     ];

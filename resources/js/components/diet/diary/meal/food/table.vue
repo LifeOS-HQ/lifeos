@@ -3,12 +3,7 @@
     <table-base :is-loading="isLoading" :is-showing-footer="true" :items-length="items.length" :has-filter="hasFilter()" @creating="create" @paginating="filter.page = $event" @searching="searching($event)">
 
         <template v-slot:form>
-            <div class="form-group mb-0 mr-1">
-                <select class="form-control form-control-sm" v-model="form.food_id">
-                    <option :value="null">Nahrungsmittel auswählen</option>
-                    <option :value="food.id" v-for="(food, index) in foods">{{ food.name }}</option>
-                </select>
-            </div>
+            <select-food v-model="form.food_id" :foods="foods"></select-food>
         </template>
 
         <template v-slot:filter>
@@ -16,8 +11,12 @@
         </template>
 
         <template v-slot:no-data>
-            Mahlzeit hinzufügen (TODO) <br />
-            Mahlzeit von gestern hinzufügen
+            Mahlzeit hinzufügen (TODO)<br />
+            <div>
+                <select-meal v-model="form.meal_id" :diet_meals="diet_meals" @input="addMeal($event)"></select-meal>
+            </div>
+            Mahlzeit von gestern hinzufügen (TODO)<br />
+            Mahlzeit von Tag letzter Woche hinzufügen (TODO)<br />
         </template>
 
         <template v-slot:thead>
@@ -63,6 +62,8 @@
     import row from './row.vue';
     import tableBase from '../../../../tables/base.vue';
     import inputText from '../../../../forms/inputs/text.vue';
+    import selectFood from '../../../../forms/inputs/food.vue';
+    import selectMeal from '../../../../forms/inputs/meal.vue';
 
     import { baseMixin } from '../../../../../mixins/tables/base.js';
 
@@ -71,6 +72,8 @@
         components: {
             inputText,
             row,
+            selectFood,
+            selectMeal,
             tableBase,
         },
 
@@ -80,6 +83,10 @@
 
         props: {
             foods: {
+                required: true,
+                type: Array,
+            },
+            diet_meals: {
                 required: true,
                 type: Array,
             },
@@ -97,6 +104,7 @@
                 },
                 form: {
                     food_id: null,
+                    meal_id: null,
                 },
             };
         },
@@ -122,6 +130,9 @@
         },
 
         methods: {
+            addMeal(meal_id) {
+                console.log(meal_id);
+            },
             resetForm() {
                 this.resetErrors();
                 this.form.food_id = null;

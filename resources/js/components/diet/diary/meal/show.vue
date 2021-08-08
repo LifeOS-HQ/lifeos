@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="card-body">
-            <food-table :model="item" :foods="foods" :index-path="item.foods_path"></food-table>
+            <food-table :model="item" :foods="foods" :diet_meals="diet_meals" :index-path="item.foods_path"></food-table>
         </div>
     </div>
 </template>
@@ -35,6 +35,10 @@
 
         props: {
             foods: {
+                required: true,
+                type: Array,
+            },
+            diet_meals: {
                 required: true,
                 type: Array,
             },

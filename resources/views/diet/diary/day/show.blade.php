@@ -33,7 +33,7 @@
         </div>
 
         <div class="col-12">
-            <diet-diary-meal-index :model="{{ json_encode($model) }}" :foods="{{ json_encode($foods) }}"></diet-diary-meal-index>
+            <diet-diary-meal-index :model="{{ json_encode($model) }}" :foods="{{ json_encode($foods) }}" :diet_meals="{{ json_encode($diet_meals) }}"></diet-diary-meal-index>
         </div>
 
     </div>
