@@ -77,7 +77,7 @@
                 });
             },
             show() {
-                location.href = this.item.path;
+                location.href = this.item.show_path;
             },
         },
     };

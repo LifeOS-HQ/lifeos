@@ -7476,7 +7476,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     show: function show() {
-      location.href = this.item.path;
+      location.href = this.item.show_path;
     }
   }
 });

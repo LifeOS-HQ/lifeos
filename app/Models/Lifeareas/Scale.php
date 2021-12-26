@@ -23,6 +23,7 @@ class Scale extends Model
     protected $appends = [
         'is_deletable',
         'path',
+        'show_path',
     ];
 
     protected $casts = [
@@ -90,6 +91,14 @@ class Scale extends Model
             'lifearea' => $this->lifearea_id,
             'scale' => $this->id,
         ];
+    }
+
+    public function getShowPathAttribute() : string
+    {
+        return route($this->base_route . '.show', [
+            'lifearea' => $this->lifearea_id,
+            'scale' => $this->value,
+        ]);
     }
 
     public function lifearea() : BelongsTo
