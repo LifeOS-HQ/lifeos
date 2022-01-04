@@ -43,7 +43,7 @@ class TimeController extends Controller
             'filename' => $filename,
         ]);
 
-        // Storage::delete($filename);
+        Storage::delete($filename);
     }
 
     /**

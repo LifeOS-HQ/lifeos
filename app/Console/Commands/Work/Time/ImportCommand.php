@@ -51,11 +51,6 @@ class ImportCommand extends Command
         $row_count = 0;
         $file = fopen(storage_path('app/' . $filename), "r");
         while (($data = fgetcsv($file, 2000, ";")) !== FALSE) {
-            if ($row_count == 0) {
-                $row_count++;
-                continue;
-            }
-
             $time = Time::createFromCsv($this->userId, $this->getMonth(new Carbon($data[2])), $data);
             $row_count++;
         }
