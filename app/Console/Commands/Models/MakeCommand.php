@@ -27,11 +27,6 @@ class MakeCommand extends ModelMakeCommand
 
             $modelName = $this->getModelName($this->argument('name'));
 
-            $this->call('make:policy', [
-                'name' => $modelName . 'Policy',
-                '--model' => $this->argument('name'),
-            ]);
-
         }
     }
 
@@ -109,6 +104,7 @@ class MakeCommand extends ModelMakeCommand
             ['migration', 'm', InputOption::VALUE_NONE, 'Create a new migration file for the model'],
             ['seed', 's', InputOption::VALUE_NONE, 'Create a new seeder file for the model'],
             ['pivot', 'p', InputOption::VALUE_NONE, 'Indicates if the generated model should be a custom intermediate table model'],
+            ['policy', null, InputOption::VALUE_NONE, 'Create a new policy for the model'],
             ['resource', 'r', InputOption::VALUE_NONE, 'Indicates if the generated controller should be a resource controller'],
             ['parent', 'x', InputOption::VALUE_OPTIONAL, 'parent for controller'],
         ];

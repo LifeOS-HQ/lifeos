@@ -46,9 +46,14 @@ class HomeController extends Controller
             ->first();
 
         $moods = [];
-        foreach ($days as $key => $day) {
-            $mood_day = $mood_attribute->values->where('at', $day)->first();
-            $mood_note_day = $mood_note_attribute->values->where('at', $day)->first();
+        $mood_day = null;
+        foreach ($days as $day) {
+            if (! is_null($mood_attribute)) {
+                $mood_day = $mood_attribute->values->where('at', $day)->first();
+            }
+            if (! is_null($mood_note_attribute)) {
+                $mood_note_day = $mood_note_attribute->values->where('at', $day)->first();
+            }
             if (is_null($mood_day)) {
                 $moods[$day->format('Y-m-d')] = [
                     'bg_class' => 'bg-dark',

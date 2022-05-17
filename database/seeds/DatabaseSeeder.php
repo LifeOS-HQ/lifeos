@@ -16,15 +16,15 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => 'Daniel',
-            'email' => 'daniel@hof-sundermeier.de',
+            'name' => 'User',
+            'email' => 'user@example.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('Flash3flash'),
+            'password' => Hash::make('password'),
             'api_token' => Str::random(80),
         ]);
         // $this->call(UsersTableSeeder::class);
 
-        Artisan::call('work:time:import');
+        // Artisan::call('work:time:import');
 
         Service::create([
             'slug' => 'exist',

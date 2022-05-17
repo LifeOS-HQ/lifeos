@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.3",
+        "php": "^7.3|^8.0",
         "danielsundermeier/laravel-model-labels": "^0.2.0",
         "danielsundermeier/laravel-model-path": "^0.4.1",
         "facade/ignition": "^2.5",
