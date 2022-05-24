@@ -9,6 +9,7 @@ use App\Models\Journals\Journal;
 use App\Models\Lifeareas\Lifearea;
 use App\Models\Reviews\Review;
 use App\Models\Services\Service;
+use App\Models\Websites\Website;
 use App\Models\Work\Month;
 use App\Models\Work\Time;
 use App\Models\Work\Year;
@@ -131,6 +132,11 @@ class User extends Authenticatable
     public function working_times() : HasMany
     {
         return $this->hasMany(Time::class);
+    }
+
+    public function websites() : HasMany
+    {
+        return $this->hasMany(Website::class, 'user_id');
     }
 
     public function workouts() : HasMany

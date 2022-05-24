@@ -111,6 +111,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('user/services/{service}', 'Services\UserController@store')->name('user.services.store');
     Route::delete('user/services/{service_user}', 'Services\UserController@destroy')->name('user.services.destroy');
 
+    Route::get('/websites/errorlog', [\App\Http\Controllers\Websites\ErrorlogController::class, 'index'])->name('websites.errorlog.index');
+    Route::resource('websites', 'Websites\WebsiteController');
+
     Route::get('/work', 'Work\WorkController@index')->name('work.index');
 
     Route::resource('work/time', 'Work\TimeController');

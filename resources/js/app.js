@@ -101,6 +101,9 @@ Vue.component('review-show', require('./pages/review/show.vue').default);
 
 Vue.component('user-client-table', require('./components/user/client/table.vue').default);
 
+Vue.component('website-table', require('./components/websites/table.vue').default);
+Vue.component('website-errorlog-show', require('./components/websites/errorlog/show.vue').default);
+
 Vue.component('work-time-table', require('./components/work/time/table.vue').default);
 Vue.component('work-month-table', require('./components/work/month/table.vue').default);
 Vue.component('work-year-table', require('./components/work/year/table.vue').default);
