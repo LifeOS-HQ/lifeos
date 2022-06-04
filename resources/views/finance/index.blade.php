@@ -12,12 +12,20 @@
 
     <div class="row">
 
+        <div class="col">
+            <home-rentablo-index></home-rentablo-index>
+        </div>
+
+    </div>
+
+    <div class="row">
+
         <div class="col-12 col-lg-6">
             <finance-dividends-create></finance-dividends-create>
         </div>
 
         <div class="col-12 col-lg-6">
-            <home-rentablo-index></home-rentablo-index>
+            // Nachkaufen
         </div>
 
     </div>
