@@ -21,6 +21,7 @@ class Service extends Model
     protected $fillable = [
         'name',
         'slug',
+        'type',
     ];
 
     protected $guarded = [

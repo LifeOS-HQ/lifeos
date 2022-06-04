@@ -70,7 +70,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/diet/plans/meals.foods', 'Diet\Plans\Meals\FoodController', ['as' => 'diet.plans']);
 
     Route::get('/finance', 'Finance\FinanceController@index')->name('finance.index');
+        Route::get('/finance/dividends', 'Finance\Dividends\DividendController@index')->name('finance.dividends.index');
+        Route::post('/finance/dividends', 'Finance\Dividends\DividendController@store')->name('finance.dividends.store');
         Route::get('/finance/independence', 'Finance\Independence\IndependenceController@index')->name('finance.independence.index');
+
     Route::get('/fitness', 'Fitness\FitnessController@index')->name('fitness.index');
 
     Route::resource(\App\Models\Activities\Activity::ROUTE_NAME, 'Activities\ActivityController');

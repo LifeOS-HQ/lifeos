@@ -17,12 +17,38 @@ class Rentablo
 
     protected $username;
     protected $password;
+    protected $is_authenticated = false;
 
     public function __construct(Service $service)
     {
         $this->api = new Api($service->uri);
         $this->username = $service->pivot->username;
         $this->password = $service->pivot->password;
+    }
+
+    public function getAccounts()
+    {
+        return Cache::remember('rentablo.accounts', self::CACHE_SECONDS, function () {
+            return $this->api->accounts->get(0, [
+                'type' => '01_depot',
+            ]);
+        });
+    }
+
+    public function getInvestments()
+    {
+        if (! $this->is_authenticated) {
+            $this->authenticate();
+        }
+
+        return Cache::remember('rentablo.investments', self::CACHE_SECONDS, function () {
+            return $this->api->investments->search();
+        });
+    }
+
+    protected function authenticate()
+    {
+        $this->is_authenticated = $this->api->authenticate($this->username, $this->password);
     }
 
     public function home($refresh = false) : array
@@ -60,7 +86,9 @@ class Rentablo
         ];
 
 
-        $isAuthenticated = $this->api->authenticate($this->username, $this->password);
+        if (! $this->is_authenticated) {
+            $this->authenticate();
+        }
 
         // Alle Depots holen
         $accountIds = [];
@@ -157,7 +185,9 @@ class Rentablo
     {
         $data = [];
 
-        $isAuthenticated = $this->api->authenticate($this->username, $this->password);
+        if (! $this->is_authenticated) {
+            $this->authenticate();
+        }
 
         $accountIds = [];
         $accounts = $this->api->accounts->get();
@@ -266,7 +296,9 @@ class Rentablo
             ],
         ];
 
-        $isAuthenticated = $this->api->authenticate($this->username, $this->password);
+        if (! $this->is_authenticated) {
+            $this->authenticate();
+        }
 
         $isins = [];
         $accountIds = [];
@@ -333,5 +365,14 @@ class Rentablo
         $data['statistics']['avg_per_month_formatted'] = number_format($data['statistics']['avg_per_month'], 2, ',', '.');
 
         return $data;
+    }
+
+    public function addDividend(array $attributes)
+    {
+        if (! $this->is_authenticated) {
+            $this->authenticate();
+        }
+
+        return $this->api->bookings->addDividend($attributes['account_id'], $attributes['investment_id'], $attributes);
     }
 }

@@ -85,20 +85,23 @@ class ReviewController extends Controller
                 },
             ])->where('slug', 'mood')
             ->first();
+        $has_mood_attribute = ! (is_null ($mood_attribute) || is_null($mood_attribute->values));
+
         $mood_note_attribute = Attribute::with([
                 'values' => function ($query) use ($review) {
                     return $query->whereDate('at', '<', $review->at);
                 },
             ])->where('slug', 'mood_note')
             ->first();
+        $has_mood_note_attribute = ! (is_null ($mood_note_attribute) || is_null($mood_note_attribute->values));
 
         $days = [];
         foreach ($periods as $key => $period) {
             $days[$period->format('Y-m-d')] = [
                 'date_formatted' => $period->format('d.m.Y'),
                 'day_name' => $period->dayName,
-                'mood' => $mood_attribute->values->where('at', $period)->first() ?? 0,
-                'mood_note' => $mood_note_attribute->values->where('at', $period)->first() ?? '',
+                'mood' => ($has_mood_attribute ? $mood_attribute->values->where('at', $period)->first() ?? 0 : 0),
+                'mood_note' => ($has_mood_note_attribute ? $mood_note_attribute->values->where('at', $period)->first() ?? '' : 0),
             ];
         }
 

@@ -3,7 +3,7 @@
 @section('content')
 
     <h1>Finanzen</h1>
-    <div>
+    <div class="mb-3">
         <a href="/portfolio" class="btn btn-secondary btn-sm">Portfolio</a>
         <a href="/finance/independence" class="btn btn-secondary btn-sm">Finanzielle Unabhängigkeit</a>
         <a href="#" class="btn btn-secondary btn-sm">Budget (TODO)</a>
@@ -13,7 +13,7 @@
     <div class="row">
 
         <div class="col-12 col-lg-6">
-            Ausgaben
+            <finance-dividends-create></finance-dividends-create>
         </div>
 
         <div class="col-12 col-lg-6">
