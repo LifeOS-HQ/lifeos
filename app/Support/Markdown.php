@@ -3,7 +3,7 @@
 namespace App\Support;
 
 use League\CommonMark\CommonMarkConverter;
-use League\CommonMark\Environment\Environment;
+use League\CommonMark\Environment;
 use League\CommonMark\Extension\Autolink\AutolinkExtension;
 use League\CommonMark\Extension\DisallowedRawHtml\DisallowedRawHtmlExtension;
 use League\CommonMark\Extension\Strikethrough\StrikethroughExtension;
