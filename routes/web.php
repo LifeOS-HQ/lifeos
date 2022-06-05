@@ -72,6 +72,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/finance', 'Finance\FinanceController@index')->name('finance.index');
         Route::get('/finance/dividends', 'Finance\Dividends\DividendController@index')->name('finance.dividends.index');
         Route::post('/finance/dividends', 'Finance\Dividends\DividendController@store')->name('finance.dividends.store');
+        Route::post('/finance/investments', 'Finance\Investments\InvestmentController@store')->name('finance.investments.store');
         Route::get('/finance/independence', 'Finance\Independence\IndependenceController@index')->name('finance.independence.index');
 
     Route::get('/fitness', 'Fitness\FitnessController@index')->name('fitness.index');

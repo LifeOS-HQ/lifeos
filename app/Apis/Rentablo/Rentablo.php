@@ -375,4 +375,13 @@ class Rentablo
 
         return $this->api->bookings->addDividend($attributes['account_id'], $attributes['investment_id'], $attributes);
     }
+
+    public function addLots(array $attributes)
+    {
+        if (! $this->is_authenticated) {
+            $this->authenticate();
+        }
+
+        return $this->api->bookings->addLots($attributes['account_id'], $attributes['investment_id'], $attributes);
+    }
 }

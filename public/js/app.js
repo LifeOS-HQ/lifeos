@@ -4706,6 +4706,176 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/finance/investments/create.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/finance/investments/create.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {},
+  data: function data() {
+    var date = new Date(),
+        day = date.getDate(),
+        month = date.getMonth();
+    month = month + 1;
+
+    if (String(day).length == 1) {
+      day = '0' + day;
+    }
+
+    if (String(month).length == 1) {
+      month = '0' + month;
+    }
+
+    return {
+      isCreating: false,
+      isLoading: true,
+      form: {
+        account_id: 917,
+        investment_id: 1544,
+        date_formated: day + '.' + month + '.' + date.getFullYear(),
+        security_price_formated: '0,00',
+        number_of_lots_formated: '0,00',
+        commission_formated: '0,00'
+      },
+      accounts: []
+    };
+  },
+  mounted: function mounted() {
+    this.setAccounts();
+  },
+  computed: {
+    security_price: function security_price() {
+      return Number(this.form.security_price_formated.replace(',', '.'));
+    },
+    commission: function commission() {
+      return Number(this.form.commission_formated.replace(',', '.'));
+    },
+    number_of_lots: function number_of_lots() {
+      return Number(this.form.number_of_lots_formated.replace(',', '.'));
+    },
+    total_amount: function total_amount() {
+      return this.security_price * this.number_of_lots + this.commission;
+    },
+    total_amount_formated: function total_amount_formated() {
+      return this.total_amount.format(2, ',', '.');
+    },
+    investments: function investments() {
+      if (this.form.account_id && this.form.account_id in this.accounts) {
+        return this.accounts[this.form.account_id].investments;
+      }
+
+      return [];
+    }
+  },
+  methods: {
+    setAccounts: function setAccounts() {
+      var component = this;
+      axios.get('/finance/dividends').then(function (response) {
+        component.accounts = response.data.accounts;
+        component.isLoading = false;
+      });
+    },
+    create: function create() {
+      var component = this;
+      component.isCreating = true;
+      axios.post('/finance/investments', component.form).then(function (response) {
+        Vue.success('Anteile erfolgreich gekauft');
+      })["catch"](function (error) {
+        console.log(error);
+        Vue.error('Fehler beim Kauf der Anteile');
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/fitness/workouts/exercises/index.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/fitness/workouts/exercises/index.vue?vue&type=script&lang=js& ***!
@@ -56324,6 +56494,380 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/finance/investments/create.vue?vue&type=template&id=5024a4cb&":
+/*!*****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/finance/investments/create.vue?vue&type=template&id=5024a4cb& ***!
+  \*****************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card mb-3" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "card-body" },
+      [
+        _vm.isLoading
+          ? _c(
+              "div",
+              { staticClass: "mt-3 p-5" },
+              [
+                _c("center", [
+                  _c("span", { staticStyle: { "font-size": "48px" } }, [
+                    _c("i", { staticClass: "fas fa-spinner fa-spin" }),
+                    _c("br"),
+                  ]),
+                  _vm._v("\n                Lade Daten..\n            "),
+                ]),
+              ],
+              1
+            )
+          : [
+              _c("div", { staticClass: "form-group row" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-sm-6 col-form-label col-form-label-sm",
+                    attrs: { for: "account_id" },
+                  },
+                  [_vm._v("Depot")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-6" }, [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.account_id,
+                          expression: "form.account_id",
+                        },
+                      ],
+                      staticClass: "form-control form-control-sm",
+                      attrs: { id: "account_id" },
+                      on: {
+                        change: function ($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function (o) {
+                              return o.selected
+                            })
+                            .map(function (o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.form,
+                            "account_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
+                      },
+                    },
+                    [
+                      _c("option", { domProps: { value: null } }, [
+                        _vm._v("Bitte wählen"),
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.accounts, function (account) {
+                        return _c(
+                          "option",
+                          { domProps: { value: account.id } },
+                          [_vm._v(_vm._s(account.name))]
+                        )
+                      }),
+                    ],
+                    2
+                  ),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group row" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-sm-6 col-form-label col-form-label-sm",
+                    attrs: { for: "account_id" },
+                  },
+                  [_vm._v("Investment")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-6" }, [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.investment_id,
+                          expression: "form.investment_id",
+                        },
+                      ],
+                      staticClass: "form-control form-control-sm",
+                      on: {
+                        change: function ($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function (o) {
+                              return o.selected
+                            })
+                            .map(function (o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.form,
+                            "investment_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
+                      },
+                    },
+                    [
+                      _c("option", { domProps: { value: null } }, [
+                        _vm._v("Bitte wählen"),
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.investments, function (investment) {
+                        return _c(
+                          "option",
+                          { domProps: { value: investment.id } },
+                          [_vm._v(_vm._s(investment.name))]
+                        )
+                      }),
+                    ],
+                    2
+                  ),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group row" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-sm-6 col-form-label col-form-label-sm",
+                    attrs: { for: "date_formated" },
+                  },
+                  [_vm._v("Datum")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-6" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.date_formated,
+                        expression: "form.date_formated",
+                      },
+                    ],
+                    staticClass: "form-control form-control-sm",
+                    attrs: { type: "text", id: "date_formated" },
+                    domProps: { value: _vm.form.date_formated },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "date_formated", $event.target.value)
+                      },
+                    },
+                  }),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group row" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-sm-6 col-form-label col-form-label-sm",
+                    attrs: { for: "security_price_formated" },
+                  },
+                  [_vm._v("Stückpreis")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-6" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.security_price_formated,
+                        expression: "form.security_price_formated",
+                      },
+                    ],
+                    staticClass: "form-control form-control-sm",
+                    attrs: { type: "text", id: "security_price_formated" },
+                    domProps: { value: _vm.form.security_price_formated },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.form,
+                          "security_price_formated",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group row" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-sm-6 col-form-label col-form-label-sm",
+                    attrs: { for: "number_of_lots_formated" },
+                  },
+                  [_vm._v("Stückzahl")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-6" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.number_of_lots_formated,
+                        expression: "form.number_of_lots_formated",
+                      },
+                    ],
+                    staticClass: "form-control form-control-sm",
+                    attrs: { type: "text", id: "number_of_lots_formated" },
+                    domProps: { value: _vm.form.number_of_lots_formated },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.form,
+                          "number_of_lots_formated",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group row" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-sm-6 col-form-label col-form-label-sm",
+                    attrs: { for: "commission_formated" },
+                  },
+                  [_vm._v("Kosten")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-6" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.commission_formated,
+                        expression: "form.commission_formated",
+                      },
+                    ],
+                    staticClass: "form-control form-control-sm",
+                    attrs: { type: "text", id: "commission_formated" },
+                    domProps: { value: _vm.form.commission_formated },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.form,
+                          "commission_formated",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group row" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-sm-6 col-form-label col-form-label-sm",
+                    attrs: { for: "total_amount" },
+                  },
+                  [_vm._v("Gesamt")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-6" }, [
+                  _c("input", {
+                    staticClass: "form-control form-control-sm",
+                    attrs: { type: "text", id: "total_amount", disabled: "" },
+                    domProps: { value: _vm.total_amount_formated },
+                  }),
+                ]),
+              ]),
+            ],
+      ],
+      2
+    ),
+    _vm._v(" "),
+    !_vm.isLoading
+      ? _c("div", { staticClass: "card-footer text-right" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary btn-sm",
+              attrs: { type: "submit" },
+              on: {
+                click: function ($event) {
+                  $event.preventDefault()
+                  return _vm.create.apply(null, arguments)
+                },
+              },
+            },
+            [_vm._v("Nachkaufen")]
+          ),
+        ])
+      : _vm._e(),
+  ])
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "card-header d-flex justify-content-between" },
+      [_c("div", [_vm._v("Anteile erhöhen")]), _vm._v(" "), _c("div")]
+    )
+  },
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/fitness/workouts/exercises/index.vue?vue&type=template&id=77790d57&":
 /*!***********************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/fitness/workouts/exercises/index.vue?vue&type=template&id=77790d57& ***!
@@ -81105,6 +81649,7 @@ Vue.component('diet-plan-table', __webpack_require__(/*! ./components/diet/plan/
 Vue.component('diet-plan-day-show', __webpack_require__(/*! ./components/diet/plan/day/show.vue */ "./resources/js/components/diet/plan/day/show.vue")["default"]);
 Vue.component('blog-post-table', __webpack_require__(/*! ./components/blog/post/table.vue */ "./resources/js/components/blog/post/table.vue")["default"]);
 Vue.component('finance-dividends-create', __webpack_require__(/*! ./components/finance/dividends/create.vue */ "./resources/js/components/finance/dividends/create.vue")["default"]);
+Vue.component('finance-investments-create', __webpack_require__(/*! ./components/finance/investments/create.vue */ "./resources/js/components/finance/investments/create.vue")["default"]);
 Vue.component('finance-independence-index', __webpack_require__(/*! ./components/finance/independence/index.vue */ "./resources/js/components/finance/independence/index.vue")["default"]);
 Vue.component('journal-index', __webpack_require__(/*! ./components/journal/index.vue */ "./resources/js/components/journal/index.vue")["default"]);
 Vue.component('journal-gratitude-table', __webpack_require__(/*! ./components/journal/gratitude/table.vue */ "./resources/js/components/journal/gratitude/table.vue")["default"]);
@@ -83546,6 +84091,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_43d2efff___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_43d2efff___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/finance/investments/create.vue":
+/*!****************************************************************!*\
+  !*** ./resources/js/components/finance/investments/create.vue ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _create_vue_vue_type_template_id_5024a4cb___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./create.vue?vue&type=template&id=5024a4cb& */ "./resources/js/components/finance/investments/create.vue?vue&type=template&id=5024a4cb&");
+/* harmony import */ var _create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create.vue?vue&type=script&lang=js& */ "./resources/js/components/finance/investments/create.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _create_vue_vue_type_template_id_5024a4cb___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _create_vue_vue_type_template_id_5024a4cb___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/finance/investments/create.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/finance/investments/create.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/finance/investments/create.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./create.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/finance/investments/create.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/finance/investments/create.vue?vue&type=template&id=5024a4cb&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/finance/investments/create.vue?vue&type=template&id=5024a4cb& ***!
+  \***********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_create_vue_vue_type_template_id_5024a4cb___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./create.vue?vue&type=template&id=5024a4cb& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/finance/investments/create.vue?vue&type=template&id=5024a4cb&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_create_vue_vue_type_template_id_5024a4cb___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_create_vue_vue_type_template_id_5024a4cb___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

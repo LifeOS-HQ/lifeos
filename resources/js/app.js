@@ -85,6 +85,7 @@ Vue.component('diet-plan-day-show', require('./components/diet/plan/day/show.vue
 Vue.component('blog-post-table', require('./components/blog/post/table.vue').default);
 
 Vue.component('finance-dividends-create', require('./components/finance/dividends/create.vue').default);
+Vue.component('finance-investments-create', require('./components/finance/investments/create.vue').default);
 Vue.component('finance-independence-index', require('./components/finance/independence/index.vue').default);
 
 Vue.component('journal-index', require('./components/journal/index.vue').default);

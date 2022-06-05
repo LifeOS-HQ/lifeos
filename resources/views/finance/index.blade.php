@@ -25,7 +25,7 @@
         </div>
 
         <div class="col-12 col-lg-6">
-            // Nachkaufen
+            <finance-investments-create></finance-investments-create>
         </div>
 
     </div>
