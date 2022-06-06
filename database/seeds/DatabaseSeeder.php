@@ -1,10 +1,11 @@
 <?php
 
-use App\Models\Services\Service;
 use App\User;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Artisan;
+use App\Models\Services\Service;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Artisan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -35,6 +36,12 @@ class DatabaseSeeder extends Seeder
         Service::create([
             'slug' => 'rentablo',
             'name' => 'Rentablo',
+            'type' => 'password',
+        ]);
+
+        Service::create([
+            'slug' => 'habitica',
+            'name' => 'Habitica',
             'type' => 'password',
         ]);
     }

@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
-use App\Apis\Rentablo\Rentablo;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Validator;
+use App\Apis\Rentablo\Rentablo;
+use App\Models\Services\Service;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,23 @@ class AppServiceProvider extends ServiceProvider
             $service->uri = config('rentablo.uri');
 
             return new Rentablo($service);
+        });
+
+        $this->app->singleton('HabiticaApi', function ($app, array $parameters) {
+
+            $user = auth()->user();
+
+            $habitica_service = Service::where('slug', 'habitica')->first();
+
+            $service_user = \App\Models\Services\User::where('user_id', $user->id)
+                ->where('service_id', $habitica_service->id)
+                ->first();
+
+            if (is_null($service_user)) {
+                return null;
+            }
+
+            return new \App\Apis\Habitica\Habitica($service_user);
         });
     }
 
