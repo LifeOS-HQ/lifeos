@@ -4800,9 +4800,8 @@ __webpack_require__.r(__webpack_exports__);
   components: {},
   data: function data() {
     var date = new Date(),
-        day = date.getDate(),
-        month = date.getMonth();
-    month = month + 1;
+        day = date.getDate() < 15 ? 1 : 15,
+        month = date.getMonth() + 1;
 
     if (String(day).length == 1) {
       day = '0' + day;
@@ -4816,12 +4815,12 @@ __webpack_require__.r(__webpack_exports__);
       isCreating: false,
       isLoading: true,
       form: {
-        account_id: 917,
-        investment_id: 1544,
+        account_id: 12210,
+        investment_id: 99603,
         date_formated: day + '.' + month + '.' + date.getFullYear(),
         security_price_formated: '0,00',
         number_of_lots_formated: '0,00',
-        commission_formated: '0,00'
+        commission_formated: '1,00'
       },
       accounts: []
     };
@@ -56695,45 +56694,6 @@ var render = function () {
                   "label",
                   {
                     staticClass: "col-sm-6 col-form-label col-form-label-sm",
-                    attrs: { for: "security_price_formated" },
-                  },
-                  [_vm._v("Stückpreis")]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-sm-6" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.security_price_formated,
-                        expression: "form.security_price_formated",
-                      },
-                    ],
-                    staticClass: "form-control form-control-sm",
-                    attrs: { type: "text", id: "security_price_formated" },
-                    domProps: { value: _vm.form.security_price_formated },
-                    on: {
-                      input: function ($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.form,
-                          "security_price_formated",
-                          $event.target.value
-                        )
-                      },
-                    },
-                  }),
-                ]),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group row" }, [
-                _c(
-                  "label",
-                  {
-                    staticClass: "col-sm-6 col-form-label col-form-label-sm",
                     attrs: { for: "number_of_lots_formated" },
                   },
                   [_vm._v("Stückzahl")]
@@ -56760,6 +56720,45 @@ var render = function () {
                         _vm.$set(
                           _vm.form,
                           "number_of_lots_formated",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group row" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-sm-6 col-form-label col-form-label-sm",
+                    attrs: { for: "security_price_formated" },
+                  },
+                  [_vm._v("Stückpreis")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-6" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.security_price_formated,
+                        expression: "form.security_price_formated",
+                      },
+                    ],
+                    staticClass: "form-control form-control-sm",
+                    attrs: { type: "text", id: "security_price_formated" },
+                    domProps: { value: _vm.form.security_price_formated },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.form,
+                          "security_price_formated",
                           $event.target.value
                         )
                       },

@@ -43,16 +43,16 @@
                 </div>
 
                 <div class="form-group row">
-                    <label class="col-sm-6 col-form-label col-form-label-sm" for="security_price_formated">Stückpreis</label>
+                    <label class="col-sm-6 col-form-label col-form-label-sm" for="number_of_lots_formated">Stückzahl</label>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control form-control-sm" id="security_price_formated" v-model="form.security_price_formated">
+                        <input type="text" class="form-control form-control-sm" id="number_of_lots_formated" v-model="form.number_of_lots_formated">
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label class="col-sm-6 col-form-label col-form-label-sm" for="number_of_lots_formated">Stückzahl</label>
+                    <label class="col-sm-6 col-form-label col-form-label-sm" for="security_price_formated">Stückpreis</label>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control form-control-sm" id="number_of_lots_formated" v-model="form.number_of_lots_formated">
+                        <input type="text" class="form-control form-control-sm" id="security_price_formated" v-model="form.security_price_formated">
                     </div>
                 </div>
 
@@ -88,9 +88,9 @@
 
         data() {
             var date = new Date(),
-                day = date.getDate(),
-                month = date.getMonth();
-            month = month + 1;
+                day = (date.getDate() < 15 ? 1 : 15),
+                month = (date.getMonth() + 1);
+
             if((String(day)).length==1) {
                 day = '0'+day;
             }
@@ -101,12 +101,12 @@
                 isCreating: false,
                 isLoading: true,
                 form: {
-                    account_id: 917,
-                    investment_id: 1544,
+                    account_id: 12210,
+                    investment_id: 99603,
                     date_formated: day + '.' + month + '.' + date.getFullYear(),
                     security_price_formated: '0,00',
                     number_of_lots_formated: '0,00',
-                    commission_formated: '0,00',
+                    commission_formated: '1,00',
                 },
                 accounts: [],
             };
