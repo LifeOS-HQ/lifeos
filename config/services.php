@@ -42,4 +42,15 @@ return [
         'redirect' => '/login/exist/callback',
     ],
 
+    'habitica' => [
+        'username' => env('HABITICA_USERNAME'),
+        'password' => env('HABITICA_PASSWORD'),
+    ],
+
+    'rentablo' => [
+        'username' => env('RENTABLO_USERNAME'),
+        'password' => env('RENTABLO_PASSWORD'),
+        'base_uri' => env('RENTABLO_URI'),
+    ],
+
 ];

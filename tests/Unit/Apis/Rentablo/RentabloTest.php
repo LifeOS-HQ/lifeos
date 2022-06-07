@@ -9,13 +9,29 @@ use Tests\TestCase;
 
 class RentabloTest extends TestCase
 {
-    protected $rentabloApi;
+    protected $api;
 
     protected function setUp() : void
     {
         parent::setUp();
 
-        $this->rentabloApi = App::make('RentabloApi');
+        $service = \App\Models\Services\Service::create([
+            'slug' => 'rentablo',
+            'name' => 'Rentablo',
+            'type' => 'password',
+        ]);
+
+        $this->signIn();
+
+        \App\Models\Services\User::create([
+            'user_id' => $this->user->id,
+            'service_user_id' => $this->user->id,
+            'service_id' => $service->id,
+            'username' => config('services.rentablo.username'),
+            'password' => config('services.rentablo.password'),
+        ]);
+
+        $this->api = App::make('RentabloApi');
     }
 
     /**
@@ -23,9 +39,8 @@ class RentabloTest extends TestCase
      */
     public function it_can_be_build_from_the_service_container()
     {
-
-        dump($this->rentabloApi);
-        $this->assertInstanceOf(Rentablo::class, $this->rentabloApi);
+        $this->assertInstanceOf(Rentablo::class, $this->api);
+        $this->assertTrue(Cache::has('services.rentablo'));
     }
 
     /**
@@ -34,7 +49,7 @@ class RentabloTest extends TestCase
     public function it_can_get_data_for_the_home_view()
     {
 
-        $data = $this->rentabloApi->home();
+        $data = $this->api->home();
         $this->assertArrayHasKey('dividends', $data);
         $this->assertArrayHasKey('valuations', $data);
         $this->assertTrue(Cache::has('home.rentablo'));
@@ -45,7 +60,9 @@ class RentabloTest extends TestCase
      */
     public function it_can_get_data_for_the_portfolio_index_view()
     {
-        $data = $this->rentabloApi->years();
+        $data = $this->api->years();
+        // dump($data);
+        $this->assertIsArray($data);
         $this->assertTrue(Cache::has('rentablo.years'));
     }
 
@@ -54,16 +71,18 @@ class RentabloTest extends TestCase
      */
     public function it_gets_the_dividend_per_month_and_investment()
     {
-        $data = $this->rentabloApi->dividendsPerMonthDataAndInvestmentData(2020);
+        $data = $this->api->dividendsPerMonthDataAndInvestmentData(2020);
         // dump($data);
+        $this->assertArrayHasKey('dividends', $data);
     }
 
     /**
      * @test
      */
-    public function it_gets_the_invesments()
+    public function it_gets_the_investments()
     {
-        $data = $this->rentabloApi->getInvestments();
-        dump($data);
+        $data = $this->api->getInvestments();
+        // dump($data);
+        $this->assertArrayHasKey('investments', $data);
     }
 }

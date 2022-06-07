@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Carbon;
 use App\Apis\Rentablo\Rentablo;
 use App\Models\Services\Service;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
 
@@ -20,24 +21,44 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('RentabloApi', function ($app, array $parameters) {
 
             $user = auth()->user();
-            $service = $user->services()->where('slug', 'rentablo')->first();
+
+            $service = Cache::rememberForever('services.rentablo', function () {
+                return Service::where('slug', 'rentablo')->first();
+            });
+
             if (is_null($service)) {
+                Cache::forget('services.rentablo');
                 return null;
             }
 
-            $service->uri = config('rentablo.uri');
+            $service_user = \App\Models\Services\User::where('user_id', $user->id)
+                ->where('service_id', $service->id)
+                ->first();
 
-            return new Rentablo($service);
+            if (is_null($service_user)) {
+                return null;
+            }
+
+            $service_user->uri = config('services.rentablo.base_uri');
+
+            return new Rentablo($service_user);
         });
 
         $this->app->singleton('HabiticaApi', function ($app, array $parameters) {
 
             $user = auth()->user();
 
-            $habitica_service = Service::where('slug', 'habitica')->first();
+            $service = Cache::rememberForever('services.habitica', function () {
+                return Service::where('slug', 'habitica')->first();
+            });
+
+            if (is_null($service)) {
+                Cache::forget('services.habitica');
+                return null;
+            }
 
             $service_user = \App\Models\Services\User::where('user_id', $user->id)
-                ->where('service_id', $habitica_service->id)
+                ->where('service_id', $service->id)
                 ->first();
 
             if (is_null($service_user)) {

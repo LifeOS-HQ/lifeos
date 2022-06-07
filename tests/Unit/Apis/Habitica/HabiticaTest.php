@@ -27,8 +27,8 @@ class HabiticaTest extends TestCase
             'user_id' => $this->user->id,
             'service_user_id' => $this->user->id,
             'service_id' => $service->id,
-            'username' => 'd0c4b01b-cd0f-43f0-bbf5-6459e15c7877',
-            'password' => '22f29f9f-9f97-47db-8c98-89b4b6ecbcbd',
+            'username' => config('services.habitica.username'),
+            'password' => config('services.habitica.password'),
         ]);
 
         $this->api = App::make('HabiticaApi');
@@ -40,6 +40,7 @@ class HabiticaTest extends TestCase
     public function it_can_be_build_from_the_service_container()
     {
         $this->assertInstanceOf(Habitica::class, $this->api);
+        $this->assertTrue(Cache::has('services.habitica'));
     }
 
     /**
