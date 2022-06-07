@@ -41,6 +41,8 @@ Route::get('/blog/{post:slug}', [\App\Http\Controllers\Blog\BlogController::clas
 
 Route::middleware(['auth'])->group(function () {
 
+    Route::resource(\App\Models\Activities\Activity::ROUTE_NAME, 'Activities\ActivityController');
+
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/home/work', 'Home\Work\WorkController@show')->name('home.work.show');
     Route::get('/home/rentablo', 'Home\Rentablo\RentabloController@index')->name('home.rentablo.index');
@@ -77,7 +79,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/fitness', 'Fitness\FitnessController@index')->name('fitness.index');
 
-    Route::resource(\App\Models\Activities\Activity::ROUTE_NAME, 'Activities\ActivityController');
     Route::resource('health', 'Health\HealthController');
 
     Route::resource('journal', 'Journals\JournalController');
@@ -101,6 +102,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('login/{provider}', [App\Http\Controllers\Auth\ServiceController::class, 'redirectToProvider'])->name('login.provider.redirect');
     Route::get('login/{provider}/callback', [App\Http\Controllers\Auth\ServiceController::class, 'handleProviderCallback'])->name('login.provider.callback');
+
+    Route::resource(\App\Models\Places\Place::ROUTE_NAME, 'Places\PlaceController');
 
     Route::resource('/portfolio', 'Portfolios\PortfolioController');
     Route::get('/portfolio/dividend/{year}', 'Portfolios\Dividends\MonthController@show');

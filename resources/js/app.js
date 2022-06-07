@@ -95,6 +95,9 @@ Vue.component('lifearea-table', require('./components/lifearea/table.vue').defau
 Vue.component('lifearea-scale-index', require('./components/lifearea/scale/index.vue').default);
 Vue.component('lifearea-scale-goals-table', require('./components/lifearea/scale/goals/table.vue').default);
 Vue.component('lifearea-rating-chart', require('./components/lifearea/rating/chart.vue').default);
+
+Vue.component('place-table', require('./components/place/table.vue').default);
+
 Vue.component('portfolio-table', require('./components/portfolio/table.vue').default);
 Vue.component('portfolio-dividend-month', require('./components/portfolio/dividend/month.vue').default);
 Vue.component('review-table', require('./components/review/table.vue').default);

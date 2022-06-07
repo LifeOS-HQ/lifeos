@@ -19,6 +19,7 @@
                 <a href="/health"><li>Gesundheit</li></a>
                 <a href="{{ \App\Models\Contacts\Contact::indexPath() }}"><li>{{ \App\Models\Contacts\Contact::label() }}</li></a>
                 <a href="{{ \App\Models\Lifeareas\Lifearea::indexPath() }}"><li>{{ \App\Models\Lifeareas\Lifearea::label() }}</li></a>
+                <a href="{{ \App\Models\Places\Place::indexPath() }}"><li>{{ \App\Models\Places\Place::label() }}</li></a>
                 <a href="/journal"><li>Tagebuch</li></a>
                 <a href="{{ \App\Models\Websites\Website::indexPath() }}"><li>{{ \App\Models\Websites\Website::label() }}</li></a>
             </ul>

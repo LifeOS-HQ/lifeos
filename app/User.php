@@ -7,6 +7,7 @@ use App\Models\Contacts\Contact;
 use App\Models\Exercises\Exercise;
 use App\Models\Journals\Journal;
 use App\Models\Lifeareas\Lifearea;
+use App\Models\Places\Place;
 use App\Models\Reviews\Review;
 use App\Models\Services\Service;
 use App\Models\Websites\Website;
@@ -14,7 +15,6 @@ use App\Models\Work\Month;
 use App\Models\Work\Time;
 use App\Models\Work\Year;
 use App\Models\Workouts\Workout;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -99,6 +99,11 @@ class User extends Authenticatable
     public function lifeareas() : HasMany
     {
         return $this->hasMany(Lifearea::class, 'user_id');
+    }
+
+    public function places() : HasMany
+    {
+        return $this->hasMany(Place::class, 'user_id');
     }
 
     public function reviews() : HasMany
