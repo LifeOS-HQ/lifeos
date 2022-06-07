@@ -78,7 +78,8 @@ class UseManaCommand extends Command
                 return self::FAILURE;
             }
 
-            $mana_available = $response['data']['stats']['mp'];
+            $mana_available = $response['data']['user']['stats']['mp'];
+            sleep(1);
         }
 
         while ($mana_available >= self::MANA_COST_BACK_STAB) {
@@ -89,7 +90,7 @@ class UseManaCommand extends Command
                 break;
             }
 
-            $mana_available = $response['data']['stats']['mp'];
+            $mana_available = $response['data']['user']['stats']['mp'];
             sleep(1);
         }
 
