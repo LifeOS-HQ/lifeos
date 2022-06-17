@@ -56,8 +56,13 @@ class User extends Model
         return true;
     }
 
-    public function service() : BelongsTo
+    public function service(): BelongsTo
     {
         return $this->belongsTo(Service::class, 'service_id');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(\App\User::class, 'user_id');
     }
 }

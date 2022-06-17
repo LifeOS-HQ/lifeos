@@ -128,6 +128,7 @@ Vue.component('widget-health-sleep', require('./components/widgets/health/sleep.
 Vue.component('widget-health-steps', require('./components/widgets/health/steps.vue').default);
 Vue.component('widget-health-weight', require('./components/widgets/health/weight.vue').default);
 Vue.component('widget-health-calories-show', require('./components/widgets/health/calories/show.vue').default);
+Vue.component('widget-health-meditation-show', require('./components/widgets/health/meditation/show.vue').default);
 Vue.component('widget-health-macros-show', require('./components/widgets/health/macros/show.vue').default);
 Vue.component('widget-health-weight-development-show', require('./components/widgets/health/weight-development/show.vue').default);
 Vue.component('widget-health-macro-calculator-show', require('./components/widgets/health/macro-calculator/show.vue').default);

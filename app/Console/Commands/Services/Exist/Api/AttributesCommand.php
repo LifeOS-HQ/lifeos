@@ -28,6 +28,8 @@ class AttributesCommand extends Command
      */
     protected $description = 'Command description';
 
+    protected $service;
+
     /**
      * Create a new command instance.
      *
@@ -45,10 +47,18 @@ class AttributesCommand extends Command
      */
     public function handle()
     {
-        $service = Service::where('slug', 'exist')->firstOrFail();
+        $this->service = Service::where('slug', 'exist')->firstOrFail();
 
-        $user = User::first();
-        $user = Http::refresh($user);
+        $service_users = \App\Models\Services\User::with('user')->where('service_id', $this->service->id)->get();
+        foreach ($service_users as $service_user) {
+            $this->info('Processing user: ' . $service_user->user->name);
+            $this->handleServiceUser($service_user);
+        }
+    }
+
+    protected function handleServiceUser(\App\Models\Services\User $service_user): void
+    {
+        $user = Http::refresh($service_user);
 
         Http::setAccessToken($user->token);
         $rows = Http::get('users/$self/attributes/')->json();
@@ -80,9 +90,9 @@ class AttributesCommand extends Command
 
             foreach ($row['values'] as $value) {
                 Value::updateOrCreate([
-                    'user_id' => $user->id,
+                    'user_id' => $service_user->user->id,
                     'attribute_id' => $attribute->id,
-                    'service_id' => $service->id,
+                    'service_id' => $this->service->id,
                     'at' => (new Carbon($value['date']))->startOfDay(),
                 ], [
                     'raw' => $value['value'],

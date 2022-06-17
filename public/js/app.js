@@ -9977,6 +9977,45 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/health/meditation/show.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/widgets/health/meditation/show.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _base_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../base.vue */ "./resources/js/components/widgets/base.vue");
+/* harmony import */ var _mixins_widgets_base_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../mixins/widgets/base.js */ "./resources/js/mixins/widgets/base.js");
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    widgetBase: _base_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  mixins: [_mixins_widgets_base_js__WEBPACK_IMPORTED_MODULE_1__["baseMixin"]],
+  props: {//
+  },
+  data: function data() {
+    return {
+      indexPath: '/widgets/data/health/meditation'
+    };
+  },
+  methods: {//
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/health/sleep.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/widgets/health/sleep.vue?vue&type=script&lang=js& ***!
@@ -64456,6 +64495,47 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/health/meditation/show.vue?vue&type=template&id=ae203b74&":
+/*!*********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/widgets/health/meditation/show.vue?vue&type=template&id=ae203b74& ***!
+  \*********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("widget-base", {
+    attrs: {
+      title: "Meditation",
+      chartOptions: _vm.chartOptions,
+      interval_avgs: _vm.interval_avgs,
+      attribute: _vm.attribute,
+      "is-loading": _vm.isLoading,
+      filter: _vm.filter,
+    },
+    on: {
+      updatingAttribute: function ($event) {
+        return _vm.setAttribute($event)
+      },
+      updatingFilter: function ($event) {
+        return _vm.updatingFilter($event)
+      },
+    },
+  })
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/health/sleep.vue?vue&type=template&id=108038e2&":
 /*!***********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/widgets/health/sleep.vue?vue&type=template&id=108038e2& ***!
@@ -82027,6 +82107,7 @@ Vue.component('widget-health-sleep', __webpack_require__(/*! ./components/widget
 Vue.component('widget-health-steps', __webpack_require__(/*! ./components/widgets/health/steps.vue */ "./resources/js/components/widgets/health/steps.vue")["default"]);
 Vue.component('widget-health-weight', __webpack_require__(/*! ./components/widgets/health/weight.vue */ "./resources/js/components/widgets/health/weight.vue")["default"]);
 Vue.component('widget-health-calories-show', __webpack_require__(/*! ./components/widgets/health/calories/show.vue */ "./resources/js/components/widgets/health/calories/show.vue")["default"]);
+Vue.component('widget-health-meditation-show', __webpack_require__(/*! ./components/widgets/health/meditation/show.vue */ "./resources/js/components/widgets/health/meditation/show.vue")["default"]);
 Vue.component('widget-health-macros-show', __webpack_require__(/*! ./components/widgets/health/macros/show.vue */ "./resources/js/components/widgets/health/macros/show.vue")["default"]);
 Vue.component('widget-health-weight-development-show', __webpack_require__(/*! ./components/widgets/health/weight-development/show.vue */ "./resources/js/components/widgets/health/weight-development/show.vue")["default"]);
 Vue.component('widget-health-macro-calculator-show', __webpack_require__(/*! ./components/widgets/health/macro-calculator/show.vue */ "./resources/js/components/widgets/health/macro-calculator/show.vue")["default"]);
@@ -88596,6 +88677,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_template_id_0de1d39d___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_template_id_0de1d39d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/widgets/health/meditation/show.vue":
+/*!********************************************************************!*\
+  !*** ./resources/js/components/widgets/health/meditation/show.vue ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _show_vue_vue_type_template_id_ae203b74___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./show.vue?vue&type=template&id=ae203b74& */ "./resources/js/components/widgets/health/meditation/show.vue?vue&type=template&id=ae203b74&");
+/* harmony import */ var _show_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./show.vue?vue&type=script&lang=js& */ "./resources/js/components/widgets/health/meditation/show.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _show_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _show_vue_vue_type_template_id_ae203b74___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _show_vue_vue_type_template_id_ae203b74___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/widgets/health/meditation/show.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/widgets/health/meditation/show.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/widgets/health/meditation/show.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./show.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/health/meditation/show.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/widgets/health/meditation/show.vue?vue&type=template&id=ae203b74&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/components/widgets/health/meditation/show.vue?vue&type=template&id=ae203b74& ***!
+  \***************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_template_id_ae203b74___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./show.vue?vue&type=template&id=ae203b74& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/widgets/health/meditation/show.vue?vue&type=template&id=ae203b74&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_template_id_ae203b74___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_template_id_ae203b74___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

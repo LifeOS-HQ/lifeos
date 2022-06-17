@@ -28,8 +28,8 @@ class WeightController extends Controller
                     'text' => 'Körperfett (%)',
                 ],
                 'opposite' => true,
-                'min' => 0.05,
-                'max' => 0.3,
+                'min' => 5,
+                'max' => 30,
             ])
             ->addSlug('weight', [
                 'type' => 'line',

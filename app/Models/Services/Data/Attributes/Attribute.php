@@ -93,6 +93,8 @@ class Attribute extends Model
             case 'energy':
                 return $this->kjToKcal($raw);
                 break;
+            case 'body_fat':
+                return $this->toPercentage($raw);
             case 'leisure_min':
             case 'sleep':
             case 'time_in_bed':
@@ -110,10 +112,7 @@ class Attribute extends Model
                 return (float) $raw;
                 break;
         }
-    }
 
-    public function valueFormatted($raw) : string
-    {
         return $this->attribute_type->formatted($raw);
     }
 
@@ -146,6 +145,11 @@ class Attribute extends Model
     protected function minToHour($raw) : float
     {
         return round($raw / 60, 2);
+    }
+
+    protected function toPercentage($raw) : float
+    {
+        return round($raw * 100, 2);
     }
 
     public function getColorAttribute() : string
