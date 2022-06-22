@@ -65,7 +65,6 @@ class UseManaCommand extends Command
         $habitica_user_data = $response['data'];
         $mana_available = $habitica_user_data['stats']['mp'];
 
-        dump($mana_available);
         $this->line('mana available: ' . $mana_available);
 
         if ($mana_available >= self::MANA_COST_TOOLS_OF_TRADE) {
