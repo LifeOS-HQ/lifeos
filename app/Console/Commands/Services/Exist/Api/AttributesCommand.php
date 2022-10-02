@@ -58,10 +58,23 @@ class AttributesCommand extends Command
 
     protected function handleServiceUser(\App\Models\Services\User $service_user): void
     {
-        $user = Http::refresh($service_user);
+        // Refresh, wenn nicht vorhanden oder abgelaufen
+        if (is_null($service_user->expires_at) || $service_user->expires_at < now()) {
+            $service_user = Http::refresh($service_user);
+        }
 
-        Http::setAccessToken($user->token);
-        $rows = Http::get('users/$self/attributes/')->json();
+        // Daten holen, oder expires_at zurücksetzten
+        try {
+            Http::setAccessToken($service_user->token);
+            $rows = Http::get('users/$self/attributes/')->json();
+        } catch (\Throwable $th) {
+            $service_user->update([
+                'expires_at' => null,
+                'expires_in' => null,
+            ]);
+            $this->error('Error: ' . $th->getMessage());
+            return;
+        }
 
         // dump($rows);
 
