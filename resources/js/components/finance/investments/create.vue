@@ -101,12 +101,12 @@
                 isCreating: false,
                 isLoading: true,
                 form: {
-                    account_id: 12210,
-                    investment_id: 99603,
-                    date_formated: day + '.' + month + '.' + date.getFullYear(),
+                    account_id: 700469,
+                    investment_id: 2574357,
+                    date_formated: '04.' + month + '.' + date.getFullYear(),
                     security_price_formated: '0,00',
                     number_of_lots_formated: '0,00',
-                    commission_formated: '1,00',
+                    commission_formated: '0,00',
                 },
                 accounts: [],
             };
