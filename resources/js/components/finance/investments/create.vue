@@ -87,9 +87,18 @@
         },
 
         data() {
-            var date = new Date(),
-                day = (date.getDate() < 15 ? 1 : 15),
-                month = (date.getMonth() + 1);
+            var date = new Date();
+
+            if (date.getDate() > 15 && date.getDate() < 4) {
+                var day = 25,
+                    month = date.getMonth(),
+                    commission_formated = '0,99';
+            }
+            else {
+                var day = 4,
+                    month = (date.getMonth() + 1);
+                    commission_formated = '0.00';
+            }
 
             if((String(day)).length==1) {
                 day = '0'+day;
@@ -103,10 +112,10 @@
                 form: {
                     account_id: 700469,
                     investment_id: 2574357,
-                    date_formated: '04.' + month + '.' + date.getFullYear(),
+                    date_formated: day + '.' + month + '.' + date.getFullYear(),
                     security_price_formated: '0,00',
                     number_of_lots_formated: '0,00',
-                    commission_formated: '0,00',
+                    commission_formated: commission_formated,
                 },
                 accounts: [],
             };
