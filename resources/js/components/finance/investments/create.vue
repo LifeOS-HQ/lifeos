@@ -97,7 +97,7 @@
             else {
                 var day = 4,
                     month = (date.getMonth() + 1);
-                    commission_formated = '0.00';
+                    commission_formated = '0,00';
             }
 
             if((String(day)).length==1) {
