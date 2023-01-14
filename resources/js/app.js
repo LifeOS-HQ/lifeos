@@ -64,6 +64,7 @@ Vue.use(Flash);
 Vue.component('flash-message', require('./components/partials/flashmessage.vue').default);
 
 Vue.component('home-work-show', require('./components/home/work/show.vue').default);
+Vue.component('home-mood-show', require('./components/home/mood/show.vue').default);
 Vue.component('home-rentablo-index', require('./components/home/rentablo/index.vue').default);
 Vue.component('home-server-index', require('./components/home/server/index.vue').default);
 

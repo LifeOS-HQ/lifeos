@@ -42,6 +42,14 @@
 
     <div class="row">
 
+        <div class="col-12">
+            <home-mood-show></home-mood-show>
+        </div>
+
+    </div>
+
+    <div class="row">
+
         <div class="col-12 col-lg-6">
 
             <home-work-show></home-work-show>
