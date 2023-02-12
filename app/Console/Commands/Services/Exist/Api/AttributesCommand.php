@@ -2,15 +2,16 @@
 
 namespace App\Console\Commands\Services\Exist\Api;
 
+use Carbon\Carbon;
 use App\Apis\Exist\Http;
-use App\Models\Services\Data\Attributes\Attribute;
-use App\Models\Services\Data\Attributes\Groups\Group;
+use Illuminate\Support\Arr;
+use App\Models\Services\User;
+use Illuminate\Console\Command;
+use App\Models\Services\Service;
 use App\Models\Services\Data\Type;
 use App\Models\Services\Data\Value;
-use App\Models\Services\Service;
-use App\Models\Services\User;
-use Carbon\Carbon;
-use Illuminate\Console\Command;
+use App\Models\Services\Data\Attributes\Attribute;
+use App\Models\Services\Data\Attributes\Groups\Group;
 
 class AttributesCommand extends Command
 {
@@ -66,7 +67,18 @@ class AttributesCommand extends Command
         // Daten holen, oder expires_at zurücksetzten
         try {
             Http::setAccessToken($service_user->token);
-            $rows = Http::get('users/$self/attributes/')->json();
+            $rows = [];
+            $page = 1;
+            do {
+                $response = Http::get('attributes/with-values', [
+                    'page' => $page,
+                    'days' => 30,
+                ]);
+                $data = $response->json();
+                $this->handleAttributes($service_user, Arr::get($data, 'results', []));
+                $page++;
+            }
+            while (! is_null(Arr::get($data, 'next')));
         } catch (\Throwable $th) {
             $service_user->update([
                 'expires_at' => null,
@@ -76,8 +88,10 @@ class AttributesCommand extends Command
             return;
         }
 
-        // dump($rows);
+    }
 
+    private function handleAttributes(\App\Models\Services\User $service_user, array $rows): void
+    {
         foreach ($rows as $row) {
             $group = Group::updateOrCreate([
                 'slug' => $row['group']['name'],
@@ -93,7 +107,7 @@ class AttributesCommand extends Command
             ]);
 
             $attribute = Attribute::updateOrCreate([
-                'slug' => $row['attribute'],
+                'slug' => $row['name'],
             ], [
                 'name' => $row['label'],
                 'priority' => $row['priority'],

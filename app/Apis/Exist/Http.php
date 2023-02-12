@@ -33,7 +33,7 @@ class Http extends Factory
 
         return BaseHttp::withOptions([
             'headers' => $headers,
-        ])->acceptJson()->baseUrl('https://exist.io/api/1/');
+        ])->acceptJson()->baseUrl('https://exist.io/api/2/');
     }
 
     public static function get(string $url, array $query = [])

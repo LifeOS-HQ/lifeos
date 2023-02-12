@@ -16,7 +16,7 @@ class ExistProvider extends AbstractProvider implements ProviderInterface
      * @var array
      */
     protected $scopes = [
-        'read',
+        'activity_read productivity_read mood_read sleep_read workouts_read events_read finance_read food_read health_read location_read media_read social_read weather_read custom_read manual_read',
     ];
 
     /**
@@ -40,7 +40,7 @@ class ExistProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $userUrl = 'https://exist.io/api/1/users/$self/profile/';
+        $userUrl = 'https://exist.io/api/2/accounts/profile/';
 
         $response = $this->getHttpClient()->get(
             $userUrl, $this->getRequestOptions($token)
@@ -57,7 +57,7 @@ class ExistProvider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id' => $user['id'],
+            'id' => $user['username'],
             'nickname' => $user['username'],
             'name' => $user['first_name'] . ' ' . $user['last_name'],
             'email' => null,
