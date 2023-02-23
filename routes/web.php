@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,34 +22,24 @@ Route::bind('model', function ($id) {
     }
 });
 
-Route::get('/', function () {
-    return view('marketing.landing');
-});
-
 Route::post('deploy', 'DeploymentController@store');
 
 Auth::routes();
-
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::resource('/blog/posts', '\App\Http\Controllers\Blog\Posts\PostController', ['as' => 'blog']);
-    Route::post('/blog/posts/{post}/publish', [\App\Http\Controllers\Blog\Posts\PublishController::class, 'store'])->name('blog.posts.publish.store');
-});
 
 Route::get('/impressum', [\App\Http\Controllers\ImpressumController::class, 'index'])->name('impressum.index');
 Route::get('/contact', [\App\Http\Controllers\ContactController::class, 'index'])->name('contact.index');
 Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
 
-Route::get('/blog', [\App\Http\Controllers\Blog\BlogController::class, 'index'])->name('blog.index');
-Route::get('/blog/{post:slug}', [\App\Http\Controllers\Blog\BlogController::class, 'show'])->name('blog.show');
-
 Route::middleware(['auth'])->group(function () {
 
-    Route::resource(\App\Models\Activities\Activity::ROUTE_NAME, 'Activities\ActivityController');
+    Route::get('/', 'HomeController@index');
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/home/work', 'Home\Work\WorkController@show')->name('home.work.show');
     Route::get('/home/rentablo', 'Home\Rentablo\RentabloController@index')->name('home.rentablo.index');
     Route::get('/home/server', 'Home\Servers\StatusController@index')->name('home.server.index');
+
+    Route::resource(\App\Models\Activities\Activity::ROUTE_NAME, 'Activities\ActivityController');
 
     Route::resource(\App\Models\Contacts\Contact::ROUTE_NAME, 'Contacts\ContactController');
 
