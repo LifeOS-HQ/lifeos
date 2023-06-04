@@ -6119,6 +6119,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -6132,6 +6140,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       isLoading: true,
+      hasError: false,
       params: {
         refresh: 0
       },
@@ -6192,6 +6201,9 @@ __webpack_require__.r(__webpack_exports__);
         component.chartOptions.title = response.data.chart.title;
         component.isLoading = false;
         component.params.refresh = 0;
+      })["catch"](function () {
+        component.isLoading = false;
+        component.hasError = true;
       });
     },
     refresh: function refresh() {
@@ -58481,6 +58493,23 @@ var render = function () {
                     _c("br"),
                   ]),
                   _vm._v("\n                Lade Daten..\n            "),
+                ]),
+              ],
+              1
+            )
+          : _vm.hasError
+          ? _c(
+              "div",
+              { staticClass: "mt-3 p-5" },
+              [
+                _c("center", [
+                  _c("span", { staticStyle: { "font-size": "48px" } }, [
+                    _c("i", { staticClass: "fas fa-exclamation-triangle" }),
+                    _c("br"),
+                  ]),
+                  _vm._v(
+                    "\n                Die Daten konnten nicht geladen werden.\n            "
+                  ),
                 ]),
               ],
               1

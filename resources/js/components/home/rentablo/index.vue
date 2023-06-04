@@ -13,6 +13,14 @@
                     Lade Daten..
                 </center>
             </div>
+            <div v-else-if="hasError" class="mt-3 p-5">
+                <center>
+                    <span style="font-size: 48px;">
+                        <i class="fas fa-exclamation-triangle"></i><br />
+                    </span>
+                    Die Daten konnten nicht geladen werden.
+                </center>
+            </div>
             <template v-else>
                 <div class="card">
                     <div class="card-body">
@@ -80,6 +88,7 @@
         data() {
             return {
                 isLoading: true,
+                hasError: false,
                 params: {
                     refresh: 0,
                 },
@@ -145,6 +154,10 @@
                         component.chartOptions.title = response.data.chart.title;
                         component.isLoading = false;
                         component.params.refresh = 0;
+                    })
+                    .catch(function() {
+                        component.isLoading = false;
+                        component.hasError = true;
                     });
             },
             refresh() {
