@@ -6200,6 +6200,7 @@ __webpack_require__.r(__webpack_exports__);
         component.chartOptions.series = response.data.chart.series;
         component.chartOptions.title = response.data.chart.title;
         component.isLoading = false;
+        component.hasError = false;
         component.params.refresh = 0;
       })["catch"](function () {
         component.isLoading = false;
