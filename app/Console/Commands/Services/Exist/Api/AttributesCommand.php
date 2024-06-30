@@ -15,37 +15,12 @@ use App\Models\Services\Data\Attributes\Groups\Group;
 
 class AttributesCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'services:exist:api:attributes';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Command description';
 
     protected $service;
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
     public function handle()
     {
         $this->service = Service::where('slug', 'exist')->firstOrFail();
@@ -116,15 +91,31 @@ class AttributesCommand extends Command
             ]);
 
             foreach ($row['values'] as $value) {
-                Value::updateOrCreate([
+                $attributes = [
                     'user_id' => $service_user->user->id,
                     'attribute_id' => $attribute->id,
                     'service_id' => $this->service->id,
                     'at' => (new Carbon($value['date']))->startOfDay(),
-                ], [
+                ];
+
+                $values = [
                     'raw' => $value['value'],
-                ]);
+                ];
+
+                if ($this->notOverwritableAttribute($attribute->slug) && is_null($value['value'])) {
+                    Value::firstOrCreate($attributes, $values);
+                    continue;
+                }
+
+                Value::updateOrCreate($attributes, $values);
             }
         }
+    }
+
+    private function notOverwritableAttribute(string $attribute_slug): bool
+    {
+        return in_array($attribute_slug, [
+            'energy',
+        ]);
     }
 }
