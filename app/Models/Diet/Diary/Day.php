@@ -2,13 +2,16 @@
 
 namespace App\Models\Diet\Diary;
 
-use D15r\ModelLabels\Traits\HasLabels;
-use D15r\ModelPath\Traits\HasModelPath;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
+use App\Models\Services\Data\Value;
+use D15r\ModelLabels\Traits\HasLabels;
+use D15r\ModelPath\Traits\HasModelPath;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Services\Data\Attributes\Attribute;
+use App\Models\Services\Service;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Day extends Model
 {
@@ -40,11 +43,6 @@ class Day extends Model
 
     protected $table = 'diet_days';
 
-    /**
-     * The booting method of the model.
-     *
-     * @return void
-     */
     public static function boot()
     {
         parent::boot();
@@ -103,6 +101,64 @@ class Day extends Model
                 'plural' => 'Tage',
             ],
         ];
+    }
+
+    public function cache(): void
+    {
+        $this->loadMissing([
+            'meals',
+        ]);
+
+        $this->setNutritionValues()
+            ->saveQuietly();
+
+        $this->setEnergyAttribute();
+    }
+
+    private function setNutritionValues(): self
+    {
+        $this->calories = 0;
+        $this->carbohydrate = 0;
+        $this->fat = 0;
+        $this->protein = 0;
+
+        foreach ($this->meals as $meal) {
+            $this->calories += $meal->calories;
+            $this->carbohydrate += $meal->carbohydrate;
+            $this->fat += $meal->fat;
+            $this->protein += $meal->protein;
+        }
+
+        return $this;
+    }
+
+    private function setEnergyAttribute(): self
+    {
+        $attribute = Attribute::where('slug', 'energy')->first();
+
+        if (is_null($attribute)) {
+            return $this;
+        }
+
+        $attributes = [
+            'user_id' => $this->user_id,
+            'attribute_id' => $attribute->id,
+            'service_id' => Service::where('slug', 'exist')->first()->id,
+            'at' => $this->at->startOfDay(),
+        ];
+
+        $values = [
+            'raw' => $this->kilojoules,
+        ];
+
+        Value::updateOrCreate($attributes, $values);
+
+        return $this;
+    }
+
+    public function getKilojoulesAttribute(): float
+    {
+        return $this->calories * 4.184;
     }
 
     public function meals() : HasMany

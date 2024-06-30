@@ -6,6 +6,7 @@ use D15r\ModelLabels\Traits\HasLabels;
 use D15r\ModelPath\Traits\HasModelPath;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
@@ -87,10 +88,13 @@ class Meal extends Model
     {
         $this->loadMissing([
             'foods',
+            'day',
         ]);
 
         $this->setNutritionValues()
             ->saveQuietly();
+
+        $this->day->cache();
     }
 
     public function setNutritionValues() : self
@@ -113,6 +117,11 @@ class Meal extends Model
     public function foods() : HasMany
     {
         return $this->hasMany(\App\Models\Diet\Diary\Meals\Food::class, 'diet_days_meal_id');
+    }
+
+    public function day(): BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Diet\Diary\Day::class, 'day_id');
     }
 
     public function getRouteParameterAttribute() : array

@@ -40,11 +40,6 @@ class Food extends Model
 
     protected $table = 'diet_meals_food';
 
-    /**
-     * The booting method of the model.
-     *
-     * @return void
-     */
     public static function boot()
     {
         parent::boot();

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Diet\Diary\Meals;
 
 use App\Http\Controllers\Controller;
-use App\Models\Diet\Diary\Day;
 use App\Models\Diet\Diary\Meals\Meal;
 use App\Models\Diet\Diary\Meals\Food;
 use Illuminate\Http\Request;
@@ -12,11 +11,6 @@ class FoodController extends Controller
 {
     protected $baseViewPath = 'diet.diary.meal.food';
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request, Meal $meal)
     {
         if ($request->wantsJson()) {
@@ -38,12 +32,6 @@ class FoodController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request, Meal $meal)
     {
         $attributes = $request->validate([
