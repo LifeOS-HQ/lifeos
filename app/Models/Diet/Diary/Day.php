@@ -63,7 +63,7 @@ class Day extends Model
             ])
                 ->where('user_id', $model->user_id)
                 ->where('id', '!=', $model->id)
-                ->latest()
+                ->latest('at')
                 ->first();
 
             if (is_null($last_model) || $last_model->meals->count() == 0) {
@@ -72,7 +72,8 @@ class Day extends Model
 
             foreach ($last_model->meals as $meal) {
                 $model->meals()->create([
-                    'at' => $meal->at,
+                    'at' => is_null($meal->at) ? $model->at : $meal->at->setDateFrom($model->at),
+                    'rating_comments' => null,
                     'name' => $meal->name,
                     'order_by' => $meal->order_by,
                     'user_id' => $model->user_id,

@@ -47,7 +47,15 @@ class DayController extends Controller
      */
     public function store(Request $request)
     {
-        return auth()->user()->diet_days()->create();
+        $attributes = $request->validate([
+            'at_formatted' => 'required|date_format:d.m.Y',
+        ]);
+
+        $day = auth()->user()->diet_days()->create($attributes);
+
+        $day->refresh();
+
+        return $day;
     }
 
     /**
@@ -60,7 +68,6 @@ class DayController extends Controller
     {
         $user = auth()->user();
 
-        // laod meals order by at
         $day->load([
             'meals' => function($query) {
                 $query->orderBy('at', 'ASC');
@@ -95,7 +102,7 @@ class DayController extends Controller
     public function update(Request $request, Day $day)
     {
         $attributes = $request->validate([
-
+            'rating_comment' => 'nullable|string',
         ]);
 
         $day->update($attributes);

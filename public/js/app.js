@@ -2618,18 +2618,21 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _row_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./row.vue */ "./resources/js/components/diet/diary/row.vue");
 /* harmony import */ var _tables_base_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../tables/base.vue */ "./resources/js/components/tables/base.vue");
-/* harmony import */ var _mixins_tables_base_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../mixins/tables/base.js */ "./resources/js/mixins/tables/base.js");
-/* harmony import */ var _mixins_tables_paginated_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../mixins/tables/paginated.js */ "./resources/js/mixins/tables/paginated.js");
+/* harmony import */ var _forms_inputs_text_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../forms/inputs/text.vue */ "./resources/js/components/forms/inputs/text.vue");
+/* harmony import */ var _mixins_tables_base_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../mixins/tables/base.js */ "./resources/js/mixins/tables/base.js");
+/* harmony import */ var _mixins_tables_paginated_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../mixins/tables/paginated.js */ "./resources/js/mixins/tables/paginated.js");
+
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
+    inputText: _forms_inputs_text_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     row: _row_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     tableBase: _tables_base_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  mixins: [_mixins_tables_base_js__WEBPACK_IMPORTED_MODULE_2__["baseMixin"], _mixins_tables_paginated_js__WEBPACK_IMPORTED_MODULE_3__["paginatedMixin"]],
+  mixins: [_mixins_tables_base_js__WEBPACK_IMPORTED_MODULE_3__["baseMixin"], _mixins_tables_paginated_js__WEBPACK_IMPORTED_MODULE_4__["paginatedMixin"]],
   props: {
     //
   },
@@ -2639,13 +2642,28 @@ __webpack_require__.r(__webpack_exports__);
         //
       },
       form: {
-        //
+        at_formatted: this.getAtFormatted()
       }
     };
   },
   computed: {},
   methods: {
-    //
+    created: function created(item) {
+      location.href = item.path;
+    },
+    getAtFormatted: function getAtFormatted() {
+      var today = new Date();
+      var yyyy = today.getFullYear();
+      var mm = today.getMonth() + 1;
+      var dd = today.getDate();
+      if (dd < 10) {
+        dd = '0' + dd;
+      }
+      if (mm < 10) {
+        mm = '0' + mm;
+      }
+      return dd + '.' + mm + '.' + yyyy;
+    }
   }
 });
 
@@ -9462,7 +9480,7 @@ var render = function render() {
   return _c("show", {
     attrs: {
       item: _vm.item,
-      "has-edit-button": true,
+      "has-edit-button": false,
       "has-show-button": true
     },
     on: {
@@ -9548,7 +9566,27 @@ var render = function render() {
     scopedSlots: _vm._u([{
       key: "form",
       fn: function fn() {
-        return undefined;
+        return [_c("div", {
+          staticClass: "form-group mb-0 mr-1"
+        }, [_c("input-text", {
+          attrs: {
+            placeholder: "Datum",
+            error: _vm.error("at_formatted")
+          },
+          on: {
+            keydown: function keydown($event) {
+              if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
+              return _vm.create.apply(null, arguments);
+            }
+          },
+          model: {
+            value: _vm.form.at_formatted,
+            callback: function callback($$v) {
+              _vm.$set(_vm.form, "at_formatted", $$v);
+            },
+            expression: "form.at_formatted"
+          }
+        })], 1)];
       },
       proxy: true
     }, {

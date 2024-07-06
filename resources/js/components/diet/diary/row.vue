@@ -1,6 +1,6 @@
 <template>
 
-    <show :item="item" :has-edit-button="true" :has-show-button="true" @destroying="destroy()">
+    <show :item="item" :has-edit-button="false" :has-show-button="true" @destroying="destroy()">
 
         <template v-slot:show>
             <td class="align-middle pointer" @click="show">{{ item.at_formatted }}</td>

@@ -38,6 +38,7 @@ class Meal extends Model
         'day_id',
         'name',
         'oder_by',
+        'at',
         'at_formatted',
         'time_formatted',
         'rating_points',

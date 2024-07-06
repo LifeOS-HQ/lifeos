@@ -3,7 +3,9 @@
     <table-base :is-loading="isLoading" :paginate="paginate" :items-length="items.length" :has-filter="hasFilter()" @creating="create" @paginating="filter.page = $event" @searching="searching($event)">
 
         <template v-slot:form>
-
+            <div class="form-group mb-0 mr-1">
+                <input-text v-model="form.at_formatted" placeholder="Datum" :error="error('at_formatted')" @keydown.enter="create"></input-text>
+            </div>
         </template>
 
         <template v-slot:filter>
@@ -33,6 +35,7 @@
 <script>
     import row from './row.vue';
     import tableBase from '../../tables/base.vue';
+    import inputText from '../../forms/inputs/text.vue';
 
     import { baseMixin } from '../../../mixins/tables/base.js';
     import { paginatedMixin } from '../../../mixins/tables/paginated.js';
@@ -40,6 +43,7 @@
     export default {
 
         components: {
+            inputText,
             row,
             tableBase,
         },
@@ -54,13 +58,12 @@
         },
 
         data () {
-
             return {
                 filter: {
                     //
                 },
                 form: {
-                    //
+                    at_formatted: this.getAtFormatted(),
                 },
             };
         },
@@ -70,7 +73,24 @@
         },
 
         methods: {
-            //
+            created(item) {
+                location.href = item.path;
+            },
+            getAtFormatted() {
+                const today = new Date();
+                const yyyy = today.getFullYear();
+                let mm = today.getMonth() + 1;
+                let dd = today.getDate();
+
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+
+                return dd + '.' + mm + '.' + yyyy;
+            },
         },
     };
 </script>
