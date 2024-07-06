@@ -26,11 +26,6 @@ class User extends Model
 
     public $table = 'service_user';
 
-    /**
-     * The booting method of the model.
-     *
-     * @return void
-     */
     public static function boot()
     {
         parent::boot();

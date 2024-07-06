@@ -4,6 +4,11 @@
 
         <template v-slot:show>
             <td class="align-middle pointer" @click="show">{{ item.at_formatted }}</td>
+            <td class="align-middle text-right pointer" @click="show">{{ item.calories.format(2, ',', '') }} kcal</td>
+            <td class="align-middle text-right pointer" @click="show">{{ item.carbohydrate.format(2, ',', '') }} g</td>
+            <td class="align-middle text-right pointer" @click="show">{{ item.fat.format(2, ',', '') }} g</td>
+            <td class="align-middle text-right pointer" @click="show">{{ item.protein.format(2, ',', '') }} g</td>
+            <td class="align-middle pointer" @click="show">{{ item.rating_comment }}</td>
         </template>
 
     </show>

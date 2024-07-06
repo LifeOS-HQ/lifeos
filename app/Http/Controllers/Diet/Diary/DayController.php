@@ -60,8 +60,11 @@ class DayController extends Controller
     {
         $user = auth()->user();
 
+        // laod meals order by at
         $day->load([
-            'meals',
+            'meals' => function($query) {
+                $query->orderBy('at', 'ASC');
+            },
         ]);
 
         return view($this->baseViewPath . '.show')

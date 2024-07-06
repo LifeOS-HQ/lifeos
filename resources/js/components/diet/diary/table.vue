@@ -12,7 +12,12 @@
 
         <template v-slot:thead>
             <tr>
-                <th width="100%" class="">Name</th>
+                <th width="100" class="">Datum</th>
+                <th class="text-right" width="100">Kalorien</th>
+                <th class="text-right" width="100">Kohlenhydrate</th>
+                <th class="text-right" width="100">Fett</th>
+                <th class="text-right" width="100">Protein</th>
+                <th class="text-left" width="100%">Notiz</th>
                 <th class="text-right d-none d-sm-table-cell w-action" width="125">Aktion</th>
             </tr>
         </template>

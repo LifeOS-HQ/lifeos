@@ -16,11 +16,6 @@ class MealController extends Controller
         $this->authorizeResource(Meal::class, 'meal');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         if ($request->wantsJson()) {
@@ -30,22 +25,6 @@ class MealController extends Controller
         return view($this->baseViewPath . '.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request, Day $day)
     {
         $day->loadCount('meals');
@@ -58,44 +37,35 @@ class MealController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Diet\Diary\Meals\Meal  $meal
-     * @return \Illuminate\Http\Response
-     */
     public function show(Day $day, Meal $meal)
     {
+        $meal->load([
+            'foods',
+        ]);
+
         return view($this->baseViewPath . '.show')
             ->with('model', $meal);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Diet\Diary\Meals\Meal  $meal
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Day $day, Meal $meal)
     {
         return view($this->baseViewPath . '.edit')
             ->with('model', $meal);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Diet\Diary\Meals\Meal  $meal
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Day $day, Meal $meal)
     {
         $attributes = $request->validate([
             'name' => 'required|string',
+            'time_formatted' => 'nullable|date_format:H:i',
+            'rating_comment' => 'nullable|string',
         ]);
 
         $meal->update($attributes);
+
+        $meal->load([
+            'foods',
+        ]);
 
         if ($request->wantsJson()) {
             return $meal;

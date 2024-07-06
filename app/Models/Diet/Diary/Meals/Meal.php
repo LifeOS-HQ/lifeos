@@ -21,6 +21,7 @@ class Meal extends Model
 
     protected $appends = [
         'at_formatted',
+        'time_formatted',
         'foods_path',
     ];
 
@@ -38,6 +39,7 @@ class Meal extends Model
         'name',
         'oder_by',
         'at_formatted',
+        'time_formatted',
         'rating_points',
         'rating_comment',
     ];
@@ -157,5 +159,28 @@ class Meal extends Model
             $this->attributes['at'] = Carbon::createFromFormat('d.m.Y', $value)->setTime(0, 0, 0);
         }
         Arr::forget($this->attributes, 'at_formatted');
+    }
+
+    public function setTimeFormattedAttribute($value)
+    {
+        if (empty($value)) {
+            $this->attributes['at'] = null;
+        }
+        elseif (is_null($this->at)) {
+            $this->attributes['at'] = $this->day->at->setTimeFromTimeString($value . ':00');
+        }
+        else {
+            $this->attributes['at'] = $this->at->setTimeFromTimeString($value . ':00');
+        }
+        Arr::forget($this->attributes, 'time');
+    }
+
+    public function getTimeFormattedAttribute() : string
+    {
+        if (is_null($this->at)) {
+            return '00:00';
+        }
+
+        return $this->at->format('H:i');
     }
 }
