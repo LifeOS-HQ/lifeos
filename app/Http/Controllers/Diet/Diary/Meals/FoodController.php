@@ -22,16 +22,6 @@ class FoodController extends Controller
         return view($this->baseViewPath . '.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request, Meal $meal)
     {
         $attributes = $request->validate([
@@ -50,37 +40,18 @@ class FoodController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Diet\Diary\Meals\Meal  $meal
-     * @return \Illuminate\Http\Response
-     */
     public function show(Meal $meal, Food $food)
     {
         return view($this->baseViewPath . '.show')
             ->with('model', $food);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Diet\Diary\Meals\Meal  $meal
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Meal $meal, Food $food)
     {
         return view($this->baseViewPath . '.edit')
             ->with('model', $food);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Diet\Diary\Meals\Meal  $meal
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Meal $meal, Food $food)
     {
         $attributes = $request->validate([
@@ -102,12 +73,6 @@ class FoodController extends Controller
             ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Diet\Diary\Meals\Meal  $meal
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request, Meal $meal, Food $food)
     {
         if ($isDeletable = $food->isDeletable()) {

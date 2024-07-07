@@ -2352,6 +2352,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _forms_inputs_food_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../forms/inputs/food.vue */ "./resources/js/components/forms/inputs/food.vue");
 /* harmony import */ var _forms_inputs_meal_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../forms/inputs/meal.vue */ "./resources/js/components/forms/inputs/meal.vue");
 /* harmony import */ var _mixins_tables_base_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../../mixins/tables/base.js */ "./resources/js/mixins/tables/base.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 
 
 
@@ -2411,7 +2417,20 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     addMeal: function addMeal(meal_id) {
-      console.log(meal_id);
+      if (!meal_id) {
+        return;
+      }
+      var component = this;
+      axios.post(this.model.foods_meals_path, {
+        meal_id: meal_id
+      }).then(function (response) {
+        var _component$items;
+        (_component$items = component.items).push.apply(_component$items, _toConsumableArray(response.data));
+      })["catch"](function (error) {
+        console.log(error);
+      })["finally"](function () {
+        component.form.meal_id = null;
+      });
     },
     resetForm: function resetForm() {
       this.resetErrors();
@@ -9196,7 +9215,7 @@ var render = function render() {
     }, {
       key: "no-data",
       fn: function fn() {
-        return [_vm._v("\n        Mahlzeit hinzufügen (TODO)"), _c("br"), _vm._v(" "), _c("div", [_c("select-meal", {
+        return [_c("div", [_c("select-meal", {
           attrs: {
             diet_meals: _vm.diet_meals
           },

@@ -23,6 +23,7 @@ class Meal extends Model
         'at_formatted',
         'time_formatted',
         'foods_path',
+        'foods_meals_path',
     ];
 
     protected $casts = [
@@ -139,6 +140,13 @@ class Meal extends Model
     {
         return \App\Models\Diet\Diary\Meals\Food::indexPath([
             'diet_days_meal_id' => $this->id,
+        ]);
+    }
+
+    public function getFoodsMealsPathAttribute() : string
+    {
+        return route('diet.days.meals.foods.meals.store', [
+            'meal' => $this->id,
         ]);
     }
 

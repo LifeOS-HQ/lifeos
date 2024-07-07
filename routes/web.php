@@ -52,6 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/diet/days', 'Diet\Diary\DayController', ['as' => 'diet']);
     Route::resource('/diet/days.meals', 'Diet\Diary\Meals\MealController', ['as' => 'diet']);
     Route::resource('/diet/days/meals.foods', 'Diet\Diary\Meals\FoodController', ['as' => 'diet.days']);
+    Route::post('/diet/days/meals/{meal}/foods/meals', [\App\Http\Controllers\Diet\Diary\Meals\Food\MealController::class, 'store'])->name('diet.days.meals.foods.meals.store');
 
     Route::resource('/diet/foods', 'Diet\Foods\FoodController', ['as' => 'diet']);
     Route::resource('/diet/foods.packagings', 'Diet\Foods\PackagingController', ['as' => 'diet']);

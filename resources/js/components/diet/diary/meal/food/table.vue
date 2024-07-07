@@ -11,7 +11,6 @@
         </template>
 
         <template v-slot:no-data>
-            Mahlzeit hinzufügen (TODO)<br />
             <div>
                 <select-meal v-model="form.meal_id" :diet_meals="diet_meals" @input="addMeal($event)"></select-meal>
             </div>
@@ -131,7 +130,22 @@
 
         methods: {
             addMeal(meal_id) {
-                console.log(meal_id);
+                if (! meal_id) {
+                    return;
+                }
+                let component = this;
+                axios.post(this.model.foods_meals_path, {
+                    meal_id: meal_id
+                })
+                    .then(function (response) {
+                        component.items.push(...response.data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                    .finally(function () {
+                        component.form.meal_id = null;
+                    });
             },
             resetForm() {
                 this.resetErrors();
