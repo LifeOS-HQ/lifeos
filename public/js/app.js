@@ -2566,6 +2566,16 @@ __webpack_require__.r(__webpack_exports__);
     },
     error: function error(name) {
       return name in this.errors ? this.errors[name][0] : '';
+    },
+    setTimeFormatted: function setTimeFormatted() {
+      var should_save = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+      this.form.time_formatted = new Date().toLocaleTimeString('de-DE', {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      if (should_save) {
+        this.update();
+      }
     }
   }
 });
@@ -9357,7 +9367,7 @@ var render = function render() {
       expression: "form.name"
     }
   })], 1), _vm._v(" "), _c("div", {
-    staticClass: "col px-0 mr-3"
+    staticClass: "col px-0 mr-3 d-flex"
   }, [_c("input-text", {
     attrs: {
       placeholder: "Zeit",
@@ -9376,7 +9386,16 @@ var render = function render() {
       },
       expression: "form.time_formatted"
     }
-  })], 1), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-sm btn-secondary ml-1",
+    on: {
+      click: function click($event) {
+        return _vm.setTimeFormatted(false);
+      }
+    }
+  }, [_c("i", {
+    staticClass: "fas fa-fw fa-clock"
+  })])], 1), _vm._v(" "), _c("div", {
     staticClass: "col px-0 mr-3"
   }, [_c("input-text", {
     attrs: {
@@ -9420,8 +9439,17 @@ var render = function render() {
   })])])]) : _c("div", {
     staticClass: "card-header d-flex align-items-center"
   }, [_c("div", {
-    staticClass: "col px-0"
-  }, [_vm._v("\n            " + _vm._s(_vm.item.name) + " um " + _vm._s(_vm.item.time_formatted) + " " + _vm._s(_vm.item.rating_comment ? " (" + _vm.item.rating_comment + ")" : "") + "\n        ")]), _vm._v(" "), _c("div", {
+    staticClass: "col px-0 d-flex align-items-center"
+  }, [_c("div", [_vm._v(_vm._s(_vm.item.name) + " um " + _vm._s(_vm.item.time_formatted) + " " + _vm._s(_vm.item.rating_comment ? " (" + _vm.item.rating_comment + ")" : ""))]), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-sm btn-secondary ml-1",
+    on: {
+      click: function click($event) {
+        return _vm.setTimeFormatted(true);
+      }
+    }
+  }, [_c("i", {
+    staticClass: "fas fa-fw fa-clock"
+  })])]), _vm._v(" "), _c("div", {
     staticClass: "btn-group btn-group-sm",
     attrs: {
       role: "group"

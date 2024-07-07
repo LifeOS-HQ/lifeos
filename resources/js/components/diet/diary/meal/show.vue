@@ -4,8 +4,9 @@
             <div class="col px-0 mr-3">
                 <input-text v-model="form.name" placeholder="Bezeichnung" :error="error('name')" @keydown.enter="update"></input-text>
             </div>
-            <div class="col px-0 mr-3">
+            <div class="col px-0 mr-3 d-flex">
                 <input-text v-model="form.time_formatted" placeholder="Zeit" :error="error('time_formatted')" @keydown.enter="update"></input-text>
+                <button class="btn btn-sm btn-secondary ml-1" @click="setTimeFormatted(false)"><i class="fas fa-fw fa-clock"></i></button>
             </div>
             <div class="col px-0 mr-3">
                 <input-text v-model="form.rating_comment" placeholder="Notiz" :error="error('notiz')" @keydown.enter="update"></input-text>
@@ -16,8 +17,9 @@
             </div>
         </div>
         <div class="card-header d-flex align-items-center" v-else>
-            <div class="col px-0">
-                {{ item.name }} um {{ item.time_formatted }} {{ item.rating_comment ? ' (' + item.rating_comment + ')' : '' }}
+            <div class="col px-0 d-flex align-items-center">
+                <div>{{ item.name }} um {{ item.time_formatted }} {{ item.rating_comment ? ' (' + item.rating_comment + ')' : '' }}</div>
+                <button class="btn btn-sm btn-secondary ml-1" @click="setTimeFormatted(true)"><i class="fas fa-fw fa-clock"></i></button>
             </div>
             <div class="btn-group btn-group-sm" role="group">
                 <button class="btn btn-secondary" @click="is_editing = true"><i class="fas fa-fw fa-edit"></i></button>
@@ -120,6 +122,12 @@
             error(name) {
                 return (name in this.errors ? this.errors[name][0] : '');
             },
+            setTimeFormatted(should_save = false) {
+                this.form.time_formatted = new Date().toLocaleTimeString('de-DE', {hour: '2-digit', minute:'2-digit'});
+                if (should_save) {
+                    this.update();
+                }
+            }
         },
     };
 </script>
