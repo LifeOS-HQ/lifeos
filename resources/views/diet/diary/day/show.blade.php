@@ -26,9 +26,22 @@
                     @method('PUT')
                     <div class="card-header">Allgemein</div>
                     <div class="card-body">
-                        - Mahlzeigen wie Blocks in Review erstellen<br>
-                        - Wenn leer Mahlzeit hinzufügen<br>
-                        - footer: neue Zeile mit select für Nahrungsmittel<br>
+                        <div class="row">
+                            <div class="col-label"><b>Kalorien</b></div>
+                            <div class="col-value">{{ number_format($model->calories, 2, ',', '.') }} kcal</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-label"><b>Kohlenhydrate</b></div>
+                            <div class="col-value">{{ number_format($model->carbohydrate, 2, ',', '.') }} g</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-label"><b>Fett</b></div>
+                            <div class="col-value">{{ number_format($model->fat, 2, ',', '.') }} g</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-label"><b>Protein</b></div>
+                            <div class="col-value">{{ number_format($model->protein, 2, ',', '.') }} g</div>
+                        </div>
 
                         <div class="form-group">
                             <label class="col-form-label col-form-label-sm" for="rating_comment">Notiz</label>
