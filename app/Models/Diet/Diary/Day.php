@@ -59,7 +59,7 @@ class Day extends Model
         static::created(function($model)
         {
             $last_model = self::with([
-                'meals'
+                'meals.foods'
             ])
                 ->where('user_id', $model->user_id)
                 ->where('id', '!=', $model->id)
@@ -70,14 +70,25 @@ class Day extends Model
                 return true;
             }
 
-            foreach ($last_model->meals as $meal) {
-                $model->meals()->create([
-                    'at' => is_null($meal->at) ? $model->at : $meal->at->setDateFrom($model->at),
+            foreach ($last_model->meals as $last_day_meal) {
+                $meal = $model->meals()->create([
+                    'at' => is_null($last_day_meal->at) ? $model->at : $last_day_meal->at->setDateFrom($model->at),
                     'rating_comments' => null,
-                    'name' => $meal->name,
-                    'order_by' => $meal->order_by,
+                    'name' => $last_day_meal->name,
+                    'order_by' => $last_day_meal->order_by,
                     'user_id' => $model->user_id,
                 ]);
+
+                foreach ($last_day_meal->foods as $last_day_meal_food) {
+                    $meal->foods()->create([
+                        'amount' => $last_day_meal_food->amount,
+                        'food_id' => $last_day_meal_food->food_id,
+                        'meal_id' => $meal->id,
+                        'user_id' => $model->user_id,
+                    ]);
+                }
+
+
             }
 
             return true;
