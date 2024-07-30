@@ -9310,9 +9310,9 @@ var render = function render() {
           staticClass: "text-right"
         }, [_vm._v(_vm._s(_vm.nutrition_values.carbohydrate.format(2, ",", ".")) + " g")]), _vm._v(" "), _c("td", {
           staticClass: "text-right"
-        }, [_vm._v(_vm._s(_vm.nutrition_values.fat.format(2, ",", ".")) + " g")]), _vm._v(" "), _c("td", {
+        }, [_vm._v(_vm._s(_vm.nutrition_values.protein.format(2, ",", ".")) + " g")]), _vm._v(" "), _c("td", {
           staticClass: "text-right"
-        }, [_vm._v(_vm._s(_vm.nutrition_values.protein.format(2, ",", ".")) + " g")]), _vm._v(" "), _c("td")])];
+        }, [_vm._v(_vm._s(_vm.nutrition_values.fat.format(2, ",", ".")) + " g")]), _vm._v(" "), _c("td")])];
       },
       proxy: true
     }])

@@ -40,8 +40,8 @@
                 <td></td>
                 <td class="text-right">{{ nutrition_values.calories.format(2, ',', '.') }} kcal</td>
                 <td class="text-right">{{ nutrition_values.carbohydrate.format(2, ',', '.') }} g</td>
-                <td class="text-right">{{ nutrition_values.fat.format(2, ',', '.') }} g</td>
                 <td class="text-right">{{ nutrition_values.protein.format(2, ',', '.') }} g</td>
+                <td class="text-right">{{ nutrition_values.fat.format(2, ',', '.') }} g</td>
                 <td></td>
             </tr>
         </template>
