@@ -58,6 +58,14 @@
             },
         },
 
+        watch: {
+            item(newValue, oldValue) {
+                this.form.name = newValue.name;
+                this.form.time_formatted = newValue.time_formatted;
+                this.form.rating_comment = newValue.rating_comment;
+            }
+        },
+
         computed: {
             nutrition_values() {
                 var values = {

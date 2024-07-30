@@ -2387,6 +2387,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       type: Object
     }
   },
+  watch: {
+    model: function model(newValue, oldValue) {
+      this.fetch();
+    }
+  },
   data: function data() {
     return {
       filter: {
@@ -2528,6 +2533,13 @@ __webpack_require__.r(__webpack_exports__);
     item: {
       required: true,
       type: Object
+    }
+  },
+  watch: {
+    item: function item(newValue, oldValue) {
+      this.form.name = newValue.name;
+      this.form.time_formatted = newValue.time_formatted;
+      this.form.rating_comment = newValue.rating_comment;
     }
   },
   computed: {
@@ -2857,7 +2869,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {},
   methods: {
-    //
+    created: function created(item) {
+      location.href = item.edit_path;
+    }
   }
 });
 
@@ -9107,8 +9121,11 @@ var render = function render() {
       fn: function fn() {
         return [_c("td", {
           staticClass: "align-middle pointer"
-        }, [_vm._v("\n            " + _vm._s(_vm.item.food.name) + "\n        ")]), _vm._v(" "), _c("td", {
-          staticClass: "align-middle pointer"
+        }, [_vm._v(_vm._s(_vm.item.food.name))]), _vm._v(" "), _c("td", {
+          staticClass: "align-middle pointer",
+          attrs: {
+            colspan: "5"
+          }
         }, [_c("input-text", {
           attrs: {
             placeholder: "Abkürzung",
@@ -9147,7 +9164,15 @@ var render = function render() {
               _vm.isEditing = true;
             }
           }
-        }, [_vm._v(_vm._s(_vm.item.amount_formatted))])];
+        }, [_vm._v(_vm._s(_vm.item.amount_formatted) + " g")]), _vm._v(" "), _c("td", {
+          staticClass: "align-middle text-right"
+        }, [_vm._v(_vm._s((_vm.item.amount * _vm.item.food.calories).format(2, ",", ".")) + " kcal")]), _vm._v(" "), _c("td", {
+          staticClass: "align-middle text-right"
+        }, [_vm._v(_vm._s((_vm.item.amount * _vm.item.food.carbohydrate).format(2, ",", ".")) + " g")]), _vm._v(" "), _c("td", {
+          staticClass: "align-middle text-right"
+        }, [_vm._v(_vm._s((_vm.item.amount * _vm.item.food.protein).format(2, ",", ".")) + " g")]), _vm._v(" "), _c("td", {
+          staticClass: "align-middle text-right"
+        }, [_vm._v(_vm._s((_vm.item.amount * _vm.item.food.fat).format(2, ",", ".")) + " g")])];
       },
       proxy: true
     }])
@@ -9240,6 +9265,14 @@ var render = function render() {
         return [_c("tr", [_c("th", {}, [_vm._v("Nahrungsmittel")]), _vm._v(" "), _c("th", {
           staticClass: "text-right"
         }, [_vm._v("Menge")]), _vm._v(" "), _c("th", {
+          staticClass: "text-right"
+        }, [_vm._v("Kalorien")]), _vm._v(" "), _c("th", {
+          staticClass: "text-right"
+        }, [_vm._v("Kohlenhydrate")]), _vm._v(" "), _c("th", {
+          staticClass: "text-right"
+        }, [_vm._v("Proteine")]), _vm._v(" "), _c("th", {
+          staticClass: "text-right"
+        }, [_vm._v("Fette")]), _vm._v(" "), _c("th", {
           staticClass: "text-right d-none d-sm-table-cell w-action"
         }, [_vm._v("Aktion")])])];
       },
@@ -9271,21 +9304,15 @@ var render = function render() {
       fn: function fn() {
         return [_c("tr", {
           staticClass: "font-weight-bold"
-        }, [_c("td", [_vm._v("Kalorien")]), _vm._v(" "), _c("td", {
+        }, [_c("td"), _vm._v(" "), _c("td"), _vm._v(" "), _c("td", {
           staticClass: "text-right"
-        }, [_vm._v(_vm._s(_vm.nutrition_values.calories.format(2, ",", ".")))]), _vm._v(" "), _c("td")]), _vm._v(" "), _c("tr", {
-          staticClass: "font-weight-bold"
-        }, [_c("td", [_vm._v("Kohlenhydrate")]), _vm._v(" "), _c("td", {
+        }, [_vm._v(_vm._s(_vm.nutrition_values.calories.format(2, ",", ".")) + " kcal")]), _vm._v(" "), _c("td", {
           staticClass: "text-right"
-        }, [_vm._v(_vm._s(_vm.nutrition_values.carbohydrate.format(2, ",", ".")))]), _vm._v(" "), _c("td")]), _vm._v(" "), _c("tr", {
-          staticClass: "font-weight-bold"
-        }, [_c("td", [_vm._v("Fett")]), _vm._v(" "), _c("td", {
+        }, [_vm._v(_vm._s(_vm.nutrition_values.carbohydrate.format(2, ",", ".")) + " g")]), _vm._v(" "), _c("td", {
           staticClass: "text-right"
-        }, [_vm._v(_vm._s(_vm.nutrition_values.fat.format(2, ",", ".")))]), _vm._v(" "), _c("td")]), _vm._v(" "), _c("tr", {
-          staticClass: "font-weight-bold"
-        }, [_c("td", [_vm._v("Protein")]), _vm._v(" "), _c("td", {
+        }, [_vm._v(_vm._s(_vm.nutrition_values.fat.format(2, ",", ".")) + " g")]), _vm._v(" "), _c("td", {
           staticClass: "text-right"
-        }, [_vm._v(_vm._s(_vm.nutrition_values.protein.format(2, ",", ".")))]), _vm._v(" "), _c("td")])];
+        }, [_vm._v(_vm._s(_vm.nutrition_values.protein.format(2, ",", ".")) + " g")]), _vm._v(" "), _c("td")])];
       },
       proxy: true
     }])

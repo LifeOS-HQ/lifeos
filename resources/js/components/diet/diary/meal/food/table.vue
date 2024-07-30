@@ -22,6 +22,10 @@
             <tr>
                 <th class="">Nahrungsmittel</th>
                 <th class="text-right">Menge</th>
+                <th class="text-right">Kalorien</th>
+                <th class="text-right">Kohlenhydrate</th>
+                <th class="text-right">Proteine</th>
+                <th class="text-right">Fette</th>
                 <th class="text-right d-none d-sm-table-cell w-action">Aktion</th>
             </tr>
         </template>
@@ -32,23 +36,12 @@
 
         <template v-slot:tfoot>
             <tr class="font-weight-bold">
-                <td>Kalorien</td>
-                <td class="text-right">{{ nutrition_values.calories.format(2, ',', '.') }}</td>
                 <td></td>
-            </tr>
-            <tr class="font-weight-bold">
-                <td>Kohlenhydrate</td>
-                <td class="text-right">{{ nutrition_values.carbohydrate.format(2, ',', '.') }}</td>
                 <td></td>
-            </tr>
-            <tr class="font-weight-bold">
-                <td>Fett</td>
-                <td class="text-right">{{ nutrition_values.fat.format(2, ',', '.') }}</td>
-                <td></td>
-            </tr>
-            <tr class="font-weight-bold">
-                <td>Protein</td>
-                <td class="text-right">{{ nutrition_values.protein.format(2, ',', '.') }}</td>
+                <td class="text-right">{{ nutrition_values.calories.format(2, ',', '.') }} kcal</td>
+                <td class="text-right">{{ nutrition_values.carbohydrate.format(2, ',', '.') }} g</td>
+                <td class="text-right">{{ nutrition_values.fat.format(2, ',', '.') }} g</td>
+                <td class="text-right">{{ nutrition_values.protein.format(2, ',', '.') }} g</td>
                 <td></td>
             </tr>
         </template>
@@ -95,8 +88,13 @@
             },
         },
 
-        data () {
+        watch: {
+            model(newValue, oldValue) {
+                this.fetch();
+            }
+        },
 
+        data () {
             return {
                 filter: {
                     //
