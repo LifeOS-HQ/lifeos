@@ -28,13 +28,20 @@ class FoodController extends Controller
             'food_id' => 'required|exists:food,id',
         ]);
 
+        $user = auth()->user();
+
         $meal->loadCount('foods');
+
+        $last_food = Food::where('user_id', $user->id)
+            ->where('food_id', $attributes['food_id'])
+            ->latest()
+            ->first();
 
         return $meal->foods()->create([
             'user_id' => $meal->user_id,
             'food_id' => $attributes['food_id'],
             'order_by' => $meal->foods_count,
-            'amount' => 1,
+            'amount' => $last_food ? $last_food->amount : 1,
         ])->load([
             'food',
         ]);
