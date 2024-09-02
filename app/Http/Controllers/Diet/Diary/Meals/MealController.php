@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Diet\Diary\Meals;
 
-use App\Http\Controllers\Controller;
-use App\Models\Diet\Diary\Day;
-use App\Models\Diet\Diary\Meals\Meal;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use App\Models\Diet\Diary\Day;
+use App\Http\Controllers\Controller;
+use App\Models\Diet\Diary\Meals\Meal;
 
 class MealController extends Controller
 {
@@ -27,14 +28,43 @@ class MealController extends Controller
 
     public function store(Request $request, Day $day)
     {
-        $day->loadCount('meals');
+        $attributes = $request->validate([
+            'meal_id' => 'nullable|integer|exists:diet_days_meals,id',
+        ]);
 
-        return $day->meals()->create([
+        $day->loadCount('meals');
+        $name = ($day->meals_count + 1) . '. Mahlzeit';
+        $meal_foods = collect([]);
+
+        if (Arr::has($attributes, 'meal_id')) {
+            $old_meal = Meal::query()
+                ->with('foods')
+                ->find($attributes['meal_id']);
+
+            $name = $old_meal->name;
+            $meal_foods = $old_meal->foods;
+        }
+
+        $meal = $day->meals()->create([
             'user_id' => $day->user_id,
             'order_by' => $day->meals_count,
-            'name' => ($day->meals_count + 1) . '. Mahlzeit',
+            'name' => $name,
             'at' => null,
+            'rating_comments' => null,
         ]);
+
+        foreach ($meal_foods as $old_meal_food) {
+            $meal->foods()->create([
+                'amount' => $old_meal_food->amount,
+                'food_id' => $old_meal_food->food_id,
+                'meal_id' => $meal->id,
+                'user_id' => $meal->user_id,
+            ]);
+        }
+
+        $meal->setRelation('day', $day);
+
+        return $meal;
     }
 
     public function show(Day $day, Meal $meal)

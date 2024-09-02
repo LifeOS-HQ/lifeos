@@ -2485,12 +2485,15 @@ __webpack_require__.r(__webpack_exports__);
       var component = this;
       axios.post(component.model.meals_path).then(function (response) {
         component.errors = {};
-        component.meals.push(response.data);
+        component.stored(response.data);
       })["catch"](function (error) {
         console.log(error);
         component.errors = error.response.data.errors;
         Vue.error('Datensatz konnte nicht erzeugt werden!');
       });
+    },
+    stored: function stored(meal) {
+      this.meals.push(meal);
     },
     remove: function remove(index) {
       this.meals.splice(index, 1);
@@ -2572,6 +2575,19 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    copy: function copy() {
+      var component = this;
+      axios.post(component.item.index_path, {
+        meal_id: component.item.id
+      }).then(function (response) {
+        component.errors = {};
+        component.$emit('copied', response.data);
+      })["catch"](function (error) {
+        console.log(error);
+        component.errors = error.response.data.errors;
+        Vue.error('Datensatz konnte nicht erzeugt werden!');
+      });
+    },
     update: function update() {
       var component = this;
       axios.put(component.item.path, component.form).then(function (response) {
@@ -9347,6 +9363,9 @@ var render = function render() {
         diet_meals: _vm.diet_meals
       },
       on: {
+        copied: function copied($event) {
+          return _vm.stored($event);
+        },
         deleted: function deleted($event) {
           return _vm.remove(index);
         },
@@ -9509,6 +9528,17 @@ var render = function render() {
     }
   }, [_c("i", {
     staticClass: "fas fa-fw fa-edit"
+  })]), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-secondary",
+    attrs: {
+      type: "button",
+      title: "Kopieren"
+    },
+    on: {
+      click: _vm.copy
+    }
+  }, [_c("i", {
+    staticClass: "fas fa-fw fa-copy"
   })]), _vm._v(" "), _c("button", {
     staticClass: "btn btn-secondary",
     attrs: {

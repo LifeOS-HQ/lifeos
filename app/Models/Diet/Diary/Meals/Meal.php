@@ -22,6 +22,7 @@ class Meal extends Model
     protected $appends = [
         'at_formatted',
         'time_formatted',
+        'index_path',
         'foods_path',
         'foods_meals_path',
     ];

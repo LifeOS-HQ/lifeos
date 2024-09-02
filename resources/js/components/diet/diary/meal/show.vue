@@ -23,6 +23,7 @@
             </div>
             <div class="btn-group btn-group-sm" role="group">
                 <button class="btn btn-secondary" @click="is_editing = true"><i class="fas fa-fw fa-edit"></i></button>
+                <button type="button" class="btn btn-secondary" title="Kopieren" @click="copy"><i class="fas fa-fw fa-copy"></i></button>
                 <button type="button" class="btn btn-secondary" title="Löschen" @click="destroy"><i class="fas fa-fw fa-trash"></i></button>
             </div>
         </div>
@@ -100,6 +101,21 @@
         },
 
         methods: {
+            copy() {
+                var component = this;
+                axios.post(component.item.index_path, {
+                    meal_id: component.item.id,
+                })
+                    .then(function (response) {
+                        component.errors = {};
+                        component.$emit('copied', response.data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        component.errors = error.response.data.errors;
+                        Vue.error('Datensatz konnte nicht erzeugt werden!');
+                    });
+            },
             update() {
                 var component = this;
                 axios.put(component.item.path, component.form)
