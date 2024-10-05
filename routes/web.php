@@ -24,6 +24,8 @@ Route::bind('model', function ($id) {
 
 Route::post('deploy', 'DeploymentController@store');
 
+Route::post('/habitica/webhook', [\App\Http\Controllers\Habitica\WebhookController::class, 'store'])->name('habitica.webhook.store');
+
 Auth::routes();
 
 Route::get('/impressum', [\App\Http\Controllers\ImpressumController::class, 'index'])->name('impressum.index');
