@@ -43,6 +43,22 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource(\App\Models\Activities\Activity::ROUTE_NAME, 'Activities\ActivityController');
 
+    Route::get('/behaviours', [\App\Http\Controllers\Behaviours\BehaviourController::class, 'index'])->name('behaviours.index');
+    Route::get('/behaviours/create', [\App\Http\Controllers\Behaviours\BehaviourController::class, 'create'])->name('behaviours.create');
+    Route::post('/behaviours', [\App\Http\Controllers\Behaviours\BehaviourController::class, 'store'])->name('behaviours.store');
+    Route::get('/behaviours/{behaviour}', [\App\Http\Controllers\Behaviours\BehaviourController::class, 'show'])->name('behaviours.show');
+    Route::get('/behaviours/{behaviour}/edit', [\App\Http\Controllers\Behaviours\BehaviourController::class, 'edit'])->name('behaviours.edit');
+    Route::put('/behaviours/{behaviour}', [\App\Http\Controllers\Behaviours\BehaviourController::class, 'update'])->name('behaviours.update');
+    Route::delete('/behaviours/{behaviour}', [\App\Http\Controllers\Behaviours\BehaviourController::class, 'destroy'])->name('behaviours.destroy');
+
+    Route::get('/behaviours/{behaviour}/histories', [\App\Http\Controllers\Behaviours\HistoryController::class, 'index'])->name('behaviours.histories.index');
+    Route::get('/behaviours/{behaviour}/histories/create', [\App\Http\Controllers\Behaviours\HistoryController::class, 'create'])->name('behaviours.histories.create');
+    Route::post('/behaviours/{behaviour}/histories', [\App\Http\Controllers\Behaviours\HistoryController::class, 'store'])->name('behaviours.histories.store');
+    Route::get('/behaviours/{behaviour}/histories/{history}', [\App\Http\Controllers\Behaviours\HistoryController::class, 'show'])->name('behaviours.histories.show');
+    Route::get('/behaviours/{behaviour}/histories/{history}/edit', [\App\Http\Controllers\Behaviours\HistoryController::class, 'edit'])->name('behaviours.histories.edit');
+    Route::put('/behaviours/{behaviour}/histories/{history}', [\App\Http\Controllers\Behaviours\HistoryController::class, 'update'])->name('behaviours.histories.update');
+    Route::delete('/behaviours/{behaviour}/histories/{history}', [\App\Http\Controllers\Behaviours\HistoryController::class, 'destroy'])->name('behaviours.histories.destroy');
+
     Route::resource(\App\Models\Contacts\Contact::ROUTE_NAME, 'Contacts\ContactController');
 
     Route::resource('/clients', 'Users\ClientController');

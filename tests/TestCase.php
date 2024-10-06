@@ -116,7 +116,7 @@ abstract class TestCase extends BaseTestCase
         return $response;
     }
 
-    public function getModel(array $parameters = [], Model $model) : TestResponse
+    public function getModel(array $parameters = [], Model $model = null) : TestResponse
     {
         $this->signIn();
 
