@@ -2,6 +2,10 @@
 
 namespace App\Apis\Habitica;
 
+use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\PendingRequest;
+
 /**
  * Verknüpfung zur Habitica API
  */
@@ -41,6 +45,22 @@ class Habitica
         $response = json_decode($response, true);
 
         return $response;
+    }
+
+    public function getTasks(array $query = []): Response
+    {
+        return $this->getClient()->get('tasks/user', []);
+    }
+
+    private function getClient(): PendingRequest
+    {
+        return Http::baseUrl(self::BASE_URL)
+            ->withHeaders([
+                'Content-Type' => 'application/json',
+                'x-api-user' => $this->username,
+                'x-api-key' => $this->password,
+                'x-client' => $this->username . '-lifeOS',
+            ]);
     }
 
     public function cast(string $spell_id, string $target_id = '')
