@@ -5,6 +5,12 @@
         <template v-slot:show>
 
             <td class="align-middle pointer" @click="show">{{ item.start_at_formatted }}</td>
+            <td class="align-middle text-right pointer" @click="show">{{ item.distance_accum_formatted }} km</td>
+            <td class="align-middle text-right pointer" @click="show">{{ item.duration_total_accum_formatted }}</td>
+            <td class="align-middle text-right pointer" @click="show">{{ item.ascent_accum_formatted }} m</td>
+            <td class="align-middle text-right pointer" @click="show">{{ item.calories_accum_formatted }} kcal</td>
+            <td class="align-middle text-right pointer" @click="show">{{ item.heart_rate_avg_formatted }} bpm</td>
+            <td class="align-middle text-right pointer" @click="show">{{ item.power_avg_formatted }} W</td>
 
         </template>
 

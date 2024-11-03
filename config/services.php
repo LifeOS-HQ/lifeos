@@ -53,4 +53,10 @@ return [
         'base_uri' => env('RENTABLO_URI'),
     ],
 
+    'wahoo' => [
+        'client_id' => env('WAHOO_CLIENT_ID'),
+        'client_secret' => env('WAHOO_CLIENT_SECRET'),
+        'redirect' => '/login/wahoo/callback',
+    ],
+
 ];

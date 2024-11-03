@@ -1,0 +1,39 @@
+{
+    "id": 323531543,
+    "starts": "2024-11-02T04:21:10.000Z",
+    "minutes": 66,
+    "name": "Virtual Cycling",
+    "plan_id": null,
+    "route_id": null,
+    "workout_token": "FID1338 41885CB6:0",
+    "workout_type_id": 68,
+    "day_code": null,
+    "workout_summary": {
+        "id": 290351376,
+        "ascent_accum": "96.0",
+        "calories_accum": "830.0",
+        "cadence_avg": "66.0",
+        "distance_accum": "38443.43",
+        "duration_active_accum": "3964.0",
+        "duration_paused_accum": "0.0",
+        "duration_total_accum": "3964.0",
+        "heart_rate_avg": "130.0",
+        "power_avg": "210.0",
+        "power_bike_np_last": null,
+        "power_bike_tss_last": null,
+        "speed_avg": "9.7",
+        "work_accum": "830019.0",
+        "file": {
+            "url": "https:\/\/cdn.wahooligan.com\/wahoo-cloud\/production\/uploads\/workout_file\/file\/yjCQOpW5XS1kLRCfnXUVIQ\/2024-11-02-042110-FID1338_41885CB6-0-0.fit"
+        },
+        "files": [
+            {
+                "url": "https:\/\/cdn.wahooligan.com\/wahoo-cloud\/production\/uploads\/workout_file\/file\/yjCQOpW5XS1kLRCfnXUVIQ\/2024-11-02-042110-FID1338_41885CB6-0-0.fit"
+            }
+        ],
+        "created_at": "2024-11-02T05:27:19.000Z",
+        "updated_at": "2024-11-02T05:27:19.000Z"
+    },
+    "created_at": "2024-11-02T05:27:19.000Z",
+    "updated_at": "2024-11-02T05:27:19.000Z"
+}

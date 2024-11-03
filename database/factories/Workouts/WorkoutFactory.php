@@ -23,7 +23,7 @@ class WorkoutFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::factory(),
+            'user_id' => factory(User::class),
             'name' => $this->faker->word,
         ];
     }

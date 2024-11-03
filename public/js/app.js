@@ -12877,7 +12877,37 @@ var render = function render() {
           on: {
             click: _vm.show
           }
-        }, [_vm._v(_vm._s(_vm.item.start_at_formatted))])];
+        }, [_vm._v(_vm._s(_vm.item.start_at_formatted))]), _vm._v(" "), _c("td", {
+          staticClass: "align-middle text-right pointer",
+          on: {
+            click: _vm.show
+          }
+        }, [_vm._v(_vm._s(_vm.item.distance_accum_formatted) + " km")]), _vm._v(" "), _c("td", {
+          staticClass: "align-middle text-right pointer",
+          on: {
+            click: _vm.show
+          }
+        }, [_vm._v(_vm._s(_vm.item.duration_total_accum_formatted))]), _vm._v(" "), _c("td", {
+          staticClass: "align-middle text-right pointer",
+          on: {
+            click: _vm.show
+          }
+        }, [_vm._v(_vm._s(_vm.item.ascent_accum_formatted) + " m")]), _vm._v(" "), _c("td", {
+          staticClass: "align-middle text-right pointer",
+          on: {
+            click: _vm.show
+          }
+        }, [_vm._v(_vm._s(_vm.item.calories_accum_formatted) + " kcal")]), _vm._v(" "), _c("td", {
+          staticClass: "align-middle text-right pointer",
+          on: {
+            click: _vm.show
+          }
+        }, [_vm._v(_vm._s(_vm.item.heart_rate_avg_formatted) + " bpm")]), _vm._v(" "), _c("td", {
+          staticClass: "align-middle text-right pointer",
+          on: {
+            click: _vm.show
+          }
+        }, [_vm._v(_vm._s(_vm.item.power_avg_formatted) + " W")])];
       },
       proxy: true
     }])
@@ -12933,11 +12963,19 @@ var render = function render() {
     }, {
       key: "thead",
       fn: function fn() {
-        return [_c("tr", [_c("th", {
-          attrs: {
-            width: "100%"
-          }
-        }, [_vm._v("Datum")]), _vm._v(" "), _c("th", {
+        return [_c("tr", [_c("th", {}, [_vm._v("Datum")]), _vm._v(" "), _c("th", {
+          staticClass: "text-right"
+        }, [_vm._v("Distanz")]), _vm._v(" "), _c("th", {
+          staticClass: "text-right"
+        }, [_vm._v("Dauer")]), _vm._v(" "), _c("th", {
+          staticClass: "text-right"
+        }, [_vm._v("Steigung")]), _vm._v(" "), _c("th", {
+          staticClass: "text-right"
+        }, [_vm._v("Kalorien")]), _vm._v(" "), _c("th", {
+          staticClass: "text-right"
+        }, [_vm._v("Puls")]), _vm._v(" "), _c("th", {
+          staticClass: "text-right"
+        }, [_vm._v("Power")]), _vm._v(" "), _c("th", {
           staticClass: "text-right d-none d-sm-table-cell w-action",
           attrs: {
             width: "125"

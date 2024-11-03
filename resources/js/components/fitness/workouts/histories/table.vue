@@ -12,7 +12,13 @@
 
         <template v-slot:thead>
             <tr>
-                <th class="" width="100%">Datum</th>
+                <th class="">Datum</th>
+                <th class="text-right">Distanz</th>
+                <th class="text-right">Dauer</th>
+                <th class="text-right">Steigung</th>
+                <th class="text-right">Kalorien</th>
+                <th class="text-right">Puls</th>
+                <th class="text-right">Power</th>
                 <th class="text-right d-none d-sm-table-cell w-action" width="125">Aktion</th>
             </tr>
         </template>
