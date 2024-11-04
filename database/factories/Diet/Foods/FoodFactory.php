@@ -22,7 +22,11 @@ class FoodFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->word,
+            'calories' => $this->faker->randomFloat(3, 0, 1000),
+            'carbohydrate' => $this->faker->randomFloat(3, 0, 1000),
+            'fat' => $this->faker->randomFloat(3, 0, 1000),
+            'protein' => $this->faker->randomFloat(3, 0, 1000),
         ];
     }
 }

@@ -58,39 +58,6 @@ class Day extends Model
 
         static::created(function($model)
         {
-            $last_model = self::with([
-                'meals.foods'
-            ])
-                ->where('user_id', $model->user_id)
-                ->where('id', '!=', $model->id)
-                ->latest('at')
-                ->first();
-
-            if (is_null($last_model) || $last_model->meals->count() == 0) {
-                return true;
-            }
-
-            foreach ($last_model->meals as $last_day_meal) {
-                $meal = $model->meals()->create([
-                    'at' => is_null($last_day_meal->at) ? $model->at : $last_day_meal->at->setDateFrom($model->at),
-                    'rating_comments' => null,
-                    'name' => $last_day_meal->name,
-                    'order_by' => $last_day_meal->order_by,
-                    'user_id' => $model->user_id,
-                ]);
-
-                foreach ($last_day_meal->foods as $last_day_meal_food) {
-                    $meal->foods()->create([
-                        'amount' => $last_day_meal_food->amount,
-                        'food_id' => $last_day_meal_food->food_id,
-                        'meal_id' => $meal->id,
-                        'user_id' => $model->user_id,
-                    ]);
-                }
-
-
-            }
-
             return true;
         });
 
@@ -98,6 +65,66 @@ class Day extends Model
         {
             return true;
         });
+    }
+
+    public function populateMealsFromLastDay(): self
+    {
+        $last_day = self::with([
+            'meals.foods'
+        ])
+            ->where('user_id', $this->user_id)
+            ->where('id', '!=', $this->id)
+            ->whereHas('meals')
+            ->latest('at')
+            ->first();
+
+        if (is_null($last_day) || $last_day->meals->count() == 0) {
+            return $this;
+        }
+
+        return $this->populateMealsFrom($last_day);
+    }
+
+    public function populateMealsFromLastWeekday(): self
+    {
+        $last_day = self::with([
+            'meals.foods'
+        ])
+            ->where('user_id', $this->user_id)
+            ->where('id', '!=', $this->id)
+            ->whereRaw('WEEKDAY(at) = ?', [$this->at->dayOfWeekIso - 1])
+            ->latest('at')
+            ->first();
+
+        if (is_null($last_day) || $last_day->meals->count() == 0) {
+            return $this;
+        }
+
+        return $this->populateMealsFrom($last_day);
+    }
+
+    private function populateMealsFrom(self $last_day): self
+    {
+        foreach ($last_day->meals as $last_day_meal) {
+            $meal = $this->meals()->create([
+                'at' => is_null($last_day_meal->at) ? $this->at : $last_day_meal->at->setDateFrom($this->at),
+                'rating_comments' => null,
+                'name' => $last_day_meal->name,
+                'order_by' => $last_day_meal->order_by,
+                'user_id' => $this->user_id,
+            ]);
+
+            foreach ($last_day_meal->foods as $last_day_meal_food) {
+                $meal->foods()->create([
+                    'amount' => $last_day_meal_food->amount,
+                    'food_id' => $last_day_meal_food->food_id,
+                    'meal_id' => $meal->id,
+                    'user_id' => $this->user_id,
+                ]);
+            }
+        }
+
+        return $this;
     }
 
     public function isDeletable() : bool

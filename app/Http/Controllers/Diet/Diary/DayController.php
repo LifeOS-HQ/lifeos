@@ -15,11 +15,6 @@ class DayController extends Controller
         $this->authorizeResource(Day::class, 'day');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         if ($request->wantsJson()) {
@@ -29,22 +24,6 @@ class DayController extends Controller
         return view($this->baseViewPath . '.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $attributes = $request->validate([
@@ -52,6 +31,8 @@ class DayController extends Controller
         ]);
 
         $day = auth()->user()->diet_days()->create($attributes);
+
+        $day->populateMealsFromLastWeekday();
 
         $day->refresh();
 
