@@ -19362,12 +19362,12 @@ var staticRenderFns = [function () {
     attrs: {
       width: "90"
     }
-  }, [_vm._v("Sollstunden")]), _vm._v(" "), _c("th", {
+  }, [_vm._v("Arbeitszeit")]), _vm._v(" "), _c("th", {
     staticClass: "text-right",
     attrs: {
       width: "90"
     }
-  }, [_vm._v("Arbeitszeit")]), _vm._v(" "), _c("th", {
+  }, [_vm._v("Sollstunden")]), _vm._v(" "), _c("th", {
     staticClass: "text-right",
     attrs: {
       width: "125"

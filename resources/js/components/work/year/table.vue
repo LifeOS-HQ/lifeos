@@ -34,8 +34,8 @@
                     <tr>
                         <th class="" width="50">Jahr</th>
                         <th class="text-right" width="90">Arbeitstage</th>
-                        <th class="text-right" width="90">Sollstunden</th>
                         <th class="text-right" width="90">Arbeitszeit</th>
+                        <th class="text-right" width="90">Sollstunden</th>
                         <th class="text-right" width="125">Arbeitszeit / Tag</th>
                         <th class="text-right" width="90">Stundenlohn</th>
                         <th class="text-right" width="90">Aufschlag</th>
