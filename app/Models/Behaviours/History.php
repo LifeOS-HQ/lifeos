@@ -83,6 +83,11 @@ class History extends Model
         return $this->end_at->format('d.m.Y H:i');
     }
 
+    public function getStartAtFormattedAttribute() : string
+    {
+        return $this->end_at->format('d.m.Y H:i');
+    }
+
     public function getRouteParameterAttribute() : array
     {
         return [
