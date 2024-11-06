@@ -71,6 +71,7 @@ Vue.component('activity-table', require('./components/activity/table.vue').defau
 
 Vue.component('behaviour-table', require('./components/behaviour/table.vue').default);
 Vue.component('behaviour-history-table', require('./components/behaviour/history/table.vue').default);
+Vue.component('behaviour-history-value-table', require('./components/behaviour/history/value/table.vue').default);
 
 Vue.component('comment-index', require('./components/comment/index.vue').default);
 

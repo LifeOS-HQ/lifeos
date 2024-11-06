@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Behaviours;
 
+use Illuminate\Http\Request;
+use App\Models\Behaviours\History;
 use App\Http\Controllers\Controller;
 use App\Models\Behaviours\Behaviour;
-use App\Models\Behaviours\History;
-use Illuminate\Http\Request;
+use App\Models\Services\Data\Attributes\Groups\Group;
 
 class HistoryController extends Controller
 {
@@ -54,7 +55,20 @@ class HistoryController extends Controller
 
     public function show(Behaviour $behaviour, History $history)
     {
+        $history->load([
+            'values.attribute',
+        ]);
+
+        $attribute_groups = Group::query()
+            ->with([
+                'attributes',
+            ])
+            ->withoutCustom()
+            ->orderBy('name')
+            ->get();
+
         return view($this->baseViewPath . '.show')
+            ->with('attribute_groups', $attribute_groups)
             ->with('behaviour', $behaviour)
             ->with('model', $history);
     }

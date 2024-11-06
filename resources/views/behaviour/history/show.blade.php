@@ -30,6 +30,17 @@
 
     </div>
 
+    <div class="col-6">
+
+        <div class="card">
+            <div class="card-header">{{ App\Models\Behaviours\Histories\Attributes\Value::label() }}</div>
+            <div class="card-body">
+                <behaviour-history-value-table :model="{{ $model }}" :attribute-groups="{{ json_encode($attribute_groups) }}"></behaviour-history-value-table>
+            </div>
+        </div>
+
+    </div>
+
 </div>
 
 @endsection

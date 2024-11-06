@@ -6,6 +6,8 @@ use Illuminate\Support\Arr;
 use D15r\ModelLabels\Traits\HasLabels;
 use D15r\ModelPath\Traits\HasModelPath;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Services\Data\Attributes\Attribute;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Value extends Model
@@ -17,7 +19,7 @@ class Value extends Model
     const ROUTE_NAME = 'behaviours.histories.values';
 
     protected $appends = [
-        //
+        'number_formatted',
     ];
 
     protected $casts = [
@@ -63,12 +65,12 @@ class Value extends Model
         });
     }
 
-    public function isDeletable() : bool
+    public function isDeletable(): bool
     {
         return true;
     }
 
-    protected static function labels() : array
+    protected static function labels(): array
     {
         return [
             'nominativ' => [
@@ -78,7 +80,7 @@ class Value extends Model
         ];
     }
 
-    public function getRouteParameterAttribute() : array
+    public function getRouteParameterAttribute(): array
     {
         return [
             'history' => $this->history_id,
@@ -86,9 +88,19 @@ class Value extends Model
         ];
     }
 
-    public function setNumberFormattedAttribute($value) : void
+    public function getNumberFormattedAttribute(): string
+    {
+        return number_format($this->raw, 2, ',', '.');
+    }
+
+    public function setNumberFormattedAttribute($value): void
     {
         $this->attributes['raw'] = str_replace(',', '.', $value);
         Arr::forget($this->attributes, 'number_formatted');
+    }
+
+    public function attribute(): BelongsTo
+    {
+        return $this->belongsTo(Attribute::class, 'attribute_id', 'id');
     }
 }

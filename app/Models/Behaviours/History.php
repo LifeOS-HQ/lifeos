@@ -22,6 +22,7 @@ class History extends Model
 
     protected $appends = [
         'end_at_formatted',
+        'value_path',
     ];
 
     protected $casts = [
@@ -99,6 +100,13 @@ class History extends Model
             'behaviour' => $this->behaviour_id,
             'history' => $this->id,
         ];
+    }
+
+    public function getValuePathAttribute(): string
+    {
+        return route('behaviours.histories.values.index', [
+            'history' => $this->id,
+        ]);
     }
 
     public function behaviour(): BelongsTo

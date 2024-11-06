@@ -2,14 +2,16 @@
 
 namespace App\Models\Services\Data\Attributes;
 
-use App\Models\Services\Data\Value;
 use App\User;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use App\Models\Services\Data\Value;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Services\Data\Attributes\Groups\Group;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Attribute extends Model
 {
@@ -182,6 +184,11 @@ class Attribute extends Model
     {
         $this->attributes['slug'] = $value;
         $this->setAttributeType();
+    }
+
+    public function group(): BelongsTo
+    {
+        return $this->belongsTo(Group::class, 'group_id');
     }
 
     public function values() : HasMany

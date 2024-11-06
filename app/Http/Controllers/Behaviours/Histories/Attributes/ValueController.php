@@ -26,7 +26,6 @@ class ValueController extends Controller
     {
         $attributes = $request->validate([
             'attribute_id' => 'required|exists:data_attributes,id',
-            'number_formatted' => 'required|formatted_number',
         ]);
 
         $user = auth()->user();
@@ -37,7 +36,9 @@ class ValueController extends Controller
             ]);
 
         if ($request->wantsJson()) {
-            return $value;
+            return $value->load([
+                'attribute',
+            ]);
         }
 
         return redirect($value->path)
@@ -69,7 +70,9 @@ class ValueController extends Controller
         $value->update($attributes);
 
         if ($request->wantsJson()) {
-            return $value;
+            return $value->load([
+                'attribute',
+            ]);
         }
 
         return redirect($value->path)
