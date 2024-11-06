@@ -2,10 +2,15 @@
 
 namespace App\Models\Behaviours;
 
+use App\User;
+use App\Models\Behaviours\Behaviour;
 use D15r\ModelLabels\Traits\HasLabels;
 use D15r\ModelPath\Traits\HasModelPath;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Behaviours\Histories\Attributes\Value;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class History extends Model
 {
@@ -94,5 +99,20 @@ class History extends Model
             'behaviour' => $this->behaviour_id,
             'history' => $this->id,
         ];
+    }
+
+    public function behaviour(): BelongsTo
+    {
+        return $this->belongsTo(Behaviour::class, 'behaviour_id', 'id');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function values(): HasMany
+    {
+        return $this->hasMany(Value::class, 'history_id', 'id');
     }
 }

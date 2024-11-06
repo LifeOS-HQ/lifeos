@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Policies;
+namespace App\Policies\Behaviours;
 
 use App\Models\Behaviours\History;
 use App\User;

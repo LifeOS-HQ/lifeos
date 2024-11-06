@@ -43,6 +43,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource(\App\Models\Activities\Activity::ROUTE_NAME, 'Activities\ActivityController');
 
+    Route::get('/behaviours/histories/{history}/values', [\App\Http\Controllers\Behaviours\Histories\Attributes\ValueController::class, 'index'])->name('behaviours.histories.values.index')->can('viewAny', [\App\Models\Behaviours\Histories\Attributes\Value::class, 'history']);
+    Route::get('/behaviours/histories/{history}/values/create', [\App\Http\Controllers\Behaviours\Histories\Attributes\ValueController::class, 'create'])->name('behaviours.histories.values.create')->can('create', [\App\Models\Behaviours\Histories\Attributes\Value::class, 'history']);
+    Route::post('/behaviours/histories/{history}/values', [\App\Http\Controllers\Behaviours\Histories\Attributes\ValueController::class, 'store'])->name('behaviours.histories.values.store')->can('create', [\App\Models\Behaviours\Histories\Attributes\Value::class, 'history']);
+    Route::get('/behaviours/histories/{history}/values/{value}', [\App\Http\Controllers\Behaviours\Histories\Attributes\ValueController::class, 'show'])->name('behaviours.histories.values.show')->can('view', [\App\Models\Behaviours\Histories\Attributes\Value::class, 'value']);
+    Route::get('/behaviours/histories/{history}/values/{value}/edit', [\App\Http\Controllers\Behaviours\Histories\Attributes\ValueController::class, 'edit'])->name('behaviours.histories.values.edit')->can('update', [\App\Models\Behaviours\Histories\Attributes\Value::class, 'value']);
+    Route::put('/behaviours/histories/{history}/values/{value}', [\App\Http\Controllers\Behaviours\Histories\Attributes\ValueController::class, 'update'])->name('behaviours.histories.values.update')->can('update', [\App\Models\Behaviours\Histories\Attributes\Value::class, 'value']);
+    Route::delete('/behaviours/histories/{history}/values/{value}', [\App\Http\Controllers\Behaviours\Histories\Attributes\ValueController::class, 'destroy'])->name('behaviours.histories.values.destroy')->can('delete', [\App\Models\Behaviours\Histories\Attributes\Value::class, 'value']);
+
     Route::get('/behaviours', [\App\Http\Controllers\Behaviours\BehaviourController::class, 'index'])->name('behaviours.index');
     Route::get('/behaviours/create', [\App\Http\Controllers\Behaviours\BehaviourController::class, 'create'])->name('behaviours.create');
     Route::post('/behaviours', [\App\Http\Controllers\Behaviours\BehaviourController::class, 'store'])->name('behaviours.store');
