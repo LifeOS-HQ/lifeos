@@ -181,6 +181,11 @@ class History extends Model
         return number_format($this->power_avg, 0, ',', '.');
     }
 
+    public function getSpeedAvgFormattedAttribute(): string
+    {
+        return number_format($this->speed_avg * 3.6, 1, ',', '.');
+    }
+
     public function exercise_histories() : HasMany
     {
         return $this->hasMany(\App\Models\Workouts\Exercises\History::class, 'workout_history_id', 'id');
