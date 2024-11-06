@@ -19,7 +19,7 @@ class Behaviour extends Model
     const ROUTE_NAME = 'behaviours';
 
     protected $appends = [
-        //
+        'histories_path',
     ];
 
     protected $casts = [
@@ -74,6 +74,11 @@ class Behaviour extends Model
                 'plural' => 'Verhalten',
             ],
         ];
+    }
+
+    public function getHistoriesPathAttribute(): string
+    {
+        return route('behaviours.histories.index', ['behaviour' => $this->id]);
     }
 
     public function histories(): HasMany

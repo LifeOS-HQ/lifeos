@@ -16,7 +16,7 @@ class History extends Model
     const ROUTE_NAME = 'behaviours.histories';
 
     protected $appends = [
-        //
+        'end_at_formatted',
     ];
 
     protected $casts = [
@@ -72,10 +72,15 @@ class History extends Model
     {
         return [
             'nominativ' => [
-                'singular' => 'Singular',
-                'plural' => 'Plural',
+                'singular' => 'Verlauf',
+                'plural' => 'Verläufe',
             ],
         ];
+    }
+
+    public function getEndAtFormattedAttribute() : string
+    {
+        return $this->end_at->format('d.m.Y H:i');
     }
 
     public function getRouteParameterAttribute() : array

@@ -23,12 +23,8 @@ class HistoryController extends Controller
                 ->paginate();
         }
 
-        return view($this->baseViewPath . '.index');
-    }
-
-    public function create(Behaviour $behaviour)
-    {
-        //
+        return view($this->baseViewPath . '.index')
+            ->with('behaviour', $behaviour);
     }
 
     public function store(Request $request, Behaviour $behaviour)
@@ -59,6 +55,7 @@ class HistoryController extends Controller
     public function show(Behaviour $behaviour, History $history)
     {
         return view($this->baseViewPath . '.show')
+            ->with('behaviour', $behaviour)
             ->with('model', $history);
     }
 

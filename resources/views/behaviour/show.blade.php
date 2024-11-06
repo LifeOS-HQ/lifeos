@@ -6,6 +6,7 @@
 
     <h1 class="col pl-0">{{ \App\Models\Behaviours\Behaviour::label() }} > {{ $model->name }}</h1>
     <div class="text-right">
+        <a class="btn btn-secondary btn-sm" href="{{ $model->histories_path }}">{{ \App\Models\Behaviours\History::label(1) }}</a>
         <a class="btn btn-secondary btn-sm" href="{{ $model->index_path }}">Übersicht</a>
     </div>
 
