@@ -7,7 +7,7 @@
             <h1 class="col mb-0 pl-0">Training > {{ $model->name }}</h1>
         </div>
         <div id="buttons" class="col-auto d-flex align-items-center justify-content-around">
-            <a class="btn btn-secondary btn-sm ml-1" href="{{ \App\Models\Workouts\History::indexPath(['workout_id' => $model->id]) }}">Tagebuch</a>
+            <a class="btn btn-secondary btn-sm ml-1" href="{{ \App\Models\Workouts\History::indexPath(['workout_id' => $model->id]) }}">{{ \App\Models\Workouts\History::label(1) }}</a>
             <form action="{{ \App\Models\Workouts\History::indexPath(['workout_id' => $model->id]) }}" class="ml-1" method="POST">
                 @csrf
 

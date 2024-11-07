@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="row align-items-center mb-3">
-        <h1 class="col mb-0">Training > <a href="{{ $model->path }}">{{ $model->name }}</a> > Tagebuch</h1>
+        <h1 class="col mb-0">Training > <a href="{{ $model->path }}">{{ $model->name }}</a> > {{ \App\Models\Workouts\History::label(1) }}</h1>
         <div class="col-auto">
             <form action="{{ \App\Models\Workouts\History::indexPath(['workout_id' => $model->id]) }}" method="POST">
                 @csrf

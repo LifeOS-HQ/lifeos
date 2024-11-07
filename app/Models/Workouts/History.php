@@ -117,8 +117,8 @@ class History extends Model
     {
         return [
             'nominativ' => [
-                'singular' => 'Training',
-                'plural' => 'Trainings',
+                'singular' => 'Verlauf',
+                'plural' => 'Verläufe',
             ],
         ];
     }
