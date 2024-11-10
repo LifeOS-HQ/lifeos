@@ -59,6 +59,7 @@ class AuthServiceProvider extends ServiceProvider
         \App\Models\Workouts\History::class => \App\Policies\Behaviours\HistoryPolicy::class,
         \App\Models\Behaviours\History::class => \App\Policies\Behaviours\HistoryPolicy::class,
         \App\Models\Behaviours\Behaviour::class => \App\Policies\Behaviours\BehaviourPolicy::class,
+        \App\Models\Behaviours\Attributes\Attribute::class => \App\Policies\Behaviours\Attributes\AttributePolicy::class,
         \App\Models\Behaviours\Histories\Attributes\Value::class => \App\Policies\Behaviours\Histories\Attributes\ValuePolicy::class,
     ];
 

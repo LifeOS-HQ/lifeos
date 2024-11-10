@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Models\Behaviours;
+namespace App\Models\Behaviours\Attributes;
 
-use App\Models\Behaviours\Attributes\Attribute;
 use App\User;
+use App\Models\Behaviours\Behaviour;
+use App\Models\Services\Data\Attributes\Attribute as DataAttribute;
 use D15r\ModelLabels\Traits\HasLabels;
 use D15r\ModelPath\Traits\HasModelPath;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Behaviour extends Model
+class Attribute extends Model
 {
     use HasFactory,
         HasLabels,
         HasModelPath;
 
-    const ROUTE_NAME = 'behaviours';
+    const ROUTE_NAME = 'behaviours.attributes';
 
     protected $appends = [
-        'histories_path',
+        'path',
     ];
 
     protected $casts = [
@@ -32,10 +32,15 @@ class Behaviour extends Model
     ];
 
     protected $fillable = [
-        'name',
-        'habitica_uuid',
+        'attribute_id',
+        'behaviour_id',
+        'default_value',
+        'goal_value',
+        'service_slug',
         'user_id',
     ];
+
+    protected $table = 'behaviours_attributes';
 
     /**
      * The booting method of the model.
@@ -71,29 +76,32 @@ class Behaviour extends Model
     {
         return [
             'nominativ' => [
-                'singular' => 'Verhalten',
-                'plural' => 'Verhalten',
+                'singular' => 'Attribut',
+                'plural' => 'Attribute',
             ],
         ];
     }
 
-    public function getHistoriesPathAttribute(): string
+    public function getRouteParameterAttribute(): array
     {
-        return route('behaviours.histories.index', ['behaviour' => $this->id]);
+        return [
+            'behaviour' => $this->behaviour_id,
+            'attribute' => $this->id,
+        ];
     }
 
-    public function attributes(): HasMany
+    public function attribute(): BelongsTo
     {
-        return $this->hasMany(Attribute::class);
-    }
-
-    public function histories(): HasMany
-    {
-        return $this->hasMany(History::class);
+        return $this->belongsTo(DataAttribute::class, 'user_id');
     }
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function behaviour(): BelongsTo
+    {
+        return $this->belongsTo(Behaviour::class, 'behaviour_id');
     }
 }

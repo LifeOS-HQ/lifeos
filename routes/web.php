@@ -59,6 +59,14 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/behaviours/{behaviour}', [\App\Http\Controllers\Behaviours\BehaviourController::class, 'update'])->name('behaviours.update');
     Route::delete('/behaviours/{behaviour}', [\App\Http\Controllers\Behaviours\BehaviourController::class, 'destroy'])->name('behaviours.destroy');
 
+    Route::get('/behaviours/{behaviour}/attributes', [\App\Http\Controllers\Behaviours\Attributes\AttributeController::class, 'index'])->name('behaviours.attributes.index')->can('viewAny', [\App\Models\Behaviours\Attributes\Attribute::class, 'behaviour']);
+    Route::get('/behaviours/{behaviour}/attributes/create', [\App\Http\Controllers\Behaviours\Attributes\AttributeController::class, 'create'])->name('behaviours.attributes.create')->can('create', [\App\Models\Behaviours\Attributes\Attribute::class, 'behaviour']);
+    Route::post('/behaviours/{behaviour}/attributes', [\App\Http\Controllers\Behaviours\Attributes\AttributeController::class, 'store'])->name('behaviours.attributes.store')->can('create', [\App\Models\Behaviours\Attributes\Attribute::class, 'behaviour']);
+    Route::get('/behaviours/{behaviour}/attributes/{attribute}', [\App\Http\Controllers\Behaviours\Attributes\AttributeController::class, 'show'])->name('behaviours.attributes.show')->can('view', [\App\Models\Behaviours\Attributes\Attribute::class, 'attribute']);
+    Route::get('/behaviours/{behaviour}/attributes/{attribute}/edit', [\App\Http\Controllers\Behaviours\Attributes\AttributeController::class, 'edit'])->name('behaviours.attributes.edit')->can('update', [\App\Models\Behaviours\Attributes\Attribute::class, 'attribute']);
+    Route::put('/behaviours/{behaviour}/attributes/{attribute}', [\App\Http\Controllers\Behaviours\Attributes\AttributeController::class, 'update'])->name('behaviours.attributes.update')->can('update', [\App\Models\Behaviours\Attributes\Attribute::class, 'attribute']);
+    Route::delete('/behaviours/{behaviour}/attributes/{attribute}', [\App\Http\Controllers\Behaviours\Attributes\AttributeController::class, 'destroy'])->name('behaviours.attributes.destroy')->can('delete', [\App\Models\Behaviours\Attributes\Attribute::class, 'attribute']);
+
     Route::get('/behaviours/{behaviour}/histories', [\App\Http\Controllers\Behaviours\HistoryController::class, 'index'])->name('behaviours.histories.index');
     Route::get('/behaviours/{behaviour}/histories/create', [\App\Http\Controllers\Behaviours\HistoryController::class, 'create'])->name('behaviours.histories.create');
     Route::post('/behaviours/{behaviour}/histories', [\App\Http\Controllers\Behaviours\HistoryController::class, 'store'])->name('behaviours.histories.store');
