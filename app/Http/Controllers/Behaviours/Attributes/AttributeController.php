@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Behaviours\Attributes\Attribute;
 use App\Models\Behaviours\Behaviour;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class AttributeController extends Controller
 {
@@ -14,7 +15,7 @@ class AttributeController extends Controller
     public function index(Request $request, Behaviour $behaviour)
     {
         if ($request->wantsJson()) {
-            return $behaviour->attributes()
+            return $behaviour->dataAttributes()
                 ->get();
         }
 
@@ -29,15 +30,15 @@ class AttributeController extends Controller
 
         $user = auth()->user();
 
-        $attribute = $behaviour->attributes()
+        $attribute = $behaviour->dataAttributes()
             ->create($attributes + [
                 'user_id' => $user->id,
             ]);
 
         if ($request->wantsJson()) {
-            return $attribute->fresh()->load([
+            return response($attribute->fresh()->load([
                 'attribute',
-            ]);
+            ]), Response::HTTP_CREATED);
         }
 
         return redirect($attribute->path)

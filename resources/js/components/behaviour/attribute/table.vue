@@ -65,7 +65,6 @@
         },
 
         data () {
-            console.log(this.model.attributes);
             return {
                 errors: {},
                 filter: {
@@ -75,7 +74,7 @@
                     attribute_id: null,
                 },
                 isLoading: false,
-                items: this.model.attributes,
+                items: this.model.data_attributes,
             };
         },
 
@@ -112,7 +111,7 @@
                 this.form.attribute_id = null;
             },
             fetch() {
-                this.items = this.model.attributes;
+                this.items = this.model.data_attributes;
             }
         },
     };

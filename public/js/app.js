@@ -2075,7 +2075,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   data: function data() {
-    console.log(this.model.attributes);
     return {
       errors: {},
       filter: {
@@ -2085,7 +2084,7 @@ __webpack_require__.r(__webpack_exports__);
         attribute_id: null
       },
       isLoading: false,
-      items: this.model.attributes
+      items: this.model.data_attributes
     };
   },
   computed: {
@@ -2118,7 +2117,7 @@ __webpack_require__.r(__webpack_exports__);
       this.form.attribute_id = null;
     },
     fetch: function fetch() {
-      this.items = this.model.attributes;
+      this.items = this.model.data_attributes;
     }
   }
 });

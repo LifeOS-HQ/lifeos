@@ -57,7 +57,7 @@ class BehaviourController extends Controller
     public function show(Behaviour $behaviour)
     {
         $behaviour->load([
-            'attributes.attribute',
+            'dataAttributes.attribute',
         ]);
 
         $attribute_groups = Group::query()

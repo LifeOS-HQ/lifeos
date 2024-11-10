@@ -60,6 +60,19 @@ class History extends Model
 
         static::created(function($model)
         {
+            $model->loadMissing([
+                'behaviour.dataAttributes',
+            ]);
+            if ($model->behaviour->dataAttributes->count() > 0) {
+                foreach ($model->behaviour->dataAttributes as $attribute) {
+                    $model->values()->create([
+                        'user_id' => $model->user_id,
+                        'attribute_id' => $attribute->id,
+                        'number_formatted' => $attribute->default_number_formatted,
+                    ]);
+                }
+            }
+
             return true;
         });
 

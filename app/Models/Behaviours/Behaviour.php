@@ -90,7 +90,7 @@ class Behaviour extends Model
         return route('behaviours.histories.index', ['behaviour' => $this->id]);
     }
 
-    public function attributes(): HasMany
+    public function dataAttributes(): HasMany
     {
         return $this->hasMany(Attribute::class);
     }
