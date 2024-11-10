@@ -4,7 +4,7 @@
 
         <template v-slot:form>
             <div class="form-group mb-0 mr-1">
-                <input-text v-model="form.title" placeholder="Name" :error="error('title')" @keydown.enter="create"></input-text>
+                <input-text v-model="form.date_formatted" placeholder="Datum" :error="error('date_formatted')" @keydown.enter="create"></input-text>
             </div>
         </template>
 
@@ -16,7 +16,7 @@
 
         <template v-slot:thead>
             <tr>
-                <th class="">Name</th>
+                <th class="">Datum</th>
                 <th class="text-right d-none d-sm-table-cell w-action">Aktion</th>
             </tr>
         </template>
@@ -55,13 +55,13 @@
         },
 
         data () {
-
+            const date = new Date();
             return {
                 filter: {
                     //
                 },
                 form: {
-                    title: '',
+                    date_formatted: ('0' + date.getDate()).slice(-2) + '.' + ('0' + (date.getMonth() + 1)).slice(-2) + '.' + date.getFullYear(),
                 },
             };
         },
@@ -71,7 +71,9 @@
         },
 
         methods: {
-            //
+            created (item) {
+                location.href = item.path;
+            },
         },
     };
 </script>

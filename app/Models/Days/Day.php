@@ -18,7 +18,7 @@ class Day extends Model
     const ROUTE_NAME = 'days';
 
     protected $appends = [
-        //
+        'date_formatted',
     ];
 
     protected $casts = [
@@ -26,7 +26,7 @@ class Day extends Model
     ];
 
     protected $dates = [
-        //
+        'date',
     ];
 
     protected $fillable = [
