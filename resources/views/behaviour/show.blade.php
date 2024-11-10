@@ -12,7 +12,7 @@
 
 </div>
 
-<div class="row">
+<div class="row mb-3">
     <div class="col-6">
 
         <div class="card">
@@ -40,6 +40,19 @@
 
     </div>
 
+
 </div>
 
+<div class="row">
+    <div class="col">
+
+        <div class="card">
+            <div class="card-header">{{ App\Models\Behaviours\Attributes\Attribute::label() }}</div>
+            <div class="card-body">
+                <behaviour-attribute-table :model="{{ $model }}" :attribute-groups="{{ json_encode($attribute_groups) }}"></behaviour-attribute-table>
+            </div>
+        </div>
+
+    </div>
+</div>
 @endsection

@@ -3,13 +3,14 @@
 namespace App\Models\Behaviours\Attributes;
 
 use App\User;
+use Illuminate\Support\Arr;
 use App\Models\Behaviours\Behaviour;
-use App\Models\Services\Data\Attributes\Attribute as DataAttribute;
 use D15r\ModelLabels\Traits\HasLabels;
 use D15r\ModelPath\Traits\HasModelPath;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Services\Data\Attributes\Attribute as DataAttribute;
 
 class Attribute extends Model
 {
@@ -21,6 +22,8 @@ class Attribute extends Model
 
     protected $appends = [
         'path',
+        'default_number_formatted',
+        'goal_number_formatted',
     ];
 
     protected $casts = [
@@ -38,6 +41,8 @@ class Attribute extends Model
         'goal_value',
         'service_slug',
         'user_id',
+        'default_number_formatted',
+        'goal_number_formatted',
     ];
 
     protected $table = 'behaviours_attributes';
@@ -90,9 +95,31 @@ class Attribute extends Model
         ];
     }
 
+    public function getDefaultNumberFormattedAttribute(): string
+    {
+        return number_format($this->default_value, 2, ',', '.');
+    }
+
+    public function setDefaultNumberFormattedAttribute($value): void
+    {
+        $this->attributes['default_value'] = str_replace(',', '.', $value);
+        Arr::forget($this->attributes, 'default_number_formatted');
+    }
+
+    public function getGoalNumberFormattedAttribute(): string
+    {
+        return number_format($this->goal_value, 2, ',', '.');
+    }
+
+    public function setGoalNumberFormattedAttribute($value): void
+    {
+        $this->attributes['goal_value'] = str_replace(',', '.', $value);
+        Arr::forget($this->attributes, 'goal_number_formatted');
+    }
+
     public function attribute(): BelongsTo
     {
-        return $this->belongsTo(DataAttribute::class, 'user_id');
+        return $this->belongsTo(DataAttribute::class, 'attribute_id');
     }
 
     public function user(): BelongsTo

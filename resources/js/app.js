@@ -70,6 +70,7 @@ Vue.component('home-server-index', require('./components/home/server/index.vue')
 Vue.component('activity-table', require('./components/activity/table.vue').default);
 
 Vue.component('behaviour-table', require('./components/behaviour/table.vue').default);
+Vue.component('behaviour-attribute-table', require('./components/behaviour/attribute/table.vue').default);
 Vue.component('behaviour-history-table', require('./components/behaviour/history/table.vue').default);
 Vue.component('behaviour-history-value-table', require('./components/behaviour/history/value/table.vue').default);
 

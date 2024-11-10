@@ -147,8 +147,8 @@ class AttributeControllerTest extends TestCase
 
         $data = [
             'service_slug' => 'new-service-slug',
-            'default_value' => 'new-default-value',
-            'goal_value' => 'new-goal-value',
+            'default_number_formatted' => '4,56',
+            'goal_number_formatted' => '7,89',
         ];
 
         $response = $this->put(route($this->baseRouteName . '.update', ['behaviour' => $model->behaviour, 'attribute' => $model->id]), $data)
@@ -157,7 +157,9 @@ class AttributeControllerTest extends TestCase
 
         $this->assertDatabaseHas($model->getTable(), [
             'id' => $model->id,
-        ] + $data);
+            'default_value' => '4.56',
+            'goal_value' => '7.89',
+        ]);
     }
 
     /**

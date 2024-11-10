@@ -35,7 +35,7 @@ class AttributeController extends Controller
             ]);
 
         if ($request->wantsJson()) {
-            return $attribute->load([
+            return $attribute->fresh()->load([
                 'attribute',
             ]);
         }
@@ -57,14 +57,16 @@ class AttributeController extends Controller
     {
         $attributes = $request->validate([
             'service_slug' => 'required|string',
-            'default_value' => 'nullable|string',
-            'goal_value' => 'nullable|string',
+            'default_number_formatted' => 'required|formatted_number',
+            'goal_number_formatted' => 'required|formatted_number',
         ]);
 
         $attribute->update($attributes);
 
         if ($request->wantsJson()) {
-            return $attribute;
+            return $attribute->load([
+                'attribute',
+            ]);
         }
 
         return redirect($attribute->path)

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Behaviours;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Behaviours\Behaviour;
-use Illuminate\Http\Request;
+use App\Models\Services\Data\Attributes\Groups\Group;
 
 class BehaviourController extends Controller
 {
@@ -55,7 +56,20 @@ class BehaviourController extends Controller
 
     public function show(Behaviour $behaviour)
     {
+        $behaviour->load([
+            'attributes.attribute',
+        ]);
+
+        $attribute_groups = Group::query()
+            ->with([
+                'attributes',
+            ])
+            ->withoutCustom()
+            ->orderBy('name')
+            ->get();
+
         return view($this->baseViewPath . '.show')
+            ->with('attribute_groups', $attribute_groups)
             ->with('model', $behaviour);
     }
 
