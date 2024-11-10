@@ -66,4 +66,34 @@ class HistoryTest extends TestCase
         $this->assertEquals($attribute->id, $value->attribute_id);
         $this->assertEquals('1,00', $value->number_formatted);
     }
+
+    /**
+     * @test
+     */
+    public function it_finds_or_creates_a_day_before_it_is_created()
+    {
+        $history = History::factory()->create([
+            'start_at' => '2024-10-06 07:00:07',
+            'user_id' => $this->user->id,
+        ]);
+
+        $this->assertDatabaseHas('days', [
+            'date' => '2024-10-06 00:00:00',
+            'user_id' => $this->user->id,
+        ]);
+
+        $this->assertEquals($history->day_id, $history->day->id);
+
+        $history = History::factory()->create([
+            'start_at' => '2024-10-06 09:00:07',
+            'user_id' => $this->user->id,
+        ]);
+
+        $this->assertDatabaseHas('days', [
+            'date' => '2024-10-06 00:00:00',
+            'user_id' => $this->user->id,
+        ]);
+
+        $this->assertEquals($history->day_id, $history->day->id);
+    }
 }

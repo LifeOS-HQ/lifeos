@@ -3,6 +3,8 @@
 namespace App\Models\Behaviours;
 
 use App\User;
+use App\Models\Days\Day;
+use Illuminate\Support\Arr;
 use App\Models\Behaviours\Behaviour;
 use D15r\ModelLabels\Traits\HasLabels;
 use D15r\ModelPath\Traits\HasModelPath;
@@ -40,6 +42,8 @@ class History extends Model
         'start_at',
         'end_at',
         'comment',
+        'end_at_formatted',
+        'day_id',
     ];
 
     protected $table = 'behaviours_histories';
@@ -55,6 +59,17 @@ class History extends Model
 
         static::creating(function($model)
         {
+            if (empty($model->start_at)) {
+                $model->start_at = $model->end_at;
+            }
+
+            if (empty($model->day_id)) {
+                $model->day_id = Day::firstOrCreate([
+                    'user_id' => $model->user_id,
+                    'date' => $model->start_at->format('Y-m-d'),
+                ])->id;
+            }
+
             return true;
         });
 
@@ -102,6 +117,12 @@ class History extends Model
         return $this->end_at->format('d.m.Y H:i');
     }
 
+    public function setEndAtFormattedAttribute($value) : void
+    {
+        $this->attributes['end_at'] = \Carbon\Carbon::createFromFormat('d.m.Y H:i', $value);
+        Arr::forget($this->attributes, 'end_at_formatted');
+    }
+
     public function getStartAtFormattedAttribute() : string
     {
         return $this->end_at->format('d.m.Y H:i');
@@ -125,6 +146,11 @@ class History extends Model
     public function behaviour(): BelongsTo
     {
         return $this->belongsTo(Behaviour::class, 'behaviour_id', 'id');
+    }
+
+    public function day(): BelongsTo
+    {
+        return $this->belongsTo(Day::class, 'day_id', 'id');
     }
 
     public function user(): BelongsTo

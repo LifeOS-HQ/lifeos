@@ -31,7 +31,7 @@ class HistoryController extends Controller
     public function store(Request $request, Behaviour $behaviour)
     {
         $attributes = $request->validate([
-            'end_at' => 'required|date_format:Y-m-d H:i:s',
+            'end_at_formatted' => 'required|date_format:d.m.Y H:i',
             'comment' => 'nullable|string',
         ]);
 
