@@ -82,6 +82,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/data/day/{date_string?}', [\App\Http\Controllers\Data\DayController::class, 'index'])->name('data.day.index');
     Route::get('/data/day/{date_string}/{group}', [\App\Http\Controllers\Data\DayController::class, 'show'])->name('data.day.show');
 
+    Route::get('/days', [\App\Http\Controllers\Days\DayController::class, 'index'])->name('days.index')->can('viewAny', [\App\Models\Days\Day::class]);
+    Route::get('/days/create', [\App\Http\Controllers\Days\DayController::class, 'create'])->name('days.create')->can('create', [\App\Models\Days\Day::class]);
+    Route::post('/days', [\App\Http\Controllers\Days\DayController::class, 'store'])->name('days.store')->can('create', [\App\Models\Days\Day::class]);
+    Route::get('/days/{day}', [\App\Http\Controllers\Days\DayController::class, 'show'])->name('days.show')->can('view', [\App\Models\Days\Day::class, 'day']);
+    Route::get('/days/{day}/edit', [\App\Http\Controllers\Days\DayController::class, 'edit'])->name('days.edit')->can('update', [\App\Models\Days\Day::class, 'day']);
+    Route::put('/days/{day}', [\App\Http\Controllers\Days\DayController::class, 'update'])->name('days.update')->can('update', [\App\Models\Days\Day::class, 'day']);
+    Route::delete('/days/{day}', [\App\Http\Controllers\Days\DayController::class, 'destroy'])->name('days.destroy')->can('delete', [\App\Models\Days\Day::class, 'day']);
+
     Route::get('/diet', 'Diet\DietController@index')->name('diet.index');
     Route::resource('/diet/days', 'Diet\Diary\DayController', ['as' => 'diet']);
     Route::resource('/diet/days.meals', 'Diet\Diary\Meals\MealController', ['as' => 'diet']);

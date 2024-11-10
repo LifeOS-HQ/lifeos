@@ -2,17 +2,27 @@
 
 namespace DummyNamespace;
 
-use Tests\TestCase;
+use Tests\Unit\TestCase;
 
 class DummyClass extends TestCase
 {
     /**
-     * A basic unit test example.
-     *
-     * @return void
+     * @test
      */
-    public function testExample()
+    public function it_has_model_paths()
     {
-        $this->assertTrue(true);
+        $model = DummyModelClass::factory()->create();
+        $route_parameter = [
+            'DummyModelVariable' => $model->id,
+        ];
+
+        $routes = [
+            'index_path' => strtok(route(DummyModelClass::ROUTE_NAME . '.index', $route_parameter), '?'),
+            'create_path' => strtok(route(DummyModelClass::ROUTE_NAME . '.create', $route_parameter), '?'),
+            'path' => route(DummyModelClass::ROUTE_NAME . '.show', $route_parameter),
+            'edit_path' => route(DummyModelClass::ROUTE_NAME . '.edit', $route_parameter),
+        ];
+
+        $this->testModelPaths($model, $routes);
     }
 }

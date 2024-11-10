@@ -1,17 +1,19 @@
 <?php
 
-namespace DummyNamespace;
+namespace Tests\Feature\Controller\Days;
 
 use Tests\TestCase;
-use DummyFullModelClass;
+use App\Models\Days\Day;
 use Illuminate\Http\Response;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class DummyClass extends TestCase
+class DayControllerTest extends TestCase
 {
-    protected $baseRouteName = 'DummyModelVariable';
-    protected $baseViewPath = 'DummyModelVariable';
-    protected $className = DummyModelClass::class;
+    protected $baseRouteName = 'days';
+    protected $baseViewPath = 'day';
+    protected $className = Day::class;
 
     /**
      * @test
@@ -23,10 +25,10 @@ class DummyClass extends TestCase
         $actions = [
             'index' => [],
             'store' => [],
-            'show' => ['DummyModelVariable' => $model->id],
-            'edit' => ['DummyModelVariable' => $model->id],
-            'update' => ['DummyModelVariable' => $model->id],
-            'destroy' => ['DummyModelVariable' => $model->id],
+            'show' => ['day' => $model->id],
+            'edit' => ['day' => $model->id],
+            'update' => ['day' => $model->id],
+            'destroy' => ['day' => $model->id],
         ];
         $this->guestsCanNotAccess($actions);
     }
@@ -38,7 +40,7 @@ class DummyClass extends TestCase
     {
         $modelOfADifferentUser = $this->className::factory()->create();
 
-        $this->a_user_can_not_see_models_from_a_different_user(['DummyModelVariable' => $modelOfADifferentUser->id]);
+        $this->a_user_can_not_see_models_from_a_different_user(['day' => $modelOfADifferentUser->id]);
     }
 
     /**
@@ -56,7 +58,7 @@ class DummyClass extends TestCase
     public function a_user_can_get_a_paginated_collection_of_models()
     {
         $models = $this->className::factory()->times(3)->create([
-
+            'user_id' => $this->user->id
         ]);
 
         $this->getPaginatedCollection();
@@ -67,18 +69,44 @@ class DummyClass extends TestCase
      */
     public function a_user_can_create_a_model()
     {
-        $this->withoutExceptionHandling();
-
         $this->signIn();
 
         $data = [
-
+            'date_formatted' => '10.11.2024',
         ];
 
         $this->postJson(route($this->baseRouteName . '.store'), $data)
             ->assertStatus(Response::HTTP_CREATED);
 
-        $this->assertDatabaseHas((new $this->className)->getTable(), $data);
+        $this->assertDatabaseHas((new $this->className)->getTable(), [
+            'date' => '2024-11-10',
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function a_model_is_not_created_if_one_with_the_same_date_exists()
+    {
+        $this->signIn();
+
+        $day = Day::factory()->create([
+            'date' => '2024-11-10',
+            'user_id' => $this->user->id,
+        ]);
+
+        $this->assertDatabaseHas((new $this->className)->getTable(), [
+            'date' => '2024-11-10',
+        ]);
+
+        $data = [
+            'date_formatted' => '10.11.2024',
+        ];
+
+        $this->postJson(route($this->baseRouteName . '.store'), $data)
+            ->assertStatus(Response::HTTP_OK);
+
+        $this->assertDatabaseCount((new $this->className)->getTable(), 1);
     }
 
     /**
@@ -86,11 +114,9 @@ class DummyClass extends TestCase
      */
     public function a_user_can_see_the_show_view()
     {
-        $this->withoutExceptionHandling();
-
         $model = $this->createModel();
 
-        $this->getShowViewResponse(['DummyModelVariable' => $model->id])
+        $this->getShowViewResponse(['day' => $model->id])
             ->assertViewIs($this->baseViewPath . '.show')
             ->assertViewHas('model');
     }
@@ -102,7 +128,7 @@ class DummyClass extends TestCase
     {
         $model = $this->createModel();
 
-        $this->getEditViewResponse(['DummyModelVariable' => $model->id])
+        $this->getEditViewResponse(['day' => $model->id])
             ->assertViewIs($this->baseViewPath . '.edit')
             ->assertViewHas('model');
     }
@@ -122,7 +148,7 @@ class DummyClass extends TestCase
 
         ];
 
-        $response = $this->put(route($this->baseRouteName . '.update', ['DummyModelVariable' => $model->id]), $data)
+        $response = $this->put(route($this->baseRouteName . '.update', ['day' => $model->id]), $data)
             ->assertStatus(Response::HTTP_FOUND)
             ->assertSessionHasNoErrors();
 
@@ -136,18 +162,16 @@ class DummyClass extends TestCase
      */
     public function a_user_can_delete_a_model()
     {
-        $this->withoutExceptionHandling();
-
         $model = $this->createModel();
 
-        $this->deleteModel($model, ['DummyModelVariable' => $model->id])
+        $this->deleteModel($model, ['day' => $model->id])
             ->assertRedirect();
     }
 
     protected function createModel(): Model
     {
         return $this->className::factory()->create([
-            //
+            'user_id' => $this->user->id,
         ]);
     }
 }
