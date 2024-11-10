@@ -10,6 +10,7 @@
                 <a class="navbar-brand" href="/home">LifeOS</a>
             </div>
             <ul class="col">
+                <a href="{{ \App\Models\Days\Day::indexPath() }}"><li>{{ \App\Models\Days\Day::label() }}</li></a>
                 <a href="{{ \App\Models\Activities\Activity::indexPath() }}"><li>{{ \App\Models\Activities\Activity::label() }}</li></a>
                 <a href="/work"><li>Arbeit</li></a>
                 <a href="/review"><li>Berichte</li></a>
