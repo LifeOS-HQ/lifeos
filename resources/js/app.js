@@ -79,6 +79,7 @@ Vue.component('comment-index', require('./components/comment/index.vue').default
 Vue.component('contact-table', require('./components/contact/table.vue').default);
 
 Vue.component('day-table', require('./components/day/table.vue').default)
+Vue.component('day-behaviour-history-index', require('./components/day/behaviour/history/index.vue').default)
 
 Vue.component('diet-diary-table', require('./components/diet/diary/table.vue').default);
 Vue.component('diet-diary-meal-index', require('./components/diet/diary/meal/index.vue').default);

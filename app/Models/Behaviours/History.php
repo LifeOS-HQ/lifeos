@@ -24,6 +24,7 @@ class History extends Model
 
     protected $appends = [
         'end_at_formatted',
+        'end_at_time_formatted',
         'value_path',
     ];
 
@@ -115,6 +116,11 @@ class History extends Model
     public function getEndAtFormattedAttribute() : string
     {
         return $this->end_at->format('d.m.Y H:i');
+    }
+
+    public function getEndAtTimeFormattedAttribute() : string
+    {
+        return $this->end_at->format('H:i');
     }
 
     public function setEndAtFormattedAttribute($value) : void

@@ -11,4 +11,6 @@
 
 </div>
 
+<day-behaviour-history-index :model="{{ $model }}"></day-behaviour-history-index>
+
 @endsection

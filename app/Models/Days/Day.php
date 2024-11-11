@@ -4,10 +4,12 @@ namespace App\Models\Days;
 
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use App\Models\Behaviours\History;
 use D15r\ModelLabels\Traits\HasLabels;
 use D15r\ModelPath\Traits\HasModelPath;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Day extends Model
 {
@@ -84,5 +86,10 @@ class Day extends Model
     {
         $this->attributes['date'] = Carbon::createFromFormat('d.m.Y', $value)->format('Y-m-d');
         Arr::forget($this->attributes, 'date_formatted');
+    }
+
+    public function behaviourHistories(): HasMany
+    {
+        return $this->hasMany(History::class);
     }
 }

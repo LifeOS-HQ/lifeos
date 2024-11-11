@@ -56,6 +56,13 @@ class DayController extends Controller
 
     public function show(Day $day)
     {
+        $day->load([
+            'behaviourHistories' => function($query) {
+                $query->with('behaviour')
+                    ->orderBy('start_at', 'DESC');
+            },
+        ]);
+
         return view($this->baseViewPath . '.show')
             ->with('model', $day);
     }
