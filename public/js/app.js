@@ -2948,6 +2948,32 @@ __webpack_require__.r(__webpack_exports__);
       isEditing: false
     };
   },
+  mounted: function mounted() {
+    var component = this;
+    window.addEventListener('keydown', function (event) {
+      // Not in input or textarea
+      var target_tag_name = event.target.tagName.toLowerCase();
+      if (target_tag_name === 'input' || target_tag_name === 'textarea') {
+        return;
+      }
+
+      // Space
+      if (event.keyCode === 32) {
+        event.preventDefault();
+        component.next();
+      }
+      // Left arrow
+      else if (event.keyCode === 39) {
+        event.preventDefault();
+        component.next();
+      }
+      // Right arrow
+      else if (event.keyCode === 37) {
+        event.preventDefault();
+        component.previous();
+      }
+    });
+  },
   methods: {
     error: function error(name) {
       return name in this.errors ? this.errors[name][0] : '';

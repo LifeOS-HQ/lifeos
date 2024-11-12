@@ -53,6 +53,34 @@
             };
         },
 
+        mounted() {
+            const component = this;
+            window.addEventListener('keydown', function(event) {
+
+                // Not in input or textarea
+                const target_tag_name = event.target.tagName.toLowerCase();
+                if (target_tag_name === 'input' || target_tag_name === 'textarea') {
+                    return;
+                }
+
+                // Space
+                if (event.keyCode === 32) {
+                    event.preventDefault();
+                    component.next();
+                }
+                // Left arrow
+                else if (event.keyCode === 39) {
+                    event.preventDefault();
+                    component.next();
+                }
+                // Right arrow
+                else if (event.keyCode === 37) {
+                    event.preventDefault();
+                    component.previous();
+                }
+            });
+        },
+
         methods: {
             error(name) {
                 return (name in this.errors ? this.errors[name][0] : '');
