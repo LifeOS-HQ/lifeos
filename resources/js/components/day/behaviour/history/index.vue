@@ -6,7 +6,12 @@
         </div>
 
         <div class="col">
-            <show :item="item_to_show.item" v-if="item_to_show"></show>
+            <show
+                :item="item_to_show.item"
+                @next="next"
+                @previous="previous"
+                v-if="item_to_show"
+            ></show>
         </div>
 
     </div>
@@ -72,6 +77,37 @@
             },
             show(event) {
                 this.item_to_show = event;
+            },
+            next() {
+                let next_index;
+                if (!this.item_to_show) {
+                    next_index = 0;
+                }
+                else {
+                    next_index = (this.item_to_show.index + 1) % this.items.length;
+                }
+
+                this.show({
+                    index: next_index,
+                    item: this.items[next_index],
+                });
+            },
+            previous() {
+                let previous_index;
+                if (!this.item_to_show) {
+                    previous_index = this.items.length - 1;
+                }
+                else {
+                    previous_index = (this.item_to_show.index - 1);
+                    if (previous_index < 0) {
+                        previous_index = this.items.length - 1;
+                    }
+                }
+
+                this.show({
+                    index: previous_index,
+                    item: this.items[previous_index],
+                });
             },
         },
     };

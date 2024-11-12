@@ -2786,6 +2786,33 @@ __webpack_require__.r(__webpack_exports__);
     },
     show: function show(event) {
       this.item_to_show = event;
+    },
+    next: function next() {
+      var next_index;
+      if (!this.item_to_show) {
+        next_index = 0;
+      } else {
+        next_index = (this.item_to_show.index + 1) % this.items.length;
+      }
+      this.show({
+        index: next_index,
+        item: this.items[next_index]
+      });
+    },
+    previous: function previous() {
+      var previous_index;
+      if (!this.item_to_show) {
+        previous_index = this.items.length - 1;
+      } else {
+        previous_index = this.item_to_show.index - 1;
+        if (previous_index < 0) {
+          previous_index = this.items.length - 1;
+        }
+      }
+      this.show({
+        index: previous_index,
+        item: this.items[previous_index]
+      });
     }
   }
 });
@@ -2950,6 +2977,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     show: function show() {
       location.href = this.item.show_path;
+    },
+    next: function next() {
+      this.$emit('next');
+    },
+    previous: function previous() {
+      this.$emit('previous');
     }
   }
 });
@@ -10592,6 +10625,10 @@ var render = function render() {
   }, [_vm.item_to_show ? _c("show", {
     attrs: {
       item: _vm.item_to_show.item
+    },
+    on: {
+      next: _vm.next,
+      previous: _vm.previous
     }
   }) : _vm._e()], 1)]);
 };
@@ -10766,7 +10803,17 @@ var render = function render() {
       },
       expression: "form.end_at_formatted"
     }
-  })], 1)])])])])]);
+  })], 1)]), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-sm btn-secondary",
+    on: {
+      click: _vm.previous
+    }
+  }, [_vm._v("Zurück")]), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-sm btn-secondary",
+    on: {
+      click: _vm.next
+    }
+  }, [_vm._v("Weiter")])])])])]);
 };
 var staticRenderFns = [];
 render._withStripped = true;

@@ -4,6 +4,7 @@
             <div class="card">
                 <div class="card-header">{{ item.behaviour.name }}</div>
                 <div class="card-body">
+
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label col-form-label-sm" for="start_at_formatted">Start</label>
                         <div class="col-sm-8">
@@ -16,6 +17,9 @@
                             <inputText id="end_at_formatted" v-model="form.end_at_formatted" :error="error('end_at_formatted')"></inputText>
                         </div>
                     </div>
+
+                    <button class="btn btn-sm btn-secondary" @click="previous">Zurück</button>
+                    <button class="btn btn-sm btn-secondary" @click="next">Weiter</button>
                 </div>
             </div>
         </div>
@@ -83,6 +87,12 @@
             show() {
                 location.href = this.item.show_path;
             },
+            next() {
+                this.$emit('next');
+            },
+            previous() {
+                this.$emit('previous');
+            }
         },
     };
 </script>
