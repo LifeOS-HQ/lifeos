@@ -12,7 +12,7 @@
             error: {
                 type: String,
             },
-            label: {
+            label: {
                 required: false,
                 default: '',
             },

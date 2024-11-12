@@ -59,7 +59,7 @@ class DayController extends Controller
         $day->load([
             'behaviourHistories' => function($query) {
                 $query->with('behaviour')
-                    ->orderBy('start_at', 'DESC');
+                    ->orderBy('start_at', 'ASC');
             },
         ]);
 

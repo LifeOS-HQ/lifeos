@@ -34,6 +34,15 @@
 
         },
 
+        mounted() {
+            if (this.model.behaviour_histories.length > 0) {
+                this.item_to_show = {
+                    index: 0,
+                    item: this.model.behaviour_histories[0],
+                };
+            }
+        },
+
         data() {
             return {
                 items: this.model.behaviour_histories,

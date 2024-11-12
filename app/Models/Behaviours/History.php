@@ -25,6 +25,7 @@ class History extends Model
     protected $appends = [
         'end_at_formatted',
         'end_at_time_formatted',
+        'start_at_formatted',
         'value_path',
     ];
 
@@ -39,12 +40,13 @@ class History extends Model
 
     protected $fillable = [
         'behaviour_id',
-        'user_id',
-        'start_at',
-        'end_at',
         'comment',
-        'end_at_formatted',
         'day_id',
+        'end_at_formatted',
+        'end_at',
+        'start_at_formatted',
+        'start_at',
+        'user_id',
     ];
 
     protected $table = 'behaviours_histories';
@@ -131,7 +133,13 @@ class History extends Model
 
     public function getStartAtFormattedAttribute() : string
     {
-        return $this->end_at->format('d.m.Y H:i');
+        return $this->start_at->format('d.m.Y H:i');
+    }
+
+    public function setStartAtFormattedAttribute($value) : void
+    {
+        $this->attributes['start_at'] = \Carbon\Carbon::createFromFormat('d.m.Y H:i', $value);
+        Arr::forget($this->attributes, 'start_at_formatted');
     }
 
     public function getRouteParameterAttribute() : array
