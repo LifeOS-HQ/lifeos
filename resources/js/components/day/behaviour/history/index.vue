@@ -2,7 +2,7 @@
     <div class="row">
 
         <div class="col">
-            <list :items="items" @show="show($event)"></list>
+            <list :items="items" :item-to-show="item_to_show" @show="show($event)"></list>
         </div>
 
         <div class="col">

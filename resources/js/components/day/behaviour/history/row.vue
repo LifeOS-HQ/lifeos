@@ -1,6 +1,6 @@
 <template>
 
-    <div class="list-group-item list-group-item-action">
+    <div class="list-group-item list-group-item-action" :class="{'active': isActive}">
         <div class="d-flex align-items-center">
             <div class="text-center" style="width: 75px; margin-left: -15px;">
                 <i class="far fa-fw fa-2x fa-square pointer" v-show="false"></i>
@@ -34,6 +34,10 @@
             item: {
                 required: true,
                 type: Object,
+            },
+            isActive: {
+                required: true,
+                type: Boolean,
             },
         },
 

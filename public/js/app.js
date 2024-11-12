@@ -2817,6 +2817,11 @@ __webpack_require__.r(__webpack_exports__);
     items: {
       required: true,
       type: Array
+    },
+    itemToShow: {
+      required: false,
+      type: Object,
+      "default": null
     }
   },
   data: function data() {
@@ -2824,13 +2829,21 @@ __webpack_require__.r(__webpack_exports__);
       //
     };
   },
-  computed: {},
+  computed: {
+    //
+  },
   methods: {
     show: function show(index, item) {
       this.$emit('show', {
         index: index,
         item: item
       });
+    },
+    isActive: function isActive(item) {
+      if (!this.itemToShow) {
+        return false;
+      }
+      return item.id === this.itemToShow.item.id;
     }
   }
 });
@@ -2857,6 +2870,10 @@ __webpack_require__.r(__webpack_exports__);
     item: {
       required: true,
       type: Object
+    },
+    isActive: {
+      required: true,
+      type: Boolean
     }
   },
   data: function data() {
@@ -10562,7 +10579,8 @@ var render = function render() {
     staticClass: "col"
   }, [_c("list", {
     attrs: {
-      items: _vm.items
+      items: _vm.items,
+      "item-to-show": _vm.item_to_show
     },
     on: {
       show: function show($event) {
@@ -10603,7 +10621,8 @@ var render = function render() {
     return _c("row", {
       key: item.id,
       attrs: {
-        item: item
+        item: item,
+        "is-active": _vm.isActive(item)
       },
       on: {
         show: function show($event) {
@@ -10634,7 +10653,10 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c("div", {
-    staticClass: "list-group-item list-group-item-action"
+    staticClass: "list-group-item list-group-item-action",
+    "class": {
+      active: _vm.isActive
+    }
   }, [_c("div", {
     staticClass: "d-flex align-items-center"
   }, [_c("div", {
