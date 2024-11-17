@@ -20,6 +20,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         'deploy',
-        'habitica/webhook'
+        'habitica/webhook',
+        'wahoo/webhook',
     ];
 }

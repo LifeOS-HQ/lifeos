@@ -25,6 +25,7 @@ Route::bind('model', function ($id) {
 Route::post('deploy', 'DeploymentController@store');
 
 Route::post('/habitica/webhook', [\App\Http\Controllers\Habitica\WebhookController::class, 'store'])->name('habitica.webhook.store');
+Route::post('/wahoo/webhook', [\App\Http\Controllers\Wahoo\WebhookController::class, 'store'])->name('wahoo.webhook.store');
 
 Auth::routes();
 
