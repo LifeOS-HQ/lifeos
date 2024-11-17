@@ -62,6 +62,11 @@ class Habitica
         return $this->getClient()->put('tasks/user/' . $id, $data);
     }
 
+    public function scoreTask(string $id, string $direction = 'up'): Response
+    {
+        return $this->getClient()->post('tasks/' . $id . '/score/' . $direction);
+    }
+
     private function getClient(): PendingRequest
     {
         return Http::baseUrl(self::BASE_URL)

@@ -53,7 +53,8 @@ class ImportCommand extends Command
     private function import(array $task): void
     {
         $behaviour = Behaviour::firstOrCreate([
-            'habitica_uuid' => $task['id'],
+            'source_slug' => 'habitica',
+            'source_id' => $task['id'],
         ], [
             'user_id' => $this->argument('user'),
             'name' => $task['text'],
@@ -67,8 +68,10 @@ class ImportCommand extends Command
                 continue;
             }
             $behaviour->histories()->updateOrCreate([
-                'end_at' => $at,
+                'source_slug' => 'habitica',
+                'source_id' => $history['date'],
             ], [
+                'end_at' => $at,
                 'is_committed' => true,
                 'is_completed' => true,
                 'user_id' => $behaviour->user_id,

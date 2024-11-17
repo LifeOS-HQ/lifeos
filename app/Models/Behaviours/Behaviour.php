@@ -33,8 +33,10 @@ class Behaviour extends Model
     ];
 
     protected $fillable = [
-        'name',
         'habitica_uuid',
+        'name',
+        'source_id',
+        'source_slug',
         'user_id',
     ];
 

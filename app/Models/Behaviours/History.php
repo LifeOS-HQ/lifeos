@@ -47,11 +47,13 @@ class History extends Model
         'day_id',
         'end_at_formatted',
         'end_at',
+        'is_committed',
+        'is_completed',
+        'source_id',
+        'source_slug',
         'start_at_formatted',
         'start_at',
         'user_id',
-        'is_completed',
-        'is_committed',
     ];
 
     protected $table = 'behaviours_histories';
