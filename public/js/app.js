@@ -2407,7 +2407,7 @@ __webpack_require__.r(__webpack_exports__);
         //
       },
       form: {
-        title: ''
+        name: ''
       }
     };
   },
@@ -10067,7 +10067,7 @@ var render = function render() {
         }, [_c("input-text", {
           attrs: {
             placeholder: "Name",
-            error: _vm.error("title")
+            error: _vm.error("name")
           },
           on: {
             keydown: function keydown($event) {
@@ -10076,11 +10076,11 @@ var render = function render() {
             }
           },
           model: {
-            value: _vm.form.title,
+            value: _vm.form.name,
             callback: function callback($$v) {
-              _vm.$set(_vm.form, "title", $$v);
+              _vm.$set(_vm.form, "name", $$v);
             },
-            expression: "form.title"
+            expression: "form.name"
           }
         })], 1)];
       },

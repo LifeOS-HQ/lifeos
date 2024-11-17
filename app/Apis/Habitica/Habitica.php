@@ -52,6 +52,16 @@ class Habitica
         return $this->getClient()->get('tasks/user', []);
     }
 
+    public function createTask(array $data): Response
+    {
+        return $this->getClient()->post('tasks/user', $data);
+    }
+
+    public function updateTask(string $id, array $data): Response
+    {
+        return $this->getClient()->put('tasks/user/' . $id, $data);
+    }
+
     private function getClient(): PendingRequest
     {
         return Http::baseUrl(self::BASE_URL)

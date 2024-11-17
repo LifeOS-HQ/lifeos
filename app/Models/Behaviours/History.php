@@ -27,6 +27,7 @@ class History extends Model
         'end_at_time_formatted',
         'start_at_formatted',
         'value_path',
+        'audio_path',
     ];
 
     protected $casts = [
@@ -155,6 +156,11 @@ class History extends Model
         return route('behaviours.histories.values.index', [
             'history' => $this->id,
         ]);
+    }
+
+    public function getAudioPathAttribute(): string
+    {
+        return resource_path('audio/daily.mp3');
     }
 
     public function behaviour(): BelongsTo

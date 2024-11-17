@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Behaviours;
 
 use Illuminate\Http\Request;
+use App\Models\Services\Service;
 use App\Http\Controllers\Controller;
 use App\Models\Behaviours\Behaviour;
 use App\Models\Services\Data\Attributes\Groups\Group;
@@ -42,6 +43,34 @@ class BehaviourController extends Controller
         $behaviour = Behaviour::create($attributes + [
             'user_id' => $user->id,
         ]);
+
+        $habitica_service = Service::where('slug', 'habitica')->first();
+        $service_user = \App\Models\Services\User::where('user_id', $user->id)
+            ->where('service_id', $habitica_service->id)
+            ->first();
+
+        if ($service_user) {
+            $api = new \App\Apis\Habitica\Habitica($service_user);
+
+            $habitica_task = $api->createTask([
+                'text' => $behaviour->name,
+                'type' => 'daily',
+                'frequency' => 'weekly',
+                'repeat' => [
+                    'su' => false,
+                    'm' => false,
+                    't' => false,
+                    'w' => false,
+                    'th' => false,
+                    'f' => false,
+                    's' => false,
+                ],
+            ]);
+
+            $behaviour->update([
+                'habitica_uuid' => $habitica_task['data']['id'],
+            ]);
+        }
 
         if ($request->wantsJson()) {
             return $behaviour;
@@ -91,7 +120,24 @@ class BehaviourController extends Controller
             'name' => 'required|string',
         ]);
 
+        $user = auth()->user();
+
         $behaviour->update($attributes);
+
+        if ($behaviour->habitica_uuid) {
+            $habitica_service = Service::where('slug', 'habitica')->first();
+            $service_user = \App\Models\Services\User::where('user_id', $user->id)
+                ->where('service_id', $habitica_service->id)
+                ->first();
+
+            if ($service_user) {
+                $api = new \App\Apis\Habitica\Habitica($service_user);
+
+                $habitica_task = $api->updateTask($behaviour->habitica_uuid, [
+                    'text' => $behaviour->name,
+                ]);
+            }
+        }
 
         if ($request->wantsJson()) {
             return $behaviour;

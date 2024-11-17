@@ -4,7 +4,7 @@
 
         <template v-slot:form>
             <div class="form-group mb-0 mr-1">
-                <input-text v-model="form.title" placeholder="Name" :error="error('title')" @keydown.enter="create"></input-text>
+                <input-text v-model="form.name" placeholder="Name" :error="error('name')" @keydown.enter="create"></input-text>
             </div>
         </template>
 
@@ -61,7 +61,7 @@
                     //
                 },
                 form: {
-                    title: '',
+                    name: '',
                 },
             };
         },
