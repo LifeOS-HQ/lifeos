@@ -122,28 +122,28 @@ class History extends Model
 
     public function getEndAtFormattedAttribute() : string
     {
-        return $this->end_at->format('d.m.Y H:i');
+        return $this->end_at->setTimezone('Europe/Berlin')->format('d.m.Y H:i');
     }
 
     public function getEndAtTimeFormattedAttribute() : string
     {
-        return $this->end_at->format('H:i');
+        return $this->end_at->setTimezone('Europe/Berlin')->format('H:i');
     }
 
     public function setEndAtFormattedAttribute($value) : void
     {
-        $this->attributes['end_at'] = \Carbon\Carbon::createFromFormat('d.m.Y H:i', $value);
+        $this->attributes['end_at'] = \Carbon\Carbon::createFromFormat('d.m.Y H:i', $value, 'Europe/Berlin');
         Arr::forget($this->attributes, 'end_at_formatted');
     }
 
     public function getStartAtFormattedAttribute() : string
     {
-        return $this->start_at->format('d.m.Y H:i');
+        return $this->start_at->setTimezone('Europe/Berlin')->format('d.m.Y H:i');
     }
 
     public function setStartAtFormattedAttribute($value) : void
     {
-        $this->attributes['start_at'] = \Carbon\Carbon::createFromFormat('d.m.Y H:i', $value);
+        $this->attributes['start_at'] = \Carbon\Carbon::createFromFormat('d.m.Y H:i', $value, 'Europe/Berlin');
         Arr::forget($this->attributes, 'start_at_formatted');
     }
 

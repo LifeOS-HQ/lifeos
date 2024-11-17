@@ -60,7 +60,7 @@ class ImportCommand extends Command
         ]);
 
         foreach ($task['history'] as $history) {
-            $at = Carbon::createFromTimestamp($history['date'] / 1000);
+            $at = Carbon::createFromTimestamp($history['date'] / 1000, 'UTC');
             $is_completed = Arr::get($history, 'completed', true);
             $this->line('Processing history: ' . $at->format('Y-m-d H:i:s') . ' - ' . ($is_completed ? 'completed' : 'not completed'));
             if ($is_completed === false) {
