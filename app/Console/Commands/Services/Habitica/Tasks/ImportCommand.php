@@ -69,6 +69,8 @@ class ImportCommand extends Command
             $behaviour->histories()->updateOrCreate([
                 'end_at' => $at,
             ], [
+                'is_committed' => true,
+                'is_completed' => true,
                 'user_id' => $behaviour->user_id,
                 'start_at' => $at,
             ]);

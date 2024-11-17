@@ -45,6 +45,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/behaviours/histories/{history}/commit', [\App\Http\Controllers\Behaviours\Histories\CommitController::class, 'store'])->name('behaviours.histories.commit.store')->can('update', [\App\Models\Behaviours\History::class, 'history']);
 
+    Route::post('/behaviours/histories/{history}/complete', [\App\Http\Controllers\Behaviours\Histories\CompleteController::class, 'store'])->name('behaviours.histories.complete.store')->can('update', [\App\Models\Behaviours\History::class, 'history']);
+    Route::delete('/behaviours/histories/{history}/complete', [\App\Http\Controllers\Behaviours\Histories\CompleteController::class, 'destroy'])->name('behaviours.histories.complete.destroy')->can('update', [\App\Models\Behaviours\History::class, 'history']);
 
     Route::get('/behaviours/histories/{history}/values', [\App\Http\Controllers\Behaviours\Histories\Attributes\ValueController::class, 'index'])->name('behaviours.histories.values.index')->can('viewAny', [\App\Models\Behaviours\Histories\Attributes\Value::class, 'history']);
     Route::get('/behaviours/histories/{history}/values/create', [\App\Http\Controllers\Behaviours\Histories\Attributes\ValueController::class, 'create'])->name('behaviours.histories.values.create')->can('create', [\App\Models\Behaviours\Histories\Attributes\Value::class, 'history']);

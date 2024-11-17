@@ -28,6 +28,8 @@ class History extends Model
         'start_at_formatted',
         'value_path',
         'audio_path',
+        'commit_path',
+        'complete_path',
     ];
 
     protected $casts = [
@@ -156,6 +158,13 @@ class History extends Model
     public function getCommitPathAttribute(): string
     {
         return route('behaviours.histories.commit.store', [
+            'history' => $this->id,
+        ]);
+    }
+
+    public function getCompletePathAttribute(): string
+    {
+        return route('behaviours.histories.complete.store', [
             'history' => $this->id,
         ]);
     }

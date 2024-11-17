@@ -77,7 +77,7 @@ class CommitControllerTest extends TestCase
 
         $response = $this->postJson($model->commit_path);
 
-        $response->assertUnprocessable($model->path);
+        $response->assertUnprocessable();
 
         $model->refresh();
 

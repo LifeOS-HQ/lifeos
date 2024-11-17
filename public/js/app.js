@@ -2813,6 +2813,31 @@ __webpack_require__.r(__webpack_exports__);
         index: previous_index,
         item: this.items[previous_index]
       });
+    },
+    complete: function complete(index) {
+      var component = this;
+      var item = component.items[index];
+      axios.post(item.complete_path).then(function (response) {
+        component.sound();
+        Vue.set(component.items, index, response.data);
+        if (component.item_to_show && component.item_to_show.item.id === item.id) {
+          component.item_to_show.item = response.data;
+        }
+      });
+    },
+    incomplete: function incomplete(index) {
+      var component = this;
+      var item = component.items[index];
+      axios["delete"](item.complete_path).then(function (response) {
+        Vue.set(component.items, index, response.data);
+        if (component.item_to_show && component.item_to_show.item.id === item.id) {
+          component.item_to_show.item = response.data;
+        }
+      });
+    },
+    sound: function sound() {
+      var audio = new Audio('/audio/daily.mp3');
+      audio.play();
     }
   }
 });
@@ -2853,11 +2878,21 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      //
+      filter: {
+        status: 'incompleted'
+      }
     };
   },
   computed: {
-    //
+    filteredItems: function filteredItems() {
+      var _this = this;
+      if (this.filter.status === 'all') {
+        return this.items;
+      }
+      return this.items.filter(function (item) {
+        return item.is_completed == (_this.filter.status === 'completed');
+      });
+    }
   },
   methods: {
     show: function show(index, item) {
@@ -10644,6 +10679,12 @@ var render = function render() {
     on: {
       show: function show($event) {
         return _vm.show($event);
+      },
+      complete: function complete($event) {
+        return _vm.complete($event);
+      },
+      incomplete: function incomplete($event) {
+        return _vm.incomplete($event);
       }
     }
   })], 1), _vm._v(" "), _c("div", {
@@ -10654,7 +10695,13 @@ var render = function render() {
     },
     on: {
       next: _vm.next,
-      previous: _vm.previous
+      previous: _vm.previous,
+      complete: function complete($event) {
+        return _vm.complete(_vm.item_to_show.index);
+      },
+      incomplete: function incomplete($event) {
+        return _vm.incomplete(_vm.item_to_show.index);
+      }
     }
   }) : _vm._e()], 1)]);
 };
@@ -10679,8 +10726,40 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c("div", {
+    staticClass: "card"
+  }, [_c("div", {
+    staticClass: "card-header"
+  }, [_c("div", {
+    staticClass: "d-flex justify-content-between"
+  }, [_c("div", [_vm._v("Verhalten")]), _vm._v(" "), _c("div", [_c("span", {
+    staticClass: "badge badge-pill pointer",
+    "class": _vm.filter.status == "all" ? "badge-primary" : "badge-light",
+    on: {
+      click: function click($event) {
+        _vm.filter.status = "all";
+      }
+    }
+  }, [_vm._v("Alle")]), _vm._v(" "), _c("span", {
+    staticClass: "badge badge-pill pointer",
+    "class": _vm.filter.status == "incompleted" ? "badge-primary" : "badge-light",
+    on: {
+      click: function click($event) {
+        _vm.filter.status = "incompleted";
+      }
+    }
+  }, [_vm._v("Fällig")]), _vm._v(" "), _c("span", {
+    staticClass: "badge badge-pill pointer",
+    "class": _vm.filter.status == "completed" ? "badge-primary" : "badge-light",
+    on: {
+      click: function click($event) {
+        _vm.filter.status = "completed";
+      }
+    }
+  }, [_vm._v("Erledigt")])])])]), _vm._v(" "), _c("div", {
+    staticClass: "card-body"
+  }, [_c("div", {
     staticClass: "list-group"
-  }, _vm._l(_vm.items, function (item, index) {
+  }, _vm._l(_vm.filteredItems, function (item, index) {
     return _c("row", {
       key: item.id,
       attrs: {
@@ -10690,10 +10769,16 @@ var render = function render() {
       on: {
         show: function show($event) {
           return _vm.show(index, $event);
+        },
+        complete: function complete($event) {
+          return _vm.$emit("complete", index);
+        },
+        incomplete: function incomplete($event) {
+          return _vm.$emit("incomplete", index);
         }
       }
     });
-  }), 1);
+  }), 1)])]);
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -10718,7 +10803,7 @@ var render = function render() {
   return _c("div", {
     staticClass: "list-group-item list-group-item-action",
     "class": {
-      active: _vm.isActive
+      "list-group-item-dark": _vm.isActive
     }
   }, [_c("div", {
     staticClass: "d-flex align-items-center"
@@ -10728,22 +10813,20 @@ var render = function render() {
       width: "75px",
       "margin-left": "-15px"
     }
-  }, [_c("i", {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: false,
-      expression: "false"
-    }],
-    staticClass: "far fa-fw fa-2x fa-square pointer"
-  }), _vm._v(" "), _c("i", {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: true,
-      expression: "true"
-    }],
-    staticClass: "fas fa-fw fa-2x fa-check-square text-success"
+  }, [_vm.item.is_completed ? _c("i", {
+    staticClass: "fas fa-fw fa-2x fa-check-square text-success pointer",
+    on: {
+      click: function click($event) {
+        return _vm.$emit("incomplete");
+      }
+    }
+  }) : _c("i", {
+    staticClass: "far fa-fw fa-2x fa-square pointer",
+    on: {
+      click: function click($event) {
+        return _vm.$emit("complete");
+      }
+    }
   })]), _vm._v(" "), _c("div", {
     staticClass: "flex-grow-1 pointer",
     on: {
@@ -10839,7 +10922,25 @@ var render = function render() {
     on: {
       click: _vm.next
     }
-  }, [_vm._v("Weiter")])])])])]);
+  }, [_vm._v("Weiter")]), _vm._v(" "), _vm.item.is_completed ? _c("button", {
+    staticClass: "btn btn-sm btn-secondary",
+    on: {
+      click: function click($event) {
+        return _vm.$emit("incomplete");
+      }
+    }
+  }, [_c("i", {
+    staticClass: "fas fa-fw fa-check-square"
+  })]) : _c("button", {
+    staticClass: "btn btn-sm btn-secondary",
+    on: {
+      click: function click($event) {
+        return _vm.$emit("complete");
+      }
+    }
+  }, [_c("i", {
+    staticClass: "far fa-fw fa-square pointer"
+  })])])])])]);
 };
 var staticRenderFns = [];
 render._withStripped = true;

@@ -20,6 +20,8 @@
 
                     <button class="btn btn-sm btn-secondary" @click="previous">Zurück</button>
                     <button class="btn btn-sm btn-secondary" @click="next">Weiter</button>
+                    <button class="btn btn-sm btn-secondary" @click="$emit('incomplete')" v-if="item.is_completed"><i class="fas fa-fw fa-check-square"></i></button>
+                    <button class="btn btn-sm btn-secondary" @click="$emit('complete')" v-else><i class="far fa-fw fa-square pointer"></i></button>
                 </div>
             </div>
         </div>
@@ -120,7 +122,7 @@
             },
             previous() {
                 this.$emit('previous');
-            }
+            },
         },
     };
 </script>

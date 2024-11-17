@@ -2,7 +2,7 @@
     <div class="row">
 
         <div class="col">
-            <list :items="items" :item-to-show="item_to_show" @show="show($event)"></list>
+            <list :items="items" :item-to-show="item_to_show" @show="show($event)" @complete="complete($event)" @incomplete="incomplete($event)"></list>
         </div>
 
         <div class="col">
@@ -10,6 +10,8 @@
                 :item="item_to_show.item"
                 @next="next"
                 @previous="previous"
+                @complete="complete(item_to_show.index)"
+                @incomplete="incomplete(item_to_show.index)"
                 v-if="item_to_show"
             ></show>
         </div>
@@ -108,6 +110,33 @@
                     index: previous_index,
                     item: this.items[previous_index],
                 });
+            },
+            complete(index) {
+                const component = this;
+                const item = component.items[index];
+                axios.post(item.complete_path)
+                    .then(response => {
+                        component.sound();
+                        Vue.set(component.items, index, response.data);
+                        if (component.item_to_show && component.item_to_show.item.id === item.id) {
+                            component.item_to_show.item = response.data;
+                        }
+                    });
+            },
+            incomplete(index) {
+                const component = this;
+                const item = component.items[index];
+                axios.delete(item.complete_path)
+                    .then(response => {
+                        Vue.set(component.items, index, response.data);
+                        if (component.item_to_show && component.item_to_show.item.id === item.id) {
+                            component.item_to_show.item = response.data;
+                        }
+                    });
+            },
+            sound() {
+                let audio = new Audio('/audio/daily.mp3');
+                audio.play();
             },
         },
     };

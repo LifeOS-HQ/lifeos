@@ -6,7 +6,7 @@ use Illuminate\Http\Response;
 use App\Models\Behaviours\History;
 use App\Http\Controllers\Controller;
 
-class CommitController extends Controller
+class CompleteController extends Controller
 {
     public function store(History $history)
     {
@@ -21,6 +21,29 @@ class CommitController extends Controller
 
         $history->update([
             'is_committed' => true,
+            'is_completed' => true,
+        ]);
+
+        $history->load([
+            'behaviour',
+        ]);
+
+        return $history;
+    }
+
+    public function destroy(History $history)
+    {
+        if (! $history->is_completed) {
+            return response([
+                'status' => [
+                    'type' => 'danger',
+                    'text' => 'Das Verhalten wurde noch nicht erledigt.',
+                ]
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $history->update([
+            'is_completed' => false,
         ]);
 
         $history->load([

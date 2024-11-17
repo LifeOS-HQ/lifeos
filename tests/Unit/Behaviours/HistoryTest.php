@@ -106,4 +106,34 @@ class HistoryTest extends TestCase
 
         $this->assertEquals(route('behaviours.histories.commit.store', ['history' => $history->id]), $history->commit_path);
     }
+
+    /**
+     * @test
+     */
+    public function it_knows_its_complete_path()
+    {
+        $history = History::factory()->create();
+
+        $this->assertEquals(route('behaviours.histories.complete.store', ['history' => $history->id]), $history->complete_path);
+    }
+
+    /**
+     * @test
+     */
+    public function it_knows_its_audio_path()
+    {
+        $history = History::factory()->create();
+
+        $this->assertEquals(resource_path('audio/daily.mp3'), $history->audio_path);
+    }
+
+    /**
+     * @test
+     */
+    public function it_knows_its_value_path()
+    {
+        $history = History::factory()->create();
+
+        $this->assertEquals(route('behaviours.histories.values.index', ['history' => $history->id]), $history->value_path);
+    }
 }
