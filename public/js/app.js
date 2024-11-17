@@ -2751,19 +2751,27 @@ __webpack_require__.r(__webpack_exports__);
       type: Object
     }
   },
-  computed: {},
-  mounted: function mounted() {
-    if (this.model.behaviour_histories.length > 0) {
-      this.item_to_show = {
-        index: 0,
-        item: this.model.behaviour_histories[0]
-      };
+  computed: {
+    filteredItems: function filteredItems() {
+      var _this = this;
+      if (this.filter.status === 'all') {
+        return this.items;
+      }
+      return _.pickBy(this.items, function (item, index) {
+        return item.is_completed == (_this.filter.status === 'completed');
+      });
     }
+  },
+  mounted: function mounted() {
+    this.setFirstFilteredItemtoShow();
   },
   data: function data() {
     return {
       items: this.model.behaviour_histories,
-      item_to_show: null
+      item_to_show: null,
+      filter: {
+        status: 'incompleted'
+      }
     };
   },
   methods: {
@@ -2788,26 +2796,30 @@ __webpack_require__.r(__webpack_exports__);
       this.item_to_show = event;
     },
     next: function next() {
-      var next_index;
+      var next_key;
+      var filtered_item_keys = Object.keys(this.filteredItems);
       if (!this.item_to_show) {
-        next_index = 0;
+        next_key = filtered_item_keys[0];
       } else {
-        next_index = (this.item_to_show.index + 1) % this.items.length;
+        var current_key_of_keys = filtered_item_keys.indexOf(this.item_to_show.index);
+        var next_key_of_keys = (current_key_of_keys + 1) % filtered_item_keys.length;
+        next_key = filtered_item_keys[next_key_of_keys];
       }
       this.show({
-        index: next_index,
-        item: this.items[next_index]
+        index: next_key,
+        item: this.filteredItems[next_key]
       });
     },
     previous: function previous() {
       var previous_index;
+      var filtered_item_keys = Object.keys(this.filteredItems);
+      var last_index = filtered_item_keys[filtered_item_keys.length - 1];
       if (!this.item_to_show) {
-        previous_index = this.items.length - 1;
+        previous_index = filtered_item_keys[last_index];
       } else {
-        previous_index = this.item_to_show.index - 1;
-        if (previous_index < 0) {
-          previous_index = this.items.length - 1;
-        }
+        var current_key_of_keys = filtered_item_keys.indexOf(this.item_to_show.index);
+        var previous_key_of_keys = (current_key_of_keys - 1 + filtered_item_keys.length) % filtered_item_keys.length;
+        previous_index = filtered_item_keys[previous_key_of_keys];
       }
       this.show({
         index: previous_index,
@@ -2838,6 +2850,22 @@ __webpack_require__.r(__webpack_exports__);
     sound: function sound() {
       var audio = new Audio('/audio/daily.mp3');
       audio.play();
+    },
+    setStatus: function setStatus(status) {
+      this.filter.status = status;
+      this.setFirstFilteredItemtoShow();
+    },
+    setFirstFilteredItemtoShow: function setFirstFilteredItemtoShow() {
+      var filtered_item_keys = Object.keys(this.filteredItems);
+      if (filtered_item_keys.length > 0) {
+        var first_index = filtered_item_keys[0];
+        this.item_to_show = {
+          index: first_index,
+          item: this.filteredItems[first_index]
+        };
+      } else {
+        this.item_to_show = null;
+      }
     }
   }
 });
@@ -2867,8 +2895,7 @@ __webpack_require__.r(__webpack_exports__);
   ],
   props: {
     items: {
-      required: true,
-      type: Array
+      required: true
     },
     itemToShow: {
       required: false,
@@ -2878,21 +2905,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      filter: {
-        status: 'incompleted'
-      }
+      //
     };
   },
   computed: {
-    filteredItems: function filteredItems() {
-      var _this = this;
-      if (this.filter.status === 'all') {
-        return this.items;
-      }
-      return this.items.filter(function (item) {
-        return item.is_completed == (_this.filter.status === 'completed');
-      });
-    }
+    //
   },
   methods: {
     show: function show(index, item) {
@@ -10671,9 +10688,41 @@ var render = function render() {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col"
+  }, [_c("div", {
+    staticClass: "card"
+  }, [_c("div", {
+    staticClass: "card-header"
+  }, [_c("div", {
+    staticClass: "d-flex justify-content-between"
+  }, [_c("div", [_vm._v("Verhalten")]), _vm._v(" "), _c("div", [_c("span", {
+    staticClass: "badge badge-pill pointer",
+    "class": _vm.filter.status == "all" ? "badge-primary" : "badge-light",
+    on: {
+      click: function click($event) {
+        return _vm.setStatus("all");
+      }
+    }
+  }, [_vm._v("Alle")]), _vm._v(" "), _c("span", {
+    staticClass: "badge badge-pill pointer",
+    "class": _vm.filter.status == "incompleted" ? "badge-primary" : "badge-light",
+    on: {
+      click: function click($event) {
+        return _vm.setStatus("incompleted");
+      }
+    }
+  }, [_vm._v("Fällig")]), _vm._v(" "), _c("span", {
+    staticClass: "badge badge-pill pointer",
+    "class": _vm.filter.status == "completed" ? "badge-primary" : "badge-light",
+    on: {
+      click: function click($event) {
+        return _vm.setStatus("completed");
+      }
+    }
+  }, [_vm._v("Erledigt")])])])]), _vm._v(" "), _c("div", {
+    staticClass: "card-body"
   }, [_c("list", {
     attrs: {
-      items: _vm.items,
+      items: _vm.filteredItems,
       "item-to-show": _vm.item_to_show
     },
     on: {
@@ -10687,7 +10736,7 @@ var render = function render() {
         return _vm.incomplete($event);
       }
     }
-  })], 1), _vm._v(" "), _c("div", {
+  })], 1)])]), _vm._v(" "), _c("div", {
     staticClass: "col"
   }, [_vm.item_to_show ? _c("show", {
     attrs: {
@@ -10726,40 +10775,8 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c("div", {
-    staticClass: "card"
-  }, [_c("div", {
-    staticClass: "card-header"
-  }, [_c("div", {
-    staticClass: "d-flex justify-content-between"
-  }, [_c("div", [_vm._v("Verhalten")]), _vm._v(" "), _c("div", [_c("span", {
-    staticClass: "badge badge-pill pointer",
-    "class": _vm.filter.status == "all" ? "badge-primary" : "badge-light",
-    on: {
-      click: function click($event) {
-        _vm.filter.status = "all";
-      }
-    }
-  }, [_vm._v("Alle")]), _vm._v(" "), _c("span", {
-    staticClass: "badge badge-pill pointer",
-    "class": _vm.filter.status == "incompleted" ? "badge-primary" : "badge-light",
-    on: {
-      click: function click($event) {
-        _vm.filter.status = "incompleted";
-      }
-    }
-  }, [_vm._v("Fällig")]), _vm._v(" "), _c("span", {
-    staticClass: "badge badge-pill pointer",
-    "class": _vm.filter.status == "completed" ? "badge-primary" : "badge-light",
-    on: {
-      click: function click($event) {
-        _vm.filter.status = "completed";
-      }
-    }
-  }, [_vm._v("Erledigt")])])])]), _vm._v(" "), _c("div", {
-    staticClass: "card-body"
-  }, [_c("div", {
     staticClass: "list-group"
-  }, _vm._l(_vm.filteredItems, function (item, index) {
+  }, _vm._l(_vm.items, function (item, index) {
     return _c("row", {
       key: item.id,
       attrs: {
@@ -10778,7 +10795,7 @@ var render = function render() {
         }
       }
     });
-  }), 1)])]);
+  }), 1);
 };
 var staticRenderFns = [];
 render._withStripped = true;

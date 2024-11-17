@@ -2,7 +2,21 @@
     <div class="row">
 
         <div class="col">
-            <list :items="items" :item-to-show="item_to_show" @show="show($event)" @complete="complete($event)" @incomplete="incomplete($event)"></list>
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                        <div>Verhalten</div>
+                        <div>
+                            <span class="badge badge-pill pointer" :class="filter.status == 'all' ? 'badge-primary' : 'badge-light'" @click="setStatus('all')">Alle</span>
+                            <span class="badge badge-pill pointer" :class="filter.status == 'incompleted' ? 'badge-primary' : 'badge-light'" @click="setStatus('incompleted')">Fällig</span>
+                            <span class="badge badge-pill pointer" :class="filter.status == 'completed' ? 'badge-primary' : 'badge-light'" @click="setStatus('completed')">Erledigt</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <list :items="filteredItems" :item-to-show="item_to_show" @show="show($event)" @complete="complete($event)" @incomplete="incomplete($event)"></list>
+                </div>
+            </div>
         </div>
 
         <div class="col">
@@ -38,22 +52,28 @@
         },
 
         computed: {
+            filteredItems() {
+                if (this.filter.status === 'all') {
+                    return this.items;
+                }
 
+                return _.pickBy(this.items, (item, index) => {
+                    return item.is_completed == (this.filter.status === 'completed');
+                });
+            },
         },
 
         mounted() {
-            if (this.model.behaviour_histories.length > 0) {
-                this.item_to_show = {
-                    index: 0,
-                    item: this.model.behaviour_histories[0],
-                };
-            }
+            this.setFirstFilteredItemtoShow();
         },
 
         data() {
             return {
                 items: this.model.behaviour_histories,
                 item_to_show: null,
+                filter: {
+                    status: 'incompleted',
+                }
             };
         },
 
@@ -81,29 +101,33 @@
                 this.item_to_show = event;
             },
             next() {
-                let next_index;
+                let next_key;
+                const filtered_item_keys = Object.keys(this.filteredItems);
                 if (!this.item_to_show) {
-                    next_index = 0;
+                    next_key = filtered_item_keys[0];
                 }
                 else {
-                    next_index = (this.item_to_show.index + 1) % this.items.length;
+                    const current_key_of_keys = filtered_item_keys.indexOf(this.item_to_show.index);
+                    const next_key_of_keys = (current_key_of_keys + 1) % filtered_item_keys.length;
+                    next_key = filtered_item_keys[next_key_of_keys];
                 }
 
                 this.show({
-                    index: next_index,
-                    item: this.items[next_index],
+                    index: next_key,
+                    item: this.filteredItems[next_key],
                 });
             },
             previous() {
                 let previous_index;
+                const filtered_item_keys = Object.keys(this.filteredItems);
+                const last_index = filtered_item_keys[filtered_item_keys.length - 1];
                 if (!this.item_to_show) {
-                    previous_index = this.items.length - 1;
+                    previous_index = filtered_item_keys[last_index];
                 }
                 else {
-                    previous_index = (this.item_to_show.index - 1);
-                    if (previous_index < 0) {
-                        previous_index = this.items.length - 1;
-                    }
+                    const current_key_of_keys = filtered_item_keys.indexOf(this.item_to_show.index);
+                    const previous_key_of_keys = (current_key_of_keys - 1 + filtered_item_keys.length) % filtered_item_keys.length;
+                    previous_index = filtered_item_keys[previous_key_of_keys];
                 }
 
                 this.show({
@@ -137,6 +161,23 @@
             sound() {
                 let audio = new Audio('/audio/daily.mp3');
                 audio.play();
+            },
+            setStatus(status) {
+                this.filter.status = status;
+                this.setFirstFilteredItemtoShow();
+            },
+            setFirstFilteredItemtoShow() {
+                const filtered_item_keys = Object.keys(this.filteredItems);
+                if (filtered_item_keys.length > 0) {
+                    const first_index = filtered_item_keys[0];
+                    this.item_to_show = {
+                        index: first_index,
+                        item: this.filteredItems[first_index],
+                    };
+                }
+                else {
+                    this.item_to_show = null;
+                }
             },
         },
     };
