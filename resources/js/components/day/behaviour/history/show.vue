@@ -18,10 +18,12 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-sm btn-secondary" @click="previous">Zurück</button>
-                    <button class="btn btn-sm btn-secondary" @click="next">Weiter</button>
-                    <button class="btn btn-sm btn-secondary" @click="$emit('incomplete')" v-if="item.is_completed"><i class="fas fa-fw fa-check-square"></i></button>
-                    <button class="btn btn-sm btn-secondary" @click="$emit('complete')" v-else><i class="far fa-fw fa-square pointer"></i></button>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-sm btn-secondary" @click="previous">Zurück</button>
+                        <button class="btn btn-sm btn-secondary" @click="incomplete" v-if="item.is_completed"><i class="fas fa-fw fa-check-square"></i></button>
+                        <button class="btn btn-sm btn-primary" @click="complete" v-else><i class="far fa-fw fa-square"></i></button>
+                        <button class="btn btn-sm btn-secondary" @click="next">Weiter</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -68,7 +70,7 @@
                 // Space
                 if (event.keyCode === 32) {
                     event.preventDefault();
-                    component.next();
+                    component.complete();
                 }
                 // Left arrow
                 else if (event.keyCode === 39) {
@@ -122,6 +124,12 @@
             },
             previous() {
                 this.$emit('previous');
+            },
+            complete() {
+                this.$emit('complete');
+            },
+            incomplete() {
+                this.$emit('incomplete');
             },
         },
     };

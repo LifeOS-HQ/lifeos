@@ -103,13 +103,28 @@
             next() {
                 let next_key;
                 const filtered_item_keys = Object.keys(this.filteredItems);
+
+                if (filtered_item_keys.length === 0) {
+                    this.item_to_show = null;
+                    return;
+                }
+
                 if (!this.item_to_show) {
                     next_key = filtered_item_keys[0];
                 }
                 else {
                     const current_key_of_keys = filtered_item_keys.indexOf(this.item_to_show.index);
-                    const next_key_of_keys = (current_key_of_keys + 1) % filtered_item_keys.length;
-                    next_key = filtered_item_keys[next_key_of_keys];
+
+                    if (current_key_of_keys === -1) {
+                        next_key = filtered_item_keys.find(key => {
+                            return key > this.item_to_show.index;
+                        });
+                    }
+
+                    if (! next_key) {
+                        const next_key_of_keys = (current_key_of_keys + 1) % filtered_item_keys.length;
+                        next_key = filtered_item_keys[next_key_of_keys];
+                    }
                 }
 
                 this.show({
@@ -121,6 +136,12 @@
                 let previous_index;
                 const filtered_item_keys = Object.keys(this.filteredItems);
                 const last_index = filtered_item_keys[filtered_item_keys.length - 1];
+
+                if (filtered_item_keys.length === 0) {
+                    this.item_to_show = null;
+                    return;
+                }
+
                 if (!this.item_to_show) {
                     previous_index = filtered_item_keys[last_index];
                 }
@@ -145,6 +166,8 @@
                         if (component.item_to_show && component.item_to_show.item.id === item.id) {
                             component.item_to_show.item = response.data;
                         }
+                        component.next();
+                        Vue.success('Du hast <b>' + response.data.behaviour.name + '</b> erledigt.<br >That\'s like you!');
                     });
             },
             incomplete(index) {

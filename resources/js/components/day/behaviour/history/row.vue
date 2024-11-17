@@ -3,7 +3,7 @@
     <div class="list-group-item list-group-item-action" :class="{'list-group-item-dark': isActive}">
         <div class="d-flex align-items-center">
             <div class="text-center" style="width: 75px; margin-left: -15px;">
-                <i class="fas fa-fw fa-2x fa-check-square text-success pointer" v-if="item.is_completed" @click="$emit('incomplete')"></i>
+                <i class="fas fa-fw fa-2x fa-check-square text-primary pointer" v-if="item.is_completed" @click="$emit('incomplete')"></i>
                 <i class="far fa-fw fa-2x fa-square pointer" v-else @click="$emit('complete')"></i>
             </div>
             <div class="flex-grow-1 pointer" @click="show">
@@ -58,6 +58,6 @@
 
 <style scoped>
 .fa-square:hover {
-    color: #38c172;
+    color: var(--primary);
 }
 </style>

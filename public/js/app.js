@@ -2796,14 +2796,26 @@ __webpack_require__.r(__webpack_exports__);
       this.item_to_show = event;
     },
     next: function next() {
+      var _this2 = this;
       var next_key;
       var filtered_item_keys = Object.keys(this.filteredItems);
+      if (filtered_item_keys.length === 0) {
+        this.item_to_show = null;
+        return;
+      }
       if (!this.item_to_show) {
         next_key = filtered_item_keys[0];
       } else {
         var current_key_of_keys = filtered_item_keys.indexOf(this.item_to_show.index);
-        var next_key_of_keys = (current_key_of_keys + 1) % filtered_item_keys.length;
-        next_key = filtered_item_keys[next_key_of_keys];
+        if (current_key_of_keys === -1) {
+          next_key = filtered_item_keys.find(function (key) {
+            return key > _this2.item_to_show.index;
+          });
+        }
+        if (!next_key) {
+          var next_key_of_keys = (current_key_of_keys + 1) % filtered_item_keys.length;
+          next_key = filtered_item_keys[next_key_of_keys];
+        }
       }
       this.show({
         index: next_key,
@@ -2814,6 +2826,10 @@ __webpack_require__.r(__webpack_exports__);
       var previous_index;
       var filtered_item_keys = Object.keys(this.filteredItems);
       var last_index = filtered_item_keys[filtered_item_keys.length - 1];
+      if (filtered_item_keys.length === 0) {
+        this.item_to_show = null;
+        return;
+      }
       if (!this.item_to_show) {
         previous_index = filtered_item_keys[last_index];
       } else {
@@ -2835,6 +2851,8 @@ __webpack_require__.r(__webpack_exports__);
         if (component.item_to_show && component.item_to_show.item.id === item.id) {
           component.item_to_show.item = response.data;
         }
+        component.next();
+        Vue.success('Du hast <b>' + response.data.behaviour.name + '</b> erledigt.<br >That\'s like you!');
       });
     },
     incomplete: function incomplete(index) {
@@ -3012,7 +3030,7 @@ __webpack_require__.r(__webpack_exports__);
       // Space
       if (event.keyCode === 32) {
         event.preventDefault();
-        component.next();
+        component.complete();
       }
       // Left arrow
       else if (event.keyCode === 39) {
@@ -3061,6 +3079,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     previous: function previous() {
       this.$emit('previous');
+    },
+    complete: function complete() {
+      this.$emit('complete');
+    },
+    incomplete: function incomplete() {
+      this.$emit('incomplete');
     }
   }
 });
@@ -10831,7 +10855,7 @@ var render = function render() {
       "margin-left": "-15px"
     }
   }, [_vm.item.is_completed ? _c("i", {
-    staticClass: "fas fa-fw fa-2x fa-check-square text-success pointer",
+    staticClass: "fas fa-fw fa-2x fa-check-square text-primary pointer",
     on: {
       click: function click($event) {
         return _vm.$emit("incomplete");
@@ -10929,35 +10953,33 @@ var render = function render() {
       },
       expression: "form.end_at_formatted"
     }
-  })], 1)]), _vm._v(" "), _c("button", {
+  })], 1)]), _vm._v(" "), _c("div", {
+    staticClass: "d-flex justify-content-between"
+  }, [_c("button", {
     staticClass: "btn btn-sm btn-secondary",
     on: {
       click: _vm.previous
     }
-  }, [_vm._v("Zurück")]), _vm._v(" "), _c("button", {
+  }, [_vm._v("Zurück")]), _vm._v(" "), _vm.item.is_completed ? _c("button", {
     staticClass: "btn btn-sm btn-secondary",
     on: {
-      click: _vm.next
-    }
-  }, [_vm._v("Weiter")]), _vm._v(" "), _vm.item.is_completed ? _c("button", {
-    staticClass: "btn btn-sm btn-secondary",
-    on: {
-      click: function click($event) {
-        return _vm.$emit("incomplete");
-      }
+      click: _vm.incomplete
     }
   }, [_c("i", {
     staticClass: "fas fa-fw fa-check-square"
   })]) : _c("button", {
-    staticClass: "btn btn-sm btn-secondary",
+    staticClass: "btn btn-sm btn-primary",
     on: {
-      click: function click($event) {
-        return _vm.$emit("complete");
-      }
+      click: _vm.complete
     }
   }, [_c("i", {
-    staticClass: "far fa-fw fa-square pointer"
-  })])])])])]);
+    staticClass: "far fa-fw fa-square"
+  })]), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-sm btn-secondary",
+    on: {
+      click: _vm.next
+    }
+  }, [_vm._v("Weiter")])])])])])]);
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -25887,7 +25909,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, "\n.fa-square[data-v-6989809f]:hover {\n    color: #38c172;\n}\n", ""]);
+exports.push([module.i, "\n.fa-square[data-v-6989809f]:hover {\n    color: var(--primary);\n}\n", ""]);
 
 // exports
 
