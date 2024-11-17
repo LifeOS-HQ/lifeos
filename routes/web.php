@@ -43,6 +43,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource(\App\Models\Activities\Activity::ROUTE_NAME, 'Activities\ActivityController');
 
+    Route::post('/behaviours/histories/{history}/commit', [\App\Http\Controllers\Behaviours\Histories\CommitController::class, 'store'])->name('behaviours.histories.commit.store')->can('update', [\App\Models\Behaviours\History::class, 'history']);
+
+
     Route::get('/behaviours/histories/{history}/values', [\App\Http\Controllers\Behaviours\Histories\Attributes\ValueController::class, 'index'])->name('behaviours.histories.values.index')->can('viewAny', [\App\Models\Behaviours\Histories\Attributes\Value::class, 'history']);
     Route::get('/behaviours/histories/{history}/values/create', [\App\Http\Controllers\Behaviours\Histories\Attributes\ValueController::class, 'create'])->name('behaviours.histories.values.create')->can('create', [\App\Models\Behaviours\Histories\Attributes\Value::class, 'history']);
     Route::post('/behaviours/histories/{history}/values', [\App\Http\Controllers\Behaviours\Histories\Attributes\ValueController::class, 'store'])->name('behaviours.histories.values.store')->can('create', [\App\Models\Behaviours\Histories\Attributes\Value::class, 'history']);

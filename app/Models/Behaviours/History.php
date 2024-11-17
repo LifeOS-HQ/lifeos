@@ -48,6 +48,8 @@ class History extends Model
         'start_at_formatted',
         'start_at',
         'user_id',
+        'is_completed',
+        'is_committed',
     ];
 
     protected $table = 'behaviours_histories';
@@ -151,9 +153,9 @@ class History extends Model
         ];
     }
 
-    public function getValuePathAttribute(): string
+    public function getCommitPathAttribute(): string
     {
-        return route('behaviours.histories.values.index', [
+        return route('behaviours.histories.commit.store', [
             'history' => $this->id,
         ]);
     }
@@ -161,6 +163,13 @@ class History extends Model
     public function getAudioPathAttribute(): string
     {
         return resource_path('audio/daily.mp3');
+    }
+
+    public function getValuePathAttribute(): string
+    {
+        return route('behaviours.histories.values.index', [
+            'history' => $this->id,
+        ]);
     }
 
     public function behaviour(): BelongsTo

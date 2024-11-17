@@ -96,4 +96,14 @@ class HistoryTest extends TestCase
 
         $this->assertEquals($history->day_id, $history->day->id);
     }
+
+    /**
+     * @test
+     */
+    public function it_knows_its_commit_path()
+    {
+        $history = History::factory()->create();
+
+        $this->assertEquals(route('behaviours.histories.commit.store', ['history' => $history->id]), $history->commit_path);
+    }
 }
