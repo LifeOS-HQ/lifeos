@@ -2,17 +2,55 @@
 
 namespace Tests\Feature\Controller\Services;
 
-use DummyFullModelClass;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\Response;
 use Tests\TestCase;
+use App\Models\Services\User;
+use Illuminate\Http\Response;
+use App\Models\Services\Service;
+use Illuminate\Support\Facades\Http;
 
 class UserControllerTest extends TestCase
 {
-    protected $baseRouteName = 'DummyModelVariable';
+    protected $baseRouteName = 'user.services';
     protected $baseViewPath = 'DummyModelVariable';
-    protected $className = DummyModelClass::class;
+    protected $className = User::class;
+
+    /**
+     * @test
+     */
+    public function a_user_can_create_a_model_from_habitica()
+    {
+        $habitica_response_json = file_get_contents(base_path('tests/snapshots/habitica/login/success.json'));
+        $habitica_response_data = json_decode($habitica_response_json, true);
+
+        Http::fake([
+            'habitica.com/api/v3/user/auth/local/login' => Http::response($habitica_response_json, Response::HTTP_OK),
+        ]);
+
+        $this->signIn();
+
+        $service = factory(Service::class)->create([
+            'slug' => 'habitica',
+            'name' => 'Habitica',
+            'type' => 'password',
+        ]);
+
+        $data = [
+            'username' => 'username',
+            'password' => 'password',
+        ];
+
+        $response = $this->post(route($this->baseRouteName . '.store', ['service' => $service->id]), $data)
+            ->assertStatus(Response::HTTP_FOUND)
+            ->assertSessionHasNoErrors();
+
+        $service_user = User::where('user_id', auth()->id())
+            ->where('service_id', $service->id)
+            ->first();
+
+        $this->assertEquals($habitica_response_data['data']['username'], $service_user->username);
+        $this->assertEquals($habitica_response_data['data']['id'], $service_user->service_user_id);
+        $this->assertEquals($habitica_response_data['data']['apiToken'], $service_user->token);
+    }
 
     /**
      * @test

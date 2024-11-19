@@ -4,9 +4,10 @@ namespace App\Models\Services;
 
 use App\Models\Services\Service;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class User extends Model
+class User extends Pivot
 {
     protected $appends = [
         //

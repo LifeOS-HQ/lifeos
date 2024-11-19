@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers\Services;
 
-use App\Http\Controllers\Controller;
-use App\Models\Services\Service;
-use App\Models\Services\User;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use App\Models\Services\User;
+use App\Models\Services\Service;
+use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $user = auth()->user();
@@ -26,23 +22,12 @@ class UserController extends Controller
             ->with('user', $user);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(Service $service)
     {
         return view('service.user.create')
             ->with('service', $service);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request, Service $service)
     {
         $attributes = $request->validate([
@@ -52,10 +37,33 @@ class UserController extends Controller
 
         $user = auth()->user();
 
+        if ($service->slug === 'habitica') {
+            $response = \App\Apis\Habitica\Habitica::login($attributes['username'], $attributes['password']);
+
+            if ($response->failed()) {
+                return back()
+                    ->with('status', [
+                        'type' => 'danger',
+                        'text' => 'Verbindung mit <b>' . $service->name . '</b> fehlgeschlagen.',
+                ]);
+            }
+
+            $response_data = $response->json();
+
+            Arr::forget($attributes, 'password');
+
+            $attributes['username'] = $response_data['data']['username'];
+            $attributes['service_user_id'] = $response_data['data']['id'];
+            $attributes['token'] = $response_data['data']['apiToken'];
+        }
+        else {
+            $attributes['service_user_id'] = $user->id;
+        }
+
         $service_user = User::updateOrCreate([
             'user_id' => auth()->user()->id,
             'service_id' => $service->id,
-            'service_user_id' => $user->id,
+            'service_user_id' => $attributes['service_user_id'],
         ], $attributes);
 
         return redirect(route('user.services.index'))->with('status', [
@@ -64,46 +72,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(User $service_user)
     {
         $service_user->delete();

@@ -1,0 +1,10 @@
+{
+    "success": true,
+    "data": {
+        "id": "11111111-1111-1111-1111-111111111111",
+        "apiToken": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+        "newUser": false,
+        "username": "username"
+    },
+    "appVersion": "5.29.3"
+}

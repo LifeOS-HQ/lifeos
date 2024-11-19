@@ -18,16 +18,23 @@
     <table class="mt-3 table table-striped table-hover table-fixed">
         <thead>
             <tr>
-                <th>Name</th>
+                <th>Verbindung</th>
+                <th>User</th>
                 <th>Verbunden seit</th>
+                <th>Läuft aus</th>
                 <th width="100"></th>
             </tr>
         </thead>
         <tbody>
             @foreach ($user->services as $service)
                 <tr>
-                    <td>{{ $service->name }}</td>
-                    <td>{{ $service->pivot->updated_at->format('d.m.Y') }}</td>
+                    <td class="align-middle">{{ $service->name }}</td>
+                    <td class="align-middle">
+                        {{ $service->pivot->username }}
+                        <div class="text-muted">{{ $service->pivot->service_user_id }}</div>
+                    </td>
+                    <td class="align-middle">{{ $service->pivot->updated_at->format('d.m.Y') }}</td>
+                    <td class="align-middle">{{ $service->pivot->expires_at ? $service->pivot->expires_at->format('d.m.Y H:i:s') : 'Nie' }}</td>
                     <td class="align-middle text-right">
                         <div class="btn-group btn-group-sm" role="group">
                             <button type="button" class="btn btn-secondary" title="Provider löschen" onclick="event.preventDefault(); document.getElementById('service_{{ $service->id }}_destroy').submit();"><i class="fas fa-trash"></i></button>

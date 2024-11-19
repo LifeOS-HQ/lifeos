@@ -10,35 +10,10 @@ class UseManaCommand extends Command
     const MANA_COST_TOOLS_OF_TRADE = 25;
     const MANA_COST_BACK_STAB = 15;
 
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'services:habitica:use-mana {user}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Uses all mana of the user';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
     public function handle()
     {
         $habitica_service = Service::where('slug', 'habitica')->first();
@@ -56,13 +31,15 @@ class UseManaCommand extends Command
         $api = new \App\Apis\Habitica\Habitica($service_user);
 
         $response = $api->getUser();
-        if (!$response['success']) {
+
+        if ($response->failed()) {
             $this->error('Failed to get user');
 
             return self::FAILURE;
         }
+        $response_data = $response->json();
 
-        $habitica_user_data = $response['data'];
+        $habitica_user_data = $response_data['data'];
         $mana_available = $habitica_user_data['stats']['mp'];
 
         $this->line('mana available: ' . $mana_available);
@@ -71,13 +48,15 @@ class UseManaCommand extends Command
             $this->line('cast tools of trade');
             $response = $api->cast('toolsOfTrade');
 
-            if ($response['success'] == false) {
+            if ($response->failed()) {
                 $this->error('Failed to cast tools of trade');
 
                 return self::FAILURE;
             }
 
-            $mana_available = $response['data']['user']['stats']['mp'];
+            $response_data = $response->json();
+
+            $mana_available = $response_data['data']['user']['stats']['mp'];
             sleep(1);
         }
 
@@ -85,11 +64,13 @@ class UseManaCommand extends Command
             $this->line('cast backstab');
             $response = $api->cast('backStab', '4eba0a20-66f5-4b19-afce-b9256d595d18');
 
-            if ($response['success'] == false) {
+            if ($response->failed()) {
                 break;
             }
 
-            $mana_available = $response['data']['user']['stats']['mp'];
+            $response_data = $response->json();
+
+            $mana_available = $response_data['data']['user']['stats']['mp'];
             sleep(1);
         }
 

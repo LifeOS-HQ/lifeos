@@ -45,6 +45,7 @@ return [
     'habitica' => [
         'username' => env('HABITICA_USERNAME'),
         'password' => env('HABITICA_PASSWORD'),
+        'developer_user_id' => env('HABITICA_DEVELOPER_USER_ID'),
     ],
 
     'rentablo' => [

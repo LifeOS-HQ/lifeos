@@ -121,7 +121,10 @@ class User extends Authenticatable
             'username',
             'password',
             'expires_at',
-        ])->withTimestamps();
+            'service_user_id',
+        ])
+        ->using(\App\Models\Services\User::class)
+        ->withTimestamps();
     }
 
     public function working_years() : HasMany
