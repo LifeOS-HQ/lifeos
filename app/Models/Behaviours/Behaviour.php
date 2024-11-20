@@ -6,6 +6,7 @@ use App\Models\Behaviours\Attributes\Attribute;
 use App\User;
 use D15r\ModelLabels\Traits\HasLabels;
 use D15r\ModelPath\Traits\HasModelPath;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -105,5 +106,14 @@ class Behaviour extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function scopeSearch(Builder $query, $search): Builder
+    {
+        if (empty($search)) {
+            return $query;
+        }
+
+        return $query->where('name', 'like', '%' . $search . '%');
     }
 }

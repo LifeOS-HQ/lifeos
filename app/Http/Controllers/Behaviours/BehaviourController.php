@@ -21,6 +21,7 @@ class BehaviourController extends Controller
     {
         if ($request->wantsJson()) {
             return Behaviour::query()
+                ->search($request->input('searchtext'))
                 ->paginate();
         }
 
