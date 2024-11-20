@@ -75,35 +75,6 @@ class Habitica
     {
         return $this->getClient()->post('user/class/cast/' . $spell_id . ($target_id ? '?targetId=' . $target_id : ''));
     }
-
-    // public function cast(string $spell_id, string $target_id = '')
-    // {
-    //     $curl = curl_init();
-
-    //     curl_setopt_array($curl, [
-    //         CURLOPT_URL => self::BASE_URL . 'user/class/cast/' . $spell_id . ($target_id ? '?targetId=' . $target_id : ''),
-    //         CURLOPT_RETURNTRANSFER => true,
-    //         CURLOPT_ENCODING => '',
-    //         CURLOPT_MAXREDIRS => 10,
-    //         CURLOPT_TIMEOUT => 0,
-    //         CURLOPT_FOLLOWLOCATION => true,
-    //         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    //         CURLOPT_CUSTOMREQUEST => 'POST',
-    //         CURLOPT_HTTPHEADER => [
-    //             'Content-Length: 0',
-    //             'Content-Type: application/json',
-    //             'x-api-user: ' . $this->service_user_id,
-    //             'x-api-key: ' . $this->token,
-    //             'x-client: ' . $this->service_user_id . '-lifeOS',
-    //         ],
-    //     ]);
-
-    //     $response = curl_exec($curl);
-    //     curl_close($curl);
-    //     $response = json_decode($response, true);
-
-    //     return $response;
-    // }
 }
 
 ?>
