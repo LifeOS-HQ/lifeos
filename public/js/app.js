@@ -10773,7 +10773,7 @@ var render = function render() {
   }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.model.values, function (value, index) {
     return _c("tr", {
       key: value.id
-    }, [_c("td", [_vm._v(_vm._s(value.attribute.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(value.raw))])]);
+    }, [_c("td", [_vm._v(_vm._s(value.attribute.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(value.formatted_value) + " " + _vm._s(value.attribute.unit))])]);
   }), 0)])])]), _vm._v(" "), _vm.item_to_show ? _c("show", {
     attrs: {
       item: _vm.item_to_show.item
@@ -10982,7 +10982,7 @@ var render = function render() {
   }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.item.values, function (value, index) {
     return _c("tr", {
       key: value.id
-    }, [_c("td", [_vm._v(_vm._s(value.attribute.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(value.raw))])]);
+    }, [_c("td", [_vm._v(_vm._s(value.attribute.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(value.formatted_value) + " " + _vm._s(value.attribute.unit))])]);
   }), 0)]) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "d-flex justify-content-between"
   }, [_c("button", {

@@ -3,6 +3,7 @@
 namespace App\Models\Services\Data\Attributes;
 
 use App\User;
+use Carbon\CarbonInterval;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use App\Models\Services\Data\Value;
@@ -19,6 +20,7 @@ class Attribute extends Model
 
     protected $appends = [
         'path',
+        'unit',
     ];
 
     protected $casts = [
@@ -97,6 +99,9 @@ class Attribute extends Model
                 break;
             case 'body_fat':
                 return $this->toPercentage($raw);
+            case 'meditation_min':
+                return $this->duration($raw);
+                break;
             case 'leisure_min':
             case 'sleep':
             case 'time_in_bed':
@@ -116,6 +121,18 @@ class Attribute extends Model
         }
 
         return $this->attribute_type->formatted($raw);
+    }
+
+    public function getUnitAttribute(): string
+    {
+        return match ($this->slug) {
+            'active_energy', 'energy' => 'kcal',
+            'body_fat' => '%',
+            'leisure_min', 'sleep', 'time_in_bed', 'working_min', 'workouts_min' => 'h',
+            'sleep_start', 'sleep_end' => 'h',
+            'carbohydrates', 'fat', 'protein' => 'g',
+            default => '',
+        };
     }
 
     public function getBgClass($raw) : string
@@ -142,6 +159,11 @@ class Attribute extends Model
     protected function kjToKcal($raw) : int
     {
         return round($raw / 0.004184 / 1000, 0);
+    }
+
+    protected function duration($raw): string
+    {
+        return CarbonInterval::createFromFormat('i', (int) $raw)->cascade()->forHumans(short: true);
     }
 
     protected function minToHour($raw) : float

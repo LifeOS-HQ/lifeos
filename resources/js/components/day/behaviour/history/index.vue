@@ -36,7 +36,7 @@
                         <tbody>
                             <tr :key="value.id" v-for="(value, index) in model.values">
                                 <td>{{ value.attribute.name }}</td>
-                                <td>{{ value.raw }}</td>
+                                <td>{{ value.formatted_value }} {{ value.attribute.unit }}</td>
                             </tr>
                         </tbody>
                     </table>

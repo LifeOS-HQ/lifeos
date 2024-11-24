@@ -11,6 +11,7 @@ class Value extends Model
 {
     protected $appends = [
         'path',
+        'formatted_value',
     ];
 
     protected $casts = [
@@ -69,6 +70,11 @@ class Value extends Model
         ])->id;
 
         return $this;
+    }
+
+    public function getFormattedValueAttribute()
+    {
+        return $this->attribute->value($this->raw);
     }
 
     public function getPathAttribute()

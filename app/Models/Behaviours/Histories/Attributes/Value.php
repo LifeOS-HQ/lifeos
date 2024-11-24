@@ -20,6 +20,7 @@ class Value extends Model
 
     protected $appends = [
         'number_formatted',
+        'formatted_value',
     ];
 
     protected $casts = [
@@ -78,6 +79,11 @@ class Value extends Model
                 'plural' => 'Werte',
             ],
         ];
+    }
+
+    public function getFormattedValueAttribute()
+    {
+        return $this->attribute->value($this->raw);
     }
 
     public function getRouteParameterAttribute(): array

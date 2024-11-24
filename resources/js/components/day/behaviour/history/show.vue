@@ -28,7 +28,7 @@
                         <tbody>
                             <tr :key="value.id" v-for="(value, index) in item.values">
                                 <td>{{ value.attribute.name }}</td>
-                                <td>{{ value.raw }}</td>
+                                <td>{{ value.formatted_value }} {{ value.attribute.unit }}</td>
                             </tr>
                         </tbody>
                     </table>
