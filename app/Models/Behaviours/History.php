@@ -92,7 +92,7 @@ class History extends Model
                 foreach ($model->behaviour->dataAttributes as $attribute) {
                     $model->values()->create([
                         'user_id' => $model->user_id,
-                        'attribute_id' => $attribute->id,
+                        'attribute_id' => $attribute->attribute_id,
                         'number_formatted' => $attribute->default_number_formatted,
                     ]);
                 }

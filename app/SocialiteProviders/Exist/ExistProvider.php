@@ -3,10 +3,11 @@
 namespace App\SocialiteProviders\Exist;
 
 use Exception;
+use App\Apis\Exist\Http;
 use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\User;
-use SocialiteProviders\Manager\Contracts\OAuth2\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\Contracts\OAuth2\ProviderInterface;
 
 class ExistProvider extends AbstractProvider implements ProviderInterface
 {
@@ -16,7 +17,7 @@ class ExistProvider extends AbstractProvider implements ProviderInterface
      * @var array
      */
     protected $scopes = [
-        'activity_read productivity_read mood_read sleep_read workouts_read events_read finance_read food_read health_read location_read media_read social_read weather_read custom_read manual_read',
+        'activity_read productivity_read mood_read sleep_read workouts_read events_read finance_read food_read food_write health_read health_write location_read media_read social_read weather_read custom_read manual_read',
     ];
 
     /**
@@ -47,6 +48,15 @@ class ExistProvider extends AbstractProvider implements ProviderInterface
         );
 
         $user = json_decode($response->getBody(), true);
+
+        Http::setAccessToken($token);
+        Http::post('attributes/acquire/', array_reduce(Http::PROVIDED_ATTRIBUTES, function ($carry, $attribute_slug) {
+            $carry[] = [
+                'name' => $attribute_slug,
+            ];
+
+            return $carry;
+        }, []));
 
         return $user;
     }

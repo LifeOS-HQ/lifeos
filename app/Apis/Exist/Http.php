@@ -11,6 +11,14 @@ class Http extends Factory
 {
     protected static $access_token;
 
+    public const PROVIDED_ATTRIBUTES = [
+        'meditation_min',
+        'energy',
+        'carbohydrates',
+        'fat',
+        'protein',
+    ];
+
     public static function __callStatic($method, $parameters)
     {
         return self::builtClient()->$method(...$parameters);
@@ -33,7 +41,12 @@ class Http extends Factory
 
         return BaseHttp::withOptions([
             'headers' => $headers,
-        ])->acceptJson()->baseUrl('https://exist.io/api/2/');
+        ])
+            ->acceptJson()
+            ->baseUrl('https://exist.io/api/2/')
+            ->withOptions([
+                'debug' => false,
+            ]);
     }
 
     public static function get(string $url, array $query = [])
@@ -45,7 +58,7 @@ class Http extends Factory
 
     public static function post(string $url, array $data = [])
     {
-        $response = self::builtClient()->post($url, $data);
+        $response = self::builtClient()->asJson()->post($url, $data);
 
         return self::handleResponse($response);
     }

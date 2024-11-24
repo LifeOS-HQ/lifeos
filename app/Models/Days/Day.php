@@ -12,6 +12,7 @@ use D15r\ModelPath\Traits\HasModelPath;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Artisan;
 
 class Day extends Model
 {
@@ -82,6 +83,10 @@ class Day extends Model
 
         $histories = $query->get();
 
+        if ($histories->isEmpty()) {
+            return $this;
+        }
+
         $attributes = [];
         foreach ($histories as $history) {
             foreach ($history->values as $value) {
@@ -101,9 +106,9 @@ class Day extends Model
             ->where('slug', 'exist')
             ->first();
 
-        $slugs = [];
+        $attribute_ids = [];
         foreach ($attributes as $attribute_id => $attribute) {
-            $slugs[] = $attribute['name'];
+            $attribute_ids[] = $attribute_id;
             Value::updateOrCreate([
                 'user_id' => $this->user_id,
                 'attribute_id' => $attribute_id,
@@ -120,7 +125,10 @@ class Day extends Model
             ->first();
 
         if ($service_user) {
-            // Send to exist.io, queue
+            Artisan::queue('services:exist:api:attributes:update', [
+                'day' => $this->id,
+                '--attribute' => $attribute_ids,
+            ]);
         }
 
         return $this;

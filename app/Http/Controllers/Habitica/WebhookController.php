@@ -62,16 +62,18 @@ class WebhookController extends Controller
             if ($is_completed === false) {
                 continue;
             }
-            $behaviour->histories()->updateOrCreate([
+            $history = $behaviour->histories()->updateOrCreate([
                 'source_slug' => 'habitica',
                 'source_id' => $history['date'],
             ], [
                 'end_at' => $at,
-                'is_committed' => true,
-                'is_completed' => true,
+                'is_committed' => 1,
+                'is_completed' => 1,
                 'user_id' => $behaviour->user_id,
                 'start_at' => $at,
             ]);
+
+            $history->cache();
         }
 
         return;

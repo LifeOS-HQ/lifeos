@@ -3,6 +3,8 @@
 namespace App\Models\Services\Data;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Services\Data\Attributes\Attribute;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Value extends Model
 {
@@ -57,5 +59,10 @@ class Value extends Model
     public function getPathAttribute()
     {
         return '/value/' . $this->id;
+    }
+
+    public function attribute(): BelongsTo
+    {
+        return $this->belongsTo(Attribute::class, 'attribute_id');
     }
 }

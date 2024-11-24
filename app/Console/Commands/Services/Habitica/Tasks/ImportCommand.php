@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Services\Habitica\Tasks;
 
 use Carbon\Carbon;
+use App\Models\Days\Day;
 use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 use App\Models\Services\Service;
@@ -13,6 +14,8 @@ class ImportCommand extends Command
     protected $signature = 'services:habitica:tasks:import {user}';
 
     protected $description = 'Imports tasks and its history from Habitica';
+
+    private array $day_ids = [];
 
     public function handle()
     {
@@ -47,6 +50,15 @@ class ImportCommand extends Command
             $this->import($task);
         }
 
+        if (empty($this->day_ids)) {
+            return self::SUCCESS;
+        }
+
+        $days = Day::whereIn('id', $this->day_ids)->get();
+        foreach ($days as $day) {
+            $day->calculateAttributeValues();
+        }
+
         return self::SUCCESS;
     }
 
@@ -67,16 +79,20 @@ class ImportCommand extends Command
             if ($is_completed === false) {
                 continue;
             }
-            $behaviour->histories()->updateOrCreate([
+            $history = $behaviour->histories()->updateOrCreate([
                 'source_slug' => 'habitica',
                 'source_id' => $history['date'],
             ], [
                 'end_at' => $at,
-                'is_committed' => true,
-                'is_completed' => true,
+                'is_committed' => 1,
+                'is_completed' => 1,
                 'user_id' => $behaviour->user_id,
                 'start_at' => $at,
             ]);
+
+            if (! empty($history->getChanges())) {
+                $this->day_ids[$history->day_id] = $history->day_id;
+            }
         }
     }
 }
