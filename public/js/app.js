@@ -2763,6 +2763,11 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    if (this.items.filter(function (item) {
+      return item.is_completed == 0;
+    }).length === 0) {
+      this.filter.status = 'all';
+    }
     this.setFirstFilteredItemtoShow();
   },
   data: function data() {
@@ -2775,17 +2780,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    store: function store() {
-      var component = this;
-      axios.post(component.model.path + '/scale').then(function (response) {
-        component.errors = {};
-        component.items.push(response.data);
-      })["catch"](function (error) {
-        console.log(error);
-        component.errors = error.response.data.errors;
-        Vue.error('Datensatz konnte nicht erzeugt werden!');
-      });
-    },
     remove: function remove(index) {
       this.items.splice(index, 1);
     },

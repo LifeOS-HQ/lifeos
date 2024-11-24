@@ -58,7 +58,7 @@
 
 <script>
     import show from './show.vue';
-    import list from './list.vue'
+    import list from './list.vue';
 
     export default {
 
@@ -87,6 +87,9 @@
         },
 
         mounted() {
+            if (this.items.filter(item => item.is_completed == 0).length === 0) {
+                this.filter.status = 'all';
+            }
             this.setFirstFilteredItemtoShow();
         },
 
@@ -101,19 +104,6 @@
         },
 
         methods: {
-            store() {
-                var component = this;
-                axios.post(component.model.path + '/scale')
-                    .then(function (response) {
-                        component.errors = {};
-                        component.items.push(response.data);
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                        component.errors = error.response.data.errors;
-                        Vue.error('Datensatz konnte nicht erzeugt werden!');
-                    });
-            },
             remove(index) {
                 this.items.splice(index, 1);
             },
