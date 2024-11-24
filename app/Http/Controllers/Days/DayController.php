@@ -27,11 +27,6 @@ class DayController extends Controller
         return view($this->baseViewPath . '.index');
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         $attributes = $request->validate([
@@ -69,6 +64,7 @@ class DayController extends Controller
         $day->load([
             'values' => function($query) {
                 $query->with('attribute')
+                    ->whereNotNull('raw')
                     ->whereHas('attribute', function($query) {
                         $query->whereIn('slug', Http::PROVIDED_ATTRIBUTES);
                     });
