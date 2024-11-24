@@ -2,7 +2,7 @@
     <div class="row sticky-top sticky-offset">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">{{ item.behaviour.name }} <a :href="item.behaviour.path" target="_blank"><i class="fas fa-link"></i></a></div>
+                <div class="card-header">{{ item.behaviour.name }} <a :href="item.behaviour.path" target="_blank" class="text-body"><i class="fas fa-link"></i></a></div>
                 <div class="card-body">
 
                     <div class="form-group row">

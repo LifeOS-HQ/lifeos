@@ -10926,6 +10926,7 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "card-header"
   }, [_vm._v(_vm._s(_vm.item.behaviour.name) + " "), _c("a", {
+    staticClass: "text-body",
     attrs: {
       href: _vm.item.behaviour.path,
       target: "_blank"
