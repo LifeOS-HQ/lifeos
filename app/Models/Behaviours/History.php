@@ -122,6 +122,19 @@ class History extends Model
         ];
     }
 
+    public function cache() : void
+    {
+        $this->loadMissing([
+            'values.attribute',
+            'day',
+        ]);
+
+        if ($this->values->count() > 0) {
+            $attribute_slugs = $this->values->pluck('attribute.slug')->toArray();
+            $this->day->calculateAttributeValues($attribute_slugs);
+        }
+    }
+
     public function getEndAtFormattedAttribute() : string
     {
         return $this->end_at->setTimezone('Europe/Berlin')->format('d.m.Y H:i');

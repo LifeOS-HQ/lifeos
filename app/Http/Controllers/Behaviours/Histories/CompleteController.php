@@ -24,6 +24,8 @@ class CompleteController extends Controller
             'is_completed' => true,
         ]);
 
+        $history->cache();
+
         $history->load([
             'behaviour',
         ]);
@@ -45,6 +47,8 @@ class CompleteController extends Controller
         $history->update([
             'is_completed' => false,
         ]);
+
+        $history->cache();
 
         $history->load([
             'behaviour',

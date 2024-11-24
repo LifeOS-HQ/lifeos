@@ -4,12 +4,14 @@ namespace App\Models\Days;
 
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use App\Models\Services\Service;
 use App\Models\Behaviours\History;
+use App\Models\Services\Data\Value;
 use D15r\ModelLabels\Traits\HasLabels;
 use D15r\ModelPath\Traits\HasModelPath;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Day extends Model
 {
@@ -60,6 +62,68 @@ class Day extends Model
         {
             return true;
         });
+    }
+
+    public function calculateAttributeValues(array $attribute_slugs = []): self
+    {
+        $query = $this->behaviourHistories()
+            ->with('values.attribute')
+            ->whereHas('values', function($query) use ($attribute_slugs) {
+                if (empty($attribute_slugs)) {
+                    return;
+                }
+
+                $query->whereHas('attribute', function($query) use ($attribute_slugs) {
+                    $query->whereIn('slug', $attribute_slugs);
+                });
+            })
+            ->where('is_completed', true)
+            ->where('is_committed', true);
+
+        $histories = $query->get();
+
+        $attributes = [];
+        foreach ($histories as $history) {
+            foreach ($history->values as $value) {
+                if (!isset($attributes[$value->attribute->id])) {
+                    $attributes[$value->attribute->id] = [
+                        'name' => $value->attribute->slug,
+                        'date' => $this->date->format('Y-m-d'),
+                        'value' => 0,
+                    ];
+                }
+
+                $attributes[$value->attribute->id]['value'] += $value->raw;
+            }
+        }
+
+        $service = Service::query()
+            ->where('slug', 'exist')
+            ->first();
+
+        $slugs = [];
+        foreach ($attributes as $attribute_id => $attribute) {
+            $slugs[] = $attribute['name'];
+            Value::updateOrCreate([
+                'user_id' => $this->user_id,
+                'attribute_id' => $attribute_id,
+                'service_id' => $service->id,
+                'at' => $attribute['date'],
+            ], [
+                'raw' => $attribute['value'],
+            ]);
+        }
+
+        $service_user = \App\Models\Services\User::query()
+            ->where('user_id', $this->user_id)
+            ->where('service_id', $service->id)
+            ->first();
+
+        if ($service_user) {
+            // Send to exist.io, queue
+        }
+
+        return $this;
     }
 
     public function isDeletable() : bool
