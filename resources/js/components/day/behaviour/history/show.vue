@@ -2,7 +2,7 @@
     <div class="row sticky-top sticky-offset">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">{{ item.behaviour.name }}</div>
+                <div class="card-header">{{ item.behaviour.name }} <a :href="item.behaviour.path" target="_blank"><i class="fas fa-link"></i></a></div>
                 <div class="card-body">
 
                     <div class="form-group row">
@@ -17,6 +17,21 @@
                             <inputText id="end_at_formatted" v-model="form.end_at_formatted" :error="error('end_at_formatted')"></inputText>
                         </div>
                     </div>
+
+                    <table class="table table-fixed table-hover table-striped table-sm bg-white" v-if="item.values.length">
+                        <thead>
+                            <tr>
+                                <th>Attribut</th>
+                                <th>Wert</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr :key="value.id" v-for="(value, index) in item.values">
+                                <td>{{ value.attribute.name }}</td>
+                                <td>{{ value.raw }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
 
                     <div class="d-flex justify-content-between">
                         <button class="btn btn-sm btn-secondary" @click="previous">Zurück</button>

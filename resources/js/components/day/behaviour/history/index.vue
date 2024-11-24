@@ -20,6 +20,29 @@
         </div>
 
         <div class="col">
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    Attribute
+                </div>
+                <div class="card-body">
+                    <table class="table table-fixed table-hover table-striped table-sm bg-white">
+                        <thead>
+                            <tr>
+                                <th>Attribut</th>
+                                <th>Wert</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr :key="value.id" v-for="(value, index) in model.values">
+                                <td>{{ value.attribute.name }}</td>
+                                <td>{{ value.raw }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <show
                 :item="item_to_show.item"
                 @next="next"

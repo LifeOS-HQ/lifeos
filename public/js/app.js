@@ -10762,7 +10762,19 @@ var render = function render() {
     }
   })], 1)])]), _vm._v(" "), _c("div", {
     staticClass: "col"
-  }, [_vm.item_to_show ? _c("show", {
+  }, [_c("div", {
+    staticClass: "card mb-3"
+  }, [_c("div", {
+    staticClass: "card-header"
+  }, [_vm._v("\n                Attribute\n            ")]), _vm._v(" "), _c("div", {
+    staticClass: "card-body"
+  }, [_c("table", {
+    staticClass: "table table-fixed table-hover table-striped table-sm bg-white"
+  }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.model.values, function (value, index) {
+    return _c("tr", {
+      key: value.id
+    }, [_c("td", [_vm._v(_vm._s(value.attribute.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(value.raw))])]);
+  }), 0)])])]), _vm._v(" "), _vm.item_to_show ? _c("show", {
     attrs: {
       item: _vm.item_to_show.item
     },
@@ -10778,7 +10790,11 @@ var render = function render() {
     }
   }) : _vm._e()], 1)]);
 };
-var staticRenderFns = [];
+var staticRenderFns = [function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("thead", [_c("tr", [_c("th", [_vm._v("Attribut")]), _vm._v(" "), _c("th", [_vm._v("Wert")])])]);
+}];
 render._withStripped = true;
 
 
@@ -10909,7 +10925,14 @@ var render = function render() {
     staticClass: "card"
   }, [_c("div", {
     staticClass: "card-header"
-  }, [_vm._v(_vm._s(_vm.item.behaviour.name))]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.item.behaviour.name) + " "), _c("a", {
+    attrs: {
+      href: _vm.item.behaviour.path,
+      target: "_blank"
+    }
+  }, [_c("i", {
+    staticClass: "fas fa-link"
+  })])]), _vm._v(" "), _c("div", {
     staticClass: "card-body"
   }, [_c("div", {
     staticClass: "form-group row"
@@ -10953,7 +10976,13 @@ var render = function render() {
       },
       expression: "form.end_at_formatted"
     }
-  })], 1)]), _vm._v(" "), _c("div", {
+  })], 1)]), _vm._v(" "), _vm.item.values.length ? _c("table", {
+    staticClass: "table table-fixed table-hover table-striped table-sm bg-white"
+  }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.item.values, function (value, index) {
+    return _c("tr", {
+      key: value.id
+    }, [_c("td", [_vm._v(_vm._s(value.attribute.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(value.raw))])]);
+  }), 0)]) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "d-flex justify-content-between"
   }, [_c("button", {
     staticClass: "btn btn-sm btn-secondary",
@@ -10981,7 +11010,11 @@ var render = function render() {
     }
   }, [_vm._v("Weiter")])])])])])]);
 };
-var staticRenderFns = [];
+var staticRenderFns = [function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("thead", [_c("tr", [_c("th", [_vm._v("Attribut")]), _vm._v(" "), _c("th", [_vm._v("Wert")])])]);
+}];
 render._withStripped = true;
 
 

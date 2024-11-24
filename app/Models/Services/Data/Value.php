@@ -2,6 +2,7 @@
 
 namespace App\Models\Services\Data;
 
+use App\Models\Days\Day;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Services\Data\Attributes\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -37,6 +38,10 @@ class Value extends Model
 
         static::creating(function($model)
         {
+            if (empty($model->day_id)) {
+                $model->setDayId();
+            }
+
             return true;
         });
 
@@ -54,6 +59,16 @@ class Value extends Model
     public function isDeletable() : bool
     {
         return true;
+    }
+
+    public function setDayId(): self
+    {
+        $this->day_id = Day::firstOrCreate([
+            'user_id' => $this->user_id,
+            'date' => $this->at->format('Y-m-d'),
+        ])->id;
+
+        return $this;
     }
 
     public function getPathAttribute()

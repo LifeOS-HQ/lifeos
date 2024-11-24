@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Days;
 
+use App\Apis\Exist\Http;
 use App\Http\Controllers\Controller;
+use App\Models\Behaviours\Histories\Attributes\Value;
 use App\Models\Days\Day;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -59,7 +61,17 @@ class DayController extends Controller
         $day->load([
             'behaviourHistories' => function($query) {
                 $query->with('behaviour')
+                    ->with('values.attribute',)
                     ->orderBy('start_at', 'ASC');
+            },
+        ]);
+
+        $day->load([
+            'values' => function($query) {
+                $query->with('attribute')
+                    ->whereHas('attribute', function($query) {
+                        $query->whereIn('slug', Http::PROVIDED_ATTRIBUTES);
+                    });
             },
         ]);
 

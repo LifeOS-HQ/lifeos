@@ -125,10 +125,10 @@ class Day extends Model
             ->first();
 
         if ($service_user) {
-            Artisan::queue('services:exist:api:attributes:update', [
-                'day' => $this->id,
-                '--attribute' => $attribute_ids,
-            ]);
+            // Artisan::queue('services:exist:api:attributes:update', [
+            //     'day' => $this->id,
+            //     '--attribute' => $attribute_ids,
+            // ]);
         }
 
         return $this;
@@ -163,5 +163,10 @@ class Day extends Model
     public function behaviourHistories(): HasMany
     {
         return $this->hasMany(History::class);
+    }
+
+    public function values(): HasMany
+    {
+        return $this->hasMany(Value::class);
     }
 }

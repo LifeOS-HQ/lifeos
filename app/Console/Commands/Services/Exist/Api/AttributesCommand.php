@@ -5,7 +5,6 @@ namespace App\Console\Commands\Services\Exist\Api;
 use Carbon\Carbon;
 use App\Apis\Exist\Http;
 use Illuminate\Support\Arr;
-use App\Models\Services\User;
 use Illuminate\Console\Command;
 use App\Models\Services\Service;
 use App\Models\Services\Data\Type;
@@ -91,15 +90,22 @@ class AttributesCommand extends Command
             ]);
 
             foreach ($row['values'] as $value) {
+                $date = new Carbon($value['date']);
+                $day = \App\Models\Days\Day::firstOrCreate([
+                    'user_id' => $service_user->user->id,
+                    'date' => $date->startOfDay(),
+                ]);
+
                 $attributes = [
                     'user_id' => $service_user->user->id,
                     'attribute_id' => $attribute->id,
                     'service_id' => $this->service->id,
-                    'at' => (new Carbon($value['date']))->startOfDay(),
+                    'day_id' => $day->id,
                 ];
 
                 $values = [
                     'raw' => $value['value'],
+                    'at' => (new Carbon($value['date']))->startOfDay(),
                 ];
 
                 if ($this->notOverwritableAttribute($attribute->slug) && is_null($value['value'])) {
