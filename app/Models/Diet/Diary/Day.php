@@ -151,7 +151,7 @@ class Day extends Model
         $this->setNutritionValues()
             ->saveQuietly();
 
-        $this->setEnergyAttribute();
+        $this->updateOrCreateFoodAttributes();
     }
 
     private function setNutritionValues(): self
@@ -171,7 +171,18 @@ class Day extends Model
         return $this;
     }
 
-    private function setEnergyAttribute(): self
+    private function updateOrCreateFoodAttributes(): self
+    {
+        $this
+            ->updateOrCreateEnergyAttribute()
+            ->updateOrCreateCarbohydratesAttribute()
+            ->updateOrCreateFatAttribute()
+            ->updateOrCreateProteinAttribute();
+
+        return $this;
+    }
+
+    private function updateOrCreateEnergyAttribute(): self
     {
         $attribute = Attribute::where('slug', 'energy')->first();
 
@@ -188,6 +199,78 @@ class Day extends Model
 
         $values = [
             'raw' => $this->kilojoules,
+        ];
+
+        Value::updateOrCreate($attributes, $values);
+
+        return $this;
+    }
+
+    private function updateOrCreateCarbohydratesAttribute(): self
+    {
+        $attribute = Attribute::where('slug', 'carbohydrates')->first();
+
+        if (is_null($attribute)) {
+            return $this;
+        }
+
+        $attributes = [
+            'user_id' => $this->user_id,
+            'attribute_id' => $attribute->id,
+            'service_id' => Service::where('slug', 'exist')->first()->id,
+            'at' => $this->at->startOfDay(),
+        ];
+
+        $values = [
+            'raw' => $this->carbohydrate,
+        ];
+
+        Value::updateOrCreate($attributes, $values);
+
+        return $this;
+    }
+
+    private function updateOrCreateFatAttribute(): self
+    {
+        $attribute = Attribute::where('slug', 'fat')->first();
+
+        if (is_null($attribute)) {
+            return $this;
+        }
+
+        $attributes = [
+            'user_id' => $this->user_id,
+            'attribute_id' => $attribute->id,
+            'service_id' => Service::where('slug', 'exist')->first()->id,
+            'at' => $this->at->startOfDay(),
+        ];
+
+        $values = [
+            'raw' => $this->fat,
+        ];
+
+        Value::updateOrCreate($attributes, $values);
+
+        return $this;
+    }
+
+    private function updateOrCreateProteinAttribute(): self
+    {
+        $attribute = Attribute::where('slug', 'protein')->first();
+
+        if (is_null($attribute)) {
+            return $this;
+        }
+
+        $attributes = [
+            'user_id' => $this->user_id,
+            'attribute_id' => $attribute->id,
+            'service_id' => Service::where('slug', 'exist')->first()->id,
+            'at' => $this->at->startOfDay(),
+        ];
+
+        $values = [
+            'raw' => $this->protein,
         ];
 
         Value::updateOrCreate($attributes, $values);
