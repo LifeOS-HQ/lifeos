@@ -2,6 +2,7 @@
 
 namespace App\Models\Days;
 
+use App\Apis\Exist\Http;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use App\Models\Services\Service;
@@ -92,7 +93,7 @@ class Day extends Model
             foreach ($history->values as $value) {
                 if (!isset($attributes[$value->attribute->id])) {
                     $attributes[$value->attribute->id] = [
-                        'name' => $value->attribute->slug,
+                        'slug' => $value->attribute->slug,
                         'date' => $this->date->format('Y-m-d'),
                         'value' => 0,
                     ];
@@ -108,7 +109,9 @@ class Day extends Model
 
         $attribute_ids = [];
         foreach ($attributes as $attribute_id => $attribute) {
-            $attribute_ids[] = $attribute_id;
+            if (in_array($attribute['slug'], Http::PROVIDED_ATTRIBUTES)) {
+                $attribute_ids[] = $attribute_id;
+            }
             Value::updateOrCreate([
                 'user_id' => $this->user_id,
                 'attribute_id' => $attribute_id,
@@ -119,16 +122,20 @@ class Day extends Model
             ]);
         }
 
+        if (empty($attribute_ids)) {
+            return $this;
+        }
+
         $service_user = \App\Models\Services\User::query()
             ->where('user_id', $this->user_id)
             ->where('service_id', $service->id)
             ->first();
 
         if ($service_user) {
-            // Artisan::queue('services:exist:api:attributes:update', [
-            //     'day' => $this->id,
-            //     '--attribute' => $attribute_ids,
-            // ]);
+            Artisan::queue('services:exist:api:attributes:update', [
+                'day' => $this->id,
+                '--attribute' => $attribute_ids,
+            ]);
         }
 
         return $this;

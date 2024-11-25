@@ -3,12 +3,14 @@
 namespace App\Models\Services;
 
 use App\Models\Services\Service;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Pivot
 {
+    use HasFactory;
+
     protected $appends = [
         //
     ];
