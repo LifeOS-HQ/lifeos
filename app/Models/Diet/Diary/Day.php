@@ -4,12 +4,13 @@ namespace App\Models\Diet\Diary;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
+use App\Models\Services\Service;
 use App\Models\Services\Data\Value;
 use D15r\ModelLabels\Traits\HasLabels;
 use D15r\ModelPath\Traits\HasModelPath;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Artisan;
 use App\Models\Services\Data\Attributes\Attribute;
-use App\Models\Services\Service;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -50,7 +51,11 @@ class Day extends Model
         static::creating(function($model)
         {
             if (is_null($model->at)) {
-                $model->at = now();
+                $model->at = now()->startOfDay();
+            }
+
+            if (empty($model->day_id)) {
+                $model->setDayId();
             }
 
             return true;
@@ -142,6 +147,16 @@ class Day extends Model
         ];
     }
 
+    public function setDayId(): self
+    {
+        $this->day_id = \App\Models\Days\Day::firstOrCreate([
+            'user_id' => $this->user_id,
+            'date' => $this->at->format('Y-m-d'),
+        ])->id;
+
+        return $this;
+    }
+
     public function cache(): void
     {
         $this->loadMissing([
@@ -173,11 +188,34 @@ class Day extends Model
 
     private function updateOrCreateFoodAttributes(): self
     {
-        $this
-            ->updateOrCreateEnergyAttribute()
-            ->updateOrCreateCarbohydratesAttribute()
-            ->updateOrCreateFatAttribute()
-            ->updateOrCreateProteinAttribute();
+        $attribute_ids = [];
+
+        $energy_value = $this->updateOrCreateEnergyAttribute();
+        $carbohydrates_value = $this->updateOrCreateCarbohydratesAttribute();
+        $fat_value = $this->updateOrCreateFatAttribute();
+        $protein_value = $this->updateOrCreateProteinAttribute();
+
+        $attribute_ids[] = $energy_value->attribute_id;
+        $attribute_ids[] = $carbohydrates_value->attribute_id;
+        $attribute_ids[] = $fat_value->attribute_id;
+        $attribute_ids[] = $protein_value->attribute_id;
+
+        if (empty($attribute_ids)) {
+            return $this;
+        }
+
+        $service = Service::where('slug', 'exist')->first();
+        $service_user = \App\Models\Services\User::query()
+            ->where('user_id', $this->user_id)
+            ->where('service_id', $service->id)
+            ->first();
+
+        if ($service_user) {
+            Artisan::queue('services:exist:api:attributes:update', [
+                'day' => $this->day_id,
+                '--attribute' => $attribute_ids,
+            ]);
+        }
 
         return $this;
     }
@@ -206,7 +244,7 @@ class Day extends Model
         return $this;
     }
 
-    private function updateOrCreateCarbohydratesAttribute(): self
+    private function updateOrCreateCarbohydratesAttribute(): Value
     {
         $attribute = Attribute::where('slug', 'carbohydrates')->first();
 
@@ -225,12 +263,10 @@ class Day extends Model
             'raw' => $this->carbohydrate,
         ];
 
-        Value::updateOrCreate($attributes, $values);
-
-        return $this;
+        return Value::updateOrCreate($attributes, $values);
     }
 
-    private function updateOrCreateFatAttribute(): self
+    private function updateOrCreateFatAttribute(): Value
     {
         $attribute = Attribute::where('slug', 'fat')->first();
 
@@ -249,12 +285,10 @@ class Day extends Model
             'raw' => $this->fat,
         ];
 
-        Value::updateOrCreate($attributes, $values);
-
-        return $this;
+        return Value::updateOrCreate($attributes, $values);
     }
 
-    private function updateOrCreateProteinAttribute(): self
+    private function updateOrCreateProteinAttribute(): Value
     {
         $attribute = Attribute::where('slug', 'protein')->first();
 
@@ -273,9 +307,7 @@ class Day extends Model
             'raw' => $this->protein,
         ];
 
-        Value::updateOrCreate($attributes, $values);
-
-        return $this;
+        return Value::updateOrCreate($attributes, $values);
     }
 
     public function getKilojoulesAttribute(): float
