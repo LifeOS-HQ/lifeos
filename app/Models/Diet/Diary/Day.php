@@ -188,21 +188,10 @@ class Day extends Model
 
     private function updateOrCreateFoodAttributes(): self
     {
-        $attribute_ids = [];
-
         $energy_value = $this->updateOrCreateEnergyAttribute();
         $carbohydrates_value = $this->updateOrCreateCarbohydratesAttribute();
         $fat_value = $this->updateOrCreateFatAttribute();
         $protein_value = $this->updateOrCreateProteinAttribute();
-
-        $attribute_ids[] = $energy_value->attribute_id;
-        $attribute_ids[] = $carbohydrates_value->attribute_id;
-        $attribute_ids[] = $fat_value->attribute_id;
-        $attribute_ids[] = $protein_value->attribute_id;
-
-        if (empty($attribute_ids)) {
-            return $this;
-        }
 
         $service = Service::where('slug', 'exist')->first();
         $service_user = \App\Models\Services\User::query()
@@ -213,14 +202,19 @@ class Day extends Model
         if ($service_user) {
             Artisan::queue('services:exist:api:attributes:update', [
                 'day' => $this->day_id,
-                '--attribute' => $attribute_ids,
+                '--attribute' => [
+                    $energy_value->attribute_id,
+                    $carbohydrates_value->attribute_id,
+                    $fat_value->attribute_id,
+                    $protein_value->attribute_id,
+                ],
             ]);
         }
 
         return $this;
     }
 
-    private function updateOrCreateEnergyAttribute(): self
+    private function updateOrCreateEnergyAttribute(): Value
     {
         $attribute = Attribute::where('slug', 'energy')->first();
 
@@ -239,9 +233,7 @@ class Day extends Model
             'raw' => $this->kilojoules,
         ];
 
-        Value::updateOrCreate($attributes, $values);
-
-        return $this;
+        return Value::updateOrCreate($attributes, $values);
     }
 
     private function updateOrCreateCarbohydratesAttribute(): Value
