@@ -153,7 +153,7 @@ class DayTest extends TestCase
             'is_committed' => true,
         ]);
 
-        $history->values()->create([
+        $value = $history->values()->create([
             'user_id' => $this->user->id,
             'attribute_id' => $attribute->id,
             'raw' => 20,
@@ -173,5 +173,7 @@ class DayTest extends TestCase
             'attribute_id' => $attribute->id,
             'raw' => 30,
         ]);
+
+        $day->calculateAttributeValues();
     }
 }

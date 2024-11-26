@@ -199,7 +199,7 @@ class Day extends Model
 
         foreach ($food_attribute_values as $attribute_slug => $raw) {
             $value = $this->updateOrCreateValue($attribute_slug, $raw);
-            if (! empty($value->getChanges())) {
+            if (! empty($value->getChanges()) || $value->wasRecentlyCreated) {
                 $attribute_ids[] = $value->attribute_id;
             }
         }

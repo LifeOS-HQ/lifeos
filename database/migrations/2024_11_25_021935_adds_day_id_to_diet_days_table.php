@@ -16,7 +16,7 @@ class AddsDayIdToDietDaysTable extends Migration
     {
         Schema::table('diet_days', function (Blueprint $table) {
             $table->foreignIdFor(Day::class)->nullable()->after('user_id');
-            $table->index('day_id', 'data_values_day_id_index');
+            $table->index('day_id', 'diet_days_day_id_index');
         });
     }
 
@@ -28,7 +28,7 @@ class AddsDayIdToDietDaysTable extends Migration
     public function down()
     {
         Schema::table('diet_days', function (Blueprint $table) {
-            $table->dropIndex('data_values_day_id_index');
+            $table->dropIndex('diet_days_day_id_index');
             $table->dropColumn('day_id');
         });
     }

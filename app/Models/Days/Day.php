@@ -88,18 +88,18 @@ class Day extends Model
             return $this;
         }
 
-        $attributes = [];
+        $attribute_values = [];
         foreach ($histories as $history) {
             foreach ($history->values as $value) {
-                if (!isset($attributes[$value->attribute->id])) {
-                    $attributes[$value->attribute->id] = [
+                if (!isset($attribute_values[$value->attribute->id])) {
+                    $attribute_values[$value->attribute->id] = [
                         'slug' => $value->attribute->slug,
-                        'date' => $this->date->format('Y-m-d'),
+                        'date' => $this->date->format('Y-m-d 00:00:00'),
                         'value' => 0,
                     ];
                 }
 
-                $attributes[$value->attribute->id]['value'] += $value->raw;
+                $attribute_values[$value->attribute->id]['value'] += $value->raw;
             }
         }
 
@@ -108,18 +108,19 @@ class Day extends Model
             ->first();
 
         $attribute_ids = [];
-        foreach ($attributes as $attribute_id => $attribute) {
-            if (in_array($attribute['slug'], Http::PROVIDED_ATTRIBUTES)) {
-                $attribute_ids[] = $attribute_id;
-            }
-            Value::updateOrCreate([
+        foreach ($attribute_values as $attribute_id => $attribute_value) {
+            $value = Value::updateOrCreate([
                 'user_id' => $this->user_id,
                 'attribute_id' => $attribute_id,
                 'service_id' => $service->id,
-                'at' => $attribute['date'],
+                'at' => $attribute_value['date'],
             ], [
-                'raw' => $attribute['value'],
+                'raw' => $attribute_value['value'],
             ]);
+
+            if (in_array($attribute_value['slug'], Http::PROVIDED_ATTRIBUTES) && ($value->wasRecentlyCreated || ! empty($value->getChanges()))) {
+                $attribute_ids[] = $attribute_id;
+            }
         }
 
         if (empty($attribute_ids)) {
