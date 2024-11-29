@@ -3,7 +3,10 @@
         <div class="row mb-3">
             <div class="col d-flex align-items-start mb-1 mb-sm-0">
                 <slot name="form"></slot>
-                <button class="btn btn-primary btn-sm" @click="$emit('creating')" v-if="hasCreateButton"><i class="fas fa-plus-square"></i></button>
+                <button class="btn btn-primary btn-sm" @click="$emit('creating')" :disabled="isStoring" v-if="hasCreateButton">
+                    <i class="fas fa-spin fa-spinner" v-if="isStoring"></i>
+                    <i class="fas fa-plus-square" v-else></i>
+                </button>
             </div>
             <div class="col-auto d-flex">
                 <div class="form-group" style="margin-bottom: 0;">
@@ -82,6 +85,11 @@
                 default: false,
             },
             isLoading: {
+                type: Boolean,
+                required: false,
+                default: false,
+            },
+            isStoring: {
                 type: Boolean,
                 required: false,
                 default: false,

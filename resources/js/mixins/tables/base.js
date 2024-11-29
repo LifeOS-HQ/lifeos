@@ -22,6 +22,7 @@ export const baseMixin = {
 
             },
             isLoading: true,
+            isStoring: false,
             items: [],
         };
     },
@@ -35,6 +36,7 @@ export const baseMixin = {
     methods: {
         create() {
             var component = this;
+            component.isStoring = true
             axios.post(this.indexPath, component.form)
                 .then(function (response) {
                     component.resetForm();
@@ -44,6 +46,9 @@ export const baseMixin = {
                 .catch(function (error) {
                     component.errors = error.response.data.errors;
                     Vue.errorCreate();
+            })
+                .finally(function () {
+                    component.isStoring = false;
             });
         },
         created(item) {

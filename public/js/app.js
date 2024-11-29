@@ -7583,6 +7583,11 @@ __webpack_require__.r(__webpack_exports__);
       required: false,
       "default": false
     },
+    isStoring: {
+      type: Boolean,
+      required: false,
+      "default": false
+    },
     isSearchable: {
       type: Boolean,
       required: false,
@@ -11710,6 +11715,7 @@ var render = function render() {
   return _c("table-base", {
     attrs: {
       "is-loading": _vm.isLoading,
+      "is-storing": _vm.isStoring,
       paginate: _vm.paginate,
       "items-length": _vm.items.length,
       "has-filter": _vm.hasFilter()
@@ -18674,12 +18680,17 @@ var render = function render() {
     staticClass: "col d-flex align-items-start mb-1 mb-sm-0"
   }, [_vm._t("form"), _vm._v(" "), _vm.hasCreateButton ? _c("button", {
     staticClass: "btn btn-primary btn-sm",
+    attrs: {
+      disabled: _vm.isStoring
+    },
     on: {
       click: function click($event) {
         return _vm.$emit("creating");
       }
     }
-  }, [_c("i", {
+  }, [_vm.isStoring ? _c("i", {
+    staticClass: "fas fa-spin fa-spinner"
+  }) : _c("i", {
     staticClass: "fas fa-plus-square"
   })]) : _vm._e()], 2), _vm._v(" "), _c("div", {
     staticClass: "col-auto d-flex"
@@ -85313,6 +85324,7 @@ var baseMixin = {
       },
       form: {},
       isLoading: true,
+      isStoring: false,
       items: []
     };
   },
@@ -85322,6 +85334,7 @@ var baseMixin = {
   methods: {
     create: function create() {
       var component = this;
+      component.isStoring = true;
       axios.post(this.indexPath, component.form).then(function (response) {
         component.resetForm();
         component.created(response.data);
@@ -85329,6 +85342,8 @@ var baseMixin = {
       })["catch"](function (error) {
         component.errors = error.response.data.errors;
         Vue.errorCreate();
+      })["finally"](function () {
+        component.isStoring = false;
       });
     },
     created: function created(item) {

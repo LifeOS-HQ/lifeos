@@ -1,6 +1,6 @@
 <template>
 
-    <table-base :is-loading="isLoading" :paginate="paginate" :items-length="items.length" :has-filter="hasFilter()" @creating="create" @paginating="filter.page = $event" @searching="searching($event)">
+    <table-base :is-loading="isLoading" :is-storing="isStoring" :paginate="paginate" :items-length="items.length" :has-filter="hasFilter()" @creating="create" @paginating="filter.page = $event" @searching="searching($event)">
 
         <template v-slot:form>
             <div class="form-group mb-0 mr-1">
