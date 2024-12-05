@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Obstacles\ObstacleController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -199,6 +200,14 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/fitness/workouts/histories/{history}/exercises/{exercise_history}/sets/{set_history}', [\App\Http\Controllers\Workouts\Exercises\Sets\HistoryController::class, 'show'])->name('fitness.workouts.histories.exercises.sets.show');
                 Route::put('/fitness/workouts/histories/{history}/exercises/{exercise_history}/sets/{set_history}', [\App\Http\Controllers\Workouts\Exercises\Sets\HistoryController::class, 'update'])->name('fitness.workouts.histories.exercises.sets.update');
                 Route::delete('/fitness/workouts/histories/{history}/exercises/{exercise_history}/sets/{set_history}', [\App\Http\Controllers\Workouts\Exercises\Sets\HistoryController::class, 'destroy'])->name('fitness.workouts.histories.exercises.sets.destroy');
+
+    Route::get('obstacles', [\App\Http\Controllers\Obstacles\ObstacleController::class, 'index'])->name('obstacles.index')->can('viewAny', [\App\Models\Obstacles\Obstacle::class, 'obstacle']);
+    Route::get('obstacles/create', [\App\Http\Controllers\Obstacles\ObstacleController::class, 'create'])->name('obstacles.create')->can('create', [\App\Models\Obstacles\Obstacle::class, 'obstacle']);
+    Route::post('obstacles', [\App\Http\Controllers\Obstacles\ObstacleController::class, 'store'])->name('obstacles.store')->can('create', [\App\Models\Obstacles\Obstacle::class, 'obstacle']);
+    Route::get('obstacles/{obstacle}', [\App\Http\Controllers\Obstacles\ObstacleController::class, 'show'])->name('obstacles.show')->can('view', [\App\Models\Obstacles\Obstacle::class, 'obstacle']);
+    Route::get('obstacles/{obstacle}/edit', [\App\Http\Controllers\Obstacles\ObstacleController::class, 'edit'])->name('obstacles.edit')->can('update', [\App\Models\Obstacles\Obstacle::class, 'obstacle']);
+    Route::put('obstacles/{obstacle}', [\App\Http\Controllers\Obstacles\ObstacleController::class, 'update'])->name('obstacles.update')->can('update', [\App\Models\Obstacles\Obstacle::class, 'obstacle']);
+    Route::delete('obstacles/{obstacle}', [\App\Http\Controllers\Obstacles\ObstacleController::class, 'destroy'])->name('obstacles.destroy')->can('delete', [\App\Models\Obstacles\Obstacle::class, 'obstacle']);
 
     Route::get('{type}/{model}/comments', [\App\Http\Controllers\Comments\CommentController::class, 'index'])->name('comments.index');
     Route::post('{type}/{model}/comments', [\App\Http\Controllers\Comments\CommentController::class, 'store'])->name('comments.store');

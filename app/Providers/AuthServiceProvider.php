@@ -2,28 +2,30 @@
 
 namespace App\Providers;
 
-use App\Models\Activities\Activity;
-use App\Models\Journals\Gratitude\Gratitude;
-use App\Models\Journals\Journal;
-use App\Models\Journals\Rating;
-use App\Models\Lifeareas\Lifearea;
-use App\Models\Lifeareas\Scale;
-use App\Models\Reviews\Block;
-use App\Models\Reviews\Lifearea as ReviewLifearea;
-use App\Models\Reviews\Review;
 use App\Models\Work\Month;
-use App\Policies\Activities\ActivityPolicy;
-use App\Policies\Journals\GratitudePolicy;
-use App\Policies\Journals\JournalPolicy;
-use App\Policies\Journals\RatingPolicy;
-use App\Policies\Lifeareas\LifeareaPolicy;
-use App\Policies\Lifeareas\ScalePolicy;
-use App\Policies\Reviews\BlockPolicy;
-use App\Policies\Reviews\LifeareaPolicy as ReviewLifeareaPolicy;
-use App\Policies\Reviews\ReviewPolicy;
+use App\Models\Reviews\Block;
+use App\Models\Reviews\Review;
+use App\Models\Journals\Rating;
+use App\Models\Lifeareas\Scale;
+use App\Models\Journals\Journal;
+use App\Policies\ObstaclePolicy;
+use App\Models\Lifeareas\Lifearea;
+use App\Models\Obstacles\Obstacle;
 use App\Policies\Work\MonthPolicy;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use App\Models\Activities\Activity;
 use Illuminate\Support\Facades\Gate;
+use App\Policies\Reviews\BlockPolicy;
+use App\Policies\Reviews\ReviewPolicy;
+use App\Policies\Journals\RatingPolicy;
+use App\Policies\Lifeareas\ScalePolicy;
+use App\Policies\Journals\JournalPolicy;
+use App\Policies\Journals\GratitudePolicy;
+use App\Policies\Lifeareas\LifeareaPolicy;
+use App\Policies\Activities\ActivityPolicy;
+use App\Models\Journals\Gratitude\Gratitude;
+use App\Models\Reviews\Lifearea as ReviewLifearea;
+use App\Policies\Reviews\LifeareaPolicy as ReviewLifeareaPolicy;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -61,6 +63,7 @@ class AuthServiceProvider extends ServiceProvider
         Review::class => ReviewPolicy::class,
         ReviewLifearea::class => ReviewLifeareaPolicy::class,
         Scale::class => ScalePolicy::class,
+        Obstacle::class => ObstaclePolicy::class,
     ];
 
     /**
