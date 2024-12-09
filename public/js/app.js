@@ -2815,6 +2815,7 @@ __webpack_require__.r(__webpack_exports__);
         index: next_key,
         item: this.filteredItems[next_key]
       });
+      this.scrollIntoView();
     },
     previous: function previous() {
       var previous_index;
@@ -2835,6 +2836,7 @@ __webpack_require__.r(__webpack_exports__);
         index: previous_index,
         item: this.items[previous_index]
       });
+      this.scrollIntoView();
     },
     complete: function complete(index) {
       var component = this;
@@ -2877,6 +2879,16 @@ __webpack_require__.r(__webpack_exports__);
         };
       } else {
         this.item_to_show = null;
+      }
+    },
+    scrollIntoView: function scrollIntoView() {
+      var element = document.getElementById('behaviour-history-row-' + this.item_to_show.item.id);
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'center'
+        });
       }
     }
   }
@@ -10707,12 +10719,12 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", {
+  return _c("div", [_c("div", {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col"
   }, [_c("div", {
-    staticClass: "card"
+    staticClass: "card mb-3"
   }, [_c("div", {
     staticClass: "card-header"
   }, [_c("div", {
@@ -10759,21 +10771,11 @@ var render = function render() {
         return _vm.incomplete($event);
       }
     }
-  })], 1)])]), _vm._v(" "), _c("div", {
+  })], 1)])])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
     staticClass: "col"
-  }, [_c("div", {
-    staticClass: "card mb-3"
-  }, [_c("div", {
-    staticClass: "card-header"
-  }, [_vm._v("\n                Attribute\n            ")]), _vm._v(" "), _c("div", {
-    staticClass: "card-body"
-  }, [_c("table", {
-    staticClass: "table table-fixed table-hover table-striped table-sm bg-white"
-  }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.model.values, function (value, index) {
-    return _c("tr", {
-      key: value.id
-    }, [_c("td", [_vm._v(_vm._s(value.attribute.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(value.formatted_value) + " " + _vm._s(value.attribute.unit))])]);
-  }), 0)])])]), _vm._v(" "), _vm.item_to_show ? _c("show", {
+  }, [_vm.item_to_show ? _c("show", {
     attrs: {
       item: _vm.item_to_show.item
     },
@@ -10787,7 +10789,21 @@ var render = function render() {
         return _vm.incomplete(_vm.item_to_show.index);
       }
     }
-  }) : _vm._e()], 1)]);
+  }) : _vm._e()], 1), _vm._v(" "), _c("div", {
+    staticClass: "col"
+  }, [_c("div", {
+    staticClass: "card mb-3"
+  }, [_c("div", {
+    staticClass: "card-header"
+  }, [_vm._v("\n                    Attribute\n                ")]), _vm._v(" "), _c("div", {
+    staticClass: "card-body"
+  }, [_c("table", {
+    staticClass: "table table-fixed table-hover table-striped table-sm bg-white"
+  }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.model.values, function (value, index) {
+    return _c("tr", {
+      key: value.id
+    }, [_c("td", [_vm._v(_vm._s(value.attribute.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(value.formatted_value) + " " + _vm._s(value.attribute.unit))])]);
+  }), 0)])])])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -10814,7 +10830,10 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c("div", {
-    staticClass: "list-group"
+    staticClass: "list-group list-group-horizontal",
+    staticStyle: {
+      overflow: "scroll"
+    }
   }, _vm._l(_vm.items, function (item, index) {
     return _c("row", {
       key: item.id,
@@ -10857,12 +10876,15 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c("div", {
-    staticClass: "list-group-item list-group-item-action",
+    staticClass: "list-group-item list-group-item-action col-3",
     "class": {
       "list-group-item-dark": _vm.isActive
+    },
+    attrs: {
+      id: "behaviour-history-row-" + _vm.item.id
     }
   }, [_c("div", {
-    staticClass: "d-flex align-items-center"
+    staticClass: "d-flex align-items-center h-100"
   }, [_c("div", {
     staticClass: "text-center",
     staticStyle: {
@@ -10884,17 +10906,15 @@ var render = function render() {
       }
     }
   })]), _vm._v(" "), _c("div", {
-    staticClass: "flex-grow-1 pointer",
+    staticClass: "flex-grow-1 pointer d-flex flex-column h-100",
     on: {
       click: _vm.show
     }
-  }, [_c("div", {
-    staticClass: "d-flex justify-content-between"
   }, [_c("h5", {
     staticClass: "mb-1"
-  }, [_vm._v(_vm._s(_vm.item.behaviour.name))]), _vm._v(" "), _c("small", [_vm._v(_vm._s(_vm.item.end_at_time_formatted))])]), _vm._v(" "), _c("p", {
-    staticClass: "mb-1"
-  }, [_vm._v("Some placeholder content in a paragraph.")]), _vm._v(" "), _c("small", [_vm._v("And some small print.")])])])]);
+  }, [_vm._v(_vm._s(_vm.item.behaviour.name))]), _vm._v(" "), _c("p", {
+    staticClass: "mb-1 flex-grow-1"
+  }, [_vm._v("Description")]), _vm._v(" "), _c("small", [_vm._v(_vm._s(_vm.item.end_at_time_formatted))])])])]);
 };
 var staticRenderFns = [];
 render._withStripped = true;

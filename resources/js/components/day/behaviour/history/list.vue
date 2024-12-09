@@ -1,17 +1,15 @@
 <template>
 
-            <div class="list-group">
-                <row
-                    :item="item"
-                    :key="item.id"
-                    :is-active="isActive(item)"
-                    v-for="(item, index) in items"
-                    @show="show(index, $event)"
-                    @complete="$emit('complete', index)"
-                    @incomplete="$emit('incomplete', index)"
-                ></row>
-            </div>
-        </div>
+    <div class="list-group list-group-horizontal" style="overflow: scroll;">
+        <row
+            :item="item"
+            :key="item.id"
+            :is-active="isActive(item)"
+            v-for="(item, index) in items"
+            @show="show(index, $event)"
+            @complete="$emit('complete', index)"
+            @incomplete="$emit('incomplete', index)"
+        ></row>
     </div>
 
 </template>

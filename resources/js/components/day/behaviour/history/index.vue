@@ -1,59 +1,71 @@
 <template>
-    <div class="row">
 
-        <div class="col">
-            <div class="card">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between">
-                        <div>Verhalten</div>
-                        <div>
-                            <span class="badge badge-pill pointer" :class="filter.status == 'all' ? 'badge-primary' : 'badge-light'" @click="setStatus('all')">Alle</span>
-                            <span class="badge badge-pill pointer" :class="filter.status == 'incompleted' ? 'badge-primary' : 'badge-light'" @click="setStatus('incompleted')">Fällig</span>
-                            <span class="badge badge-pill pointer" :class="filter.status == 'completed' ? 'badge-primary' : 'badge-light'" @click="setStatus('completed')">Erledigt</span>
+    <div>
+
+        <div class="row">
+
+            <div class="col">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <div>Verhalten</div>
+                            <div>
+                                <span class="badge badge-pill pointer" :class="filter.status == 'all' ? 'badge-primary' : 'badge-light'" @click="setStatus('all')">Alle</span>
+                                <span class="badge badge-pill pointer" :class="filter.status == 'incompleted' ? 'badge-primary' : 'badge-light'" @click="setStatus('incompleted')">Fällig</span>
+                                <span class="badge badge-pill pointer" :class="filter.status == 'completed' ? 'badge-primary' : 'badge-light'" @click="setStatus('completed')">Erledigt</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    <list :items="filteredItems" :item-to-show="item_to_show" @show="show($event)" @complete="complete($event)" @incomplete="incomplete($event)"></list>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-
-            <div class="card mb-3">
-                <div class="card-header">
-                    Attribute
-                </div>
-                <div class="card-body">
-                    <table class="table table-fixed table-hover table-striped table-sm bg-white">
-                        <thead>
-                            <tr>
-                                <th>Attribut</th>
-                                <th>Wert</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr :key="value.id" v-for="(value, index) in model.values">
-                                <td>{{ value.attribute.name }}</td>
-                                <td>{{ value.formatted_value }} {{ value.attribute.unit }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="card-body">
+                        <list :items="filteredItems" :item-to-show="item_to_show" @show="show($event)" @complete="complete($event)" @incomplete="incomplete($event)"></list>
+                    </div>
                 </div>
             </div>
 
-            <show
-                :item="item_to_show.item"
-                @next="next"
-                @previous="previous"
-                @complete="complete(item_to_show.index)"
-                @incomplete="incomplete(item_to_show.index)"
-                v-if="item_to_show"
-            ></show>
         </div>
 
+
+        <div class="row">
+
+            <div class="col">
+                <show
+                    :item="item_to_show.item"
+                    @next="next"
+                    @previous="previous"
+                    @complete="complete(item_to_show.index)"
+                    @incomplete="incomplete(item_to_show.index)"
+                    v-if="item_to_show"
+                ></show>
+            </div>
+
+            <div class="col">
+
+                <div class="card mb-3">
+                    <div class="card-header">
+                        Attribute
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-fixed table-hover table-striped table-sm bg-white">
+                            <thead>
+                                <tr>
+                                    <th>Attribut</th>
+                                    <th>Wert</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr :key="value.id" v-for="(value, index) in model.values">
+                                    <td>{{ value.attribute.name }}</td>
+                                    <td>{{ value.formatted_value }} {{ value.attribute.unit }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
+
 </template>
 
 <script>
@@ -144,6 +156,8 @@
                     index: next_key,
                     item: this.filteredItems[next_key],
                 });
+
+                this.scrollIntoView();
             },
             previous() {
                 let previous_index;
@@ -168,6 +182,8 @@
                     index: previous_index,
                     item: this.items[previous_index],
                 });
+
+                this.scrollIntoView();
             },
             complete(index) {
                 const component = this;
@@ -213,6 +229,12 @@
                 }
                 else {
                     this.item_to_show = null;
+                }
+            },
+            scrollIntoView() {
+                const element = document.getElementById('behaviour-history-row-' + this.item_to_show.item.id);
+                if (element) {
+                    element.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'center'});
                 }
             },
         },
