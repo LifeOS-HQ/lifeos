@@ -8,7 +8,7 @@
                 <div class="card mb-3">
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
-                            <div>Verhalten</div>
+                            <div>Routine</div>
                             <div>
                                 <span class="badge badge-pill pointer" :class="filter.status == 'all' ? 'badge-primary' : 'badge-light'" @click="setStatus('all')">Alle</span>
                                 <span class="badge badge-pill pointer" :class="filter.status == 'incompleted' ? 'badge-primary' : 'badge-light'" @click="setStatus('incompleted')">Fällig</span>

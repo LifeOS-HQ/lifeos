@@ -10729,7 +10729,7 @@ var render = function render() {
     staticClass: "card-header"
   }, [_c("div", {
     staticClass: "d-flex justify-content-between"
-  }, [_c("div", [_vm._v("Verhalten")]), _vm._v(" "), _c("div", [_c("span", {
+  }, [_c("div", [_vm._v("Routine")]), _vm._v(" "), _c("div", [_c("span", {
     staticClass: "badge badge-pill pointer",
     "class": _vm.filter.status == "all" ? "badge-primary" : "badge-light",
     on: {
@@ -10937,7 +10937,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c("div", {
-    staticClass: "row sticky-top sticky-offset"
+    staticClass: "row"
   }, [_c("div", {
     staticClass: "col-12"
   }, [_c("div", {
