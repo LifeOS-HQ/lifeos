@@ -16,7 +16,8 @@ class Obstacle extends Model
     const ROUTE_NAME = 'obstacles';
 
     protected $appends = [
-        //
+        'edit_path',
+        'path',
     ];
 
     protected $casts = [
@@ -28,17 +29,18 @@ class Obstacle extends Model
     ];
 
     protected $fillable = [
-        'user_id',
-        'created_day_id',
         'alchemized_day_id',
-        'level',
-        'title',
-        'whish',
-        'outcome',
-        'obstacle',
-        'plan',
-        'loot',
+        'challenge',
+        'created_day_id',
         'is_active',
+        'level',
+        'loot',
+        'obstacle',
+        'outcome',
+        'plan',
+        'title',
+        'user_id',
+        'wish',
     ];
 
     /**

@@ -104,6 +104,10 @@ Vue.component('lifearea-scale-index', require('./components/lifearea/scale/index
 Vue.component('lifearea-scale-goals-table', require('./components/lifearea/scale/goals/table.vue').default);
 Vue.component('lifearea-rating-chart', require('./components/lifearea/rating/chart.vue').default);
 
+Vue.component('obstacle-create', require('./pages/obstacle/create.vue').default);
+Vue.component('obstacle-edit', require('./pages/obstacle/edit.vue').default);
+
+
 Vue.component('place-table', require('./components/place/table.vue').default);
 
 Vue.component('portfolio-table', require('./components/portfolio/table.vue').default);

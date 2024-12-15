@@ -25,13 +25,19 @@ class ObstacleController extends Controller
 
     public function create()
     {
-        //
+        return view($this->baseViewPath . '.create');
     }
 
     public function store(Request $request)
     {
         $attributes = $request->validate([
-
+            'challenge' => 'present|nullable|string',
+            'wish' => 'required|string',
+            'outcome' => 'present|nullable|string',
+            'obstacle' => 'present|nullable|string',
+            'plan' => 'present|nullable|string',
+            'loot' => 'present|nullable|string',
+            'level' => 'required|integer',
         ]);
 
         $attributes['user_id'] = auth()->id();
@@ -64,13 +70,14 @@ class ObstacleController extends Controller
     public function update(Request $request, Obstacle $obstacle)
     {
         $attributes = $request->validate([
+            'challenge' => 'present|nullable|string',
             'level' => 'required|integer',
-            'title' => 'present|nullable|string',
-            'whish' => 'present|nullable|string',
-            'outcome' => 'present|nullable|string',
-            'obstacle' => 'present|nullable|string',
-            'plan' => 'present|nullable|string',
             'loot' => 'present|nullable|string',
+            'obstacle' => 'present|nullable|string',
+            'outcome' => 'present|nullable|string',
+            'plan' => 'present|nullable|string',
+            'title' => 'present|nullable|string',
+            'wish' => 'present|nullable|string',
         ]);
 
         $obstacle->update($attributes);

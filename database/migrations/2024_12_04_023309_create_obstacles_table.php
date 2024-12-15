@@ -23,7 +23,7 @@ class CreateObstaclesTable extends Migration
             $table->foreignIdFor(Day::class, 'alchemized_day_id')->nullable();
             $table->unsignedSmallInteger('level')->default(1);
             $table->string('title')->nullable();
-            $table->string('whish')->nullable();
+            $table->string('wish')->nullable();
             $table->text('outcome')->nullable();
             $table->text('obstacle')->nullable();
             $table->text('plan')->nullable();

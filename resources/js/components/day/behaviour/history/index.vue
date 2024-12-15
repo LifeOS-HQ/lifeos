@@ -21,7 +21,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
 
@@ -61,6 +60,9 @@
                         </table>
                     </div>
                 </div>
+
+                <obstacleList :day="model" index-path="/obstacles"></obstacleList>
+
             </div>
 
         </div>
@@ -71,12 +73,14 @@
 <script>
     import show from './show.vue';
     import list from './list.vue';
+    import obstacleList from '../../obstacle/list.vue';
 
     export default {
 
         components: {
             show,
             list,
+            obstacleList,
         },
 
         props: {

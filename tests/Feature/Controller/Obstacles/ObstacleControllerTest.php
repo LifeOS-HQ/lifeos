@@ -2,10 +2,11 @@
 
 namespace Tests\Feature\Controller\Obstacles;
 
+use Tests\TestCase;
+use App\Models\Days\Day;
+use Illuminate\Http\Response;
 use App\Models\Obstacles\Obstacle;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Response;
-use Tests\TestCase;
 
 class ObstacleControllerTest extends TestCase
 {
@@ -71,8 +72,18 @@ class ObstacleControllerTest extends TestCase
 
         $this->signIn();
 
-        $data = [
+        $day = Day::factory()->create([
+            'user_id' => $this->user->id,
+        ]);
 
+        $data = [
+            'challenge' => 'challenge1',
+            'level' => 2,
+            'loot' => 'loot1',
+            'obstacle' => 'obstacle1',
+            'outcome' => 'outcome1',
+            'plan' => 'plan1',
+            'wish' => 'wish1',
         ];
 
         $this->postJson(route($this->baseRouteName . '.store'), $data)
@@ -117,9 +128,10 @@ class ObstacleControllerTest extends TestCase
         $this->withoutExceptionHandling();
 
         $model = $this->createModel([
+            'challenge' => 'challenge',
             'level' => 1,
             'title' => 'title',
-            'whish' => 'whish',
+            'wish' => 'wish',
             'outcome' => 'outcome',
             'obstacle' => 'obstacle',
             'plan' => 'plan',
@@ -130,9 +142,10 @@ class ObstacleControllerTest extends TestCase
         $this->signIn();
 
         $data = [
+            'challenge' => 'challenge1',
             'level' => 2,
             'title' => 'title1',
-            'whish' => 'whish1',
+            'wish' => 'wish1',
             'outcome' => 'outcome1',
             'obstacle' => 'obstacle1',
             'plan' => 'plan1',
