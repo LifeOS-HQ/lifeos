@@ -6,15 +6,18 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\Services\Service;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\Behaviours\Behaviour;
-use Illuminate\Support\Facades\Storage;
 
 class WebhookController extends Controller
 {
     public function store(Request $request)
     {
-        $this->log($request);
+        Log::info('Wahoo Webhook', [
+            'headers' => $request->header(),
+            'request' => $request->all(),
+        ]);
 
         $event_type = $request->input('type');
 
@@ -22,15 +25,6 @@ class WebhookController extends Controller
             'scored' => $this->handleScored($request->all()),
             default => null,
         };
-    }
-
-    private function log(Request $request)
-    {
-        Storage::put('habitica/webhook/' . now()->format('YmdHis') . '.json', json_encode([
-            'headers' => $request->header(),
-            'content' => $request->getContent(),
-            'request' => $request->all(),
-        ], JSON_PRETTY_PRINT));
     }
 
     private function handleScored(array $data)

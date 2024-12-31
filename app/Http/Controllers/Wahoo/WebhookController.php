@@ -7,14 +7,17 @@ use Illuminate\Http\Request;
 use App\Models\Services\Service;
 use App\Models\Workouts\History;
 use App\Models\Workouts\Workout;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
 
 class WebhookController extends Controller
 {
     public function store(Request $request)
     {
-        $this->log($request);
+        Log::info('Wahoo Webhook', [
+            'headers' => $request->header(),
+            'request' => $request->all(),
+        ]);
 
         $event_type = $request->input('event_type');
 
@@ -46,14 +49,5 @@ class WebhookController extends Controller
         $wahoo_workout['workout_summary'] = $data['workout_summary'];
 
         History::updateOrCreateFromWahoo($workout, $wahoo_workout);
-    }
-
-    private function log(Request $request)
-    {
-        Storage::put('wahoo/webhook/' . now()->format('YmdHis') . '.json', json_encode([
-            'headers' => $request->header(),
-            'content' => $request->getContent(),
-            'request' => $request->all(),
-        ], JSON_PRETTY_PRINT));
     }
 }
