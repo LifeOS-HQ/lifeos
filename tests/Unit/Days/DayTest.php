@@ -176,4 +176,14 @@ class DayTest extends TestCase
 
         $day->calculateAttributeValues();
     }
+
+    /**
+     * @test
+     */
+    public function it_knows_its_behaviour_historie_path()
+    {
+        $day = Day::factory()->create();
+
+        $this->assertEquals(route('days.histories.store', ['day' => $day->id]), $day->behaviour_histories_path);
+    }
 }

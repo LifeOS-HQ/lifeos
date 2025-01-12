@@ -49,6 +49,7 @@ class History extends Model
         'end_at',
         'is_committed',
         'is_completed',
+        'ordinal',
         'source_id',
         'source_slug',
         'start_at_formatted',

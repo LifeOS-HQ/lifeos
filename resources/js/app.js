@@ -78,6 +78,8 @@ Vue.component('comment-index', require('./components/comment/index.vue').default
 
 Vue.component('contact-table', require('./components/contact/table.vue').default);
 
+Vue.component('day-edit', require('./pages/day/edit.vue').default);
+
 Vue.component('day-table', require('./components/day/table.vue').default)
 Vue.component('day-behaviour-history-index', require('./components/day/behaviour/history/index.vue').default)
 
@@ -106,7 +108,6 @@ Vue.component('lifearea-rating-chart', require('./components/lifearea/rating/cha
 
 Vue.component('obstacle-create', require('./pages/obstacle/create.vue').default);
 Vue.component('obstacle-edit', require('./pages/obstacle/edit.vue').default);
-
 
 Vue.component('place-table', require('./components/place/table.vue').default);
 

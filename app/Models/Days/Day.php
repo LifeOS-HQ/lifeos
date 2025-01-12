@@ -25,6 +25,7 @@ class Day extends Model
 
     protected $appends = [
         'date_formatted',
+        'behaviour_histories_path',
     ];
 
     protected $casts = [
@@ -155,6 +156,13 @@ class Day extends Model
                 'plural' => 'Tage',
             ],
         ];
+    }
+
+    public function getBehaviourHistoriesPathAttribute(): string
+    {
+        return route('days.histories.store', [
+            'day' => $this->id,
+        ]);
     }
 
     public function getDateFormattedAttribute() : string

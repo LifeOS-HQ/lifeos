@@ -89,6 +89,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/data/day/{date_string?}', [\App\Http\Controllers\Data\DayController::class, 'index'])->name('data.day.index');
     Route::get('/data/day/{date_string}/{group}', [\App\Http\Controllers\Data\DayController::class, 'show'])->name('data.day.show');
 
+    Route::post('/days/{day}/histories', [\App\Http\Controllers\Days\Histories\HistoryController::class, 'store'])->name('days.histories.store');
+    Route::put('/days/{day}/histories/{history}', [\App\Http\Controllers\Days\Histories\HistoryController::class, 'update'])->name('days.histories.update');
+    Route::delete('/days/{day}/histories/{history}', [\App\Http\Controllers\Days\Histories\HistoryController::class, 'destroy'])->name('days.histories.destroy');
+
     Route::get('/days', [\App\Http\Controllers\Days\DayController::class, 'index'])->name('days.index')->can('viewAny', [\App\Models\Days\Day::class]);
     Route::get('/days/create', [\App\Http\Controllers\Days\DayController::class, 'create'])->name('days.create')->can('create', [\App\Models\Days\Day::class]);
     Route::post('/days', [\App\Http\Controllers\Days\DayController::class, 'store'])->name('days.store')->can('create', [\App\Models\Days\Day::class]);

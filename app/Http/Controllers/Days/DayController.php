@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Days;
 
 use App\Apis\Exist\Http;
 use App\Http\Controllers\Controller;
+use App\Models\Behaviours\Behaviour;
 use App\Models\Behaviours\Histories\Attributes\Value;
 use App\Models\Days\Day;
 use Carbon\Carbon;
@@ -77,8 +78,23 @@ class DayController extends Controller
 
     public function edit(Day $day)
     {
+        $day->load([
+            'behaviourHistories' => function($query) {
+                $query->with('behaviour')
+                    ->with('values.attribute')
+                    ->orderBy('start_at', 'ASC')
+                    ->orderBy('ordinal', 'ASC');
+            },
+        ]);
+
+        $behaviours = Behaviour::query()
+            ->where('user_id', $day->user_id)
+            ->orderBy('name')
+            ->get();
+
         return view($this->baseViewPath . '.edit')
-            ->with('model', $day);
+            ->with('model', $day)
+            ->with('behaviours', $behaviours);
     }
 
     public function update(Request $request, Day $day)
