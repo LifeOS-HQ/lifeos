@@ -2,12 +2,13 @@
 
 namespace App\Models\Diet\Foods;
 
+use Illuminate\Support\Arr;
 use D15r\ModelLabels\Traits\HasLabels;
 use D15r\ModelPath\Traits\HasModelPath;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Arr;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Food extends Model
 {
@@ -157,5 +158,14 @@ class Food extends Model
     {
         $this->attributes['protein'] = (str_replace(',', '.', $value) / 100);
         Arr::forget($this->attributes, 'protein_formatted');
+    }
+
+    public function scopeSearch(Builder $query, $search): Builder
+    {
+        if (empty($search)) {
+            return $query;
+        }
+
+        return $query->where('name', 'like', '%' . $search . '%');
     }
 }

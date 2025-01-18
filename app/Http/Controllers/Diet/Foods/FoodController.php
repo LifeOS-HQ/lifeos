@@ -18,7 +18,10 @@ class FoodController extends Controller
     public function index(Request $request)
     {
         if ($request->wantsJson()) {
-            return Food::orderBy('name', 'ASC')->paginate();
+            return Food::query()
+                ->search($request->input('searchtext'))
+                ->orderBy('name', 'ASC')
+                ->paginate();
         }
 
         return view($this->baseViewPath . '.index');
