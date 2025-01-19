@@ -3419,7 +3419,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         meal_id: meal_id
       }).then(function (response) {
         var _component$items;
-        (_component$items = component.items).push.apply(_component$items, _toConsumableArray(response.data));
+        (_component$items = component.items).push.apply(_component$items, _toConsumableArray(response.data.foods));
+        component.$emit('updated-meal', response.data.meal);
       })["catch"](function (error) {
         console.log(error);
       })["finally"](function () {
@@ -12115,6 +12116,11 @@ var render = function render() {
       foods: _vm.foods,
       diet_meals: _vm.diet_meals,
       "index-path": _vm.item.foods_path
+    },
+    on: {
+      "updated-meal": function updatedMeal($event) {
+        return _vm.$emit("updated", $event);
+      }
     }
   })], 1)]);
 };

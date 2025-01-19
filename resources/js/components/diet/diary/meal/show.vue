@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="card-body">
-            <food-table :model="item" :foods="foods" :diet_meals="diet_meals" :index-path="item.foods_path"></food-table>
+            <food-table :model="item" :foods="foods" :diet_meals="diet_meals" :index-path="item.foods_path" @updated-meal="$emit('updated', $event);"></food-table>
         </div>
     </div>
 </template>

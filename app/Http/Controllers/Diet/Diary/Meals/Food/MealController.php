@@ -32,6 +32,13 @@ class MealController extends Controller
             $foods_count++;
         }
 
-        return $added_foods;
+        $meal->update([
+            'name' => $added_meal->name,
+        ]);
+
+        return [
+            'meal' => $meal,
+            'foods' => $added_foods,
+        ];
     }
 }

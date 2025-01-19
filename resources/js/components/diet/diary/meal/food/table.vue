@@ -136,7 +136,8 @@
                     meal_id: meal_id
                 })
                     .then(function (response) {
-                        component.items.push(...response.data);
+                        component.items.push(...response.data.foods);
+                        component.$emit('updated-meal', response.data.meal);
                     })
                     .catch(function (error) {
                         console.log(error);
