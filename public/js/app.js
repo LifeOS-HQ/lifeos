@@ -2988,6 +2988,13 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    toggleComplete: function toggleComplete() {
+      if (this.item.is_completed) {
+        this.$emit('incomplete');
+      } else {
+        this.$emit('complete');
+      }
+    },
     show: function show() {
       this.$emit('show', this.item);
     }
@@ -11257,21 +11264,21 @@ var render = function render() {
       width: "75px",
       "margin-left": "-15px"
     }
-  }, [_vm.item.is_completed ? _c("i", {
-    staticClass: "fas fa-fw fa-2x fa-check-square text-primary pointer",
+  }, [_c("span", {
+    staticClass: "fa-stack fa-2x pointer",
+    staticStyle: {
+      "vertical-align": "top"
+    },
     on: {
       click: function click($event) {
-        return _vm.$emit("incomplete");
+        return _vm.toggleComplete();
       }
     }
-  }) : _c("i", {
-    staticClass: "far fa-fw fa-2x fa-square pointer",
-    on: {
-      click: function click($event) {
-        return _vm.$emit("complete");
-      }
-    }
-  })]), _vm._v(" "), _c("div", {
+  }, [_c("i", {
+    staticClass: "fas fa-bullseye fa-stack-1x"
+  }), _vm._v(" "), _vm.item.is_completed ? _c("i", {
+    staticClass: "fas fa-times fa-stack-2x text-success"
+  }) : _vm._e()])]), _vm._v(" "), _c("div", {
     staticClass: "flex-grow-1 pointer d-flex flex-column h-100",
     on: {
       click: _vm.show
@@ -26834,7 +26841,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, "\n.fa-square[data-v-6989809f]:hover {\n    color: var(--primary);\n}\n", ""]);
+exports.push([module.i, "\n.fa-bullseye[data-v-6989809f]:hover {\n    color: var(--success);\n}\n", ""]);
 
 // exports
 
