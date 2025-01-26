@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\Services\Service;
+use App\Models\Behaviours\History;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\Behaviours\Behaviour;
@@ -56,15 +57,9 @@ class WebhookController extends Controller
             if ($is_completed === false) {
                 continue;
             }
-            $history = $behaviour->histories()->updateOrCreate([
-                'source_slug' => 'habitica',
-                'source_id' => $history['date'],
-            ], [
-                'end_at' => $at,
-                'is_committed' => 1,
-                'is_completed' => 1,
-                'user_id' => $behaviour->user_id,
-                'start_at' => $at,
+            $history = History::updateOrCreateFromHabitica($behaviour, [
+                'date' => $history['date'],
+                'completed' => $is_completed,
             ]);
 
             $history->cache();

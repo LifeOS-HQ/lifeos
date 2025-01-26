@@ -2,9 +2,11 @@
 
 namespace Tests\Unit\Behaviours;
 
-use App\Models\Behaviours\Behaviour;
+use App\Models\Days\Day;
 use Tests\Unit\TestCase;
+use Illuminate\Support\Carbon;
 use App\Models\Behaviours\History;
+use App\Models\Behaviours\Behaviour;
 use App\Models\Services\Data\Attributes\Attribute;
 
 class HistoryTest extends TestCase
@@ -135,5 +137,77 @@ class HistoryTest extends TestCase
         $history = History::factory()->create();
 
         $this->assertEquals(route('behaviours.histories.values.index', ['history' => $history->id]), $history->value_path);
+    }
+
+    /**
+     * @test
+     */
+    public function it_con_be_created_from_habitica()
+    {
+        $behaviour = Behaviour::factory()->create([
+            'source_slug' => 'habitica',
+            'source_id' => '123',
+            'user_id' => $this->user->id,
+        ]);
+
+        $date = Carbon::parse('2021-10-07 00:00:00', 'UTC');
+
+        $history = History::updateOrCreateFromHabitica($behaviour, [
+            'date' => $date->timestamp * 1000,
+            'completed' => true,
+        ]);
+
+        $this->assertDatabaseHas('behaviours_histories', [
+            'id' => $history->id,
+            'user_id' => $behaviour->user_id,
+            'behaviour_id' => $behaviour->id,
+            'source_slug' => 'habitica',
+            'source_id' => $date->timestamp * 1000,
+            'start_at' => $date,
+            'end_at' => $date,
+            'is_committed' => 1,
+            'is_completed' => 1,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_updated_from_habitica()
+    {
+        $behaviour = Behaviour::factory()->create([
+            'user_id' => $this->user->id,
+            'source_slug' => 'habitica',
+            'source_id' => '123',
+        ]);
+
+        $date = Carbon::parse('2021-10-07 00:00:00', 'UTC');
+
+        $day = Day::factory()->create([
+            'date' => $date->format('Y-m-d'),
+            'user_id' => $behaviour->user_id,
+        ]);
+
+        $history = History::factory()->create([
+            'behaviour_id' => $behaviour->id,
+            'user_id' => $behaviour->user_id,
+            'day_id' => $day->id,
+            'start_at' => $date,
+            'end_at' => null,
+        ]);
+
+        History::updateOrCreateFromHabitica($behaviour, [
+            'date' => $date->timestamp * 1000,
+            'completed' => true,
+        ]);
+
+        $this->assertDatabaseHas('behaviours_histories', [
+            'id' => $history->id,
+            'source_slug' => 'habitica',
+            'source_id' => $date->timestamp * 1000,
+            'end_at' => $date,
+            'is_committed' => 1,
+            'is_completed' => 1,
+        ]);
     }
 }

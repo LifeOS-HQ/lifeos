@@ -5,6 +5,7 @@ namespace App\Models\Behaviours;
 use App\User;
 use App\Models\Days\Day;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use App\Models\Behaviours\Behaviour;
 use D15r\ModelLabels\Traits\HasLabels;
 use D15r\ModelPath\Traits\HasModelPath;
@@ -106,6 +107,52 @@ class History extends Model
         {
             return true;
         });
+    }
+
+    public static function updateOrCreateFromHabitica(Behaviour $behaviour, array $history_data): ?self
+    {
+        $at = Carbon::createFromTimestamp($history_data['date'] / 1000, 'UTC');
+        $is_completed = Arr::get($history_data, 'completed', true);
+
+        if ($is_completed === false) {
+            return null;
+        }
+
+        $day = Day::firstOrCreate([
+            'user_id' => $behaviour->user_id,
+            'date' => $at,
+        ]);
+
+        $history = self::query()
+            ->where('user_id', $behaviour->user_id)
+            ->where('behaviour_id', $behaviour->id)
+            ->where('day_id', $day->id)
+            ->first();
+
+        if (! is_null($history)) {
+            $history->update([
+                'source_slug' => 'habitica',
+                'source_id' => $history_data['date'],
+                'end_at' => $at,
+                'is_committed' => 1,
+                'is_completed' => 1,
+                'start_at' => $at,
+            ]);
+
+            return $history;
+        }
+
+        return self::updateOrCreate([
+            'source_slug' => 'habitica',
+            'source_id' => $history_data['date'],
+        ], [
+            'end_at' => $at,
+            'is_committed' => 1,
+            'is_completed' => 1,
+            'user_id' => $behaviour->user_id,
+            'start_at' => $at,
+            'behaviour_id' => $behaviour->id,
+        ]);
     }
 
     public function isDeletable() : bool
