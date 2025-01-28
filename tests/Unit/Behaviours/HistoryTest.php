@@ -142,7 +142,7 @@ class HistoryTest extends TestCase
     /**
      * @test
      */
-    public function it_con_be_created_from_habitica()
+    public function it_can_be_created_from_habitica()
     {
         $behaviour = Behaviour::factory()->create([
             'source_slug' => 'habitica',
@@ -209,5 +209,38 @@ class HistoryTest extends TestCase
             'is_committed' => 1,
             'is_completed' => 1,
         ]);
+
+        $this->assertCount(1, Day::get());
+    }
+
+    /**
+     * @test
+     */
+    public function just_one_day_is_created_from_habitica()
+    {
+        $days = Day::get();
+        $this->assertCount(0, $days);
+
+        $behaviour = Behaviour::factory()->create([
+            'source_slug' => 'habitica',
+            'source_id' => '123',
+            'user_id' => $this->user->id,
+        ]);
+
+        $date = Carbon::parse('2021-10-07 00:00:00', 'UTC');
+
+        $history = History::updateOrCreateFromHabitica($behaviour, [
+            'date' => $date->timestamp * 1000,
+            'completed' => true,
+        ]);
+
+        $date = Carbon::parse('2021-10-07 01:00:00', 'UTC');
+
+        $days = Day::get();
+        foreach ($days as $day) {
+            echo $day->id . "\t" . $day->user_id . "\t" . $day->date . PHP_EOL;
+        }
+
+        $this->assertCount(1, $days);
     }
 }

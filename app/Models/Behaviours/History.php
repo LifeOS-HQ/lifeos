@@ -146,6 +146,7 @@ class History extends Model
             'source_slug' => 'habitica',
             'source_id' => $history_data['date'],
         ], [
+            'day_id' => $day->id,
             'end_at' => $at,
             'is_committed' => 1,
             'is_completed' => 1,
