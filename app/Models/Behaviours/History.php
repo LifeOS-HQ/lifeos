@@ -78,7 +78,7 @@ class History extends Model
             if (empty($model->day_id)) {
                 $model->day_id = Day::firstOrCreate([
                     'user_id' => $model->user_id,
-                    'date' => $model->start_at->format('Y-m-d'),
+                    'date' => $model->start_at->clone()->startOfDay(),
                 ])->id;
             }
 
@@ -120,7 +120,7 @@ class History extends Model
 
         $day = Day::firstOrCreate([
             'user_id' => $behaviour->user_id,
-            'date' => $at,
+            'date' => $at->clone()->startOfDay(),
         ]);
 
         $history = self::query()

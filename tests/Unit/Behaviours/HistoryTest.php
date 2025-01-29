@@ -74,7 +74,12 @@ class HistoryTest extends TestCase
      */
     public function it_finds_or_creates_a_day_before_it_is_created()
     {
-        $history = History::factory()->create([
+        $behaviour = Behaviour::factory()->create([
+            'user_id' => $this->user->id,
+        ]);
+
+        $history = History::create([
+            'behaviour_id' => $behaviour->id,
             'start_at' => '2024-10-06 07:00:07',
             'user_id' => $this->user->id,
         ]);
@@ -86,7 +91,8 @@ class HistoryTest extends TestCase
 
         $this->assertEquals($history->day_id, $history->day->id);
 
-        $history = History::factory()->create([
+        $history = History::create([
+            'behaviour_id' => $behaviour->id,
             'start_at' => '2024-10-06 09:00:07',
             'user_id' => $this->user->id,
         ]);
@@ -95,6 +101,8 @@ class HistoryTest extends TestCase
             'date' => '2024-10-06 00:00:00',
             'user_id' => $this->user->id,
         ]);
+
+        $this->assertCount(1, Day::get());
 
         $this->assertEquals($history->day_id, $history->day->id);
     }
