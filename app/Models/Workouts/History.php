@@ -3,6 +3,7 @@
 namespace App\Models\Workouts;
 
 use Carbon\CarbonInterval;
+use Illuminate\Support\Arr;
 use App\Traits\BelongsToUser;
 use D15r\ModelLabels\Traits\HasLabels;
 use D15r\ModelPath\Traits\HasModelPath;
@@ -101,7 +102,7 @@ class History extends Model
                 'duration_active_accum' => $wahoo_workout['workout_summary']['duration_active_accum'],
                 'duration_paused_accum' => $wahoo_workout['workout_summary']['duration_paused_accum'],
                 'duration_total_accum' => $wahoo_workout['workout_summary']['duration_total_accum'],
-                'heart_rate_avg' => $wahoo_workout['workout_summary']['heart_rate_avg'],
+                'heart_rate_avg' => Arr::get($wahoo_workout, 'workout_summary.heart_rate_avg', 0) ?? 0,
                 'power_bike_np_last' => $wahoo_workout['workout_summary']['power_bike_np_last'] ?? 0,
                 'power_bike_tss_last' => $wahoo_workout['workout_summary']['power_bike_tss_last'] ?? 0,
                 'power_avg' => $wahoo_workout['workout_summary']['power_avg'],
