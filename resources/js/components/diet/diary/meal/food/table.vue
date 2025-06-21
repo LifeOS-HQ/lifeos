@@ -1,9 +1,15 @@
 <template>
 
-    <table-base :is-loading="isLoading" :is-showing-footer="true" :items-length="items.length" :has-filter="hasFilter()" @creating="create" @paginating="filter.page = $event" @searching="searching($event)">
+    <table-base :is-loading="isLoading" :is-showing-footer="true" :items-length="items.length" :has-filter="hasFilter()" :is-searchable="false" @creating="create" @paginating="filter.page = $event" @searching="searching($event)">
 
         <template v-slot:form>
             <select-food v-model="form.food_id" :foods="foods"></select-food>
+        </template>
+
+        <template v-slot:actions>
+            <div>
+                <select-meal v-model="form.meal_id" :diet_meals="diet_meals" @input="addMeal($event, true)"></select-meal>
+            </div>
         </template>
 
         <template v-slot:filter>
@@ -12,7 +18,7 @@
 
         <template v-slot:no-data>
             <div>
-                <select-meal v-model="form.meal_id" :diet_meals="diet_meals" @input="addMeal($event)"></select-meal>
+                <select-meal v-model="form.meal_id" :diet_meals="diet_meals" @input="addMeal($event, false)"></select-meal>
             </div>
             Mahlzeit von gestern hinzufügen (TODO)<br />
             Mahlzeit von Tag letzter Woche hinzufügen (TODO)<br />
@@ -127,13 +133,14 @@
         },
 
         methods: {
-            addMeal(meal_id) {
+            addMeal(meal_id, clear) {
                 if (! meal_id) {
                     return;
                 }
                 let component = this;
                 axios.post(this.model.foods_meals_path, {
-                    meal_id: meal_id
+                    meal_id: meal_id,
+                    clear: clear,
                 })
                     .then(function (response) {
                         component.items.push(...response.data.foods);

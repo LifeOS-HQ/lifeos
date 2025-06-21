@@ -3410,13 +3410,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     }
   },
   methods: {
-    addMeal: function addMeal(meal_id) {
+    addMeal: function addMeal(meal_id, clear) {
       if (!meal_id) {
         return;
       }
       var component = this;
       axios.post(this.model.foods_meals_path, {
-        meal_id: meal_id
+        meal_id: meal_id,
+        clear: clear
       }).then(function (response) {
         var _component$items;
         (_component$items = component.items).push.apply(_component$items, _toConsumableArray(response.data.foods));
@@ -11777,7 +11778,8 @@ var render = function render() {
       "is-loading": _vm.isLoading,
       "is-showing-footer": true,
       "items-length": _vm.items.length,
-      "has-filter": _vm.hasFilter()
+      "has-filter": _vm.hasFilter(),
+      "is-searchable": false
     },
     on: {
       creating: _vm.create,
@@ -11806,6 +11808,28 @@ var render = function render() {
       },
       proxy: true
     }, {
+      key: "actions",
+      fn: function fn() {
+        return [_c("div", [_c("select-meal", {
+          attrs: {
+            diet_meals: _vm.diet_meals
+          },
+          on: {
+            input: function input($event) {
+              return _vm.addMeal($event, true);
+            }
+          },
+          model: {
+            value: _vm.form.meal_id,
+            callback: function callback($$v) {
+              _vm.$set(_vm.form, "meal_id", $$v);
+            },
+            expression: "form.meal_id"
+          }
+        })], 1)];
+      },
+      proxy: true
+    }, {
       key: "filter",
       fn: function fn() {
         return undefined;
@@ -11820,7 +11844,7 @@ var render = function render() {
           },
           on: {
             input: function input($event) {
-              return _vm.addMeal($event);
+              return _vm.addMeal($event, false);
             }
           },
           model: {
@@ -19240,7 +19264,7 @@ var render = function render() {
     staticClass: "fas fa-plus-square"
   })]) : _vm._e()], 2), _vm._v(" "), _c("div", {
     staticClass: "col-auto d-flex"
-  }, [_c("div", {
+  }, [_vm._t("actions"), _vm._v(" "), _c("div", {
     staticClass: "form-group",
     staticStyle: {
       "margin-bottom": "0"
@@ -19267,7 +19291,7 @@ var render = function render() {
     }
   }, [_c("i", {
     staticClass: "fas fa-filter"
-  })]) : _vm._e()])]), _vm._v(" "), _vm.filter.show ? _c("form", {
+  })]) : _vm._e()], 2)]), _vm._v(" "), _vm.filter.show ? _c("form", {
     staticClass: "pb-1",
     attrs: {
       id: "filter"

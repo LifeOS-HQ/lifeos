@@ -12,7 +12,12 @@ class MealController extends Controller
     {
         $attributes = $request->validate([
             'meal_id' => 'required|exists:diet_meals,id',
+            'clear' => 'required|boolean',
         ]);
+
+        if ($attributes['clear']) {
+            $meal->foods()->delete();
+        }
 
         $meal->loadCount('foods');
         $foods_count = $meal->foods_count;

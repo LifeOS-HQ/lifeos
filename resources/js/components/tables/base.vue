@@ -9,6 +9,7 @@
                 </button>
             </div>
             <div class="col-auto d-flex">
+                <slot name="actions"></slot>
                 <div class="form-group" style="margin-bottom: 0;">
                     <filter-search v-model="filter.searchtext" @input="$emit('searching', filter.searchtext)" v-if="isSearchable"></filter-search>
                 </div>
