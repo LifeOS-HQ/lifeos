@@ -22,13 +22,13 @@ class Post extends Model
         'published_at_formatted',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [
+            'published_at' => 'datetime',
+        ];
+    }
 
-    protected $dates = [
-        'published_at',
-    ];
 
     protected $fillable = [
         'author_id',

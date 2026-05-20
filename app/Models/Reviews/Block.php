@@ -12,13 +12,11 @@ class Block extends Model
         'path',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [];
+    }
 
-    protected $dates = [
-        //
-    ];
 
     protected $guarded = [
         'id',

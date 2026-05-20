@@ -21,13 +21,11 @@ class History extends Model
         'weight_in_kg_formatted',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [];
+    }
 
-    protected $dates = [
-        //
-    ];
 
     protected $fillable = [
         'is_completed',

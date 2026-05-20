@@ -14,13 +14,13 @@ class Value extends Model
         'formatted_value',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [
+            'at' => 'datetime',
+        ];
+    }
 
-    protected $dates = [
-        'at',
-    ];
 
     protected $guarded = [
         'id',

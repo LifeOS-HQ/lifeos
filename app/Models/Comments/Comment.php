@@ -19,13 +19,11 @@ class Comment extends Model
         'created_at_formatted',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [];
+    }
 
-    protected $dates = [
-        //
-    ];
 
     protected $fillable = [
         'user_id',

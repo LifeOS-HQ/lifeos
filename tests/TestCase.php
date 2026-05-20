@@ -22,7 +22,7 @@ abstract class TestCase extends BaseTestCase
         $this->user = factory(User::class)->create();
     }
 
-    public function signIn(User $user = null)
+    public function signIn(?User $user = null)
     {
         if (is_null($user))
         {
@@ -116,7 +116,7 @@ abstract class TestCase extends BaseTestCase
         return $response;
     }
 
-    public function getModel(array $parameters = [], Model $model = null) : TestResponse
+    public function getModel(array $parameters = [], ?Model $model = null) : TestResponse
     {
         $this->signIn();
 

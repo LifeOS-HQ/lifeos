@@ -20,13 +20,11 @@ class Obstacle extends Model
         'path',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [];
+    }
 
-    protected $dates = [
-        //
-    ];
 
     protected $fillable = [
         'alchemized_day_id',

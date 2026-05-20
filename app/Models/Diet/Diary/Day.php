@@ -27,13 +27,13 @@ class Day extends Model
         'meals_path',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [
+            'at' => 'datetime',
+        ];
+    }
 
-    protected $dates = [
-        'at',
-    ];
 
     protected $fillable = [
         'user_id',

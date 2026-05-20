@@ -16,13 +16,13 @@ class Journal extends Model
         'path',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [
+            'date' => 'datetime',
+        ];
+    }
 
-    protected $dates = [
-        'date',
-    ];
 
     protected $guarded = [
         'id',

@@ -22,13 +22,11 @@ class History extends Model
         'sets_index_path',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [];
+    }
 
-    protected $dates = [
-        //
-    ];
 
     protected $guarded = [
         'id',

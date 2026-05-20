@@ -28,14 +28,14 @@ class History extends Model
         'power_avg_formatted',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [
+            'start_at' => 'datetime',
+            'end_at' => 'datetime',
+        ];
+    }
 
-    protected $dates = [
-        'start_at',
-        'end_at',
-    ];
 
     protected $guarded = [
         'id',

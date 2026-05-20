@@ -28,13 +28,13 @@ class Day extends Model
         'behaviour_histories_path',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [
+            'date' => 'datetime',
+        ];
+    }
 
-    protected $dates = [
-        'date',
-    ];
 
     protected $fillable = [
         'user_id',

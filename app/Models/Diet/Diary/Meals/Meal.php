@@ -27,13 +27,13 @@ class Meal extends Model
         'foods_meals_path',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [
+            'at' => 'datetime',
+        ];
+    }
 
-    protected $dates = [
-        'at',
-    ];
 
     protected $fillable = [
         'user_id',

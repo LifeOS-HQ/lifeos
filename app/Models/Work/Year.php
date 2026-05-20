@@ -32,9 +32,12 @@ class Year extends Model
         'wage_total_formatted',
     ];
 
-    protected $dates = [
-        'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'date' => 'datetime',
+        ];
+    }
 
     protected $fillable = [
         'user_id',

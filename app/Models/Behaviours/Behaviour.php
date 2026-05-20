@@ -25,13 +25,11 @@ class Behaviour extends Model
         'histories_path',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [];
+    }
 
-    protected $dates = [
-        //
-    ];
 
     protected $fillable = [
         'habitica_uuid',

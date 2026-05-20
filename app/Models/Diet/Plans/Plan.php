@@ -22,13 +22,13 @@ class Plan extends Model
         'valid_from_formatted',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [
+            'valid_from' => 'datetime',
+        ];
+    }
 
-    protected $dates = [
-        'valid_from',
-    ];
 
     protected $fillable = [
         'user_id',

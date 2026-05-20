@@ -23,16 +23,16 @@ class Contact extends Model
         'name',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [
+            'birthdate_at' => 'datetime',
+            'first_met_at' => 'datetime',
+            'last_talked_to_at' => 'datetime',
+            'viewed_at' => 'datetime',
+        ];
+    }
 
-    protected $dates = [
-        'birthdate_at',
-        'first_met_at',
-        'last_talked_to_at',
-        'viewed_at',
-    ];
 
     protected $fillable = [
         'user_id',

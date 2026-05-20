@@ -26,13 +26,11 @@ class Scale extends Model
         'show_path',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [];
+    }
 
-    protected $dates = [
-        //
-    ];
 
     protected $guarded = [
         'id',

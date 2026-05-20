@@ -18,10 +18,13 @@ class Time extends Model
         'seconds_break_formatted'
     ];
 
-    protected $dates = [
-        'start_at',
-        'end_at',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'start_at' => 'datetime',
+            'end_at' => 'datetime',
+        ];
+    }
 
     protected $guarded = [
         'id'

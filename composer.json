@@ -8,27 +8,100 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^8.3",
         "danielsundermeier/laravel-model-labels": "^0.2.0",
         "danielsundermeier/laravel-model-path": "^0.4.1",
-        "facade/ignition": "^2.5",
-        "fideloper/proxy": "^4.0",
-        "laravel/framework": "^8.0",
-        "laravel/socialite": "^5.1",
-        "laravel/tinker": "^2.4",
-        "laravel/ui": "^3.0",
+        "laravel/framework": "^13.0",
+        "laravel/socialite": "^5.27",
+        "laravel/tinker": "^3.0",
+        "laravel/ui": "^4.6",
         "lifeos/rentablo-api": "dev-master",
-        "livewire/livewire": "^2.3",
-        "socialiteproviders/github": "^4.1"
+        "livewire/livewire": "^4.0",
+        "socialiteproviders/manager": "dev-master"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.2",
-        "fzaninotto/faker": "^1.4",
-        "laravel/legacy-factories": "^1.1",
+        "barryvdh/laravel-debugbar": "^4.2",
+        "fakerphp/faker": "^1.24",
+        "laravel/legacy-factories": "^1.4",
         "mockery/mockery": "^1.0",
-        "nunomaduro/collision": "^5.0",
-        "phpunit/phpunit": "^9.5"
+        "nunomaduro/collision": "^8.8",
+        "phpunit/phpunit": "^12.0"
     },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "dasumi/base-api-wrapper",
+                "version": "dev-master",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/danielsundermeier/base-api-wrapper.git",
+                    "reference": "1ac6111b1da95997c2b3290c388d2c84c206875a"
+                },
+                "autoload": {
+                    "psr-4": {
+                        "Dasumi\\BaseApiWrapper\\": "src/"
+                    }
+                },
+                "require": {
+                    "guzzlehttp/guzzle": "^6.5|^7.8"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "laravel/legacy-factories",
+                "version": "1.4.2",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/laravel/legacy-factories.git",
+                    "reference": "6cb79f668fc36b8b396ada1da3ba45867889c30f"
+                },
+                "autoload": {
+                    "files": [
+                        "helpers.php"
+                    ],
+                    "psr-4": {
+                        "Illuminate\\Database\\Eloquent\\": "src/"
+                    }
+                },
+                "require": {
+                    "php": "^8.3",
+                    "illuminate/macroable": "^13.0",
+                    "symfony/finder": "^8.0"
+                },
+                "extra": {
+                    "laravel": {
+                        "providers": [
+                            "Illuminate\\Database\\Eloquent\\LegacyFactoryServiceProvider"
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "lifeos/rentablo-api",
+                "version": "dev-master",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/LifeOS-HQ/rentablo-api.git",
+                    "reference": "193ca13b10b4df02e0a88ca10e193cbbc18fc2b8"
+                },
+                "autoload": {
+                    "psr-4": {
+                        "Dasumi\\Rentablo\\": "src/"
+                    }
+                },
+                "require": {
+                    "dasumi/base-api-wrapper": "dev-master",
+                    "guzzlehttp/guzzle": "^6.5|^7.8"
+                }
+            }
+        }
+    ],
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",

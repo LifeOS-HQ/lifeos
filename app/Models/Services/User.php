@@ -15,13 +15,13 @@ class User extends Pivot
         //
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [
+            'expires_at' => 'datetime',
+        ];
+    }
 
-    protected $dates = [
-        'expires_at',
-    ];
 
     protected $guarded = [
         'id',

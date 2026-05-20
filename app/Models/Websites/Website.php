@@ -20,13 +20,11 @@ class Website extends Model
         //
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [];
+    }
 
-    protected $dates = [
-        //
-    ];
 
     protected $fillable = [
         'name',

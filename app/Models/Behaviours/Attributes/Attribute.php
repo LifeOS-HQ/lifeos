@@ -26,13 +26,11 @@ class Attribute extends Model
         'goal_number_formatted',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [];
+    }
 
-    protected $dates = [
-        //
-    ];
 
     protected $fillable = [
         'attribute_id',

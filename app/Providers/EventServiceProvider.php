@@ -19,8 +19,6 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
-            // add your listeners (aka providers) here
-            'SocialiteProviders\\GitHub\\GitHubExtendSocialite@handle',
             'App\\SocialiteProviders\\Exist\\ExistExtendSocialite@handle',
             'App\\SocialiteProviders\\Wahoo\\WahooExtendSocialite@handle',
         ],

@@ -24,13 +24,13 @@ class Review extends Model
         'at_formatted',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [
+            'at' => 'datetime',
+        ];
+    }
 
-    protected $dates = [
-        'at',
-    ];
 
     protected $fillable = [
         'at',

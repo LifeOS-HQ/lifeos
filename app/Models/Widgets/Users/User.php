@@ -24,14 +24,14 @@ class User extends Model
         //
     ];
 
-    protected $casts = [
-        'filters' => 'array',
-        'options' => 'array',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'filters' => 'array',
+            'options' => 'array',
+        ];
+    }
 
-    protected $dates = [
-        //
-    ];
 
     protected $fillable = [
         'user_id',

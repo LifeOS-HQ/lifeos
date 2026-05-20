@@ -26,13 +26,11 @@ class Workout extends Model
         //
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [];
+    }
 
-    protected $dates = [
-        //
-    ];
 
     protected $guarded = [
         'id',

@@ -37,13 +37,14 @@ class Month extends Model
         'wage_in_cents',
     ];
 
-    protected $casts = [
-        'hours_worked' => 'decimal:2',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'hours_worked' => 'decimal:2',
+            'date' => 'datetime',
+        ];
+    }
 
-    protected $dates = [
-        'date',
-    ];
 
     protected $fillable = [
         'available_working_days',

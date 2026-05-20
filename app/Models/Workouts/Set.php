@@ -22,13 +22,11 @@ class Set extends Model
         'weight_in_kg_formatted',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [];
+    }
 
-    protected $dates = [
-        //
-    ];
 
     protected $fillable = [
         'user_id',

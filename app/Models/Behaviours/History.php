@@ -33,14 +33,14 @@ class History extends Model
         'complete_path',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [
+            'start_at' => 'datetime',
+            'end_at' => 'datetime',
+        ];
+    }
 
-    protected $dates = [
-        'start_at',
-        'end_at',
-    ];
 
     protected $fillable = [
         'behaviour_id',

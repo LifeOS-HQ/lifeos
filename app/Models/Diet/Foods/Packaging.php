@@ -20,13 +20,11 @@ class Packaging extends Model
         'amount_formatted',
     ];
 
-    protected $casts = [
-        //
-    ];
+    protected function casts(): array
+    {
+        return [];
+    }
 
-    protected $dates = [
-        //
-    ];
 
     protected $fillable = [
         'amount_formatted',
